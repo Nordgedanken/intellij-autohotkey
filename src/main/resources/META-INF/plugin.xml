@@ -1,0 +1,22 @@
+<idea-plugin>
+    <id>de.nordgedanken.auto_hot_key</id>
+    <name>AutoHotKey Language</name>
+    <vendor email="info@nordgedanken.de" url="https://github.com/Nordgedanken/">Nordgedanken</vendor>
+
+    <description><![CDATA[
+    A simple Plugin to bring the AutoHotKey Syntax highlighting into Jetbrains!
+    ]]></description>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="AHK script" implementationClass="de.nordgedanken.auto_hot_key.AHKFileType"
+                  fieldName="INSTANCE" language="AutoHotKey" extensions="ahk"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>
