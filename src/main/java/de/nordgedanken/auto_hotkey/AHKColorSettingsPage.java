@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hot_key;
+package de.nordgedanken.auto_hotkey;
 
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;

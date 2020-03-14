@@ -1,9 +1,9 @@
-package de.nordgedanken.auto_hot_key;
+package de.nordgedanken.auto_hotkey;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.TokenType;
-import de.nordgedanken.auto_hot_key.psi.AHKTypes;
+import de.nordgedanken.auto_hotkey.psi.AHKTypes;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;

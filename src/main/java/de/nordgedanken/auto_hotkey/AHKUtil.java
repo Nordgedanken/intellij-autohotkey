@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hot_key;
+package de.nordgedanken.auto_hotkey;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -6,8 +6,8 @@ import com.intellij.psi.PsiManager;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
-import de.nordgedanken.auto_hot_key.psi.AHKFile;
-import de.nordgedanken.auto_hot_key.psi.AHKProperty;
+import de.nordgedanken.auto_hotkey.psi.AHKFile;
+import de.nordgedanken.auto_hotkey.psi.AHKProperty;
 
 import java.util.ArrayList;
 import java.util.Collection;

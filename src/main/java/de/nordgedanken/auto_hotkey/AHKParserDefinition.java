@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hot_key;
+package de.nordgedanken.auto_hotkey;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.ParserDefinition;
@@ -11,12 +11,12 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import de.nordgedanken.auto_hot_key.parser.AHKParser;
-import de.nordgedanken.auto_hot_key.psi.AHKFile;
-import de.nordgedanken.auto_hot_key.psi.AHKTypes;
+import de.nordgedanken.auto_hotkey.parser.AHKParser;
+import de.nordgedanken.auto_hotkey.psi.AHKFile;
+import de.nordgedanken.auto_hotkey.psi.AHKTypes;
 import org.jetbrains.annotations.NotNull;
 
-import static de.nordgedanken.auto_hot_key.psi.AHKTypes.*;
+import static de.nordgedanken.auto_hotkey.psi.AHKTypes.*;
 
 public class AHKParserDefinition implements ParserDefinition {
     public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);

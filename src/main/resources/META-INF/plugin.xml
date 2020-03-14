@@ -1,6 +1,6 @@
 <idea-plugin>
-    <id>de.nordgedanken.auto_hot_key</id>
-    <name>AutoHotKey Language</name>
+    <id>de.nordgedanken.auto_hotkey</id>
+    <name>AutoHotkey Language</name>
     <vendor email="info@nordgedanken.de" url="https://github.com/Nordgedanken/">Nordgedanken</vendor>
 
     <description><![CDATA[
@@ -23,24 +23,24 @@
     <version>0.1.0</version>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="AHK script" implementationClass="de.nordgedanken.auto_hot_key.AHKFileType"
+        <fileType name="AHK script" implementationClass="de.nordgedanken.auto_hotkey.AHKFileType"
                   fieldName="INSTANCE" language="AutoHotKey" extensions="ahk"/>
         <lang.parserDefinition language="AutoHotKey"
-                               implementationClass="de.nordgedanken.auto_hot_key.AHKParserDefinition"/>
+                               implementationClass="de.nordgedanken.auto_hotkey.AHKParserDefinition"/>
         <lang.syntaxHighlighterFactory language="AutoHotKey"
-                                       implementationClass="de.nordgedanken.auto_hot_key.AHKSyntaxHighlighterFactory"/>
+                                       implementationClass="de.nordgedanken.auto_hotkey.AHKSyntaxHighlighterFactory"/>
 
-        <colorSettingsPage implementation="de.nordgedanken.auto_hot_key.AHKColorSettingsPage"/>
+        <colorSettingsPage implementation="de.nordgedanken.auto_hotkey.AHKColorSettingsPage"/>
 
         <lang.findUsagesProvider language="AutoHotKey"
-                                 implementationClass="de.nordgedanken.auto_hot_key.AHKFindUsagesProvider"/>
+                                 implementationClass="de.nordgedanken.auto_hotkey.AHKFindUsagesProvider"/>
 
-        <lang.commenter language="AutoHotKey" implementationClass="de.nordgedanken.auto_hot_key.AHKCommenter"/>
+        <lang.commenter language="AutoHotKey" implementationClass="de.nordgedanken.auto_hotkey.AHKCommenter"/>
     </extensions>
 
     <actions>
         <action id="AHK.NewAHKFile"
-                class="de.nordgedanken.auto_hot_key.actions.AHKCreateFileAction"
+                class="de.nordgedanken.auto_hotkey.actions.AHKCreateFileAction"
                 text="AutoHotKey File"
                 description="Create new AutoHotKey file">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>

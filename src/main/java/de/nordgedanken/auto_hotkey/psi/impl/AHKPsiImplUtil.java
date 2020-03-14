@@ -1,11 +1,11 @@
-package de.nordgedanken.auto_hot_key.psi.impl;
+package de.nordgedanken.auto_hotkey.psi.impl;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.impl.source.tree.LeafElement;
-import de.nordgedanken.auto_hot_key.psi.AHKProperty;
-import de.nordgedanken.auto_hot_key.psi.AHKStringLiteral;
-import de.nordgedanken.auto_hot_key.psi.AHKTypes;
-import de.nordgedanken.auto_hot_key.util.AHKStringLiteralEscaper;
+import de.nordgedanken.auto_hotkey.psi.AHKProperty;
+import de.nordgedanken.auto_hotkey.psi.AHKStringLiteral;
+import de.nordgedanken.auto_hotkey.psi.AHKTypes;
+import de.nordgedanken.auto_hotkey.util.AHKStringLiteralEscaper;
 import org.jetbrains.annotations.NotNull;
 
 public class AHKPsiImplUtil {

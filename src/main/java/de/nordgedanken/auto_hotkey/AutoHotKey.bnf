@@ -1,18 +1,18 @@
 {
-  parserClass="de.nordgedanken.auto_hot_key.parser.AHKParser"
+  parserClass="de.nordgedanken.auto_hotkey.parser.AHKParser"
 
   extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
   psiClassPrefix="AHK"
   psiImplClassSuffix="Impl"
-  psiPackage="de.nordgedanken.auto_hot_key.psi"
-  psiImplPackage="de.nordgedanken.auto_hot_key.psi.impl"
+  psiPackage="de.nordgedanken.auto_hotkey.psi"
+  psiImplPackage="de.nordgedanken.auto_hotkey.psi.impl"
 
-  elementTypeHolderClass="de.nordgedanken.auto_hot_key.psi.AHKTypes"
-  elementTypeClass="de.nordgedanken.auto_hot_key.psi.AHKElementType"
-  tokenTypeClass="de.nordgedanken.auto_hot_key.psi.AHKTokenType"
+  elementTypeHolderClass="de.nordgedanken.auto_hotkey.psi.AHKTypes"
+  elementTypeClass="de.nordgedanken.auto_hotkey.psi.AHKElementType"
+  tokenTypeClass="de.nordgedanken.auto_hotkey.psi.AHKTokenType"
 
-  psiImplUtilClass="de.nordgedanken.auto_hot_key.psi.impl.AHKPsiImplUtil"
+  psiImplUtilClass="de.nordgedanken.auto_hotkey.psi.impl.AHKPsiImplUtil"
 
   tokens=[
     LBRACE               =  '{'

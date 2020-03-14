@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hot_key;
+package de.nordgedanken.auto_hotkey;
 
 import com.intellij.lang.cacheBuilder.DefaultWordsScanner;
 import com.intellij.lang.cacheBuilder.WordsScanner;
@@ -6,8 +6,8 @@ import com.intellij.lang.findUsages.FindUsagesProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.tree.TokenSet;
-import de.nordgedanken.auto_hot_key.psi.AHKProperty;
-import de.nordgedanken.auto_hot_key.psi.AHKTypes;
+import de.nordgedanken.auto_hotkey.psi.AHKProperty;
+import de.nordgedanken.auto_hotkey.psi.AHKTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

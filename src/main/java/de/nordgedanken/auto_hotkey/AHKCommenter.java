@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hot_key;
+package de.nordgedanken.auto_hotkey;
 
 import com.intellij.lang.Commenter;
 import org.jetbrains.annotations.Nullable;

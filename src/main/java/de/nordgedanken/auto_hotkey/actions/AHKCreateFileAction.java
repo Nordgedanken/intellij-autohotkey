@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hot_key.actions;
+package de.nordgedanken.auto_hotkey.actions;
 
 import com.intellij.ide.actions.CreateFileFromTemplateAction;
 import com.intellij.ide.actions.CreateFileFromTemplateDialog;
@@ -8,7 +8,7 @@ import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
-import de.nordgedanken.auto_hot_key.AHKIcons;
+import de.nordgedanken.auto_hotkey.AHKIcons;
 import org.jetbrains.annotations.NotNull;
 
 public class AHKCreateFileAction extends CreateFileFromTemplateAction implements DumbAware {

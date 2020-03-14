@@ -1,7 +1,7 @@
-package de.nordgedanken.auto_hot_key.psi;
+package de.nordgedanken.auto_hotkey.psi;
 
 import com.intellij.psi.tree.IElementType;
-import de.nordgedanken.auto_hot_key.AHKLanguage;
+import de.nordgedanken.auto_hotkey.AHKLanguage;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
