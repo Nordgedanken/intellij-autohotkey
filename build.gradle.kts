@@ -6,6 +6,9 @@ plugins {
 group = "de.nordgedanken"
 version = "1.0-SNAPSHOT"
 
+// Include the generated files in the source set
+sourceSets.main.get().java.srcDirs("src/main/gen")
+
 repositories {
     mavenCentral()
 }

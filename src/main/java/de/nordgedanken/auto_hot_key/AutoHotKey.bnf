@@ -1,0 +1,81 @@
+{
+  parserClass="de.nordgedanken.auto_hot_key.parser.AHKParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="AHK"
+  psiImplClassSuffix="Impl"
+  psiPackage="de.nordgedanken.auto_hot_key.psi"
+  psiImplPackage="de.nordgedanken.auto_hot_key.psi.impl"
+
+  elementTypeHolderClass="de.nordgedanken.auto_hot_key.psi.AHKTypes"
+  elementTypeClass="de.nordgedanken.auto_hot_key.psi.AHKElementType"
+  tokenTypeClass="de.nordgedanken.auto_hot_key.psi.AHKTokenType"
+
+  psiImplUtilClass="de.nordgedanken.auto_hot_key.psi.impl.AHKPsiImplUtil"
+
+  tokens=[
+    LBRACE               =  '{'
+    RBRACE               =  '}'
+    LBRACK               =  '['
+    RBRACK               =  ']'
+    LPAREN               =  '('
+    RPAREN               =  ')'
+    COLON                =  ':'
+    SEMICOLON            =  ';'
+    COMMA                =  ','
+    EQUAL                =  '='
+    NOT_EQ               =  '!='
+    NOT                  =  '!'
+    PLUS_PLUS            =  '++'
+    PLUS_ASSIGN          =  '+='
+    PLUS                 =  '+'
+    MINUS_MINUS          =  '--'
+    MINUS_ASSIGN         =  '-='
+    MINUS                =  '-'
+    COND_OR              =  '||'
+    BIT_OR_ASSIGN        =  '|='
+    BIT_CLEAR_ASSIGN     =  '&^='
+    BIT_CLEAR            =  '&^'
+    COND_AND             =  '&&'
+    BIT_AND_ASSIGN       =  '&='
+    BIT_AND              =  '&'
+    BIT_OR               =  '|'
+    SHIFT_LEFT_ASSIGN    =  '<<='
+    SHIFT_LEFT           =  '<<'
+    SEND_CHANNEL         =  '<-'
+    LESS_OR_EQUAL        =  '<='
+    LESS                 =  '<'
+    BIT_XOR_ASSIGN       =  '^='
+    BIT_XOR              =  '^'
+    MUL_ASSIGN           =  '*='
+    MUL                  =  '*'
+    QUOTIENT_ASSIGN      =  '/='
+    QUOTIENT             =  '/'
+    REMAINDER_ASSIGN     =  '%='
+    REMAINDER            =  '%'
+    SHIFT_RIGHT_ASSIGN   =  '>>='
+    SHIFT_RIGHT          =  '>>'
+    GREATER_OR_EQUAL     =  '>='
+    GREATER              =  '>'
+    TRIPLE_DOT           =  '...'
+    DOT                  =  '.'
+    SEMICOLON_SYNTHETIC  = '<NL>'
+    TYPE_                = 'type'
+    IF                   = 'if'
+  ]
+
+  generateTokenAccessors=true
+}
+
+ahkFile ::= item_*
+
+private item_ ::= (property|COMMENT|CRLF|COMMA|FUNCTION_CALL|FUNCTION_DEF|StringLiteral)
+
+StringLiteral ::= STRING {
+  implements = "com.intellij.psi.PsiLanguageInjectionHost"
+  methods = [isValidHost updateText createLiteralTextEscaper]
+}
+
+//function_call ::= KEY LPAREN (StringLiteral | property)? RPAREN
+property ::= (KEY VAR_ASIGN (StringLiteral|KEY|FUNCTION_CALL (StringLiteral|KEY|FUNCTION_CALL))) | KEY {methods=[getKey getValue]}

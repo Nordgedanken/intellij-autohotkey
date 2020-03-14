@@ -14,6 +14,17 @@
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="AHK script" implementationClass="de.nordgedanken.auto_hot_key.AHKFileType"
                   fieldName="INSTANCE" language="AutoHotKey" extensions="ahk"/>
+        <lang.parserDefinition language="AutoHotKey"
+                               implementationClass="de.nordgedanken.auto_hot_key.AHKParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="AutoHotKey"
+                                       implementationClass="de.nordgedanken.auto_hot_key.AHKSyntaxHighlighterFactory"/>
+
+        <colorSettingsPage implementation="de.nordgedanken.auto_hot_key.AHKColorSettingsPage"/>
+
+        <lang.findUsagesProvider language="AutoHotKey"
+                                 implementationClass="de.nordgedanken.auto_hot_key.AHKFindUsagesProvider"/>
+
+        <lang.commenter language="AutoHotKey" implementationClass="de.nordgedanken.auto_hot_key.AHKCommenter"/>
     </extensions>
 
     <actions>
