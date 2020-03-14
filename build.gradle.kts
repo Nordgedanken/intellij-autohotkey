@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "de.nordgedanken"
-version = "1.0-SNAPSHOT"
+version = "0.1.0"
 
 // Include the generated files in the source set
 sourceSets.main.get().java.srcDirs("src/main/gen")

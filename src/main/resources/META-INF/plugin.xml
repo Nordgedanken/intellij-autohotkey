@@ -11,6 +11,17 @@
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
 
+    <change-notes><![CDATA[
+        <h2>1.0-SNAPSHOT</h2>
+        <h3>Added</h3>
+        <ul>
+            <li>Initial Release</li>
+            <li>Added most basic features</li>
+        </ul>
+    ]]></change-notes>
+
+    <version>0.1.0</version>
+
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="AHK script" implementationClass="de.nordgedanken.auto_hot_key.AHKFileType"
                   fieldName="INSTANCE" language="AutoHotKey" extensions="ahk"/>
@@ -28,6 +39,11 @@
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
+        <action id="AHK.NewAHKFile"
+                class="de.nordgedanken.auto_hot_key.actions.AHKCreateFileAction"
+                text="AutoHotKey File"
+                description="Create new AutoHotKey file">
+            <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
+        </action>
     </actions>
 </idea-plugin>
