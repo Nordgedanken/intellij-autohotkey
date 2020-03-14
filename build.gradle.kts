@@ -17,6 +17,11 @@ dependencies {
     testCompile("junit", "junit", "4.12")
 }
 
+val intellijPublishToken: String by project
+tasks.publishPlugin {
+    token(intellijPublishToken)
+}
+
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version = "2019.3.3"
@@ -26,6 +31,10 @@ configure<JavaPluginConvention> {
 }
 tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
     changeNotes("""
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>""")
+      <h2>1.0-SNAPSHOT</h2>
+        <h3>Added</h3>
+        <ul>
+            <li>Initial Release</li>
+            <li>Added most basic features</li>
+        </ul>""")
 }

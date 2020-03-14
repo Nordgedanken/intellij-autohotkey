@@ -40,3 +40,4 @@ gradle-app.setting
 src/main/gen/
 idea-flex.skeleton
 jflex-1.7.0-2.jar
+gradle.properties
