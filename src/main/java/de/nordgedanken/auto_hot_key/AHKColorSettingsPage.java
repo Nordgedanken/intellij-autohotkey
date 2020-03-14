@@ -14,7 +14,7 @@ import java.util.Map;
 public class AHKColorSettingsPage implements ColorSettingsPage {
     private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
             new AttributesDescriptor("Key", AHKSyntaxHighlighter.KEY),
-            new AttributesDescriptor("Var Assignment", AHKSyntaxHighlighter.VAR_ASIGN),
+            new AttributesDescriptor("OPERATION", AHKSyntaxHighlighter.OPERATION),
             new AttributesDescriptor("Value", AHKSyntaxHighlighter.STRING),
             new AttributesDescriptor("Bad Value", AHKSyntaxHighlighter.BAD_CHARACTER)
     };

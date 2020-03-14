@@ -13,8 +13,8 @@ import org.jetbrains.annotations.NotNull;
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
 public class AHKSyntaxHighlighter extends SyntaxHighlighterBase {
-    public static final TextAttributesKey VAR_ASIGN =
-            createTextAttributesKey("AHK_VAR_ASIGN", DefaultLanguageHighlighterColors.OPERATION_SIGN);
+    public static final TextAttributesKey OPERATION =
+            createTextAttributesKey("AHK_OPERATION", DefaultLanguageHighlighterColors.OPERATION_SIGN);
     public static final TextAttributesKey KEY =
             createTextAttributesKey("AHK_KEY", DefaultLanguageHighlighterColors.KEYWORD);
     public static final TextAttributesKey STRING =
@@ -31,10 +31,17 @@ public class AHKSyntaxHighlighter extends SyntaxHighlighterBase {
             createTextAttributesKey("AHK_PARENTHESE", DefaultLanguageHighlighterColors.PARENTHESES);
     public static final TextAttributesKey COMMA =
             createTextAttributesKey("AHK_COMMA", DefaultLanguageHighlighterColors.COMMA);
+    public static final TextAttributesKey SEMICOLON =
+            createTextAttributesKey("AHK_SEMICOLON", DefaultLanguageHighlighterColors.SEMICOLON);
+    public static final TextAttributesKey NUMBER =
+            createTextAttributesKey("AHK_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
+
+    public static final TextAttributesKey HOTKEY =
+            createTextAttributesKey("AHK_HOTKEY", DefaultLanguageHighlighterColors.FUNCTION_CALL);
 
 
     private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
-    private static final TextAttributesKey[] VAR_ASIGN_KEYS = new TextAttributesKey[]{VAR_ASIGN};
+    private static final TextAttributesKey[] OPERATION_KEYS = new TextAttributesKey[]{OPERATION};
     private static final TextAttributesKey[] KEY_KEYS = new TextAttributesKey[]{KEY};
     private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[]{STRING};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
@@ -42,6 +49,9 @@ public class AHKSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] FUNCTION_DECLARATION_KEYS = new TextAttributesKey[]{FUNCTION_DECLARATION};
     private static final TextAttributesKey[] PARENTHESE_KEYS = new TextAttributesKey[]{PARENTHESE};
     private static final TextAttributesKey[] COMMA_KEYS = new TextAttributesKey[]{COMMA};
+    private static final TextAttributesKey[] SEMICOLON_KEYS = new TextAttributesKey[]{SEMICOLON};
+    private static final TextAttributesKey[] NUMBER_KEYS = new TextAttributesKey[]{NUMBER};
+    private static final TextAttributesKey[] HOTKEY_KEYS = new TextAttributesKey[]{HOTKEY};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
     @NotNull
@@ -53,24 +63,30 @@ public class AHKSyntaxHighlighter extends SyntaxHighlighterBase {
     @NotNull
     @Override
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
-        if (tokenType.equals(AHKTypes.VAR_ASIGN)) {
-            return VAR_ASIGN_KEYS;
+        if (tokenType.equals(AHKTypes.VAR_ASIGN) | tokenType.equals(AHKTypes.COLON) | tokenType.equals(AHKTypes.NOT_EQ) | tokenType.equals(AHKTypes.STRING_CALL) | tokenType.equals(AHKTypes.EXPRESSION_SCRIPT)) {
+            return OPERATION_KEYS;
+        } else if (tokenType.equals(AHKTypes.HOTKEY)) {
+            return HOTKEY_KEYS;
         } else if (tokenType.equals(AHKTypes.KEY)) {
             return KEY_KEYS;
         } else if (tokenType.equals(AHKTypes.STRING)) {
             return STRING_KEYS;
+        } else if (tokenType.equals(AHKTypes.NUMBER)|tokenType.equals(AHKTypes.HEX)) {
+            return NUMBER_KEYS;
         } else if (tokenType.equals(AHKTypes.COMMA)) {
             return COMMA_KEYS;
         } else if (tokenType.equals(AHKTypes.COMMENT)) {
             return COMMENT_KEYS;
         } else if (tokenType.equals(AHKTypes.FUNCTION_CALL)) {
             return FUNCTION_CALL_KEYS;
-        } else if (tokenType.equals(AHKTypes.FUNCTION_DEF)) {
+        } else if (tokenType.equals(AHKTypes.FUNCTION_DEF) | tokenType.equals(AHKTypes.C_COMMENT)) {
             return FUNCTION_DECLARATION_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
             return BAD_CHAR_KEYS;
         } else if (tokenType.equals(AHKTypes.LPAREN) | tokenType.equals(AHKTypes.RPAREN) | tokenType.equals(AHKTypes.LBRACE) | tokenType.equals(AHKTypes.RBRACE) | tokenType.equals(AHKTypes.LBRACK) | tokenType.equals(AHKTypes.RBRACK)) {
             return PARENTHESE_KEYS;
+        } else if (tokenType.equals(AHKTypes.SEMICOLON)) {
+            return SEMICOLON_KEYS;
         } else {
             return EMPTY_KEYS;
         }

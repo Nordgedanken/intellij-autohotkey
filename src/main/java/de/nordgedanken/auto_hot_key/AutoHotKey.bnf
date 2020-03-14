@@ -50,18 +50,11 @@
     BIT_XOR              =  '^'
     MUL_ASSIGN           =  '*='
     MUL                  =  '*'
-    QUOTIENT_ASSIGN      =  '/='
     QUOTIENT             =  '/'
-    REMAINDER_ASSIGN     =  '%='
-    REMAINDER            =  '%'
     SHIFT_RIGHT_ASSIGN   =  '>>='
     SHIFT_RIGHT          =  '>>'
     GREATER_OR_EQUAL     =  '>='
     GREATER              =  '>'
-    TRIPLE_DOT           =  '...'
-    DOT                  =  '.'
-    SEMICOLON_SYNTHETIC  = '<NL>'
-    TYPE_                = 'type'
     IF                   = 'if'
   ]
 
@@ -70,7 +63,7 @@
 
 ahkFile ::= item_*
 
-private item_ ::= (property|COMMENT|CRLF|COMMA|FUNCTION_CALL|FUNCTION_DEF|StringLiteral)
+private item_ ::= (property|COMMENT|CRLF|COMMA|NUMBER|FUNCTION_CALL|FUNCTION_DEF|StringLiteral|COLON|HOTKEY|STRING_CALL|EXPRESSION_SCRIPT|C_COMMENT|IF|HEX|RPAREN)
 
 StringLiteral ::= STRING {
   implements = "com.intellij.psi.PsiLanguageInjectionHost"
@@ -78,4 +71,4 @@ StringLiteral ::= STRING {
 }
 
 //function_call ::= KEY LPAREN (StringLiteral | property)? RPAREN
-property ::= (KEY VAR_ASIGN (StringLiteral|KEY|FUNCTION_CALL (StringLiteral|KEY|FUNCTION_CALL))) | KEY {methods=[getKey getValue]}
+property ::= (KEY VAR_ASIGN (StringLiteral|NUMBER|KEY|(FUNCTION_CALL (StringLiteral|NUMBER|KEY|COMMA|WHITE_SPACE|HEX)+ (FUNCTION_CALL|RPAREN)))) | KEY {methods=[getKey getValue]}
