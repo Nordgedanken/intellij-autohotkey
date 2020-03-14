@@ -31,7 +31,7 @@ configure<JavaPluginConvention> {
 }
 tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
     changeNotes("""
-      <h2>1.0-SNAPSHOT</h2>
+      <h2>0.1.0</h2>
         <h3>Added</h3>
         <ul>
             <li>Initial Release</li>

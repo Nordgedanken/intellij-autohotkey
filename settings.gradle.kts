@@ -1,2 +1,2 @@
-rootProject.name = "auto_hot_key"
+rootProject.name = "auto_hotkey"
 
