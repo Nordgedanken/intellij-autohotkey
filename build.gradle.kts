@@ -17,9 +17,12 @@ dependencies {
     testCompile("junit", "junit", "4.12")
 }
 
-val intellijPublishToken: String by project
+val intellijPublishToken: String? by project
 tasks.publishPlugin {
-    token(intellijPublishToken)
+    if (intellijPublishToken != null) {
+        token(intellijPublishToken)
+    }
+
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
