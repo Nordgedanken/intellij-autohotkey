@@ -1,64 +1,52 @@
-package de.nordgedanken.auto_hotkey;
+package de.nordgedanken.auto_hotkey
 
-import com.intellij.lang.cacheBuilder.DefaultWordsScanner;
-import com.intellij.lang.cacheBuilder.WordsScanner;
-import com.intellij.lang.findUsages.FindUsagesProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiNamedElement;
-import com.intellij.psi.tree.TokenSet;
-import de.nordgedanken.auto_hotkey.psi.AHKProperty;
-import de.nordgedanken.auto_hotkey.psi.AHKTypes;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.intellij.lang.cacheBuilder.DefaultWordsScanner
+import com.intellij.lang.cacheBuilder.WordsScanner
+import com.intellij.lang.findUsages.FindUsagesProvider
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNamedElement
+import com.intellij.psi.tree.TokenSet
+import de.nordgedanken.auto_hotkey.psi.AHKProperty
+import de.nordgedanken.auto_hotkey.psi.AHKTypes
+import de.nordgedanken.auto_hotkey.psi.ext.getKey
 
-public class AHKFindUsagesProvider implements FindUsagesProvider {
-    @Nullable
-    @Override
-    public WordsScanner getWordsScanner() {
-        return new DefaultWordsScanner(new AHKLexerAdapter(),
+class AHKFindUsagesProvider : FindUsagesProvider {
+    override fun getWordsScanner(): WordsScanner? {
+        return DefaultWordsScanner(AHKLexerAdapter(),
                 TokenSet.create(AHKTypes.KEY),
                 TokenSet.create(AHKTypes.COMMENT),
-                TokenSet.EMPTY);
+                TokenSet.EMPTY)
     }
 
-    @Override
-    public boolean canFindUsagesFor(@NotNull PsiElement psiElement) {
-        return psiElement instanceof PsiNamedElement;
+    override fun canFindUsagesFor(psiElement: PsiElement): Boolean {
+        return psiElement is PsiNamedElement
     }
 
-    @Nullable
-    @Override
-    public String getHelpId(@NotNull PsiElement psiElement) {
-        return null;
+    override fun getHelpId(psiElement: PsiElement): String? {
+        return null
     }
 
-    @NotNull
-    @Override
-    public String getType(@NotNull PsiElement element) {
-        if (element instanceof AHKProperty) {
-            return "ahk property";
+    override fun getType(element: PsiElement): String {
+        return if (element is AHKProperty) {
+            "ahk property"
         } else {
-            return "";
+            ""
         }
     }
 
-    @NotNull
-    @Override
-    public String getDescriptiveName(@NotNull PsiElement element) {
-        if (element instanceof AHKProperty) {
-            return ((AHKProperty) element).getKey();
+    override fun getDescriptiveName(element: PsiElement): String {
+        return if (element is AHKProperty) {
+            element.getKey()
         } else {
-            return "";
+            ""
         }
     }
 
-    @NotNull
-    @Override
-    public String getNodeText(@NotNull PsiElement element, boolean useFullName) {
-        if (element instanceof AHKProperty) {
-            return ((AHKProperty) element).getKey();
+    override fun getNodeText(element: PsiElement, useFullName: Boolean): String {
+        return if (element is AHKProperty) {
+            element.getKey()
         } else {
-            return "";
+            ""
         }
     }
 }

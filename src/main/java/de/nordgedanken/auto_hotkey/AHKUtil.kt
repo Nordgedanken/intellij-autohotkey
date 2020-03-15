@@ -1,54 +1,48 @@
-package de.nordgedanken.auto_hotkey;
+package de.nordgedanken.auto_hotkey
 
-import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.PsiManager;
-import com.intellij.psi.search.FileTypeIndex;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.util.PsiTreeUtil;
-import de.nordgedanken.auto_hotkey.psi.AHKFile;
-import de.nordgedanken.auto_hotkey.psi.AHKProperty;
+import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiManager
+import com.intellij.psi.search.FileTypeIndex
+import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.util.PsiTreeUtil
+import de.nordgedanken.auto_hotkey.psi.AHKFile
+import de.nordgedanken.auto_hotkey.psi.AHKProperty
+import de.nordgedanken.auto_hotkey.psi.ext.getKey
+import java.util.*
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-public class AHKUtil {
+object AHKUtil {
     // Searches the entire project for Simple language files with instances of the Simple property with the given key
-    public static List<AHKProperty> findProperties(Project project, String key) {
-        List<AHKProperty> result = new ArrayList<>();
-        Collection<VirtualFile> virtualFiles =
-                FileTypeIndex.getFiles(AHKFileType.INSTANCE, GlobalSearchScope.allScope(project));
-        for (VirtualFile virtualFile : virtualFiles) {
-            AHKFile simpleFile = (AHKFile) PsiManager.getInstance(project).findFile(virtualFile);
+    fun findProperties(project: Project?, key: String): List<AHKProperty> {
+        val result: MutableList<AHKProperty> = ArrayList()
+        val virtualFiles = FileTypeIndex.getFiles(AHKFileType.INSTANCE, GlobalSearchScope.allScope(project!!))
+        for (virtualFile in virtualFiles) {
+            val simpleFile = PsiManager.getInstance(project).findFile(virtualFile!!) as AHKFile?
             if (simpleFile != null) {
-                AHKProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, AHKProperty.class);
+                val properties = PsiTreeUtil.getChildrenOfType(simpleFile, AHKProperty::class.java)
                 if (properties != null) {
-                    for (AHKProperty property : properties) {
-                        if (key.equals(property.getKey())) {
-                            result.add(property);
+                    for (property in properties) {
+                        if (key == property.getKey()) {
+                            result.add(property)
                         }
                     }
                 }
             }
         }
-        return result;
+        return result
     }
 
-    public static List<AHKProperty> findProperties(Project project) {
-        List<AHKProperty> result = new ArrayList<>();
-        Collection<VirtualFile> virtualFiles =
-                FileTypeIndex.getFiles(AHKFileType.INSTANCE, GlobalSearchScope.allScope(project));
-        for (VirtualFile virtualFile : virtualFiles) {
-            AHKFile simpleFile = (AHKFile) PsiManager.getInstance(project).findFile(virtualFile);
+    fun findProperties(project: Project?): List<AHKProperty> {
+        val result: MutableList<AHKProperty> = ArrayList()
+        val virtualFiles = FileTypeIndex.getFiles(AHKFileType.INSTANCE, GlobalSearchScope.allScope(project!!))
+        for (virtualFile in virtualFiles) {
+            val simpleFile = PsiManager.getInstance(project).findFile(virtualFile!!) as AHKFile?
             if (simpleFile != null) {
-                AHKProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, AHKProperty.class);
+                val properties = PsiTreeUtil.getChildrenOfType(simpleFile, AHKProperty::class.java)
                 if (properties != null) {
-                    Collections.addAll(result, properties);
+                    result.addAll(properties)
                 }
             }
         }
-        return result;
+        return result
     }
 }

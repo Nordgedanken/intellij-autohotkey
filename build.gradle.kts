@@ -1,5 +1,11 @@
+import org.jetbrains.grammarkit.tasks.GenerateLexer
+import org.jetbrains.grammarkit.tasks.GenerateParser
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("org.jetbrains.intellij") version "0.4.16"
+    id("org.jetbrains.grammarkit") version "2020.1"
+    kotlin("jvm") version "1.3.60"
     java
 }
 
@@ -40,4 +46,31 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
             <li>Initial Release</li>
             <li>Added most basic features</li>
         </ul>""")
+}
+
+
+
+
+project(":") {
+    val generateAHKLexer = task<GenerateLexer>("generateAHKLexer") {
+        source = "src/main/java/de/nordgedanken/auto_hotkey/AutoHotKey/flex/AutoHotKey.flex"
+        targetDir = "src/main/gen/de/nordgedanken/auto_hotkey/"
+        targetClass = "AHKLexer"
+        purgeOldFiles = true
+    }
+
+    val generateAHKParser = task<GenerateParser>("generateAHKParser") {
+        source = "src/main/java/de/nordgedanken/auto_hotkey/AutoHotKey.bnf"
+        targetRoot = "src/main/gen"
+        pathToParser = "de/nordgedanken/auto_hotkey/parser/AHKParser.java"
+        pathToPsiRoot = "de/nordgedanken/auto_hotkey/psi"
+        purgeOldFiles = true
+    }
+
+    tasks.withType<KotlinCompile> {
+        dependsOn(
+                generateAHKLexer,
+                generateAHKParser
+        )
+    }
 }

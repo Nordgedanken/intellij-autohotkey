@@ -7,12 +7,12 @@
   psiImplClassSuffix="Impl"
   psiPackage="de.nordgedanken.auto_hotkey.psi"
   psiImplPackage="de.nordgedanken.auto_hotkey.psi.impl"
+  //psiImplUtilClass="de.nordgedanken.auto_hotkey.psi.impl.AHKPsiImplUtil"
 
   elementTypeHolderClass="de.nordgedanken.auto_hotkey.psi.AHKTypes"
   elementTypeClass="de.nordgedanken.auto_hotkey.psi.AHKElementType"
   tokenTypeClass="de.nordgedanken.auto_hotkey.psi.AHKTokenType"
 
-  psiImplUtilClass="de.nordgedanken.auto_hotkey.psi.impl.AHKPsiImplUtil"
 
   tokens=[
     LBRACE               =  '{'
@@ -64,11 +64,16 @@
 ahkFile ::= item_*
 
 private item_ ::= (property|COMMENT|CRLF|COMMA|NUMBER|FUNCTION_CALL|FUNCTION_DEF|StringLiteral|COLON|HOTKEY|STRING_CALL|EXPRESSION_SCRIPT|C_COMMENT|IF|HEX|RPAREN)
+//private item_ ::= (COMMENT|CRLF|COMMA|NUMBER|FUNCTION_CALL|FUNCTION_DEF|StringLiteral|COLON|HOTKEY|STRING_CALL|EXPRESSION_SCRIPT|C_COMMENT|IF|HEX|RPAREN)
 
 StringLiteral ::= STRING {
   implements = "com.intellij.psi.PsiLanguageInjectionHost"
-  methods = [isValidHost updateText createLiteralTextEscaper]
+  mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKStringLiteralMixin"
+  //methods = [isValidHost updateText createLiteralTextEscaper]
 }
 
 //function_call ::= KEY LPAREN (StringLiteral | property)? RPAREN
-property ::= (KEY VAR_ASIGN (StringLiteral|NUMBER|KEY|(FUNCTION_CALL (StringLiteral|NUMBER|KEY|COMMA|WHITE_SPACE|HEX)+ (FUNCTION_CALL|RPAREN)))) | KEY {methods=[getKey getValue]}
+property ::= (KEY VAR_ASIGN (StringLiteral|NUMBER|KEY|(FUNCTION_CALL (StringLiteral|NUMBER|KEY|COMMA|WHITE_SPACE|HEX)+ (FUNCTION_CALL|RPAREN)))) | KEY {
+  //methods=[getKey getValue]
+  mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKPropertyMixin"
+}

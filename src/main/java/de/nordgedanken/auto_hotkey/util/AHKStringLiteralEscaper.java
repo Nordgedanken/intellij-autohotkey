@@ -3,14 +3,15 @@ package de.nordgedanken.auto_hotkey.util;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.LiteralTextEscaper;
 import de.nordgedanken.auto_hotkey.psi.AHKStringLiteral;
+import de.nordgedanken.auto_hotkey.psi.ext.AHKStringLiteralMixin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
-public class AHKStringLiteralEscaper extends LiteralTextEscaper<AHKStringLiteral> {
+public class AHKStringLiteralEscaper extends LiteralTextEscaper<AHKStringLiteralMixin> {
     private int[] outSourceOffsets;
 
-    public AHKStringLiteralEscaper(@NotNull AHKStringLiteral host) {
+    public AHKStringLiteralEscaper(@NotNull AHKStringLiteralMixin host) {
         super(host);
     }
 
