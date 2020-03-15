@@ -44,7 +44,7 @@ HOTKEY = ("#"|"!"|"^"|"+"|"&"|"<"|">"|"<^>!"|"*"|"~"|"$")? [a-zA-Z]? "::"
 
 STRING_CALL = "%"{KEY}"%"
 
-HEX = "0x"([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})
+HEX = "0x"([A-Fa-f0-9])*
 
 %state WAITING_VALUE
 %state START_FUNCTION
