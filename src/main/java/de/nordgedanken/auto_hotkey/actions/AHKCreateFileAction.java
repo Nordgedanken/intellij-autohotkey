@@ -20,7 +20,7 @@ public class AHKCreateFileAction extends CreateFileFromTemplateAction implements
 
     @Override
     protected void buildDialog(Project project, PsiDirectory directory, CreateFileFromTemplateDialog.Builder builder) {
-        builder.setTitle(CAPTION).addKind("Empty File", AHKIcons.FILE, "AutoHotKey File");
+        builder.setTitle(CAPTION).addKind("Empty File", AHKIcons.FILE, "AutoHotkey File");
     }
 
     @Override
