@@ -12,6 +12,11 @@
     <depends>com.intellij.modules.platform</depends>
 
     <change-notes><![CDATA[
+        <h2>0.1.1</h2>
+        <h3>Fixed</h3>
+        <ul>
+            <li>Fix "New File" action</li>
+        </ul>
         <h2>0.1.0</h2>
         <h3>Added</h3>
         <ul>
@@ -20,7 +25,7 @@
         </ul>
     ]]></change-notes>
 
-    <version>0.1.0</version>
+    <version>0.1.1</version>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="AHK script" implementationClass="de.nordgedanken.auto_hotkey.AHKFileType"

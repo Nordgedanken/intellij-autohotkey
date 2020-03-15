@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "de.nordgedanken"
-version = "0.1.0"
+version = "0.1.1"
 
 // Include the generated files in the source set
 sourceSets.main.get().java.srcDirs("src/main/gen")
@@ -40,6 +40,11 @@ configure<JavaPluginConvention> {
 }
 tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
     changeNotes("""
+      <h2>0.1.1</h2>
+        <h3>Fixed</h3>
+        <ul>
+            <li>Fix "New File" action</li>
+        </ul>
       <h2>0.1.0</h2>
         <h3>Added</h3>
         <ul>
