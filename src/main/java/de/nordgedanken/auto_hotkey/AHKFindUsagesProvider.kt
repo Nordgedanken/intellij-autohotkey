@@ -9,6 +9,7 @@ import com.intellij.psi.tree.TokenSet
 import de.nordgedanken.auto_hotkey.psi.AHKProperty
 import de.nordgedanken.auto_hotkey.psi.AHKTypes
 import de.nordgedanken.auto_hotkey.psi.ext.getKey
+import de.nordgedanken.auto_hotkey.psi.ext.getValue
 
 class AHKFindUsagesProvider : FindUsagesProvider {
     override fun getWordsScanner(): WordsScanner? {
@@ -44,7 +45,7 @@ class AHKFindUsagesProvider : FindUsagesProvider {
 
     override fun getNodeText(element: PsiElement, useFullName: Boolean): String {
         return if (element is AHKProperty) {
-            element.getKey()
+            element.getKey() + element.getValue();
         } else {
             ""
         }

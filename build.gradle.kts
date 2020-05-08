@@ -3,14 +3,14 @@ import org.jetbrains.grammarkit.tasks.GenerateParser
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.intellij") version "0.4.16"
+    id("org.jetbrains.intellij") version "0.4.20"
     id("org.jetbrains.grammarkit") version "2020.1"
-    kotlin("jvm") version "1.3.60"
+    kotlin("jvm") version "1.3.72"
     java
 }
 
 group = "de.nordgedanken"
-version = "0.1.1"
+version = "0.1.2"
 
 // Include the generated files in the source set
 sourceSets.main.get().java.srcDirs("src/main/gen")
@@ -33,19 +33,25 @@ tasks.publishPlugin {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version = "2019.3.3"
+    version = "2020.1.1"
+    setPlugins("java")
 }
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
 }
 tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
     changeNotes("""
-      <h2>0.1.1</h2>
+        <h2>0.1.2</h2>
+        <h3>Fixed</h3>
+        <ul>
+            <li>Make compatible with newer IDE versions</li>
+        </ul>
+        <h2>0.1.1</h2>
         <h3>Fixed</h3>
         <ul>
             <li>Fix "New File" action</li>
         </ul>
-      <h2>0.1.0</h2>
+        <h2>0.1.0</h2>
         <h3>Added</h3>
         <ul>
             <li>Initial Release</li>

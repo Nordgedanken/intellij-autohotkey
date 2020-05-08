@@ -64,7 +64,6 @@
 ahkFile ::= item_*
 
 private item_ ::= (property|COMMENT|CRLF|COMMA|NUMBER|FUNCTION_CALL|FUNCTION_DEF|StringLiteral|COLON|HOTKEY|STRING_CALL|EXPRESSION_SCRIPT|C_COMMENT|IF|HEX|RPAREN)
-//private item_ ::= (COMMENT|CRLF|COMMA|NUMBER|FUNCTION_CALL|FUNCTION_DEF|StringLiteral|COLON|HOTKEY|STRING_CALL|EXPRESSION_SCRIPT|C_COMMENT|IF|HEX|RPAREN)
 
 StringLiteral ::= STRING {
   implements = "com.intellij.psi.PsiLanguageInjectionHost"
@@ -75,5 +74,6 @@ StringLiteral ::= STRING {
 //function_call ::= KEY LPAREN (StringLiteral | property)? RPAREN
 property ::= (KEY VAR_ASIGN (StringLiteral|NUMBER|KEY|(FUNCTION_CALL (StringLiteral|NUMBER|KEY|COMMA|WHITE_SPACE|HEX)+ (FUNCTION_CALL|RPAREN)))) | KEY {
   //methods=[getKey getValue]
+  implements="de.nordgedanken.auto_hotkey.psi.AHKNamedElement"
   mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKPropertyMixin"
 }

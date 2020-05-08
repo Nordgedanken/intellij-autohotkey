@@ -10,8 +10,14 @@
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
 
     <change-notes><![CDATA[
+        <h2>0.1.2</h2>
+        <h3>Fixed</h3>
+        <ul>
+            <li>Make compatible with newer IDE versions</li>
+        </ul>
         <h2>0.1.1</h2>
         <h3>Fixed</h3>
         <ul>
@@ -25,7 +31,7 @@
         </ul>
     ]]></change-notes>
 
-    <version>0.1.1</version>
+    <version>0.1.2</version>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="AHK script" implementationClass="de.nordgedanken.auto_hotkey.AHKFileType"
@@ -41,6 +47,7 @@
                                  implementationClass="de.nordgedanken.auto_hotkey.AHKFindUsagesProvider"/>
 
         <lang.commenter language="AutoHotKey" implementationClass="de.nordgedanken.auto_hotkey.AHKCommenter"/>
+        <psi.referenceContributor implementation="de.nordgedanken.auto_hotkey.AHKReferenceContributor"/>
     </extensions>
 
     <actions>
