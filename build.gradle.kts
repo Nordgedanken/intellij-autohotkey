@@ -3,14 +3,15 @@ import org.jetbrains.grammarkit.tasks.GenerateParser
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.intellij") version "0.4.20"
-    id("org.jetbrains.grammarkit") version "2020.1"
+    idea
+    id("org.jetbrains.intellij") version "0.4.16"
+    id("org.jetbrains.grammarkit") version "2020.1.2"
     kotlin("jvm") version "1.3.72"
     java
 }
 
 group = "de.nordgedanken"
-version = "0.1.2"
+version = "0.2.0"
 
 // Include the generated files in the source set
 sourceSets.main.get().java.srcDirs("src/main/gen")
@@ -89,5 +90,10 @@ project(":") {
     }
 }
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions {
+        jvmTarget = "1.8"
+        languageVersion = "1.3"
+        apiVersion = "1.3"
+        freeCompilerArgs = listOf("-Xjvm-default=enable")
+    }
 }

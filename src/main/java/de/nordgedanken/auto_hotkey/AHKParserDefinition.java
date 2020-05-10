@@ -11,6 +11,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
+import de.nordgedanken.auto_hotkey.AutoHotKey.flex.AHKLexer;
 import de.nordgedanken.auto_hotkey.parser.AHKParser;
 import de.nordgedanken.auto_hotkey.psi.AHKFile;
 import de.nordgedanken.auto_hotkey.psi.AHKTypes;
@@ -28,7 +29,7 @@ public class AHKParserDefinition implements ParserDefinition {
     @NotNull
     @Override
     public Lexer createLexer(Project project) {
-        return new AHKLexerAdapter();
+        return new AHKLexer();
     }
 
     @NotNull

@@ -22,7 +22,6 @@ class AHKSettingsEditor(private val project: Project) : SettingsEditor<AHKRunCon
     override fun applyEditorTo(s: @NotNull AHKRunConfiguration) {
     }
 
-    @NotNull
     override fun createEditor(): JComponent = panel {
         labeledRow("&Arguments:", command) {
             command(CCFlags.pushX, CCFlags.growX)

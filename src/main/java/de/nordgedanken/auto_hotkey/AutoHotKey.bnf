@@ -1,7 +1,9 @@
 {
   parserClass="de.nordgedanken.auto_hotkey.parser.AHKParser"
+  parserUtilClass='de.nordgedanken.auto_hotkey.parser.AHKParserUtil'
 
-  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+  implements='de.nordgedanken.auto_hotkey.psi.ext.AHKElement'
+  extends='de.nordgedanken.auto_hotkey.psi.ext.AHKElementImpl'
 
   psiClassPrefix="AHK"
   psiImplClassSuffix="Impl"
@@ -56,14 +58,128 @@
     GREATER_OR_EQUAL     =  '>='
     GREATER              =  '>'
     IF                   = 'if'
+
+
+    DEFAULT   = 'default_kw'
   ]
 
+  extends("(.+Expr)") = Expr
+
   generateTokenAccessors=true
+
+  consumeTokenMethod("((?!.*_with_recover).*_recover)") = "consumeTokenFast"
+}
+ahkFile ::= Items*
+
+private Item_with_recover ::= !('}' | <<eof>>) ITEM {
+  pin = 1
+  recoverWhile = Item_recover
 }
 
-ahkFile ::= item_*
+private Item_recover ::= !('}' )
 
-private item_ ::= (property|COMMENT|CRLF|COMMA|NUMBER|FUNCTION_CALL|FUNCTION_DEF|StringLiteral|COLON|HOTKEY|STRING_CALL|EXPRESSION_SCRIPT|C_COMMENT|IF|HEX|RPAREN|BLOCK_COMMENT)
+private Items ::= Item_with_recover*
+
+fake Block ::= '{' (ITEM)* '}' {
+  pin = 1
+  implements = "de.nordgedanken.auto_hotkey.psi.ext.AHKItemsOwner"
+  extends = "de.nordgedanken.auto_hotkey.psi.ext.AHKStubbedElementImpl<?>"
+  stubClass = "de.nordgedanken.auto_hotkey.stubs.AHKPlaceholderStub"
+  elementTypeFactory = "de.nordgedanken.auto_hotkey.stubs.StubImplementationsKt.factory"
+}
+
+Stmt ::= property {
+  mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKStmtMixin"
+}
+AnyExpr ::= "" {
+   elementType = Expr
+   name = "expr"
+ }
+fake ExprStmt ::= AnyExpr { extends = Stmt }
+upper ExprStmtUpper ::= () (<<isBlock>>) { pin = 1 elementType = ExprStmt }
+ExprStmtOrLastExpr ::= &'}' | ExprStmtUpper {
+  elementType = Expr
+}
+private BlockElement ::= !'}' ( ExprStmtOrLastExpr | property | ITEM) {
+  pin = 1
+  recoverWhile = BlockElement_recover
+}
+
+private Expr_first ::='{' | '(' | true | false | if | for | continue | break  | loop | match
+
+private BlockElement_recover ::= !('}' | Expr_first)
+
+SimpleBlock ::= '{' BlockElement* '}' {
+  pin = 1
+  elementType = Block
+}
+    BlockExpr ::= [ &'{' ] SimpleBlock {
+  implements = [ "de.nordgedanken.auto_hotkey.psi.ext.AHKLabeledExpression"]
+  elementTypeFactory = "de.nordgedanken.auto_hotkey.stubs.StubImplementationsKt.factory"
+}
+
+Expr ::= BlockExpr {
+                    mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKExprMixin"
+                    stubClass = "de.nordgedanken.auto_hotkey.stubs.AHKPlaceholderStub"
+                  }
+
+//TODO might need to be revisited
+InnerAttrsAndBlock ::= '{' '}' {
+  pin = 1
+  elementType = Block
+}
+
+//XXX: don't use contextual keywords in recover, because they remap tokens.
+private default_ ::= <<defaultKeyword>>
+
+private ShallowBlock ::= <<parseCodeBlockLazy>>
+
+FnParameter ::= KEY
+
+private FnParameter_recover ::= !(')')
+private FnParameter_with_recover ::= !')' FnParameter (',' | &')') {
+  pin = 2
+  recoverWhile = FnParameter_recover
+}
+
+FnParameters          ::= '(' !',' FnParameter_with_recover*
+                          ')' { pin = 1 }
+
+Function ::= default_?
+             KEY
+             FnParameters
+             ShallowBlock
+{
+  pin = 'identifier'
+  name = ""
+  implements = ["de.nordgedanken.auto_hotkey.psi.ext.AHKItemElement"
+                "de.nordgedanken.auto_hotkey.psi.ext.AHKNamedElement"
+                ]
+  mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKFunctionImplMixin"
+  stubClass = "de.nordgedanken.auto_hotkey.stubs.AHKFunctionStub"
+  elementTypeFactory = "de.nordgedanken.auto_hotkey.stubs.StubImplementationsKt.factory"
+}
+
+ITEM ::= (((KEY COMMA)+)
+           |property
+           |expression_script_block
+           |COMMENT
+           |CRLF
+           |COMMA
+           |NUMBER
+           |Function
+           |StringLiteral
+           |COLON
+           |HOTKEY
+           |STRING_CALL
+           |EXPRESSION_SCRIPT
+           |C_COMMENT
+           |IF
+           |HEX
+           |RPAREN
+           |BLOCK_COMMENT){
+    name = "item"
+}
 
 StringLiteral ::= STRING {
   implements = "com.intellij.psi.PsiLanguageInjectionHost"
@@ -72,8 +188,10 @@ StringLiteral ::= STRING {
 }
 
 //function_call ::= KEY LPAREN (StringLiteral | property)? RPAREN
-property ::= (KEY VAR_ASIGN (StringLiteral|NUMBER|KEY|(FUNCTION_CALL (StringLiteral|NUMBER|KEY|COMMA|WHITE_SPACE|HEX)+ (FUNCTION_CALL|RPAREN)))) | KEY {
+property ::= ((KEY VAR_ASIGN (StringLiteral|NUMBER|KEY))|(C_COMMENT (StringLiteral|NUMBER|KEY))) {
   //methods=[getKey getValue]
-  implements="de.nordgedanken.auto_hotkey.psi.AHKNamedElement"
+  //implements="de.nordgedanken.auto_hotkey.psi.AHKNamedElement"
   mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKPropertyMixin"
 }
+
+expression_script_block ::= (EXPRESSION_SCRIPT KEY (StringLiteral|NUMBER|KEY))

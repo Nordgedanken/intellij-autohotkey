@@ -3,7 +3,6 @@ package de.nordgedanken.auto_hotkey.psi.ext
 import com.intellij.extapi.psi.StubBasedPsiElementBase
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.diagnostic.Logger
-import com.intellij.openapi.diagnostic.LoggerRt
 import com.intellij.psi.PsiElement
 import com.intellij.psi.stubs.StubElement
 import de.nordgedanken.auto_hotkey.psi.AHKElementFactory

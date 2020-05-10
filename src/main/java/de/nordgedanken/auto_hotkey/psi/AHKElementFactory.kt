@@ -13,6 +13,6 @@ object AHKElementFactory {
 
     private fun createFile(project: Project?, text: String?): AHKFile {
         val name = "dummy.ahk"
-        return PsiFileFactory.getInstance(project).createFileFromText(name, AHKFileType.INSTANCE, text!!) as AHKFile
+        return PsiFileFactory.getInstance(project).createFileFromText(name, AHKFileType, text!!) as AHKFile
     }
 }

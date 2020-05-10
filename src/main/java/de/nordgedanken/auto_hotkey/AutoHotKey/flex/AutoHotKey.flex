@@ -1,6 +1,6 @@
 package de.nordgedanken.auto_hotkey;
 
-import com.intellij.lexer.FlexLexer;
+import com.intellij.lexer.*;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.TokenType;
 import de.nordgedanken.auto_hotkey.psi.AHKTypes;
@@ -9,6 +9,12 @@ import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
 
 %%
+
+%{
+  public _AHKLexer() {
+    this((java.io.Reader)null);
+  }
+%}
 
 %{}
 
@@ -36,16 +42,29 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
   }
 %}
 
-%class AHKLexer
+%public
+%class _AHKLexer
 %implements FlexLexer
-%unicode
 %function advance
 %type IElementType
-%eof{  return;
-%eof}
+
+%s WAITING_VALUE
+%s IN_BLOCK_COMMENT
+
+%unicode
 
 CRLF=\R
-WHITE_SPACE=[\ \n\t\f]
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Whitespaces
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+EOL_WS           = \n | \r | \r\n
+LINE_WS          = [\ \t]
+WHITE_SPACE_CHAR = {EOL_WS} | {LINE_WS}
+WHITE_SPACE      = {WHITE_SPACE_CHAR}+
+
+
 END_OF_LINE_COMMENT=(";")[^\r\n]*
 
 VAR_ASIGN=":="
@@ -62,8 +81,6 @@ LPAREN = "("
 RPAREN = ")"
 LBRACE = "{"
 RBRACE = "}"
-FUNCTION_CALL_START = {KEY_CHARACTER}+ {LPAREN}
-FUNCTION_CALL_END = {RPAREN}
 
 C_COMMENT = "#"{KEY}
 
@@ -73,49 +90,64 @@ STRING_CALL = "%"{KEY}"%"
 
 HEX = "0x"([A-Fa-f0-9])*
 
-%state WAITING_VALUE
-%state START_FUNCTION
-%s IN_BLOCK_COMMENT
-
 %%
 
 
 
 <YYINITIAL> {
-    {END_OF_LINE_COMMENT}                                   { yybegin(YYINITIAL); return AHKTypes.COMMENT;            }
+    {WHITE_SPACE}                                           { return WHITE_SPACE;                                     }
 
-    {FUNCTION_CALL_START}                                   { yybegin(START_FUNCTION); return AHKTypes.FUNCTION_CALL; }
+    "+"                                                     { return AHKTypes.PLUS;                                   }
+    "-"                                                     { return AHKTypes.MINUS;                                  }
+    "*"                                                     { return AHKTypes.MUL;                                    }
+    "/"                                                     { return AHKTypes.QUOTIENT;                               }
+    {LPAREN}                                                { return AHKTypes.LPAREN;                                 }
+    {RPAREN}                                                { return AHKTypes.RPAREN;                                 }
+    {LBRACE}                                                { return AHKTypes.LBRACE;                                 }
+    {RBRACE}                                                { return AHKTypes.RBRACE;                                 }
+    ";"                                                     { return AHKTypes.SEMICOLON;                              }
+    ":"                                                     { return AHKTypes.COLON;                                  }
+    ","                                                     { return AHKTypes.COMMA;                                  }
+    "="                                                     { return AHKTypes.EQUAL;                                  }
+    "!="                                                    { return AHKTypes.NOT_EQ;                                 }
+    "<"                                                     { return AHKTypes.LESS;                                   }
+    ">"                                                     { return AHKTypes.GREATER;                                }
+    "<="                                                    { return AHKTypes.LESS_OR_EQUAL;                          }
+    ">="                                                    { return AHKTypes.GREATER_OR_EQUAL;                       }
+    "if"|"?"                                                { return AHKTypes.IF;                                     }
+    "%"                                                     { return AHKTypes.EXPRESSION_SCRIPT;                      }
+    {END_OF_LINE_COMMENT}                                   { return AHKTypes.COMMENT;                                }
 
-    {KEY}                                                   { yybegin(YYINITIAL); return AHKTypes.KEY;                }
+    {KEY}                                                   { return AHKTypes.KEY;                                    }
 
-    {STRING_CALL}                                           { yybegin(YYINITIAL); return AHKTypes.STRING_CALL;        }
+    {STRING_CALL}                                           { return AHKTypes.STRING_CALL;                            }
 
-    {STRING}                                                { yybegin(YYINITIAL); return AHKTypes.STRING;             }
+    {STRING}                                                { return AHKTypes.STRING;                                 }
 
-    {VAR_ASIGN}                                             { yybegin(WAITING_VALUE); return AHKTypes.VAR_ASIGN;      }
+    {VAR_ASIGN}                                             { return AHKTypes.VAR_ASIGN;                              }
 
-    {C_COMMENT}                                             { yybegin(YYINITIAL); return AHKTypes.C_COMMENT;          }
+    {C_COMMENT}                                             { return AHKTypes.C_COMMENT;                              }
 
     //TODO this might have side effects
-    {LBRACE}                                                { yybegin(YYINITIAL); return AHKTypes.FUNCTION_DEF;       }
+    //{LBRACE}                                                { yybegin(YYINITIAL); return AHKTypes.FUNCTION_DEF;     }
 
      //TODO this might have side effects
-    {RBRACE}                                                { yybegin(YYINITIAL); return AHKTypes.FUNCTION_DEF;       }
+    //{RBRACE}                                                { yybegin(YYINITIAL); return AHKTypes.FUNCTION_DEF;     }
 
-    {NUMBER}+                                               { yybegin(YYINITIAL); return AHKTypes.NUMBER;             }
+    {NUMBER}+                                               { return AHKTypes.NUMBER;                                 }
 
-    "%"                                                     { yybegin(YYINITIAL); return AHKTypes.EXPRESSION_SCRIPT;  }
+    "%"                                                     { return AHKTypes.EXPRESSION_SCRIPT;                      }
 
-    {HOTKEY}                                                { yybegin(YYINITIAL); return AHKTypes.HOTKEY;             }
+    {HOTKEY}                                                { return AHKTypes.HOTKEY;                                 }
 
-    {HEX}                                                   { yybegin(YYINITIAL); return AHKTypes.HEX;                }
+    {HEX}                                                   { return AHKTypes.HEX;                                    }
 
-    "/*"                            { yybegin(IN_BLOCK_COMMENT); yypushback(2); }
+    {KEY}                                                   { return AHKTypes.KEY;                                    }
+
+    "/*"                                                    { yybegin(IN_BLOCK_COMMENT); yypushback(2);               }
 }
 
 <WAITING_VALUE> {
-    {FUNCTION_CALL_START}                                   { yybegin(START_FUNCTION); return AHKTypes.FUNCTION_CALL; }
-
     {STRING}                                                { yybegin(YYINITIAL); return AHKTypes.STRING;             }
 
     {CRLF}({CRLF}|{WHITE_SPACE})+                           { yybegin(YYINITIAL); return WHITE_SPACE;                 }
@@ -125,16 +157,6 @@ HEX = "0x"([A-Fa-f0-9])*
     {NUMBER}+                                               { yybegin(YYINITIAL); return AHKTypes.NUMBER;             }
 
     {KEY}                                                   { yybegin(YYINITIAL); return AHKTypes.KEY;                }
-}
-
-<START_FUNCTION> {
-    {STRING}                                                { yybegin(START_FUNCTION); return AHKTypes.STRING;        }
-
-    {KEY}                                                   { yybegin(START_FUNCTION); return AHKTypes.KEY;           }
-
-    {NUMBER}+                                               { yybegin(START_FUNCTION); return AHKTypes.NUMBER;        }
-
-    {FUNCTION_CALL_END}                                     { yybegin(YYINITIAL); return AHKTypes.FUNCTION_CALL;      }
 }
 
 
@@ -156,27 +178,7 @@ HEX = "0x"([A-Fa-f0-9])*
   [^]     { }
 }
 
-({CRLF}|{WHITE_SPACE})+                                     { yybegin(YYINITIAL); return WHITE_SPACE;                 }
 
-"+"                                                         { return AHKTypes.PLUS;                                   }
-"-"                                                         { return AHKTypes.MINUS;                                  }
-"*"                                                         { return AHKTypes.MUL;                                    }
-"/"                                                         { return AHKTypes.QUOTIENT;                               }
-{LPAREN}                                                    { return AHKTypes.LPAREN;                                 }
-{RPAREN}                                                    { return AHKTypes.RPAREN;                                 }
-{LBRACE}                                                    { return AHKTypes.LBRACE;                                 }
-{RBRACE}                                                    { return AHKTypes.RBRACE;                                 }
-";"                                                         { return AHKTypes.SEMICOLON;                              }
-":"                                                         { return AHKTypes.COLON;                                  }
-","                                                         { return AHKTypes.COMMA;                                  }
-"="                                                         { return AHKTypes.EQUAL;                                  }
-"!="                                                        { return AHKTypes.NOT_EQ;                                 }
-"<"                                                         { return AHKTypes.LESS;                                   }
-">"                                                         { return AHKTypes.GREATER;                                }
-"<="                                                        { return AHKTypes.LESS_OR_EQUAL;                          }
-">="                                                        { return AHKTypes.GREATER_OR_EQUAL;                       }
-"if"|"?"                                                    { return AHKTypes.IF;                                     }
-"%"                                                         { return AHKTypes.EXPRESSION_SCRIPT;                      }
 
 // TODO S: &KEY
 

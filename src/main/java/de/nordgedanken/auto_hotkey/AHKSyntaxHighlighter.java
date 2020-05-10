@@ -7,6 +7,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
+import de.nordgedanken.auto_hotkey.AutoHotKey.flex.AHKLexer;
 import de.nordgedanken.auto_hotkey.psi.AHKTypes;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,7 +58,7 @@ public class AHKSyntaxHighlighter extends SyntaxHighlighterBase {
     @NotNull
     @Override
     public Lexer getHighlightingLexer() {
-        return new AHKLexerAdapter();
+        return new AHKLexer();
     }
 
     @NotNull
@@ -77,9 +78,9 @@ public class AHKSyntaxHighlighter extends SyntaxHighlighterBase {
             return COMMA_KEYS;
         } else if (tokenType.equals(AHKTypes.COMMENT) || tokenType.equals(AHKTypes.BLOCK_COMMENT)) {
             return COMMENT_KEYS;
-        } else if (tokenType.equals(AHKTypes.FUNCTION_CALL)) {
-            return FUNCTION_CALL_KEYS;
-        } else if (tokenType.equals(AHKTypes.FUNCTION_DEF) | tokenType.equals(AHKTypes.C_COMMENT)) {
+        //} else if (tokenType.equals(AHKTypes.FUNCTION)) {
+        //    return FUNCTION_CALL_KEYS;
+        } else if (tokenType.equals(AHKTypes.FUNCTION) | tokenType.equals(AHKTypes.C_COMMENT)) {
             return FUNCTION_DECLARATION_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
             return BAD_CHAR_KEYS;

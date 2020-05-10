@@ -14,7 +14,7 @@ object AHKUtil {
     // Searches the entire project for Simple language files with instances of the Simple property with the given key
     fun findProperties(project: Project?, key: String): List<AHKProperty> {
         val result: MutableList<AHKProperty> = ArrayList()
-        val virtualFiles = FileTypeIndex.getFiles(AHKFileType.INSTANCE, GlobalSearchScope.allScope(project!!))
+        val virtualFiles = FileTypeIndex.getFiles(AHKFileType, GlobalSearchScope.allScope(project!!))
         for (virtualFile in virtualFiles) {
             val simpleFile = PsiManager.getInstance(project).findFile(virtualFile!!) as AHKFile?
             if (simpleFile != null) {
@@ -35,7 +35,7 @@ object AHKUtil {
 
     fun findProperties(project: Project?): List<AHKProperty> {
         val result: MutableList<AHKProperty> = ArrayList()
-        val virtualFiles = FileTypeIndex.getFiles(AHKFileType.INSTANCE, GlobalSearchScope.allScope(project!!))
+        val virtualFiles = FileTypeIndex.getFiles(AHKFileType, GlobalSearchScope.allScope(project!!))
         for (virtualFile in virtualFiles) {
             val simpleFile = PsiManager.getInstance(project).findFile(virtualFile!!) as AHKFile?
             if (simpleFile != null) {

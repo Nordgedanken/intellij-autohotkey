@@ -31,20 +31,21 @@
         </ul>
     ]]></change-notes>
 
-    <version>0.1.2</version>
+    <version>0.2.0</version>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="AHK script" implementationClass="de.nordgedanken.auto_hotkey.AHKFileType"
                   fieldName="INSTANCE" language="AutoHotKey" extensions="ahk"/>
         <lang.parserDefinition language="AutoHotKey"
                                implementationClass="de.nordgedanken.auto_hotkey.AHKParserDefinition"/>
-        <lang.syntaxHighlighterFactory language="AutoHotKey"
-                                       implementationClass="de.nordgedanken.auto_hotkey.AHKSyntaxHighlighterFactory"/>
+        <stubElementTypeHolder class="de.nordgedanken.auto_hotkey.psi.AHKTypes"/>
+        <lang.syntaxHighlighter language="AutoHotKey"
+                                       implementationClass="de.nordgedanken.auto_hotkey.AHKSyntaxHighlighter"/>
 
         <colorSettingsPage implementation="de.nordgedanken.auto_hotkey.AHKColorSettingsPage"/>
 
-        <lang.findUsagesProvider language="AutoHotKey"
-                                 implementationClass="de.nordgedanken.auto_hotkey.AHKFindUsagesProvider"/>
+        <!--<lang.findUsagesProvider language="AutoHotKey"
+                                 implementationClass="de.nordgedanken.auto_hotkey.AHKFindUsagesProvider"/>-->
 
         <lang.commenter language="AutoHotKey" implementationClass="de.nordgedanken.auto_hotkey.AHKCommenter"/>
         <psi.referenceContributor implementation="de.nordgedanken.auto_hotkey.AHKReferenceContributor"/>

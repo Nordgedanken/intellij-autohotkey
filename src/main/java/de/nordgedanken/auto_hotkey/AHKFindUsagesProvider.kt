@@ -6,6 +6,7 @@ import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.TokenSet
+import de.nordgedanken.auto_hotkey.AutoHotKey.flex.AHKLexer
 import de.nordgedanken.auto_hotkey.psi.AHKProperty
 import de.nordgedanken.auto_hotkey.psi.AHKTypes
 import de.nordgedanken.auto_hotkey.psi.ext.getKey
@@ -13,7 +14,7 @@ import de.nordgedanken.auto_hotkey.psi.ext.getValue
 
 class AHKFindUsagesProvider : FindUsagesProvider {
     override fun getWordsScanner(): WordsScanner? {
-        return DefaultWordsScanner(AHKLexerAdapter(),
+        return DefaultWordsScanner(AHKLexer(),
                 TokenSet.create(AHKTypes.KEY),
                 TokenSet.create(AHKTypes.COMMENT),
                 TokenSet.EMPTY)
