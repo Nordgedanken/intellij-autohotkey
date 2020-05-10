@@ -36,9 +36,12 @@ intellij {
     version = "2020.1.1"
     setPlugins("java")
 }
+
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
+
 tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
     changeNotes("""
         <h2>0.1.2</h2>
@@ -84,4 +87,7 @@ project(":") {
                 generateAHKParser
         )
     }
+}
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "1.8"
 }

@@ -17,6 +17,8 @@ class AHKReferenceContributor : PsiReferenceContributor() {
                                                         context: ProcessingContext): Array<PsiReference> {
                         val literalExpression: PsiLiteralExpression = element as PsiLiteralExpression
                         val value: String? = if (literalExpression.value is String) literalExpression.value as String? else null
+
+                        // TODO FIX THIS
                         //&& value.startsWith(SIMPLE_PREFIX_STR + SIMPLE_SEPARATOR_STR)
 
 

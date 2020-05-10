@@ -21,8 +21,10 @@ object AHKUtil {
                 val properties = PsiTreeUtil.getChildrenOfType(simpleFile, AHKProperty::class.java)
                 if (properties != null) {
                     for (property in properties) {
-                        if (key == property.getKey()) {
-                            result.add(property)
+                        if (property != null) {
+                            if (key == property.getKey()) {
+                                result.add(property)
+                            }
                         }
                     }
                 }
@@ -37,9 +39,11 @@ object AHKUtil {
         for (virtualFile in virtualFiles) {
             val simpleFile = PsiManager.getInstance(project).findFile(virtualFile!!) as AHKFile?
             if (simpleFile != null) {
-                val properties = PsiTreeUtil.getChildrenOfType(simpleFile, AHKProperty::class.java)
+                val properties: Array<AHKProperty?>? = PsiTreeUtil.getChildrenOfType(simpleFile, AHKProperty::class.java)
                 if (properties != null) {
-                    result.addAll(properties)
+                    result.addAll(properties.map {
+                        it!!
+                    })
                 }
             }
         }

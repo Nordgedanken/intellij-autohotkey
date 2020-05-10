@@ -10,6 +10,32 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 
 %%
 
+%{}
+
+  /**
+    * Dedicated storage for starting position of some previously successful
+    * match
+    */
+  private int zzPostponedMarkedPos = -1;
+
+  /**
+    * Dedicated nested-comment level counter
+    */
+  private int zzNestedCommentLevel = 0;
+%}
+
+%{
+  IElementType imbueBlockComment() {
+      assert(zzNestedCommentLevel == 0);
+      yybegin(YYINITIAL);
+
+      zzStartRead = zzPostponedMarkedPos;
+      zzPostponedMarkedPos = -1;
+
+      return AHKTypes.BLOCK_COMMENT;
+  }
+%}
+
 %class AHKLexer
 %implements FlexLexer
 %unicode
@@ -21,6 +47,7 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 CRLF=\R
 WHITE_SPACE=[\ \n\t\f]
 END_OF_LINE_COMMENT=(";")[^\r\n]*
+
 VAR_ASIGN=":="
 
 KEY_CHARACTER=[a-zA-Z] | "\_" | "."
@@ -48,6 +75,7 @@ HEX = "0x"([A-Fa-f0-9])*
 
 %state WAITING_VALUE
 %state START_FUNCTION
+%s IN_BLOCK_COMMENT
 
 %%
 
@@ -81,6 +109,8 @@ HEX = "0x"([A-Fa-f0-9])*
     {HOTKEY}                                                { yybegin(YYINITIAL); return AHKTypes.HOTKEY;             }
 
     {HEX}                                                   { yybegin(YYINITIAL); return AHKTypes.HEX;                }
+
+    "/*"                            { yybegin(IN_BLOCK_COMMENT); yypushback(2); }
 }
 
 <WAITING_VALUE> {
@@ -105,6 +135,25 @@ HEX = "0x"([A-Fa-f0-9])*
     {NUMBER}+                                               { yybegin(START_FUNCTION); return AHKTypes.NUMBER;        }
 
     {FUNCTION_CALL_END}                                     { yybegin(YYINITIAL); return AHKTypes.FUNCTION_CALL;      }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Comments
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+<IN_BLOCK_COMMENT> {
+  "/*"    { if (zzNestedCommentLevel++ == 0)
+              zzPostponedMarkedPos = zzStartRead;
+          }
+
+  "*/"    { if (--zzNestedCommentLevel == 0)
+              return imbueBlockComment();
+          }
+
+  <<EOF>> { zzNestedCommentLevel = 0; return imbueBlockComment(); }
+
+  [^]     { }
 }
 
 ({CRLF}|{WHITE_SPACE})+                                     { yybegin(YYINITIAL); return WHITE_SPACE;                 }

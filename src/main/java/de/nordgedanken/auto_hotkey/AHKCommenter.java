@@ -13,13 +13,13 @@ public class AHKCommenter  implements Commenter {
     @Nullable
     @Override
     public String getBlockCommentPrefix() {
-        return "";
+        return "/*";
     }
 
     @Nullable
     @Override
     public String getBlockCommentSuffix() {
-        return null;
+        return "*/";
     }
 
     @Nullable

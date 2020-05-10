@@ -75,7 +75,7 @@ public class AHKSyntaxHighlighter extends SyntaxHighlighterBase {
             return NUMBER_KEYS;
         } else if (tokenType.equals(AHKTypes.COMMA)) {
             return COMMA_KEYS;
-        } else if (tokenType.equals(AHKTypes.COMMENT)) {
+        } else if (tokenType.equals(AHKTypes.COMMENT) || tokenType.equals(AHKTypes.BLOCK_COMMENT)) {
             return COMMENT_KEYS;
         } else if (tokenType.equals(AHKTypes.FUNCTION_CALL)) {
             return FUNCTION_CALL_KEYS;

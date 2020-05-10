@@ -63,7 +63,7 @@
 
 ahkFile ::= item_*
 
-private item_ ::= (property|COMMENT|CRLF|COMMA|NUMBER|FUNCTION_CALL|FUNCTION_DEF|StringLiteral|COLON|HOTKEY|STRING_CALL|EXPRESSION_SCRIPT|C_COMMENT|IF|HEX|RPAREN)
+private item_ ::= (property|COMMENT|CRLF|COMMA|NUMBER|FUNCTION_CALL|FUNCTION_DEF|StringLiteral|COLON|HOTKEY|STRING_CALL|EXPRESSION_SCRIPT|C_COMMENT|IF|HEX|RPAREN|BLOCK_COMMENT)
 
 StringLiteral ::= STRING {
   implements = "com.intellij.psi.PsiLanguageInjectionHost"

@@ -48,6 +48,8 @@
 
         <lang.commenter language="AutoHotKey" implementationClass="de.nordgedanken.auto_hotkey.AHKCommenter"/>
         <psi.referenceContributor implementation="de.nordgedanken.auto_hotkey.AHKReferenceContributor"/>
+
+        <configurationType implementation="de.nordgedanken.auto_hotkey.run_configurations.AHKRunConfigurationType"/>
     </extensions>
 
     <actions>

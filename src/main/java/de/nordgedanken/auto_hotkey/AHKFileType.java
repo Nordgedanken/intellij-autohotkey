@@ -16,7 +16,7 @@ public class AHKFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getName() {
-        return "AHK script";
+        return "AHK Script";
     }
 
     @NotNull

@@ -45,7 +45,7 @@ class AHKFindUsagesProvider : FindUsagesProvider {
 
     override fun getNodeText(element: PsiElement, useFullName: Boolean): String {
         return if (element is AHKProperty) {
-            element.getKey() + element.getValue();
+            element.getKey() + element.getValue()
         } else {
             ""
         }
