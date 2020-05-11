@@ -32,6 +32,7 @@ object AHKParserUtil : GeneratedParserUtilBase() {
         }
         return false
     }
+
     @JvmStatic
     fun parseCodeBlockLazy(builder: PsiBuilder, level: Int): Boolean {
         return PsiBuilderUtil.parseBlockLazy(builder, LBRACE, RBRACE, BLOCK) != null

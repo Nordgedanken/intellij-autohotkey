@@ -90,6 +90,11 @@ fake Block ::= '{' (Item)* Expr? '}' {
   elementTypeFactory = "de.nordgedanken.auto_hotkey.stubs.StubImplementationsKt.factory"
 }
 
+SimpleBlock ::= '{' BlockElement* '}' {
+  pin = 1
+  elementType = Block
+}
+
 Stmt ::= property {
   mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKStmtMixin"
 }
@@ -102,7 +107,7 @@ upper ExprStmtUpper ::= () (<<isBlock>>) { pin = 1 elementType = ExprStmt }
 ExprStmtOrLastExpr ::= &'}' | ExprStmtUpper {
   elementType = Expr
 }
-private BlockElement ::= !'}' ( ExprStmtOrLastExpr | property | Item) {
+private BlockElement ::= !'}' ( variable | Item | ExprStmtOrLastExpr) {
   pin = 1
   recoverWhile = BlockElement_recover
 }
@@ -170,7 +175,7 @@ FnParameters          ::= '(' !','
 
 Function ::= identifier
              FnParameters
-             ShallowBlock
+             ShallowBlock?
 {
   pin = 'identifier'
   name = ""
@@ -216,7 +221,7 @@ HOTKEY ::= ("#"|"!"|"^"|"+"|"&"|"<"|">"|"<^>!"|"*"|"~"|"$")? ANY_CHAR "::"
 
 HEX ::= HEX_DEF
 
-FUNCTION_CALL ::= identifier (StringLiteral|NUMBERS|identifier|expression_script_block|FnParameters) !("{")
+FUNCTION_CALL ::= identifier (StringLiteral|NUMBERS|identifier|expression_script_block)
 
 C_COMMENT_FULL ::= C_COMMENT (StringLiteral|NUMBERS|(identifier DOT identifier)|identifier|expression_script_block|WHITE_SPACE)
 

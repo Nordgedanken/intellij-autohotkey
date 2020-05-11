@@ -8,9 +8,9 @@ enum class AHKColor(humanName: String, default: TextAttributesKey? = null) {
     IDENTIFIER("Variables//Default", DefaultLanguageHighlighterColors.IDENTIFIER),
 
     FUNCTION("Functions//Function declaration", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION),
-    FUNCTION_CALL("Function calls//Function call declaration", DefaultLanguageHighlighterColors.FUNCTION_CALL),
+    FUNCTION_CALL("Function//Function call declaration", DefaultLanguageHighlighterColors.FUNCTION_CALL),
     HOTKEY("Hotkey//Hotkey declaration", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION),
-    C_COMMENT("C Comment//C Comment declaration", DefaultLanguageHighlighterColors.FUNCTION_CALL),
+    C_COMMENT("C Comments//C Comment declaration", DefaultLanguageHighlighterColors.FUNCTION_CALL),
 
     KEYWORD("Keywords//Keyword", DefaultLanguageHighlighterColors.KEYWORD),
 
