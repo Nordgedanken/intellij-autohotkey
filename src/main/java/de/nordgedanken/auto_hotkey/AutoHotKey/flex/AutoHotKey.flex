@@ -93,7 +93,7 @@ HEX_LITERAL = "0x" [a-fA-F0-9_]*
 OCT_LITERAL = "0o" [0-7_]*
 BIN_LITERAL = "0b" [01_]*
 
-STRING_LITERAL = \" ( [^\\\"] | \\[^] )* ( \" {SUFFIX}? | \\ )?
+STRING_LITERAL = \" ( [^\\\"] | \\[^] | [\\])* ( \" {SUFFIX}? | \\ )?
 %%
 
 

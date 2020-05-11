@@ -5,16 +5,14 @@ import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.StringEscapesTokenTypes
 import com.intellij.psi.tree.IElementType
-import de.nordgedanken.auto_hotkey.AutoHotKey.flex.AHKLexer
 import de.nordgedanken.auto_hotkey.colors.AHKColor
+import de.nordgedanken.auto_hotkey.lexer.AHKHighlightingLexer
 import de.nordgedanken.auto_hotkey.parser.AHKParserDefinition.Companion.BLOCK_COMMENT
 import de.nordgedanken.auto_hotkey.parser.AHKParserDefinition.Companion.EOL_COMMENT
 import de.nordgedanken.auto_hotkey.psi.AHKTypes.*
 
 class AHKSyntaxHighlighter : SyntaxHighlighterBase() {
-    override fun getHighlightingLexer(): Lexer {
-        return AHKLexer()
-    }
+    override fun getHighlightingLexer(): Lexer = AHKHighlightingLexer()
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> =
             pack(map(tokenType)?.textAttributesKey)
@@ -50,47 +48,5 @@ class AHKSyntaxHighlighter : SyntaxHighlighterBase() {
             else -> null
         }
     }
-    /*override fun getTokenHighlights(tokenType: IElementType): Array<out TextAttributesKey?> {
-        return when {
-            (tokenType == AHKTypes.VAR_ASIGN) or (tokenType == AHKTypes.COLON) or (tokenType == AHKTypes.NOT_EQ) or (tokenType == AHKTypes.EXPRESSION_SCRIPT) -> {
-                OPERATION_KEYS
-            }
-            tokenType == AHKTypes.HOTKEY -> {
-                HOTKEY_KEYS
-            }
-            tokenType == AHKTypes.IDENTIFIER -> {
-                IDENTIFIER_KEYS
-            }
-            tokenType == AHKTypes.STRING -> {
-                STRING_KEYS
-            }
-            (tokenType == AHKTypes.NUMBER) or (tokenType == AHKTypes.HEX) -> {
-                NUMBER_KEYS
-            }
-            tokenType == AHKTypes.COMMA -> {
-                COMMA_KEYS
-            }
-            tokenType in AHK_COMMENTS -> {
-                return COMMENT_KEYS;
-                //} else if (tokenType.equals(AHKTypes.FUNCTION)) {
-                //    return FUNCTION_CALL_KEYS;
-            }
-            (tokenType == AHKTypes.FUNCTION) or (tokenType == AHKTypes.C_COMMENT) -> {
-                FUNCTION_DECLARATION_KEYS
-            }
-            tokenType == TokenType.BAD_CHARACTER -> {
-                BAD_CHAR_KEYS
-            }
-            (tokenType == AHKTypes.LPAREN) or (tokenType == AHKTypes.RPAREN) or (tokenType == AHKTypes.LBRACE) or (tokenType == AHKTypes.RBRACE) or (tokenType == AHKTypes.LBRACK) or (tokenType == AHKTypes.RBRACK) -> {
-                PARENTHESE_KEYS
-            }
-            tokenType == AHKTypes.SEMICOLON -> {
-                SEMICOLON_KEYS
-            }
-            else -> {
-                EMPTY_KEYS
-            }
-        }
-    }*/
 
 }

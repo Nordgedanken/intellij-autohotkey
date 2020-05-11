@@ -15,9 +15,7 @@ class AHKColorSettingsPage : ColorSettingsPage {
 
     override fun getIcon(): Icon = AHKIcons.FILE
 
-    override fun getHighlighter(): SyntaxHighlighter {
-        return AHKSyntaxHighlighter()
-    }
+    override fun getHighlighter(): SyntaxHighlighter = AHKSyntaxHighlighter()
 
     override fun getDemoText(): String {
         return """

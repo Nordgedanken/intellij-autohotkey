@@ -145,6 +145,7 @@ class AHKEscapesLexer private constructor(
         val ESCAPABLE_LITERALS_TOKEN_SET = TokenSet.create(
                 STRING_LITERAL
         )
+
     }
 }
 

@@ -112,7 +112,7 @@ private BlockElement ::= !'}' ( variable | Item | ExprStmtOrLastExpr) {
   recoverWhile = BlockElement_recover
 }
 
-private Expr_first ::= Return | '{' | '(' | true | false | if | for | continue | break  | loop | match
+private Expr_first ::= Return | '{' | '(' | true | false | if | for | continue | break  | loop | match | AnyLitToken
 
 private BlockElement_recover ::= !('}' | Expr_first)
 
@@ -158,7 +158,7 @@ private default_ ::= <<defaultKeyword>>
 
 private ShallowBlock ::= <<parseCodeBlockLazy>>
 
-    PatBinding ::= identifier !ForbiddenPatBindingLast {
+    PatBinding ::= identifier  !ForbiddenPatBindingLast {
   implements = [ "de.nordgedanken.auto_hotkey.psi.ext.AHKMandatoryReferenceElement" ]
   mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKPatBindingImplMixin"
 }
@@ -175,7 +175,9 @@ Pat ::= PatIdent {
 
 FnParameter ::= [Pat]
 
-private FnParameter_recover ::= !(')')
+private Path_first ::= identifier
+private Pat_first ::= '(' | '[' | Path_first | AnyLitToken
+private FnParameter_recover ::= !(Pat_first | ')')
 private FnParameter_with_recover ::= !')' FnParameter (',' | &')') {
   pin = 2
   recoverWhile = FnParameter_recover

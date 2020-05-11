@@ -4,6 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.LanguageUtil
 import com.intellij.lang.ParserDefinition
 import com.intellij.lang.PsiParser
+import com.intellij.lang.injection.InjectedLanguageManager
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.project.Project
 import com.intellij.psi.FileViewProvider
@@ -19,8 +20,7 @@ import de.nordgedanken.auto_hotkey.stubs.AHKFileStub
 
 class AHKParserDefinition : ParserDefinition {
 
-    override fun createFile(viewProvider: FileViewProvider): PsiFile? =
-            AHKFile(viewProvider)
+    override fun createFile(viewProvider: FileViewProvider): PsiFile = AHKFile(viewProvider)
 
     override fun spaceExistanceTypeBetweenTokens(left: ASTNode, right: ASTNode): ParserDefinition.SpaceRequirements {
         if (left.elementType in AHK_EOL_COMMENTS) return ParserDefinition.SpaceRequirements.MUST_LINE_BREAK
@@ -45,7 +45,9 @@ class AHKParserDefinition : ParserDefinition {
     override fun createParser(project: Project?): PsiParser = AHKParser()
 
     companion object {
-        @JvmField val BLOCK_COMMENT = AHKTokenType("<BLOCK_COMMENT>")
-        @JvmField val EOL_COMMENT = AHKTokenType("<EOL_COMMENT>")
+        @JvmField
+        val BLOCK_COMMENT = AHKTokenType("<BLOCK_COMMENT>")
+        @JvmField
+        val EOL_COMMENT = AHKTokenType("<EOL_COMMENT>")
     }
 }
