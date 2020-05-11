@@ -209,28 +209,28 @@ Item ::= default_? (FUNCTION_CALL
          | STRING_LITERAL
          | expression_script_block
          | HEX
-         | NUMBERS) {
+         | INT_LITERAL) {
     name = "item"
     elementType = ToBeUpped
     hooks = [ leftBinder = "ADJACENT_LINE_COMMENTS" ]
 }
 
-key_list ::= ((identifier|NUMBERS|STRING_LITERAL|EXPRESSION_SCRIPT) COMMA)+ (identifier|NUMBERS|STRING_LITERAL|EXPRESSION_SCRIPT)?
+key_list ::= ((identifier|INT_LITERAL|STRING_LITERAL|EXPRESSION_SCRIPT) COMMA)+ (identifier|INT_LITERAL|STRING_LITERAL|EXPRESSION_SCRIPT)?
 
 variable ::= identifier VAR_ASIGN AnyExpr {
   extends = Stmt
   pin = "property"
 }
 
-expression_script_block ::= (EXPRESSION_SCRIPT identifier (STRING_LITERAL|NUMBERS|identifier) EXPRESSION_SCRIPT)
+expression_script_block ::= (EXPRESSION_SCRIPT identifier (STRING_LITERAL|INT_LITERAL|identifier) EXPRESSION_SCRIPT)
 
 HOTKEY ::= ("#"|"!"|"^"|"+"|"&"|"<"|">"|"<^>!"|"*"|"~"|"$")? ANY_CHAR "::"
 
 HEX ::= HEX_DEF
 
-FUNCTION_CALL ::= identifier (STRING_LITERAL|NUMBERS|identifier|expression_script_block)
+FUNCTION_CALL ::= identifier (STRING_LITERAL|INT_LITERAL|identifier|expression_script_block)
 
-C_COMMENT_FULL ::= C_COMMENT (STRING_LITERAL|NUMBERS|(identifier DOT identifier)|identifier|expression_script_block|WHITE_SPACE)
+C_COMMENT_FULL ::= C_COMMENT (STRING_LITERAL|INT_LITERAL|(identifier DOT identifier)|identifier|expression_script_block|WHITE_SPACE)
 
 // Use as an `elementType` for always upped rules like `Rule ::= FOO BAR ( upper1 | upper2 )`
 // (without an `elementType` upper rules won't work, GK can change element type of the frame

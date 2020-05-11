@@ -24,6 +24,7 @@ class AHKSyntaxHighlighter : SyntaxHighlighterBase() {
             IDENTIFIER -> AHKColor.IDENTIFIER
 
             STRING_LITERAL -> AHKColor.STRING
+            INTEGER_LITERAL -> AHKColor.NUMBER
             NUMBERS -> AHKColor.NUMBER
 
             FUNCTION -> AHKColor.FUNCTION
