@@ -6,9 +6,9 @@ import de.nordgedanken.auto_hotkey.AHKFileType
 
 
 object AHKElementFactory {
-    fun createProperty(project: Project?, name: String?): AHKProperty {
+    fun createProperty(project: Project?, name: String?): AHKVariable {
         val file: AHKFile = createFile(project, name)
-        return file.firstChild as AHKProperty
+        return file.firstChild as AHKVariable
     }
 
     private fun createFile(project: Project?, text: String?): AHKFile {

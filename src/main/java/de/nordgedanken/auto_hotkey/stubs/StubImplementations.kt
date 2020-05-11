@@ -22,14 +22,24 @@ import de.nordgedanken.auto_hotkey.psi.AHKBlockExpr
 import de.nordgedanken.auto_hotkey.psi.AHKFile
 import de.nordgedanken.auto_hotkey.psi.AHKTypes.*
 import de.nordgedanken.auto_hotkey.psi.AHK_ITEMS
+import de.nordgedanken.auto_hotkey.psi.ext.AHKElement
 import de.nordgedanken.auto_hotkey.psi.impl.AHKBlockExprImpl
 import de.nordgedanken.auto_hotkey.psi.impl.AHKBlockImpl
+import de.nordgedanken.auto_hotkey.psi.impl.AHKRetExprImpl
 
 fun factory(name: String): AHKStubElementType<*, *> = when (name) {
     "FUNCTION" -> AHKFunctionStub.Type
     "BLOCK" -> AHKBlockStubType
     "BLOCK_EXPR" -> AHKBlockExprStub.Type
+    "RET_EXPR" -> AHKExprStubType("RET_EXPR", ::AHKRetExprImpl)
     else -> error("Unknown element $name")
+}
+
+class AHKExprStubType<PsiT : AHKElement>(
+        debugName: String,
+        psiCtor: (AHKPlaceholderStub, IStubElementType<*, *>) -> PsiT
+) : AHKPlaceholderStub.Type<PsiT>(debugName, psiCtor) {
+    override fun shouldCreateStub(node: ASTNode): Boolean = shouldCreateExprStub(node)
 }
 
 val ASTNode.ancestors: Sequence<ASTNode>

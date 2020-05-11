@@ -37,7 +37,7 @@
         <fileType name="AHK script" implementationClass="de.nordgedanken.auto_hotkey.AHKFileType"
                   fieldName="INSTANCE" language="AutoHotKey" extensions="ahk"/>
         <lang.parserDefinition language="AutoHotKey"
-                               implementationClass="de.nordgedanken.auto_hotkey.AHKParserDefinition"/>
+                               implementationClass="de.nordgedanken.auto_hotkey.parser.AHKParserDefinition"/>
         <stubElementTypeHolder class="de.nordgedanken.auto_hotkey.psi.AHKTypes"/>
         <lang.syntaxHighlighter language="AutoHotKey"
                                        implementationClass="de.nordgedanken.auto_hotkey.AHKSyntaxHighlighter"/>
@@ -45,12 +45,15 @@
         <colorSettingsPage implementation="de.nordgedanken.auto_hotkey.AHKColorSettingsPage"/>
 
         <!--<lang.findUsagesProvider language="AutoHotKey"
-                                 implementationClass="de.nordgedanken.auto_hotkey.AHKFindUsagesProvider"/>-->
+                                 implementationClass="de.nordgedanken.auto_hotkey.search.AHKFindUsagesProvider"/>-->
 
         <lang.commenter language="AutoHotKey" implementationClass="de.nordgedanken.auto_hotkey.AHKCommenter"/>
         <psi.referenceContributor implementation="de.nordgedanken.auto_hotkey.AHKReferenceContributor"/>
 
         <configurationType implementation="de.nordgedanken.auto_hotkey.run_configurations.AHKRunConfigurationType"/>
+
+
+        <annotator language="AutoHotKey" implementationClass="de.nordgedanken.auto_hotkey.annotator.AHKHighlightingAnnotator"/>
     </extensions>
 
     <actions>

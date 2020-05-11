@@ -21,7 +21,7 @@ class AHKRunConfiguration constructor(project: Project, factory: ConfigurationFa
 
     @Nullable
     @Throws(ExecutionException::class)
-    override fun getState(executor: @NotNull Executor, environment: @NotNull ExecutionEnvironment): @Nullable RunProfileState? {
+    override fun getState(executor: Executor, environment: ExecutionEnvironment): RunProfileState? {
         return null
     }
 }

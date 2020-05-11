@@ -7,6 +7,7 @@ import de.nordgedanken.auto_hotkey.psi.AHKTypes;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
+import static de.nordgedanken.auto_hotkey.parser.AHKParserDefinition.*;
 
 %%
 
@@ -38,7 +39,7 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
       zzStartRead = zzPostponedMarkedPos;
       zzPostponedMarkedPos = -1;
 
-      return AHKTypes.BLOCK_COMMENT;
+      return BLOCK_COMMENT;
   }
 %}
 
@@ -48,13 +49,11 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 %function advance
 %type IElementType
 
-%s WAITING_VALUE
 %s IN_BLOCK_COMMENT
 
 %unicode
 
-CRLF=\R
-
+IDENTIFIER = [_\p{xidstart}][\p{xidcontinue}]*
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Whitespaces
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,45 +68,36 @@ END_OF_LINE_COMMENT=(";")[^\r\n]*
 
 VAR_ASIGN=":="
 
-KEY_CHARACTER=[a-zA-Z] | "\_" | "."
-KEY={KEY_CHARACTER}+
-NUMBER="-"? [0-9]
+NUMBERS="-"? [0-9]*
 
 STR =      "\""
 STRING = {STR} ( [^\"\\\n\r] | "\\" ("\\" | {STR} | {ESCAPES}? | [0-8xuU] ) )* {STR}?
 ESCAPES = [abfnrtv]
 
-LPAREN = "("
-RPAREN = ")"
-LBRACE = "{"
-RBRACE = "}"
-
-C_COMMENT = "#"{KEY}
+C_COMMENT = "#"{IDENTIFIER}
 
 HOTKEY = ("#"|"!"|"^"|"+"|"&"|"<"|">"|"<^>!"|"*"|"~"|"$")? [a-zA-Z]? "::"
 
-STRING_CALL = "%"{KEY}"%"
-
-HEX = "0x"([A-Fa-f0-9])*
+HEX_DEF = "0x"([A-Fa-f0-9])*
 
 %%
 
 
 
 <YYINITIAL> {
-    {WHITE_SPACE}                                           { return WHITE_SPACE;                                     }
 
     "+"                                                     { return AHKTypes.PLUS;                                   }
     "-"                                                     { return AHKTypes.MINUS;                                  }
     "*"                                                     { return AHKTypes.MUL;                                    }
     "/"                                                     { return AHKTypes.QUOTIENT;                               }
-    {LPAREN}                                                { return AHKTypes.LPAREN;                                 }
-    {RPAREN}                                                { return AHKTypes.RPAREN;                                 }
-    {LBRACE}                                                { return AHKTypes.LBRACE;                                 }
-    {RBRACE}                                                { return AHKTypes.RBRACE;                                 }
+    "("                                                     { return AHKTypes.LPAREN;                                 }
+    ")"                                                     { return AHKTypes.RPAREN;                                 }
+    "{"                                                     { return AHKTypes.LBRACE;                                 }
+    "}"                                                     { return AHKTypes.RBRACE;                                 }
     ";"                                                     { return AHKTypes.SEMICOLON;                              }
     ":"                                                     { return AHKTypes.COLON;                                  }
     ","                                                     { return AHKTypes.COMMA;                                  }
+    "."                                                     { return AHKTypes.DOT;                                    }
     "="                                                     { return AHKTypes.EQUAL;                                  }
     "!="                                                    { return AHKTypes.NOT_EQ;                                 }
     "<"                                                     { return AHKTypes.LESS;                                   }
@@ -116,11 +106,9 @@ HEX = "0x"([A-Fa-f0-9])*
     ">="                                                    { return AHKTypes.GREATER_OR_EQUAL;                       }
     "if"|"?"                                                { return AHKTypes.IF;                                     }
     "%"                                                     { return AHKTypes.EXPRESSION_SCRIPT;                      }
-    {END_OF_LINE_COMMENT}                                   { return AHKTypes.COMMENT;                                }
+    "Return"                                                { return AHKTypes.RETURN;                                 }
+    {END_OF_LINE_COMMENT}                                   { return EOL_COMMENT;                                     }
 
-    {KEY}                                                   { return AHKTypes.KEY;                                    }
-
-    {STRING_CALL}                                           { return AHKTypes.STRING_CALL;                            }
 
     {STRING}                                                { return AHKTypes.STRING;                                 }
 
@@ -134,29 +122,15 @@ HEX = "0x"([A-Fa-f0-9])*
      //TODO this might have side effects
     //{RBRACE}                                                { yybegin(YYINITIAL); return AHKTypes.FUNCTION_DEF;     }
 
-    {NUMBER}+                                               { return AHKTypes.NUMBER;                                 }
-
-    "%"                                                     { return AHKTypes.EXPRESSION_SCRIPT;                      }
+    {NUMBERS}                                               { return AHKTypes.NUMBERS;                                }
 
     {HOTKEY}                                                { return AHKTypes.HOTKEY;                                 }
 
-    {HEX}                                                   { return AHKTypes.HEX;                                    }
-
-    {KEY}                                                   { return AHKTypes.KEY;                                    }
+    {HEX_DEF}                                               { return AHKTypes.HEX;                                    }
 
     "/*"                                                    { yybegin(IN_BLOCK_COMMENT); yypushback(2);               }
-}
-
-<WAITING_VALUE> {
-    {STRING}                                                { yybegin(YYINITIAL); return AHKTypes.STRING;             }
-
-    {CRLF}({CRLF}|{WHITE_SPACE})+                           { yybegin(YYINITIAL); return WHITE_SPACE;                 }
-
-    {WHITE_SPACE}+                                          { yybegin(WAITING_VALUE); return WHITE_SPACE;             }
-
-    {NUMBER}+                                               { yybegin(YYINITIAL); return AHKTypes.NUMBER;             }
-
-    {KEY}                                                   { yybegin(YYINITIAL); return AHKTypes.KEY;                }
+    {IDENTIFIER}                                            { return AHKTypes.IDENTIFIER;                             }
+    {WHITE_SPACE}                                           { return WHITE_SPACE;                                     }
 }
 
 

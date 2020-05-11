@@ -6,19 +6,19 @@ import com.intellij.psi.search.FileTypeIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import de.nordgedanken.auto_hotkey.psi.AHKFile
-import de.nordgedanken.auto_hotkey.psi.AHKProperty
+import de.nordgedanken.auto_hotkey.psi.AHKVariable
 import de.nordgedanken.auto_hotkey.psi.ext.getKey
 import java.util.*
 
 object AHKUtil {
     // Searches the entire project for Simple language files with instances of the Simple property with the given key
-    fun findProperties(project: Project?, key: String): List<AHKProperty> {
-        val result: MutableList<AHKProperty> = ArrayList()
+    fun findProperties(project: Project?, key: String): List<AHKVariable> {
+        val result: MutableList<AHKVariable> = ArrayList()
         val virtualFiles = FileTypeIndex.getFiles(AHKFileType, GlobalSearchScope.allScope(project!!))
         for (virtualFile in virtualFiles) {
             val simpleFile = PsiManager.getInstance(project).findFile(virtualFile!!) as AHKFile?
             if (simpleFile != null) {
-                val properties = PsiTreeUtil.getChildrenOfType(simpleFile, AHKProperty::class.java)
+                val properties = PsiTreeUtil.getChildrenOfType(simpleFile, AHKVariable::class.java)
                 if (properties != null) {
                     for (property in properties) {
                         if (property != null) {
@@ -33,13 +33,13 @@ object AHKUtil {
         return result
     }
 
-    fun findProperties(project: Project?): List<AHKProperty> {
-        val result: MutableList<AHKProperty> = ArrayList()
+    fun findProperties(project: Project?): List<AHKVariable> {
+        val result: MutableList<AHKVariable> = ArrayList()
         val virtualFiles = FileTypeIndex.getFiles(AHKFileType, GlobalSearchScope.allScope(project!!))
         for (virtualFile in virtualFiles) {
             val simpleFile = PsiManager.getInstance(project).findFile(virtualFile!!) as AHKFile?
             if (simpleFile != null) {
-                val properties: Array<AHKProperty?>? = PsiTreeUtil.getChildrenOfType(simpleFile, AHKProperty::class.java)
+                val properties: Array<AHKVariable?>? = PsiTreeUtil.getChildrenOfType(simpleFile, AHKVariable::class.java)
                 if (properties != null) {
                     result.addAll(properties.map {
                         it!!

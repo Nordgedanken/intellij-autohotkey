@@ -7,14 +7,14 @@ import com.intellij.psi.PsiNameIdentifierOwner
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.stubs.IStubElementType
 import com.intellij.psi.stubs.StubElement
-import de.nordgedanken.auto_hotkey.psi.AHKTypes.KEY
+import de.nordgedanken.auto_hotkey.psi.AHKTypes.IDENTIFIER
 import de.nordgedanken.auto_hotkey.stubs.AHKNamedStub
 
 interface AHKNamedElement : AHKElement, PsiNamedElement, NavigatablePsiElement
 
 abstract class AHKNamedElementImpl(node: ASTNode) : AHKElementImpl(node), PsiNameIdentifierOwner {
 
-    override fun getNameIdentifier(): PsiElement? = findChildByType(KEY)
+    override fun getNameIdentifier(): PsiElement? = findChildByType(IDENTIFIER)
 
     override fun getName(): String? = nameIdentifier?.unescapedText
 
@@ -37,7 +37,7 @@ abstract class AHKStubbedNamedElementImpl<StubT> : AHKStubbedElementImpl<StubT>,
 
     constructor(stub: StubT, nodeType: IStubElementType<*, *>) : super(stub, nodeType)
 
-    override fun getNameIdentifier(): PsiElement? = findChildByType(KEY)
+    override fun getNameIdentifier(): PsiElement? = findChildByType(IDENTIFIER)
 
     override fun getName(): String? {
         val stub = greenStub

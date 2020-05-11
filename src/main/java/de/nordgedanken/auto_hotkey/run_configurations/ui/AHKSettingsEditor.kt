@@ -9,17 +9,16 @@ import com.intellij.ui.layout.LayoutBuilder
 import com.intellij.ui.layout.Row
 import com.intellij.ui.layout.panel
 import de.nordgedanken.auto_hotkey.run_configurations.AHKRunConfiguration
-import org.jetbrains.annotations.NotNull
 import javax.swing.JComponent
 
 
 class AHKSettingsEditor(private val project: Project) : SettingsEditor<AHKRunConfiguration>() {
     private val command = CommandLineEditor(project, "")
 
-    override fun resetEditorFrom(s: @NotNull AHKRunConfiguration) {}
+    override fun resetEditorFrom(s: AHKRunConfiguration) {}
 
     @Throws(ConfigurationException::class)
-    override fun applyEditorTo(s: @NotNull AHKRunConfiguration) {
+    override fun applyEditorTo(s: AHKRunConfiguration) {
     }
 
     override fun createEditor(): JComponent = panel {

@@ -58,29 +58,31 @@
     GREATER_OR_EQUAL     =  '>='
     GREATER              =  '>'
     IF                   = 'if'
+    DOT                  = '.'
 
 
     DEFAULT   = 'default_kw'
   ]
 
   extends("(.+Expr)") = Expr
+  extends("Pat(Ident)") = Pat
 
   generateTokenAccessors=true
 
-  consumeTokenMethod("((?!.*_with_recover).*_recover)") = "consumeTokenFast"
+  consumeTokenMethod("((?!.*_with_recover).*_recover)|(.*Expr)") = "consumeTokenFast"
 }
 ahkFile ::= Items*
 
-private Item_with_recover ::= !('}' | <<eof>>) ITEM {
+private Items ::= Item_with_recover*
+private Item_with_recover ::= !('}' | <<eof>>) Item {
   pin = 1
   recoverWhile = Item_recover
 }
 
-private Item_recover ::= !('}' )
+private Item_recover ::= !('}' | Item )
 
-private Items ::= Item_with_recover*
 
-fake Block ::= '{' (ITEM)* '}' {
+fake Block ::= '{' (Item)* Expr? '}' {
   pin = 1
   implements = "de.nordgedanken.auto_hotkey.psi.ext.AHKItemsOwner"
   extends = "de.nordgedanken.auto_hotkey.psi.ext.AHKStubbedElementImpl<?>"
@@ -91,7 +93,7 @@ fake Block ::= '{' (ITEM)* '}' {
 Stmt ::= property {
   mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKStmtMixin"
 }
-AnyExpr ::= "" {
+AnyExpr ::= (StringLiteral|NUMBERS|identifier|expression_script_block|FUNCTION_CALL) {
    elementType = Expr
    name = "expr"
  }
@@ -100,12 +102,12 @@ upper ExprStmtUpper ::= () (<<isBlock>>) { pin = 1 elementType = ExprStmt }
 ExprStmtOrLastExpr ::= &'}' | ExprStmtUpper {
   elementType = Expr
 }
-private BlockElement ::= !'}' ( ExprStmtOrLastExpr | property | ITEM) {
+private BlockElement ::= !'}' ( ExprStmtOrLastExpr | property | Item) {
   pin = 1
   recoverWhile = BlockElement_recover
 }
 
-private Expr_first ::='{' | '(' | true | false | if | for | continue | break  | loop | match
+private Expr_first ::= Return | '{' | '(' | true | false | if | for | continue | break  | loop | match
 
 private BlockElement_recover ::= !('}' | Expr_first)
 
@@ -118,7 +120,12 @@ SimpleBlock ::= '{' BlockElement* '}' {
   elementTypeFactory = "de.nordgedanken.auto_hotkey.stubs.StubImplementationsKt.factory"
 }
 
-Expr ::= BlockExpr {
+RetExpr ::= Return Expr? {
+  elementTypeFactory = "de.nordgedanken.auto_hotkey.stubs.StubImplementationsKt.factory"
+}
+
+Expr ::= RetExpr
+         | BlockExpr {
                     mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKExprMixin"
                     stubClass = "de.nordgedanken.auto_hotkey.stubs.AHKPlaceholderStub"
                   }
@@ -134,7 +141,22 @@ private default_ ::= <<defaultKeyword>>
 
 private ShallowBlock ::= <<parseCodeBlockLazy>>
 
-FnParameter ::= KEY
+    PatBinding ::= identifier !ForbiddenPatBindingLast {
+  implements = [ "de.nordgedanken.auto_hotkey.psi.ext.AHKMandatoryReferenceElement" ]
+  mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKPatBindingImplMixin"
+}
+
+private ForbiddenPatBindingLast ::= '(' | '{' | '!' {
+  consumeTokenMethod = "consumeTokenFast"
+}
+
+PatIdent ::= PatBinding
+
+Pat ::= PatIdent {
+  name = "pattern"
+}
+
+FnParameter ::= [Pat]
 
 private FnParameter_recover ::= !(')')
 private FnParameter_with_recover ::= !')' FnParameter (',' | &')') {
@@ -142,11 +164,11 @@ private FnParameter_with_recover ::= !')' FnParameter (',' | &')') {
   recoverWhile = FnParameter_recover
 }
 
-FnParameters          ::= '(' !',' FnParameter_with_recover*
+FnParameters          ::= '(' !','
+                           FnParameter_with_recover*
                           ')' { pin = 1 }
 
-Function ::= default_?
-             KEY
+Function ::= identifier
              FnParameters
              ShallowBlock
 {
@@ -160,38 +182,46 @@ Function ::= default_?
   elementTypeFactory = "de.nordgedanken.auto_hotkey.stubs.StubImplementationsKt.factory"
 }
 
-ITEM ::= (((KEY COMMA)+)
-           |property
-           |expression_script_block
-           |COMMENT
-           |CRLF
-           |COMMA
-           |NUMBER
-           |Function
-           |StringLiteral
-           |COLON
-           |HOTKEY
-           |STRING_CALL
-           |EXPRESSION_SCRIPT
-           |C_COMMENT
-           |IF
-           |HEX
-           |RPAREN
-           |BLOCK_COMMENT){
+Item ::= default_? (FUNCTION_CALL
+         | C_COMMENT_FULL
+         | HOTKEY
+         | variable
+         | RetExpr
+         | key_list
+         | Function
+         | StringLiteral
+         | expression_script_block
+         | HEX
+         | NUMBERS) {
     name = "item"
+    elementType = ToBeUpped
+    hooks = [ leftBinder = "ADJACENT_LINE_COMMENTS" ]
 }
+
+key_list ::= ((identifier|NUMBERS|StringLiteral|EXPRESSION_SCRIPT) COMMA)+ (identifier|NUMBERS|StringLiteral|EXPRESSION_SCRIPT)?
 
 StringLiteral ::= STRING {
   implements = "com.intellij.psi.PsiLanguageInjectionHost"
   mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKStringLiteralMixin"
-  //methods = [isValidHost updateText createLiteralTextEscaper]
 }
 
-//function_call ::= KEY LPAREN (StringLiteral | property)? RPAREN
-property ::= ((KEY VAR_ASIGN (StringLiteral|NUMBER|KEY))|(C_COMMENT (StringLiteral|NUMBER|KEY))) {
-  //methods=[getKey getValue]
-  //implements="de.nordgedanken.auto_hotkey.psi.AHKNamedElement"
-  mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKPropertyMixin"
+variable ::= identifier VAR_ASIGN AnyExpr {
+  extends = Stmt
+  pin = "property"
 }
 
-expression_script_block ::= (EXPRESSION_SCRIPT KEY (StringLiteral|NUMBER|KEY))
+expression_script_block ::= (EXPRESSION_SCRIPT identifier (StringLiteral|NUMBERS|identifier) EXPRESSION_SCRIPT)
+
+HOTKEY ::= ("#"|"!"|"^"|"+"|"&"|"<"|">"|"<^>!"|"*"|"~"|"$")? ANY_CHAR "::"
+
+HEX ::= HEX_DEF
+
+FUNCTION_CALL ::= identifier (StringLiteral|NUMBERS|identifier|expression_script_block|FnParameters) !("{")
+
+C_COMMENT_FULL ::= C_COMMENT (StringLiteral|NUMBERS|(identifier DOT identifier)|identifier|expression_script_block|WHITE_SPACE)
+
+// Use as an `elementType` for always upped rules like `Rule ::= FOO BAR ( upper1 | upper2 )`
+// (without an `elementType` upper rules won't work, GK can change element type of the frame
+// only if it already has some type)
+// https://github.com/JetBrains/Grammar-Kit/blob/d716ade658/src/org/intellij/grammar/parser/GeneratedParserUtilBase.java#L656
+fake ToBeUpped ::=

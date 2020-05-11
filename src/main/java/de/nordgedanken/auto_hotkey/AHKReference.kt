@@ -4,7 +4,7 @@ import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
-import de.nordgedanken.auto_hotkey.psi.AHKProperty
+import de.nordgedanken.auto_hotkey.psi.AHKVariable
 import de.nordgedanken.auto_hotkey.psi.ext.getKey
 import java.util.*
 
@@ -13,7 +13,7 @@ class AHKReference(element: PsiElement, textRange: TextRange) : PsiReferenceBase
     private val key: String = element.text.substring(textRange.startOffset, textRange.endOffset)
     override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> {
         val project = myElement?.project
-        val properties: List<AHKProperty> = AHKUtil.findProperties(project, key)
+        val properties: List<AHKVariable> = AHKUtil.findProperties(project, key)
         val results: MutableList<ResolveResult> = ArrayList()
         for (property in properties) {
             results.add(PsiElementResolveResult(property))
@@ -28,7 +28,7 @@ class AHKReference(element: PsiElement, textRange: TextRange) : PsiReferenceBase
 
     override fun getVariants(): Array<Any> {
         val project = myElement?.project
-        val properties: List<AHKProperty> = AHKUtil.findProperties(project)
+        val properties: List<AHKVariable> = AHKUtil.findProperties(project)
         val variants: MutableList<LookupElement> = ArrayList()
         for (property in properties) {
             if (property.getKey().isNotBlank() && property.getKey().isNotEmpty()) {

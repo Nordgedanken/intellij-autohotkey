@@ -27,7 +27,6 @@ class AHKPsiFactory(
                     ) as AHKFile
 
     fun createNewline(): PsiElement = createWhitespace("\n")
-
     fun createWhitespace(ws: String): PsiElement =
             PsiParserFacade.SERVICE.getInstance(project).createWhiteSpaceFromText(ws)
 

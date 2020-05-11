@@ -6,7 +6,7 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.stubs.StringStubIndexExtension
 import com.intellij.psi.stubs.StubIndex
 import com.intellij.psi.stubs.StubIndexKey
-import de.nordgedanken.auto_hotkey.psi.AHKNamedElement
+import de.nordgedanken.auto_hotkey.psi.ext.AHKNamedElement
 import de.nordgedanken.auto_hotkey.stubs.AHKFileStub
 
 class AHKNamedElementIndex : StringStubIndexExtension<AHKNamedElement>() {
