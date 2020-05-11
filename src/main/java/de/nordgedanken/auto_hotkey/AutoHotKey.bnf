@@ -98,7 +98,7 @@ SimpleBlock ::= '{' BlockElement* '}' {
 Stmt ::= property {
   mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKStmtMixin"
 }
-AnyExpr ::= (StringLiteral|NUMBERS|identifier|expression_script_block|FUNCTION_CALL) {
+AnyExpr ::= (STRING_LITERAL|NUMBERS|identifier|expression_script_block|FUNCTION_CALL) {
    elementType = Expr
    name = "expr"
  }
@@ -134,6 +134,18 @@ Expr ::= RetExpr
                     mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKExprMixin"
                     stubClass = "de.nordgedanken.auto_hotkey.stubs.AHKPlaceholderStub"
                   }
+
+LitExpr ::= AnyLitToken {
+ elementTypeFactory = "de.nordgedanken.auto_hotkey.stubs.StubImplementationsKt.factory"
+ implements = [ "com.intellij.psi.PsiLanguageInjectionHost"
+                "com.intellij.psi.ContributedReferenceHost" ]
+ mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKLitExprMixin"
+}
+
+private AnyLitToken ::=   STRING_LITERAL
+                        | INTEGER_LITERAL {
+  consumeTokenMethod = "consumeTokenFast"
+}
 
 //TODO might need to be revisited
 InnerAttrsAndBlock ::= '{' '}' {
@@ -194,7 +206,7 @@ Item ::= default_? (FUNCTION_CALL
          | RetExpr
          | key_list
          | Function
-         | StringLiteral
+         | STRING_LITERAL
          | expression_script_block
          | HEX
          | NUMBERS) {
@@ -203,27 +215,22 @@ Item ::= default_? (FUNCTION_CALL
     hooks = [ leftBinder = "ADJACENT_LINE_COMMENTS" ]
 }
 
-key_list ::= ((identifier|NUMBERS|StringLiteral|EXPRESSION_SCRIPT) COMMA)+ (identifier|NUMBERS|StringLiteral|EXPRESSION_SCRIPT)?
-
-StringLiteral ::= STRING {
-  implements = "com.intellij.psi.PsiLanguageInjectionHost"
-  mixin = "de.nordgedanken.auto_hotkey.psi.ext.AHKStringLiteralMixin"
-}
+key_list ::= ((identifier|NUMBERS|STRING_LITERAL|EXPRESSION_SCRIPT) COMMA)+ (identifier|NUMBERS|STRING_LITERAL|EXPRESSION_SCRIPT)?
 
 variable ::= identifier VAR_ASIGN AnyExpr {
   extends = Stmt
   pin = "property"
 }
 
-expression_script_block ::= (EXPRESSION_SCRIPT identifier (StringLiteral|NUMBERS|identifier) EXPRESSION_SCRIPT)
+expression_script_block ::= (EXPRESSION_SCRIPT identifier (STRING_LITERAL|NUMBERS|identifier) EXPRESSION_SCRIPT)
 
 HOTKEY ::= ("#"|"!"|"^"|"+"|"&"|"<"|">"|"<^>!"|"*"|"~"|"$")? ANY_CHAR "::"
 
 HEX ::= HEX_DEF
 
-FUNCTION_CALL ::= identifier (StringLiteral|NUMBERS|identifier|expression_script_block)
+FUNCTION_CALL ::= identifier (STRING_LITERAL|NUMBERS|identifier|expression_script_block)
 
-C_COMMENT_FULL ::= C_COMMENT (StringLiteral|NUMBERS|(identifier DOT identifier)|identifier|expression_script_block|WHITE_SPACE)
+C_COMMENT_FULL ::= C_COMMENT (STRING_LITERAL|NUMBERS|(identifier DOT identifier)|identifier|expression_script_block|WHITE_SPACE)
 
 // Use as an `elementType` for always upped rules like `Rule ::= FOO BAR ( upper1 | upper2 )`
 // (without an `elementType` upper rules won't work, GK can change element type of the frame

@@ -1,12 +1,15 @@
 package de.nordgedanken.auto_hotkey
 
 import com.intellij.openapi.diagnostic.Logger
-import com.intellij.openapi.diagnostic.LoggerRt
-import com.intellij.openapi.util.TextRange
+import com.intellij.openapi.util.Condition
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
+import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReference
+import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferenceSet
 import com.intellij.util.ProcessingContext
-
+import de.nordgedanken.auto_hotkey.psi.AHKLitExpr
+import de.nordgedanken.auto_hotkey.psi.AHKLiteralKind
+import de.nordgedanken.auto_hotkey.psi.kind
 
 class AHKReferenceContributor : PsiReferenceContributor() {
     private val log: Logger = Logger.getInstance("#de.nordgedanken.auto_hotkey.AHKReferenceContributor")
@@ -14,23 +17,35 @@ class AHKReferenceContributor : PsiReferenceContributor() {
         registrar.registerReferenceProvider(PlatformPatterns.psiElement(PsiLiteralExpression::class.java),
                 object : PsiReferenceProvider() {
                     override fun getReferencesByElement(element: PsiElement,
-                                                        context: ProcessingContext): Array<PsiReference> {
-                        val literalExpression: PsiLiteralExpression = element as PsiLiteralExpression
-                        val value: String? = if (literalExpression.value is String) literalExpression.value as String? else null
-
-                        // TODO FIX THIS
-                        //&& value.startsWith(SIMPLE_PREFIX_STR + SIMPLE_SEPARATOR_STR)
-
-
-                        log.debug("PsiReferenceProvider value: $value")
-                        if (value != null) {
-                            val property = TextRange(0, value.length + 1)
-                            val reference = AHKReference(element, property)
-                            log.debug("AHKReference: $reference")
-                            return arrayOf(reference)
-                        }
-                        return PsiReference.EMPTY_ARRAY
+                                                        context: ProcessingContext): Array<out FileReference> {
+                        val stringLiteral = (element as? AHKLitExpr)?.kind as? AHKLiteralKind.String
+                                ?: return emptyArray()
+                        if (stringLiteral.isByte) return emptyArray()
+                        val startOffset = stringLiteral.offsets.value?.startOffset ?: return emptyArray()
+                        val fs = element.containingFile.originalFile.virtualFile.fileSystem
+                        return AHKLiteralFileReferenceSet(stringLiteral.value
+                                ?: "", element, startOffset, fs.isCaseSensitive).allReferences
                     }
                 })
+    }
+}
+
+private class AHKLiteralFileReferenceSet(
+        str: String,
+        element: AHKLitExpr,
+        startOffset: Int,
+        isCaseSensitive: Boolean
+) : FileReferenceSet(str, element, startOffset, null, isCaseSensitive) {
+
+    override fun getDefaultContexts(): Collection<PsiFileSystemItem> {
+        return when (val parent = element.parent) {
+            else -> emptyList()
+        }
+    }
+
+    override fun getReferenceCompletionFilter(): Condition<PsiFileSystemItem> {
+        return when (element.parent) {
+            else -> super.getReferenceCompletionFilter()
+        }
     }
 }

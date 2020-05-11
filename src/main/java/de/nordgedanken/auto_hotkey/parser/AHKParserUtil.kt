@@ -10,7 +10,7 @@ import com.intellij.psi.tree.TokenSet
 import de.nordgedanken.auto_hotkey.parser.AHKParserDefinition.Companion.EOL_COMMENT
 import de.nordgedanken.auto_hotkey.psi.AHKTypes.*
 import de.nordgedanken.auto_hotkey.psi.AHK_BLOCK_LIKE_EXPRESSIONS
-import de.nordgedanken.auto_hotkey.psi.ext.tokenSetOf
+import de.nordgedanken.auto_hotkey.psi.tokenSetOf
 
 @Suppress("UNUSED_PARAMETER")
 object AHKParserUtil : GeneratedParserUtilBase() {

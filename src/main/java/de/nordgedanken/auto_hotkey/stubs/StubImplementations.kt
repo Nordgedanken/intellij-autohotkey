@@ -14,26 +14,90 @@ import com.intellij.psi.tree.*
 import com.intellij.util.BitUtil
 import com.intellij.util.CharTable
 import com.intellij.util.diff.FlyweightCapableTreeStructure
+import com.intellij.util.io.DataInputOutputUtil
 import de.nordgedanken.auto_hotkey.AHKLanguage
 import de.nordgedanken.auto_hotkey.AutoHotKey.flex.AHKLexer
 import de.nordgedanken.auto_hotkey.parser.AHKParser
-import de.nordgedanken.auto_hotkey.psi.AHKBlock
-import de.nordgedanken.auto_hotkey.psi.AHKBlockExpr
-import de.nordgedanken.auto_hotkey.psi.AHKFile
+import de.nordgedanken.auto_hotkey.psi.*
 import de.nordgedanken.auto_hotkey.psi.AHKTypes.*
-import de.nordgedanken.auto_hotkey.psi.AHK_ITEMS
 import de.nordgedanken.auto_hotkey.psi.ext.AHKElement
+import de.nordgedanken.auto_hotkey.psi.ext.stubKind
 import de.nordgedanken.auto_hotkey.psi.impl.AHKBlockExprImpl
 import de.nordgedanken.auto_hotkey.psi.impl.AHKBlockImpl
+import de.nordgedanken.auto_hotkey.psi.impl.AHKLitExprImpl
 import de.nordgedanken.auto_hotkey.psi.impl.AHKRetExprImpl
+import de.nordgedanken.auto_hotkey.types.ty.TyInteger
 
 fun factory(name: String): AHKStubElementType<*, *> = when (name) {
     "FUNCTION" -> AHKFunctionStub.Type
     "BLOCK" -> AHKBlockStubType
     "BLOCK_EXPR" -> AHKBlockExprStub.Type
     "RET_EXPR" -> AHKExprStubType("RET_EXPR", ::AHKRetExprImpl)
+    "LIT_EXPR" -> AHKLitExprStub.Type
     else -> error("Unknown element $name")
 }
+
+class AHKLitExprStub(
+        parent: StubElement<*>?, elementType: IStubElementType<*, *>,
+        val kind: AHKStubLiteralKind?
+) : AHKPlaceholderStub(parent, elementType) {
+    object Type : AHKStubElementType<AHKLitExprStub, AHKLitExpr>("LIT_EXPR") {
+
+        override fun shouldCreateStub(node: ASTNode): Boolean = shouldCreateExprStub(node)
+
+        override fun serialize(stub: AHKLitExprStub, dataStream: StubOutputStream) {
+            stub.kind.serialize(dataStream)
+        }
+
+        override fun deserialize(dataStream: StubInputStream, parentStub: StubElement<*>?): AHKLitExprStub =
+                AHKLitExprStub(parentStub, this, AHKStubLiteralKind.deserialize(dataStream))
+
+        override fun createStub(psi: AHKLitExpr, parentStub: StubElement<*>?): AHKLitExprStub =
+                AHKLitExprStub(parentStub, this, psi.stubKind)
+
+        override fun createPsi(stub: AHKLitExprStub): AHKLitExpr = AHKLitExprImpl(stub, this)
+    }
+}
+
+sealed class AHKStubLiteralKind(val kindOrdinal: Int) {
+    class String(val value: kotlin.String?, val isByte: kotlin.Boolean) : AHKStubLiteralKind(0)
+    class Integer(val value: Long?, val ty: TyInteger?) : AHKStubLiteralKind(1)
+
+    companion object {
+        fun deserialize(dataStream: StubInputStream): AHKStubLiteralKind? {
+            with(dataStream) {
+                return when (readByte().toInt()) {
+                    0 -> String(readUTFFastAsNullable(), readBoolean())
+                    1 -> Integer(readLongAsNullable(), TyInteger.VALUES.getOrNull(readByte().toInt()))
+                    else -> null
+                }
+            }
+        }
+    }
+}
+
+private fun AHKStubLiteralKind?.serialize(dataStream: StubOutputStream) {
+    if (this == null) {
+        dataStream.writeByte(-1)
+        return
+    }
+    dataStream.writeByte(kindOrdinal)
+    when (this) {
+        is AHKStubLiteralKind.String -> {
+            dataStream.writeUTFFastAsNullable(value)
+            dataStream.writeBoolean(isByte)
+        }
+        is AHKStubLiteralKind.Integer -> {
+            dataStream.writeLongAsNullable(value)
+            dataStream.writeByte(ty?.ordinal ?: -1)
+        }
+    }
+}
+
+private fun StubInputStream.readLongAsNullable(): Long? = DataInputOutputUtil.readNullable(this, this::readLong)
+private fun StubInputStream.readUTFFastAsNullable(): String? = DataInputOutputUtil.readNullable(this, this::readUTFFast)
+private fun StubOutputStream.writeUTFFastAsNullable(value: String?) = DataInputOutputUtil.writeNullable(this, value, this::writeUTFFast)
+private fun StubOutputStream.writeLongAsNullable(value: Long?) = DataInputOutputUtil.writeNullable(this, value, this::writeLong)
 
 class AHKExprStubType<PsiT : AHKElement>(
         debugName: String,

@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     idea
-    id("org.jetbrains.intellij") version "0.4.16"
+    id("org.jetbrains.intellij") version "0.4.18"
     id("org.jetbrains.grammarkit") version "2020.1.2"
     kotlin("jvm") version "1.3.72"
     java

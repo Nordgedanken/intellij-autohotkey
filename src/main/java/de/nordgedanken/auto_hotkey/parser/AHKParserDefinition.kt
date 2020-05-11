@@ -13,12 +13,8 @@ import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 import de.nordgedanken.auto_hotkey.AutoHotKey.flex.AHKLexer
-import de.nordgedanken.auto_hotkey.psi.AHKFile
-import de.nordgedanken.auto_hotkey.psi.AHKTokenType
-import de.nordgedanken.auto_hotkey.psi.AHKTypes
+import de.nordgedanken.auto_hotkey.psi.*
 import de.nordgedanken.auto_hotkey.psi.AHKTypes.STRING_LITERAL
-import de.nordgedanken.auto_hotkey.psi.AHK_COMMENTS
-import de.nordgedanken.auto_hotkey.psi.ext.tokenSetOf
 import de.nordgedanken.auto_hotkey.stubs.AHKFileStub
 
 class AHKParserDefinition : ParserDefinition {
@@ -27,7 +23,7 @@ class AHKParserDefinition : ParserDefinition {
             AHKFile(viewProvider)
 
     override fun spaceExistanceTypeBetweenTokens(left: ASTNode, right: ASTNode): ParserDefinition.SpaceRequirements {
-        if (left.elementType in tokenSetOf(EOL_COMMENT)) return ParserDefinition.SpaceRequirements.MUST_LINE_BREAK
+        if (left.elementType in AHK_EOL_COMMENTS) return ParserDefinition.SpaceRequirements.MUST_LINE_BREAK
         return LanguageUtil.canStickTokensTogetherByLexer(left, right, AHKLexer())
     }
 

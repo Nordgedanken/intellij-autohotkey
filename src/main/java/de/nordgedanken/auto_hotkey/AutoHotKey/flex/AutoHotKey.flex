@@ -53,7 +53,12 @@ import static de.nordgedanken.auto_hotkey.parser.AHKParserDefinition.*;
 
 %unicode
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Identifier
+///////////////////////////////////////////////////////////////////////////////////////////////////
 IDENTIFIER = [_\p{xidstart}][\p{xidcontinue}]*
+SUFFIX     = {IDENTIFIER}
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Whitespaces
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,8 +83,17 @@ C_COMMENT = "#"{IDENTIFIER}
 
 HOTKEY = ("#"|"!"|"^"|"+"|"&"|"<"|">"|"<^>!"|"*"|"~"|"$")? [a-zA-Z]? "::"
 
-HEX_DEF = "0x"([A-Fa-f0-9])*
+INT_LITERAL = ( {DEC_LITERAL}
+              | {HEX_LITERAL}
+              | {OCT_LITERAL}
+              | {BIN_LITERAL} ) {SUFFIX}?
 
+DEC_LITERAL = [0-9] [0-9_]*
+HEX_LITERAL = "0x" [a-fA-F0-9_]*
+OCT_LITERAL = "0o" [0-7_]*
+BIN_LITERAL = "0b" [01_]*
+
+STRING_LITERAL = \" ( [^\\\"] | \\[^] )* ( \" {SUFFIX}? | \\ )?
 %%
 
 
@@ -110,7 +124,8 @@ HEX_DEF = "0x"([A-Fa-f0-9])*
     {END_OF_LINE_COMMENT}                                   { return EOL_COMMENT;                                     }
 
 
-    {STRING}                                                { return AHKTypes.STRING;                                 }
+    {STRING_LITERAL}                                        { return AHKTypes.STRING_LITERAL;                         }
+    {INT_LITERAL}                                           { return AHKTypes.INTEGER_LITERAL;                        }
 
     {VAR_ASIGN}                                             { return AHKTypes.VAR_ASIGN;                              }
 
@@ -126,7 +141,7 @@ HEX_DEF = "0x"([A-Fa-f0-9])*
 
     {HOTKEY}                                                { return AHKTypes.HOTKEY;                                 }
 
-    {HEX_DEF}                                               { return AHKTypes.HEX;                                    }
+    {HEX_LITERAL}                                           { return AHKTypes.HEX;                                    }
 
     "/*"                                                    { yybegin(IN_BLOCK_COMMENT); yypushback(2);               }
     {IDENTIFIER}                                            { return AHKTypes.IDENTIFIER;                             }
