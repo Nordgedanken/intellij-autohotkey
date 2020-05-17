@@ -1,10 +1,11 @@
 import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.rjeschke.txtmark.Processor
 
 plugins {
     idea
-    id("org.jetbrains.intellij") version "0.4.20"
+    id("org.jetbrains.intellij") version "0.4.21"
     id("org.jetbrains.grammarkit") version "2020.1.4"
     kotlin("jvm") version "1.3.72"
     java
@@ -29,7 +30,6 @@ tasks.publishPlugin {
     if (intellijPublishToken != null) {
         token(intellijPublishToken)
     }
-
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
@@ -43,33 +43,18 @@ configure<JavaPluginConvention> {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("es.nitaur.markdown:txtmark:0.16")
+    }
+}
+
 tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
-    changeNotes("""
-        <h2>0.1.3</h2>
-        <h3>Fixed</h3>
-        <ul>
-            <li>Crashes</li>
-        </ul>
-        <h3>Added</h3>
-        <ul>
-            <li>Basic Function support and Improved language grammar (Function Bodys are not yet working but WIP)</li>
-        </ul>
-        <h2>0.1.2</h2>
-        <h3>Fixed</h3>
-        <ul>
-            <li>Make compatible with newer IDE versions</li>
-        </ul>
-        <h2>0.1.1</h2>
-        <h3>Fixed</h3>
-        <ul>
-            <li>Fix "New File" action</li>
-        </ul>
-        <h2>0.1.0</h2>
-        <h3>Added</h3>
-        <ul>
-            <li>Initial Release</li>
-            <li>Added most basic features</li>
-        </ul>""")
+    val htmlChangeNotes = Processor.process(rootProject.file("CHANGELOG.md").readText())
+    changeNotes(htmlChangeNotes)
 }
 
 
