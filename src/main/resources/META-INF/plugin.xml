@@ -3,44 +3,10 @@
     <name>AutoHotkey Language</name>
     <vendor email="info@nordgedanken.de" url="https://github.com/Nordgedanken/">Nordgedanken</vendor>
 
-    <description><![CDATA[
-    A simple Plugin to bring the AutoHotKey Syntax highlighting into Jetbrains!
-    ]]></description>
-
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.java</depends>
-
-    <change-notes><![CDATA[
-        <h2>0.1.3</h2>
-        <h3>Fixed</h3>
-        <ul>
-            <li>Crashes</li>
-        </ul>
-        <h3>Added</h3>
-        <ul>
-            <li>Basic Function support and Improved language grammar (Function Bodys are not yet working but WIP)</li>
-        </ul>
-        <h2>0.1.2</h2>
-        <h3>Fixed</h3>
-        <ul>
-            <li>Make compatible with newer IDE versions</li>
-        </ul>
-        <h2>0.1.1</h2>
-        <h3>Fixed</h3>
-        <ul>
-            <li>Fix "New File" action</li>
-        </ul>
-        <h2>0.1.0</h2>
-        <h3>Added</h3>
-        <ul>
-            <li>Initial Release</li>
-            <li>Added most basic features</li>
-        </ul>
-    ]]></change-notes>
-
-    <version>0.1.3</version>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="AHK script" implementationClass="de.nordgedanken.auto_hotkey.AHKFileType"

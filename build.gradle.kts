@@ -1,6 +1,8 @@
 import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.rjeschke.txtmark.Processor
+import java.util.Scanner
 
 plugins {
     idea
@@ -29,7 +31,6 @@ tasks.publishPlugin {
     if (intellijPublishToken != null) {
         token(intellijPublishToken)
     }
-
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
@@ -43,33 +44,33 @@ configure<JavaPluginConvention> {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
+
+buildscript {
+    dependencies {
+        classpath("es.nitaur.markdown:txtmark:0.16")
+    }
+}
+
+val pluginDescMkdown = """
+A simple plugin for developing AutoHotKey scripts. The following features are available:
+
+- Syntax highlighting
+- Run configurations
+- More to come in the future...
+
+*Note: This plugin is under development and does not have a stable release yet*
+""".trimIndent()
+
 tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
-    changeNotes("""
-        <h2>0.1.3</h2>
-        <h3>Fixed</h3>
-        <ul>
-            <li>Crashes</li>
-        </ul>
-        <h3>Added</h3>
-        <ul>
-            <li>Basic Function support and Improved language grammar (Function Bodys are not yet working but WIP)</li>
-        </ul>
-        <h2>0.1.2</h2>
-        <h3>Fixed</h3>
-        <ul>
-            <li>Make compatible with newer IDE versions</li>
-        </ul>
-        <h2>0.1.1</h2>
-        <h3>Fixed</h3>
-        <ul>
-            <li>Fix "New File" action</li>
-        </ul>
-        <h2>0.1.0</h2>
-        <h3>Added</h3>
-        <ul>
-            <li>Initial Release</li>
-            <li>Added most basic features</li>
-        </ul>""")
+    val latestChangesRegex = """(## \[\d+\.\d+\.\d+\][\w\W]*?)## \["""
+    val latestChangesMkdown = Scanner(rootProject.file("CHANGELOG.md")).findWithinHorizon(latestChangesRegex, 0)
+    var latestChangeNotes = latestChangesRegex.toRegex().find(latestChangesMkdown)!!.groups[1]!!.value
+    latestChangeNotes += "Please see [CHANGELOG.md](https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin/blob/master/CHANGELOG.md) for a full list of changes."
+    changeNotes(Processor.process(latestChangeNotes))
+
+    pluginDescription(Processor.process(pluginDescMkdown))
+
+    setVersion(version)
 }
 
 
