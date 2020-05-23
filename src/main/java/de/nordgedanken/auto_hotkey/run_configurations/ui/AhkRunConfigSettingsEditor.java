@@ -1,30 +1,42 @@
 package de.nordgedanken.auto_hotkey.run_configurations.ui;
 
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.options.SettingsEditor;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import de.nordgedanken.auto_hotkey.run_configurations.core.AhkRunConfig;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
 public class AhkRunConfigSettingsEditor extends SettingsEditor<AhkRunConfig> {
+	private final Project project;
 	private JTabbedPane configPane;
-	private JTextField pathToScript;
+	private TextFieldWithBrowseButton pathToScriptTextField;
 	private JTextField arguments;
 	private JComboBox scriptExecutor;
 
+	public AhkRunConfigSettingsEditor(Project project) {
+		this.project = project;
+	}
+
 	@Override
 	protected void resetEditorFrom(@NotNull AhkRunConfig s) {
-
+		pathToScriptTextField.setText(s.getPathToScript());
 	}
 
 	@Override
 	protected void applyEditorTo(@NotNull AhkRunConfig s) {
-		s.scriptPath = pathToScript.getText();
-		System.out.println("Saving: " + s.scriptPath);
+		s.setPathToScript(pathToScriptTextField.getText());
 	}
 
 	@Override
 	protected @NotNull JComponent createEditor() {
+		pathToScriptTextField.addBrowseFolderListener("Select AutoHotkey File",
+				"Please select the AutoHotkey script to execute",
+				project,
+				FileChooserDescriptorFactory.createSingleFileDescriptor("ahk"));
+
 		return configPane;
 	}
 }

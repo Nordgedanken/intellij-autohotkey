@@ -9,15 +9,16 @@ import de.nordgedanken.auto_hotkey.run_configurations.core.AhkRunConfig;
 import org.jetbrains.annotations.NotNull;
 
 public class AhkRunState extends CommandLineState {
-	private AhkRunConfig ahkRunConfig;
-	public AhkRunState(ExecutionEnvironment environment, AhkRunConfig ahkRunConfig) {
+	private final String pathToAhkScript;
+	public AhkRunState(ExecutionEnvironment environment) {
 		super(environment);
-		this.ahkRunConfig = ahkRunConfig;
+		AhkRunConfig environmentAhkRunConfig = (AhkRunConfig) environment.getRunnerAndConfigurationSettings().getConfiguration();
+		this.pathToAhkScript = environmentAhkRunConfig.getPathToScript();
 	}
 
 	@Override
 	protected @NotNull ProcessHandler startProcess() throws ExecutionException {
-		AhkCommandLine ahkCommandLine = new AhkCommandLine("C:\\Program Files\\AutoHotkey\\AutoHotkey.exe", "pathtomyscript");
+		AhkCommandLine ahkCommandLine = new AhkCommandLine("C:\\Program Files\\AutoHotkey\\AutoHotkey.exe", pathToAhkScript);
 		return new KillableProcessHandler(ahkCommandLine);
 	}
 }
