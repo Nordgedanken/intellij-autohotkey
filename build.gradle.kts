@@ -23,6 +23,8 @@ repositories {
 }
 
 dependencies {
+    implementation("com.google.flogger:flogger:0.5.1")
+    implementation("com.google.flogger:flogger-system-backend:0.5.1")
     testCompile("junit", "junit", "4.13")
 }
 

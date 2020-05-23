@@ -11,21 +11,24 @@
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="AHK script" implementationClass="de.nordgedanken.auto_hotkey.AHKFileType"
                   fieldName="INSTANCE" language="AutoHotKey" extensions="ahk"/>
+        <sdkType implementation="de.nordgedanken.auto_hotkey.sdk.AhkSdk"/>
+        <configurationType implementation="de.nordgedanken.auto_hotkey.run_configurations.core.AhkRunConfigType"/>
+
         <lang.parserDefinition language="AutoHotKey"
-                               implementationClass="de.nordgedanken.auto_hotkey.parser.AHKParserDefinition"/>
+        implementationClass="de.nordgedanken.auto_hotkey.parser.AHKParserDefinition"/>
+
         <stubElementTypeHolder class="de.nordgedanken.auto_hotkey.psi.AHKTypes"/>
         <lang.syntaxHighlighter language="AutoHotKey"
-                                       implementationClass="de.nordgedanken.auto_hotkey.AHKSyntaxHighlighter"/>
+        implementationClass="de.nordgedanken.auto_hotkey.AHKSyntaxHighlighter"/>
 
         <colorSettingsPage implementation="de.nordgedanken.auto_hotkey.AHKColorSettingsPage"/>
 
         <lang.findUsagesProvider language="AutoHotKey"
-                                 implementationClass="de.nordgedanken.auto_hotkey.search.AHKFindUsagesProvider"/>
+        implementationClass="de.nordgedanken.auto_hotkey.search.AHKFindUsagesProvider"/>
 
         <lang.commenter language="AutoHotKey" implementationClass="de.nordgedanken.auto_hotkey.AHKCommenter"/>
         <psi.referenceContributor implementation="de.nordgedanken.auto_hotkey.AHKReferenceContributor"/>
 
-        <configurationType implementation="de.nordgedanken.auto_hotkey.run_configurations.AHKRunConfigurationType"/>
 
 
         <annotator language="AutoHotKey" implementationClass="de.nordgedanken.auto_hotkey.annotator.AHKHighlightingAnnotator"/>
