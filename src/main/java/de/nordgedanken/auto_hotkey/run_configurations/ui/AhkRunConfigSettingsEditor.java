@@ -13,7 +13,7 @@ public class AhkRunConfigSettingsEditor extends SettingsEditor<AhkRunConfig> {
 	private final Project project;
 	private JTabbedPane configPane;
 	private TextFieldWithBrowseButton pathToScriptTextField;
-	private JTextField arguments;
+	private JTextField argumentsTextField;
 	private JComboBox scriptExecutor;
 
 	public AhkRunConfigSettingsEditor(Project project) {
@@ -23,11 +23,13 @@ public class AhkRunConfigSettingsEditor extends SettingsEditor<AhkRunConfig> {
 	@Override
 	protected void resetEditorFrom(@NotNull AhkRunConfig s) {
 		pathToScriptTextField.setText(s.getPathToScript());
+		argumentsTextField.setText(s.arguments);
 	}
 
 	@Override
 	protected void applyEditorTo(@NotNull AhkRunConfig s) {
 		s.setPathToScript(pathToScriptTextField.getText());
+		s.arguments = argumentsTextField.getText();
 	}
 
 	@Override

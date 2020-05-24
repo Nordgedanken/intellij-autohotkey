@@ -25,7 +25,9 @@ import org.jetbrains.annotations.Nullable;
 )
 public class AhkRunConfig extends RunConfigurationBase<Object> {
 	public static final String KEY_SCRIPTPATH = AhkConstants.PLUGIN_NAME + "scriptPath";
+	public static final String KEY_ARGUMENTS = AhkConstants.PLUGIN_NAME + "arguments";
 	private String pathToScript;
+	public String arguments;
 
 	protected AhkRunConfig(@NotNull Project project, @Nullable ConfigurationFactory factory, @Nullable String name) {
 		super(project, factory, name);
@@ -48,6 +50,7 @@ public class AhkRunConfig extends RunConfigurationBase<Object> {
 	public void readExternal(@NotNull Element element) {
 		super.readExternal(element);
 		pathToScript = JDOMExternalizerUtil.readField(element, KEY_SCRIPTPATH);
+		arguments = JDOMExternalizerUtil.readField(element, KEY_ARGUMENTS);
 	}
 
 	/**
@@ -57,6 +60,7 @@ public class AhkRunConfig extends RunConfigurationBase<Object> {
 	public void writeExternal(Element element) {
 		super.writeExternal(element);
 		JDOMExternalizerUtil.writeField(element, KEY_SCRIPTPATH, pathToScript);
+		JDOMExternalizerUtil.writeField(element, KEY_ARGUMENTS, arguments);
 	}
 
 	public String getPathToScript() {

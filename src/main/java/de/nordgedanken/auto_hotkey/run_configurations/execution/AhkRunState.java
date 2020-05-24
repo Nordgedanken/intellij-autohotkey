@@ -10,15 +10,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class AhkRunState extends CommandLineState {
 	private final String pathToAhkScript;
+	private final String arguments;
 	public AhkRunState(ExecutionEnvironment environment) {
 		super(environment);
 		AhkRunConfig environmentAhkRunConfig = (AhkRunConfig) environment.getRunnerAndConfigurationSettings().getConfiguration();
 		this.pathToAhkScript = environmentAhkRunConfig.getPathToScript();
+		this.arguments = environmentAhkRunConfig.arguments;
 	}
 
 	@Override
 	protected @NotNull ProcessHandler startProcess() throws ExecutionException {
-		AhkCommandLine ahkCommandLine = new AhkCommandLine("C:\\Program Files\\AutoHotkey\\AutoHotkey.exe", pathToAhkScript);
+		AhkCommandLine ahkCommandLine = new AhkCommandLine("C:\\Program Files\\AutoHotkey\\AutoHotkey.exe", pathToAhkScript, arguments);
 		return new KillableProcessHandler(ahkCommandLine);
 	}
 }
