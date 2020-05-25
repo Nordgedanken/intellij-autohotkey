@@ -1,5 +1,7 @@
 package de.nordgedanken.auto_hotkey.run_configurations.ui
-
+/**
+ * Commenting out for now. Will use this to implement an expandable textbox hopefully in a future release
+ *
 import com.intellij.openapi.options.ConfigurationException
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
@@ -33,3 +35,4 @@ class AHKSettingsEditor(private val project: Project) : SettingsEditor<AHKRunCon
         row(label) { init() }
     }
 }
+*/
