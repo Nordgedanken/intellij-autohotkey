@@ -8,6 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
+/**
+ * Creates a new type of run config to select when choosing a run config template. Registered in plugin.xml
+ */
 public class AhkRunConfigType implements ConfigurationType {
 	@Override
 	public @NotNull String getDisplayName() {

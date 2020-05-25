@@ -19,6 +19,9 @@ import org.jetbrains.annotations.NotNull;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+/**
+ * Gets the state of a run config when you decide to run it. Decides how execution will happen based on the run config properties.
+ */
 public class AhkRunState extends CommandLineState {
 	private final AhkRunConfig ahkRunConfig;
 	public AhkRunState(AhkRunConfig ahkRunConfig, ExecutionEnvironment environment) {

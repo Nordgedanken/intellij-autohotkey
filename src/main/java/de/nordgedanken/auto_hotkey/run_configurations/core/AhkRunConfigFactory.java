@@ -6,6 +6,9 @@ import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Produces new Ahk run configurations
+ */
 public class AhkRunConfigFactory extends ConfigurationFactory {
 
 	public AhkRunConfigFactory(ConfigurationType configurationType) {

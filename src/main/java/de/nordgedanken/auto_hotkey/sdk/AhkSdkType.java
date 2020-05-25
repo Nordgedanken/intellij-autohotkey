@@ -2,7 +2,6 @@ package de.nordgedanken.auto_hotkey.sdk;
 
 import com.google.common.flogger.FluentLogger;
 import com.intellij.openapi.projectRoots.*;
-import com.intellij.openapi.roots.OrderRootType;
 import de.nordgedanken.auto_hotkey.AHKIcons;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
@@ -13,9 +12,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Objects;
 import java.util.stream.Stream;
 
+/**
+ * Controls how the AutoHotkey Sdk type will look and work in the IDE. Registered in plugin.xml
+ */
 public final class AhkSdkType extends SdkType {
 	private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -33,6 +34,9 @@ public final class AhkSdkType extends SdkType {
 		return "C:\\Program Files\\AutoHotkey";
 	}
 
+	/**
+	 * Verified that there is an "AutoHotkey.exe" in the directory the user selects
+	 */
 	@Override
 	public boolean isValidSdkHome(String selectedSdkPath) {
 		try (Stream<Path> paths = Files.walk(Paths.get(selectedSdkPath), 1)) {
@@ -71,18 +75,12 @@ public final class AhkSdkType extends SdkType {
 
 	@Override
 	public void saveAdditionalData(@NotNull SdkAdditionalData additionalData, @NotNull Element additional) {
-
+		//do nothing for now
 	}
 
 	@Override
 	public boolean setupSdkPaths(@NotNull Sdk sdk, @NotNull SdkModel sdkModel) {
 		//all of this seems to do nothing right now. Have to figure it out
-		SdkModificator modificator = sdk.getSdkModificator();
-		modificator.removeRoots(OrderRootType.CLASSES);
-		modificator.addRoot(
-				Paths.get(Objects.requireNonNull(sdk.getHomePath()), "AutoHotkey.exe").toAbsolutePath().toString(),
-				OrderRootType.CLASSES);
-		modificator.commitChanges(); // save
 		return true;
 	}
 }

@@ -9,12 +9,14 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
+/**
+ * Contains the settings that are shown when editing a run configuration. This is bound to the .form file of the same name.
+ */
 public class AhkRunConfigSettingsEditor extends SettingsEditor<AhkRunConfig> {
 	private final Project project;
 	private JTabbedPane configPane;
 	private TextFieldWithBrowseButton pathToScriptTextField;
 	private JTextField argumentsTextField;
-	private JComboBox scriptExecutor;
 
 	public AhkRunConfigSettingsEditor(Project project) {
 		this.project = project;
@@ -38,7 +40,7 @@ public class AhkRunConfigSettingsEditor extends SettingsEditor<AhkRunConfig> {
 				"Please select the AutoHotkey script to execute",
 				project,
 				FileChooserDescriptorFactory.createSingleFileDescriptor("ahk"));
-
+//		argumentsTextField.setL
 		return configPane;
 	}
 }

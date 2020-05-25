@@ -1,6 +1,5 @@
 package de.nordgedanken.auto_hotkey.run_configurations.core;
 
-import com.intellij.execution.ExecutionException;
 import com.intellij.execution.Executor;
 import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.RunConfiguration;
@@ -12,20 +11,23 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.JDOMExternalizerUtil;
-import de.nordgedanken.auto_hotkey.run_configurations.AhkConstants;
+import de.nordgedanken.auto_hotkey.AhkPluginConstants;
 import de.nordgedanken.auto_hotkey.run_configurations.execution.AhkRunState;
 import de.nordgedanken.auto_hotkey.run_configurations.ui.AhkRunConfigSettingsEditor;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Defines instances of Ahk run configurations.
+ */
 @State(
-	name = AhkConstants.PLUGIN_NAME,
-	storages = {@Storage(AhkConstants.PLUGIN_NAME + "__run-configuration.xml")}
+	name = AhkPluginConstants.PLUGIN_NAME,
+	storages = {@Storage(AhkPluginConstants.PLUGIN_NAME + "__run-configuration.xml")}
 )
 public class AhkRunConfig extends RunConfigurationBase<Object> {
-	public static final String KEY_SCRIPTPATH = AhkConstants.PLUGIN_NAME + "scriptPath";
-	public static final String KEY_ARGUMENTS = AhkConstants.PLUGIN_NAME + "arguments";
+	public static final String KEY_SCRIPTPATH = AhkPluginConstants.PLUGIN_NAME + "scriptPath";
+	public static final String KEY_ARGUMENTS = AhkPluginConstants.PLUGIN_NAME + "arguments";
 	private String pathToScript;
 	private String arguments;
 
@@ -39,7 +41,7 @@ public class AhkRunConfig extends RunConfigurationBase<Object> {
 	}
 
 	@Override
-	public @Nullable RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment environment) throws ExecutionException {
+	public @Nullable RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment environment) {
 		return new AhkRunState(this, environment);
 	}
 
@@ -57,7 +59,7 @@ public class AhkRunConfig extends RunConfigurationBase<Object> {
 	 * This WRITES/persists configurations TO the State/Storage defined by this classes annotations.
 	 */
 	@Override
-	public void writeExternal(Element element) {
+	public void writeExternal(@NotNull Element element) {
 		super.writeExternal(element);
 		JDOMExternalizerUtil.writeField(element, KEY_SCRIPTPATH, pathToScript);
 		JDOMExternalizerUtil.writeField(element, KEY_ARGUMENTS, arguments);
