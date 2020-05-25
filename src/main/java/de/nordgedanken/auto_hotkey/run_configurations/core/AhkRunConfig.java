@@ -27,7 +27,7 @@ public class AhkRunConfig extends RunConfigurationBase<Object> {
 	public static final String KEY_SCRIPTPATH = AhkConstants.PLUGIN_NAME + "scriptPath";
 	public static final String KEY_ARGUMENTS = AhkConstants.PLUGIN_NAME + "arguments";
 	private String pathToScript;
-	public String arguments;
+	private String arguments;
 
 	protected AhkRunConfig(@NotNull Project project, @Nullable ConfigurationFactory factory, @Nullable String name) {
 		super(project, factory, name);
@@ -40,7 +40,7 @@ public class AhkRunConfig extends RunConfigurationBase<Object> {
 
 	@Override
 	public @Nullable RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment environment) throws ExecutionException {
-		return new AhkRunState(environment);
+		return new AhkRunState(this, environment);
 	}
 
 	/**
@@ -71,8 +71,16 @@ public class AhkRunConfig extends RunConfigurationBase<Object> {
 		this.pathToScript = pathToScript;
 	}
 
+	public String getArguments() {
+		return arguments;
+	}
+
+	public void setArguments(String arguments) {
+		this.arguments = arguments;
+	}
+
 	@Override
 	public String toString() {
-		return "AhkRunConfig{" + "pathToScript='" + pathToScript + '\'' + '}';
+		return "AhkRunConfig{" + "pathToScript='" + pathToScript + '\'' + ", arguments='" + getArguments() + '\'' + '}';
 	}
 }
