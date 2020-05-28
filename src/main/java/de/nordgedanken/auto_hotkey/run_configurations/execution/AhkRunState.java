@@ -3,7 +3,6 @@ package de.nordgedanken.auto_hotkey.run_configurations.execution;
 import com.intellij.CommonBundle;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.CommandLineState;
-import com.intellij.execution.configurations.CommandLineTokenizer;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.KillableProcessHandler;
 import com.intellij.execution.process.ProcessHandler;
@@ -43,9 +42,12 @@ public class AhkRunState extends CommandLineState {
 			return new KillableProcessHandler(new GeneralCommandLine(""));
 		} else {
 			String exePath = Paths.get(Objects.requireNonNull(projectSDK.getHomePath()), "AutoHotkey.exe").toAbsolutePath().toString();
-			AhkCommandLine ahkCommandLine = new AhkCommandLine(exePath,
-					ahkRunConfig.getPathToScript(),
-					new CommandLineTokenizer(ahkRunConfig.getArguments()));
+
+			AhkCommandLine ahkCommandLine = new AhkCommandLine();
+			ahkCommandLine.setWorkDirectory(ahkRunConfig.getProject().getBasePath());
+			ahkCommandLine.setExePath(exePath);
+			ahkCommandLine.addParameter(ahkRunConfig.getPathToScript());
+			ahkCommandLine.addCommandLineArgs(ahkRunConfig.getArguments());
 			return new KillableProcessHandler(ahkCommandLine);
 		}
 	}
