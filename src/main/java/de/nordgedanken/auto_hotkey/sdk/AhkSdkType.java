@@ -58,6 +58,9 @@ public final class AhkSdkType extends SdkType {
 		return "AutoHotkey";
 	}
 
+	/**
+	 * TODO: Run `FileAppend %A_AhkVersion%, *` on new sdk creation and save output to the Sdk object as version
+	 */
 	@Override
 	public final String getVersionString(String sdkHome) {
 		return "unknown version";

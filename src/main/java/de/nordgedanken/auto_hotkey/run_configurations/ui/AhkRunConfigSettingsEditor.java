@@ -40,7 +40,6 @@ public class AhkRunConfigSettingsEditor extends SettingsEditor<AhkRunConfig> {
 				"Please select the AutoHotkey script to execute",
 				project,
 				FileChooserDescriptorFactory.createSingleFileDescriptor("ahk"));
-//		argumentsTextField.setL
 		return configPane;
 	}
 }

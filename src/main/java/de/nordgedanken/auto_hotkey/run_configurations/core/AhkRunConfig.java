@@ -10,10 +10,14 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.Sdk;
+import com.intellij.openapi.roots.ProjectRootManager;
+import com.intellij.openapi.roots.ui.configuration.IdeaProjectSettingsService;
 import com.intellij.openapi.util.JDOMExternalizerUtil;
 import de.nordgedanken.auto_hotkey.AhkPluginConstants;
 import de.nordgedanken.auto_hotkey.run_configurations.execution.AhkRunState;
 import de.nordgedanken.auto_hotkey.run_configurations.ui.AhkRunConfigSettingsEditor;
+import de.nordgedanken.auto_hotkey.sdk.AhkSdkType;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,7 +46,20 @@ public class AhkRunConfig extends RunConfigurationBase<Object> {
 
 	@Override
 	public @Nullable RunProfileState getState(@NotNull Executor executor, @NotNull ExecutionEnvironment environment) {
-		return new AhkRunState(this, environment);
+		Sdk projectSDK = ProjectRootManager.getInstance(getProject()).getProjectSdk();
+		//validating the Ahk SDK here. Eventually this should be removed and validation should happen while editing the run config
+		if(projectSDK == null || !(projectSDK.getSdkType() instanceof AhkSdkType)) {
+			String fullMessage = "SDK Error: You must create an AutoHotkey SDK and select it as the project's default SDK in order to run the AHK script. <br>Otherwise IntelliJ does not know what to use to run your script";
+			NotificationUtil.showErrorPopup("Execution Error", fullMessage, getProject(), environment);
+			IdeaProjectSettingsService.getInstance(getProject()).openProjectSettings();
+		} else if(pathToScript.isEmpty()) {
+			String fullMessage = "Error: You must specify the path to the script you want to execute within the run config";
+			NotificationUtil.showErrorPopup("Execution Error", fullMessage, getProject(), environment);
+		} else {
+			//return execution runstate only if everything is good. Else return null so nothing happens
+			return new AhkRunState(this, environment);
+		}
+		return null;
 	}
 
 	/**

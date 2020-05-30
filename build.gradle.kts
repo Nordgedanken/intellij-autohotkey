@@ -22,10 +22,14 @@ repositories {
     mavenCentral()
 }
 
+tasks.test {
+    useJUnitPlatform()
+}
+
 dependencies {
     implementation("com.google.flogger:flogger:0.5.1")
     implementation("com.google.flogger:flogger-system-backend:0.5.1")
-    testCompile("junit", "junit", "4.13")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
 }
 
 val intellijPublishToken: String? by project

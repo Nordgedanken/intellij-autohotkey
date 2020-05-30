@@ -6,4 +6,5 @@ public final class AhkPluginConstants {
 	}
 
 	public static final String PLUGIN_NAME = "AutoHotkey_Language";
+	public static final String AHK_FILE_EXTENSION = "ahk";
 }
