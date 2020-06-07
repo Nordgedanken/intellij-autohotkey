@@ -14,10 +14,10 @@
     <img src="src/main/resources/META-INF/pluginIcon.svg" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">AutoHotKey Jetbrains Plugin</h3>
+  <h3 align="center">AutoHotkey Jetbrains Plugin</h3>
 
   <p align="center">
-    A simple Plugin to bring the AutoHotKey Syntax highlighting into Jetbrains!
+    A simple plugin to bring support for AutoHotkey into Jetbrains!
     <br />
     <a href="https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin"><strong>Explore the docs »</strong></a>
     <br />
@@ -132,6 +132,7 @@ Project Link: [https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin](ht
 ## Acknowledgements
 
 * [intellij-rust](https://github.com/intellij-rust/intellij-rust) - Which provides a huge starting point to implement undocumented Features
+* [intellij python plugin](https://github.com/JetBrains/intellij-community/tree/master/python) which also provided help with certain features
 
 
 

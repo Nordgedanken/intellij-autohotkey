@@ -1,5 +1,8 @@
 package de.nordgedanken.auto_hotkey.run_configurations.ui
-
+/**
+ *
+ * Commenting out for now. Will use this to implement an expandable textbox hopefully in a future release
+ *
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.ex.EditorEx
 import com.intellij.openapi.project.Project
@@ -92,3 +95,4 @@ private class ExpandableEditorSupportWithCustomPopup(
         }
     }
 }
+*/

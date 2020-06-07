@@ -1,8 +1,8 @@
+import com.github.rjeschke.txtmark.Processor
 import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import com.github.rjeschke.txtmark.Processor
-import java.util.Scanner
+import java.util.*
 
 plugins {
     idea
@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "de.nordgedanken"
-version = "0.1.3"
+version = "0.2.0"
 
 // Include the generated files in the source set
 sourceSets.main.get().java.srcDirs("src/main/gen")
@@ -22,8 +22,14 @@ repositories {
     mavenCentral()
 }
 
+tasks.test {
+    useJUnitPlatform()
+}
+
 dependencies {
-    testCompile("junit", "junit", "4.13")
+    implementation("com.google.flogger:flogger:0.5.1")
+    implementation("com.google.flogger:flogger-system-backend:0.5.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
 }
 
 val intellijPublishToken: String? by project
@@ -35,7 +41,7 @@ tasks.publishPlugin {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version = "193-EAP-SNAPSHOT"
+    version = "2019.3"
     setPlugins("java")
 }
 
@@ -69,8 +75,8 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
     changeNotes(Processor.process(latestChangeNotes))
 
     pluginDescription(Processor.process(pluginDescMkdown))
-
     setVersion(version)
+    untilBuild("2020.1")
 }
 
 

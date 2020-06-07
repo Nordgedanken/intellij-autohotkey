@@ -11,6 +11,7 @@ import com.intellij.openapi.editor.EditorModificationUtil
 import com.intellij.util.TextFieldCompletionProvider
 import com.intellij.util.execution.ParametersListUtil
 
+// TODO: Unused for now. Will use this to implement an expandable textbox hopefully in a future release
 class AHKCommandCompletionProvider(
         private val implicitTextPrefix: String
 ) : TextFieldCompletionProvider() {
