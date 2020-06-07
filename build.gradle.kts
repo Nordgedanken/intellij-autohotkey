@@ -76,7 +76,7 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
 
     pluginDescription(Processor.process(pluginDescMkdown))
     setVersion(version)
-    untilBuild("2020.1")
+    untilBuild("201.*")
 }
 
 
