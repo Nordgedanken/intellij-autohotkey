@@ -4,6 +4,7 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
+import com.intellij.ui.components.fields.ExpandableTextField;
 import de.nordgedanken.auto_hotkey.run_configurations.core.AhkRunConfig;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +17,7 @@ public class AhkRunConfigSettingsEditor extends SettingsEditor<AhkRunConfig> {
 	private final Project project;
 	private JTabbedPane configPane;
 	private TextFieldWithBrowseButton pathToScriptTextField;
-	private JTextField argumentsTextField;
+	private ExpandableTextField argumentsTextField;
 
 	public AhkRunConfigSettingsEditor(Project project) {
 		this.project = project;
