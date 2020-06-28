@@ -13,14 +13,15 @@ import javax.swing.*;
 /**
  * Contains the settings that are shown when editing a run configuration. This is bound to the .form file of the same name.
  */
-public class AhkRunConfigSettingsEditor extends SettingsEditor<AhkRunConfig> {
+public class AhkRunConfigSettingsEditor2 extends SettingsEditor<AhkRunConfig> {
 	private final Project project;
 	private JTabbedPane configPane;
 	private TextFieldWithBrowseButton pathToScriptTextField;
 	private ExpandableTextField argumentsTextField;
 
-	public AhkRunConfigSettingsEditor(Project project) {
+	public AhkRunConfigSettingsEditor2(Project project) {
 		this.project = project;
+		System.out.println("Called me");
 	}
 
 	@Override
