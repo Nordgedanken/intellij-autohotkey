@@ -9,6 +9,7 @@ import com.intellij.ui.components.JBTabbedPane
 import com.intellij.ui.components.fields.ExpandableTextField
 import com.intellij.ui.layout.CCFlags
 import com.intellij.ui.layout.panel
+import de.nordgedanken.auto_hotkey.localization.AhkBundle
 import de.nordgedanken.auto_hotkey.run_configurations.core.AhkRunConfig
 import java.awt.Insets
 import javax.swing.BorderFactory
@@ -19,8 +20,8 @@ import javax.swing.border.EmptyBorder
 
 class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<AhkRunConfig>() {
     private val pathToScriptTextField: TextFieldWithBrowseButton = TextFieldWithBrowseButton().apply {
-        addBrowseFolderListener("Select AutoHotkey File",
-                "Please select the AutoHotkey script to execute",
+        addBrowseFolderListener(AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.title"),
+                AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.message"),
                 project,
                 FileChooserDescriptorFactory.createSingleFileDescriptor("ahk"))
     }
@@ -39,13 +40,13 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
 
     override fun createEditor(): JComponent {
         val runConfigSettingsPanel = panel {
-            row("Script Path:") { pathToScriptTextField() }
-            row("Script Arguments:") { argumentsTextField(growX, pushX) }
-            row("AutoHotkey Executor:") {
-                label("To set the executor, please add an AutoHotkey SDK in \"Project Structure...\" and select it as the active SDK for this project")
+            row(AhkBundle.msg("runconfig.configtab.scriptpath.label")) { pathToScriptTextField() }
+            row(AhkBundle.msg("runconfig.configtab.scriptargs.label")) { argumentsTextField(growX, pushX) }
+            row(AhkBundle.msg("runconfig.configtab.ahksdk.label")) {
+                label(AhkBundle.msg("runconfig.configtab.ahksdk.info"))
             }
             row {
-                label("Note: It is recommended to create/use a shortcut to rerun the config (eg Ctrl+Alt+R) during development for quick script reloading.")
+                label(AhkBundle.msg("runconfig.general.info.label"))
             }
         }.apply {
             val lineBorder = BorderFactory.createLineBorder(EditorColorsManager.getInstance().globalScheme.defaultForeground)
@@ -54,7 +55,7 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
         }
         val runConfigPane = JBTabbedPane().apply {
             tabComponentInsets = Insets(0,0,0,0)
-            addTab("Configuration", runConfigSettingsPanel)
+            addTab(AhkBundle.msg("runconfig.configtab.label"), runConfigSettingsPanel)
 
         }
         val rootPane = panel {

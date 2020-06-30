@@ -133,6 +133,7 @@ Project Link: [https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin](ht
 
 * [intellij-rust](https://github.com/intellij-rust/intellij-rust) - Which provides a huge starting point to implement undocumented Features
 * [intellij python plugin](https://github.com/JetBrains/intellij-community/tree/master/python) which also provided help with certain features
+* [idea-multimarkdown](https://github.com/vsch/idea-multimarkdown) which also provided help with certain features
 
 
 
