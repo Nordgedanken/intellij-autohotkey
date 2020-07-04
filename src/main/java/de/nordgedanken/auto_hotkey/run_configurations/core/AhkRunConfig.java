@@ -32,8 +32,7 @@ import org.jetbrains.annotations.Nullable;
 public class AhkRunConfig extends RunConfigurationBase<Object> {
 	public static final String KEY_SCRIPTPATH = AhkPluginConstants.PLUGIN_NAME + "scriptPath";
 	public static final String KEY_ARGUMENTS = AhkPluginConstants.PLUGIN_NAME + "arguments";
-	private String pathToScript;
-	private String arguments;
+	public AhkRunConfigSettings runConfigSettings = new AhkRunConfigSettings();
 
 	protected AhkRunConfig(@NotNull Project project, @Nullable ConfigurationFactory factory, @Nullable String name) {
 		super(project, factory, name);
@@ -52,7 +51,7 @@ public class AhkRunConfig extends RunConfigurationBase<Object> {
 			String fullMessage = "SDK Error: You must create an AutoHotkey SDK and select it as the project's default SDK in order to run the AHK script. <br>Otherwise IntelliJ does not know what to use to run your script";
 			NotificationUtil.showErrorPopup("Execution Error", fullMessage, getProject(), environment);
 			IdeaProjectSettingsService.getInstance(getProject()).openProjectSettings();
-		} else if(pathToScript.isEmpty()) {
+		} else if(runConfigSettings.getPathToScript() == null || runConfigSettings.getPathToScript().isEmpty()) {
 			String fullMessage = "Error: You must specify the path to the script you want to execute within the run config";
 			NotificationUtil.showErrorPopup("Execution Error", fullMessage, getProject(), environment);
 		} else {
@@ -68,8 +67,8 @@ public class AhkRunConfig extends RunConfigurationBase<Object> {
 	@Override
 	public void readExternal(@NotNull Element element) {
 		super.readExternal(element);
-		pathToScript = JDOMExternalizerUtil.readField(element, KEY_SCRIPTPATH);
-		arguments = JDOMExternalizerUtil.readField(element, KEY_ARGUMENTS);
+		runConfigSettings.setPathToScript(JDOMExternalizerUtil.readField(element, KEY_SCRIPTPATH));
+		runConfigSettings.setArguments(JDOMExternalizerUtil.readField(element, KEY_ARGUMENTS));
 	}
 
 	/**
@@ -78,28 +77,12 @@ public class AhkRunConfig extends RunConfigurationBase<Object> {
 	@Override
 	public void writeExternal(@NotNull Element element) {
 		super.writeExternal(element);
-		JDOMExternalizerUtil.writeField(element, KEY_SCRIPTPATH, pathToScript);
-		JDOMExternalizerUtil.writeField(element, KEY_ARGUMENTS, arguments);
-	}
-
-	public String getPathToScript() {
-		return pathToScript;
-	}
-
-	public void setPathToScript(String pathToScript) {
-		this.pathToScript = pathToScript;
-	}
-
-	public String getArguments() {
-		return arguments;
-	}
-
-	public void setArguments(String arguments) {
-		this.arguments = arguments;
+		JDOMExternalizerUtil.writeField(element, KEY_SCRIPTPATH, runConfigSettings.getPathToScript());
+		JDOMExternalizerUtil.writeField(element, KEY_ARGUMENTS, runConfigSettings.getArguments());
 	}
 
 	@Override
 	public String toString() {
-		return "AhkRunConfig{" + "pathToScript='" + pathToScript + '\'' + ", arguments='" + getArguments() + '\'' + '}';
+		return "AhkRunConfig{" + "runConfigSettings=" + runConfigSettings + '}';
 	}
 }

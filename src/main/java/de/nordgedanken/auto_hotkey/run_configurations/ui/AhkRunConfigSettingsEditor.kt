@@ -28,13 +28,13 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
 
 
     override fun resetEditorFrom(s: AhkRunConfig) {
-        pathToScriptTextField.text = s.pathToScript
-        argumentsTextField.text = s.arguments
+        pathToScriptTextField.text = s.runConfigSettings.pathToScript.toString()
+        argumentsTextField.text = s.runConfigSettings.arguments
     }
 
     override fun applyEditorTo(s: AhkRunConfig) {
-        s.pathToScript = pathToScriptTextField.text
-        s.arguments = argumentsTextField.text
+        s.runConfigSettings.pathToScript = pathToScriptTextField.text
+        s.runConfigSettings.arguments = argumentsTextField.text
     }
 
     override fun createEditor(): JComponent = panel {

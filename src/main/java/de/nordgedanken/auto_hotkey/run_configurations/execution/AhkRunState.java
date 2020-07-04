@@ -37,8 +37,8 @@ public class AhkRunState extends CommandLineState {
 		AhkCommandLine ahkCommandLine = new AhkCommandLine();
 		ahkCommandLine.setWorkDirectory(ahkRunConfig.getProject().getBasePath());
 		ahkCommandLine.setExePath(exePath);
-		ahkCommandLine.addParameter(ahkRunConfig.getPathToScript());
-		ahkCommandLine.addCommandLineArgs(ahkRunConfig.getArguments());
+		ahkCommandLine.addParameter(Objects.requireNonNull(ahkRunConfig.runConfigSettings.getPathToScript()));
+		ahkCommandLine.addCommandLineArgs(ahkRunConfig.runConfigSettings.getArguments());
 		return new KillableProcessHandler(ahkCommandLine);
 	}
 }
