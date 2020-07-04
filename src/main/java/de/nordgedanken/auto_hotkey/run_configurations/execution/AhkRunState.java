@@ -34,11 +34,12 @@ public class AhkRunState extends CommandLineState {
 		}
 		String exePath = Paths.get(Objects.requireNonNull(projectSDK.getHomePath()), "AutoHotkey.exe").toAbsolutePath().toString();
 
-		AhkCommandLine ahkCommandLine = new AhkCommandLine();
-		ahkCommandLine.setWorkDirectory(ahkRunConfig.getProject().getBasePath());
-		ahkCommandLine.setExePath(exePath);
-		ahkCommandLine.addParameter(ahkRunConfig.getPathToScript());
-		ahkCommandLine.addCommandLineArgs(ahkRunConfig.getArguments());
+		GeneralCommandLine ahkCommandLine = new GeneralCommandLine()
+				.withWorkDirectory(ahkRunConfig.getProject().getBasePath())
+				.withExePath(exePath)
+				.withParameters(Objects.requireNonNull(ahkRunConfig.runConfigSettings.getPathToScript()))
+				.withParameters(ahkRunConfig.runConfigSettings.getArgsAsList());
+
 		return new KillableProcessHandler(ahkCommandLine);
 	}
 }

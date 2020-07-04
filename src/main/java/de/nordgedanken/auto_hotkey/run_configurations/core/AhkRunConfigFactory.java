@@ -4,6 +4,7 @@ import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.ConfigurationType;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.openapi.project.Project;
+import de.nordgedanken.auto_hotkey.AhkConstants;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -17,6 +18,11 @@ public class AhkRunConfigFactory extends ConfigurationFactory {
 
 	@Override
 	public @NotNull RunConfiguration createTemplateConfiguration(@NotNull Project project) {
-		return new AhkRunConfig(project, this, "AutoHotkey");
+		return new AhkRunConfig(project, this, AhkConstants.LANGUAGE_NAME);
+	}
+
+	@Override
+	public @NotNull String getId() {
+		return AhkConstants.LANGUAGE_NAME;
 	}
 }

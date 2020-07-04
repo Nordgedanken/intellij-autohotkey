@@ -3,6 +3,7 @@ package de.nordgedanken.auto_hotkey.run_configurations.core;
 import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.ConfigurationType;
 import de.nordgedanken.auto_hotkey.AHKIcons;
+import de.nordgedanken.auto_hotkey.AhkConstants;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,7 +15,7 @@ import javax.swing.*;
 public class AhkRunConfigType implements ConfigurationType {
 	@Override
 	public @NotNull String getDisplayName() {
-		return "AutoHotkey";
+		return AhkConstants.LANGUAGE_NAME;
 	}
 
 	@Override
