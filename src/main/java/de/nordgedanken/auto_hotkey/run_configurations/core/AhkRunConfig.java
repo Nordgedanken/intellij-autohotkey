@@ -13,9 +13,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.roots.ui.configuration.IdeaProjectSettingsService;
-import com.intellij.openapi.util.JDOMExternalizerUtil;
 import de.nordgedanken.auto_hotkey.AhkPluginConstants;
 import de.nordgedanken.auto_hotkey.run_configurations.execution.AhkRunState;
+import de.nordgedanken.auto_hotkey.run_configurations.model.AhkRunConfigSettings;
 import de.nordgedanken.auto_hotkey.run_configurations.ui.AhkRunConfigSettingsEditor;
 import de.nordgedanken.auto_hotkey.sdk.AhkSdkType;
 import org.jdom.Element;
@@ -30,8 +30,6 @@ import org.jetbrains.annotations.Nullable;
 	storages = {@Storage(AhkPluginConstants.PLUGIN_NAME + "__run-configuration.xml")}
 )
 public class AhkRunConfig extends RunConfigurationBase<Object> {
-	public static final String KEY_SCRIPTPATH = AhkPluginConstants.PLUGIN_NAME + "scriptPath";
-	public static final String KEY_ARGUMENTS = AhkPluginConstants.PLUGIN_NAME + "arguments";
 	public AhkRunConfigSettings runConfigSettings = new AhkRunConfigSettings();
 
 	protected AhkRunConfig(@NotNull Project project, @Nullable ConfigurationFactory factory, @Nullable String name) {
@@ -67,8 +65,7 @@ public class AhkRunConfig extends RunConfigurationBase<Object> {
 	@Override
 	public void readExternal(@NotNull Element element) {
 		super.readExternal(element);
-		runConfigSettings.setPathToScript(JDOMExternalizerUtil.readField(element, KEY_SCRIPTPATH));
-		runConfigSettings.setArguments(JDOMExternalizerUtil.readField(element, KEY_ARGUMENTS));
+		runConfigSettings.populateFromElement(element);
 	}
 
 	/**
@@ -77,8 +74,7 @@ public class AhkRunConfig extends RunConfigurationBase<Object> {
 	@Override
 	public void writeExternal(@NotNull Element element) {
 		super.writeExternal(element);
-		JDOMExternalizerUtil.writeField(element, KEY_SCRIPTPATH, runConfigSettings.getPathToScript());
-		JDOMExternalizerUtil.writeField(element, KEY_ARGUMENTS, runConfigSettings.getArguments());
+		runConfigSettings.writeToElement(element);
 	}
 
 	@Override
