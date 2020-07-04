@@ -7,6 +7,7 @@ import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.fields.ExpandableTextField
 import com.intellij.ui.layout.CCFlags
 import com.intellij.ui.layout.panel
+import de.nordgedanken.auto_hotkey.AhkConstants
 import de.nordgedanken.auto_hotkey.localization.AhkBundle
 import de.nordgedanken.auto_hotkey.run_configurations.core.AhkRunConfig
 import javax.swing.JComponent
@@ -22,7 +23,7 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
         addBrowseFolderListener(AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.title"),
                 AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.message"),
                 project,
-                FileChooserDescriptorFactory.createSingleFileDescriptor("ahk"))
+                FileChooserDescriptorFactory.createSingleFileDescriptor(AhkConstants.FILE_EXTENSION))
     }
     private val argumentsTextField: ExpandableTextField = ExpandableTextField()
 

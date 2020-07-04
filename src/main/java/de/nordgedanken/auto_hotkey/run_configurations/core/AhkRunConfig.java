@@ -13,7 +13,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.roots.ui.configuration.IdeaProjectSettingsService;
-import de.nordgedanken.auto_hotkey.AhkPluginConstants;
+import de.nordgedanken.auto_hotkey.AhkConstants;
 import de.nordgedanken.auto_hotkey.run_configurations.execution.AhkRunState;
 import de.nordgedanken.auto_hotkey.run_configurations.model.AhkRunConfigSettings;
 import de.nordgedanken.auto_hotkey.run_configurations.ui.AhkRunConfigSettingsEditor;
@@ -26,8 +26,8 @@ import org.jetbrains.annotations.Nullable;
  * Defines instances of Ahk run configurations.
  */
 @State(
-	name = AhkPluginConstants.PLUGIN_NAME,
-	storages = {@Storage(AhkPluginConstants.PLUGIN_NAME + "__run-configuration.xml")}
+	name = AhkConstants.PLUGIN_NAME,
+	storages = {@Storage(AhkConstants.PLUGIN_NAME + "__run-configuration.xml")}
 )
 public class AhkRunConfig extends RunConfigurationBase<Object> {
 	public AhkRunConfigSettings runConfigSettings = new AhkRunConfigSettings();
