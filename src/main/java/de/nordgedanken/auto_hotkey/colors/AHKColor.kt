@@ -35,4 +35,3 @@ enum class AHKColor(humanName: String, default: TextAttributesKey? = null) {
     val textAttributesKey = TextAttributesKey.createTextAttributesKey("de.nordgedanken.auto_hotkey.$name", default)
     val attributesDescriptor = AttributesDescriptor(humanName, textAttributesKey)
 }
-

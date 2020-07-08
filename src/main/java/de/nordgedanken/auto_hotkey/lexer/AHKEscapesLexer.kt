@@ -16,10 +16,10 @@ private const val UNICODE_ESCAPE_MAX_LENGTH = "\\u{000000}".length
  * Performs lexical analysis of Rust byte/char/string/byte string literals using Rust character escaping rules.
  */
 class AHKEscapesLexer private constructor(
-        val defaultToken: IElementType,
-        val unicode: Boolean = false,
-        val eol: Boolean = false,
-        val extendedByte: Boolean = false
+    val defaultToken: IElementType,
+    val unicode: Boolean = false,
+    val eol: Boolean = false,
+    val extendedByte: Boolean = false
 ) : LexerBaseEx() {
     override fun determineTokenType(): IElementType? {
         // We're at the end of the string token => finish lexing
@@ -108,11 +108,11 @@ class AHKEscapesLexer private constructor(
     private fun testCodepointRange(start: Int, end: Int, max: Int): Boolean =
             try {
                 val range = bufferSequence.substring(start, end)
-                if (range.startsWith('_'))
+                if (range.startsWith('_')) {
                     false
-                else
+                } else {
                     Integer.parseInt(range.filter { it != '_' }, 16) <= max
-
+                }
             } catch (e: NumberFormatException) {
                 false
             }
@@ -145,10 +145,8 @@ class AHKEscapesLexer private constructor(
         val ESCAPABLE_LITERALS_TOKEN_SET = TokenSet.create(
                 STRING_LITERAL
         )
-
     }
 }
-
 
 fun esc(test: Boolean): IElementType = if (test) StringEscapesTokenTypes.VALID_STRING_ESCAPE_TOKEN else StringEscapesTokenTypes.INVALID_CHARACTER_ESCAPE_TOKEN
 

@@ -10,6 +10,7 @@ import de.nordgedanken.auto_hotkey.psi.ext.AHKElement
  *   * aliases (that's why we need a [name] property)
  *   * lazy resolving of actual elements (that's why [element] can return `null`)
  */
+@Suppress("MatchingDeclarationName")
 interface ScopeEntry {
     val name: String
     val element: AHKElement?

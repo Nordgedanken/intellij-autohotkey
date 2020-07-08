@@ -27,7 +27,6 @@ import java.lang.ref.ReferenceQueue
 import java.util.concurrent.ConcurrentMap
 import java.util.concurrent.atomic.AtomicReference
 
-
 /**
  * The implementation is inspired by Intellij platform's [com.intellij.psi.impl.source.resolve.ResolveCache].
  * The main difference from the platform one: we invalidate the cache depends on [ResolveCacheDependency], when
@@ -36,7 +35,7 @@ import java.util.concurrent.atomic.AtomicReference
  * See [AHKPsiManager.AHKStructureModificationTracker].
  */
 @Service
-class RsResolveCache(project: Project): Disposable {
+class RsResolveCache(project: Project) : Disposable {
     /** The cache is cleared on [AHKPsiManager.AHKStructureModificationTracker] increment */
     private val _ahkStructureDependentCache: AtomicReference<ConcurrentMap<PsiElement, Any?>?> = AtomicReference(null)
     /** The cache is cleared on [ANY_PSI_CHANGE_TOPIC] event */
@@ -119,7 +118,6 @@ class RsResolveCache(project: Project): Disposable {
         return when (dep) {
             ResolveCacheDependency.LOCAL, ResolveCacheDependency.LOCAL_AND_AHK_STRUCTURE -> {
                 return ahkStructureDependentCache
-
             }
             ResolveCacheDependency.AHK_STRUCTURE -> ahkStructureDependentCache
             ResolveCacheDependency.ANY_PSI_CHANGE -> anyPsiChangeDependentCache
@@ -213,14 +211,14 @@ private fun AtomicReference<ConcurrentMap<PsiElement, Any?>?>.getOrCreateMap(): 
 }
 private fun <K, V> createWeakMap(): ConcurrentMap<K, V> {
     return object : ConcurrentWeakKeySoftValueHashMap<K, V>(
-            100,
-            0.75f,
-            Runtime.getRuntime().availableProcessors(),
-            ContainerUtil.canonicalStrategy()
+        100,
+        0.75f,
+        Runtime.getRuntime().availableProcessors(),
+        ContainerUtil.canonicalStrategy()
     ) {
         override fun createValueReference(
-                value: V,
-                queue: ReferenceQueue<in V>
+            value: V,
+            queue: ReferenceQueue<in V>
         ): ConcurrentWeakKeySoftValueHashMap.ValueReference<K, V> {
             val isTrivialValue = value === NULL_RESULT ||
                     value is Array<*> && value.size == 0 ||
@@ -240,9 +238,8 @@ private fun <K, V> createWeakMap(): ConcurrentMap<K, V> {
     }
 }
 
-
 private class StrongValueReference<K, V>(
-        private val value: V
+    private val value: V
 ) : ConcurrentWeakKeySoftValueHashMap.ValueReference<K, V> {
     override fun getKeyReference(): ConcurrentWeakKeySoftValueHashMap.KeyReference<K, V> {
         // will never GC so this method will never be called so no implementation is necessary

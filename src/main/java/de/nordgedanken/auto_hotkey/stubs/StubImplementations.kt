@@ -11,7 +11,6 @@ import com.intellij.psi.impl.source.tree.TreeElement
 import com.intellij.psi.impl.source.tree.TreeUtil
 import com.intellij.psi.stubs.*
 import com.intellij.psi.tree.*
-import com.intellij.util.BitUtil
 import com.intellij.util.CharTable
 import com.intellij.util.diff.FlyweightCapableTreeStructure
 import com.intellij.util.io.DataInputOutputUtil
@@ -38,8 +37,9 @@ fun factory(name: String): AHKStubElementType<*, *> = when (name) {
 }
 
 class AHKLitExprStub(
-        parent: StubElement<*>?, elementType: IStubElementType<*, *>,
-        val kind: AHKStubLiteralKind?
+    parent: StubElement<*>?,
+    elementType: IStubElementType<*, *>,
+    val kind: AHKStubLiteralKind?
 ) : AHKPlaceholderStub(parent, elementType) {
     object Type : AHKStubElementType<AHKLitExprStub, AHKLitExpr>("LIT_EXPR") {
 
@@ -100,8 +100,8 @@ private fun StubOutputStream.writeUTFFastAsNullable(value: String?) = DataInputO
 private fun StubOutputStream.writeLongAsNullable(value: Long?) = DataInputOutputUtil.writeNullable(this, value, this::writeLong)
 
 class AHKExprStubType<PsiT : AHKElement>(
-        debugName: String,
-        psiCtor: (AHKPlaceholderStub, IStubElementType<*, *>) -> PsiT
+    debugName: String,
+    psiCtor: (AHKPlaceholderStub, IStubElementType<*, *>) -> PsiT
 ) : AHKPlaceholderStub.Type<PsiT>(debugName, psiCtor) {
     override fun shouldCreateStub(node: ASTNode): Boolean = shouldCreateExprStub(node)
 }
@@ -122,8 +122,9 @@ private fun shouldCreateExprStub(node: ASTNode): Boolean {
 private fun ASTNode.isFunctionBody() = this.elementType == BLOCK && treeParent?.elementType == FUNCTION
 
 class AHKBlockExprStub(
-        parent: StubElement<*>?, elementType: IStubElementType<*, *>,
-        private val flags: Int
+    parent: StubElement<*>?,
+    elementType: IStubElementType<*, *>,
+    private val flags: Int
 ) : AHKPlaceholderStub(parent, elementType) {
 
     object Type : AHKStubElementType<AHKBlockExprStub, AHKBlockExpr>("BLOCK_EXPR") {
@@ -208,7 +209,7 @@ object AHKBlockStubType : AHKPlaceholderStub.Type<AHKBlock>("BLOCK", ::AHKBlockI
     // Avoid double lexing
     override fun reuseCollapsedTokens(): Boolean = true
 
-    private class BlockVisitor private constructor(): RecursiveTreeElementWalkingVisitor() {
+    private class BlockVisitor private constructor() : RecursiveTreeElementWalkingVisitor() {
         private var hasItemsOrAttrs = false
 
         override fun visitNode(element: TreeElement) {

@@ -15,7 +15,7 @@ import de.nordgedanken.auto_hotkey.psi.ext.AHKElement
 import de.nordgedanken.auto_hotkey.psi.ext.AHKReferenceElementBase
 
 abstract class AHKReferenceBase<T : AHKReferenceElementBase>(
-        element: T
+    element: T
 ) : PsiPolyVariantReferenceBase<T>(element),
         AHKReference {
 
@@ -57,7 +57,6 @@ abstract class AHKReferenceBase<T : AHKReferenceElementBase>(
             identifier.replace(newId)
         }
     }
-
 }
 
 fun isValidAHKVariableIdentifier(name: String): Boolean = getLexerType(name) == IDENTIFIER

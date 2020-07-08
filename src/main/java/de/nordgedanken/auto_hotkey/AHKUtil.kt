@@ -41,9 +41,11 @@ object AHKUtil {
             if (simpleFile != null) {
                 val properties: Array<AHKVariable?>? = PsiTreeUtil.getChildrenOfType(simpleFile, AHKVariable::class.java)
                 if (properties != null) {
-                    result.addAll(properties.map {
-                        it!!
-                    })
+                    result.addAll(
+                            properties.map {
+                                it!!
+                            }
+                    )
                 }
             }
         }

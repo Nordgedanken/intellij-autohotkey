@@ -14,12 +14,12 @@ abstract class Ty(override val flags: TypeFlags = 0) : Kind {
 }
 
 fun Ty.render(
-        level: Int = Int.MAX_VALUE,
-        unknown: String = "<unknown>",
-        integer: String = "{integer}",
-        includeTypeArguments: Boolean = true,
-        includeLifetimeArguments: Boolean = false,
-        useAliasNames: Boolean = false
+    level: Int = Int.MAX_VALUE,
+    unknown: String = "<unknown>",
+    integer: String = "{integer}",
+    includeTypeArguments: Boolean = true,
+    includeLifetimeArguments: Boolean = false,
+    useAliasNames: Boolean = false
 ): String = TypeRenderer(
         unknown = unknown,
         integer = integer,
@@ -29,11 +29,11 @@ fun Ty.render(
 ).render(this, level)
 
 private data class TypeRenderer(
-        val unknown: String,
-        val integer: String,
-        val includeTypeArguments: Boolean,
-        val includeLifetimeArguments: Boolean,
-        val useAliasNames: Boolean
+    val unknown: String,
+    val integer: String,
+    val includeTypeArguments: Boolean,
+    val includeLifetimeArguments: Boolean,
+    val useAliasNames: Boolean
 ) {
     fun render(ty: Ty, level: Int): String {
         require(level >= 0)
@@ -56,5 +56,4 @@ private data class TypeRenderer(
             else -> error("unreachable")
         }
     }
-
 }

@@ -18,9 +18,9 @@ class AHKNamedElementIndex : StringStubIndexExtension<AHKNamedElement>() {
                 StubIndexKey.createIndexKey("org.rust.lang.core.stubs.index.RustNamedElementIndex")
 
         fun findElementsByName(
-                project: Project,
-                target: String,
-                scope: GlobalSearchScope = GlobalSearchScope.allScope(project)
+            project: Project,
+            target: String,
+            scope: GlobalSearchScope = GlobalSearchScope.allScope(project)
         ): Collection<AHKNamedElement> {
             return getElements(KEY, target, project, scope)
         }
@@ -28,8 +28,9 @@ class AHKNamedElementIndex : StringStubIndexExtension<AHKNamedElement>() {
 }
 
 inline fun <Key, reified Psi : PsiElement> getElements(
-        indexKey: StubIndexKey<Key, Psi>,
-        key: Key, project: Project,
-        scope: GlobalSearchScope?
+    indexKey: StubIndexKey<Key, Psi>,
+    key: Key,
+    project: Project,
+    scope: GlobalSearchScope?
 ): Collection<Psi> =
         StubIndex.getElements(indexKey, key, project, scope, Psi::class.java)

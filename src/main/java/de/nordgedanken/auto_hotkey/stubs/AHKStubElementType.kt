@@ -9,7 +9,7 @@ import de.nordgedanken.auto_hotkey.AHKLanguage
 import de.nordgedanken.auto_hotkey.psi.ext.AHKElement
 
 abstract class AHKStubElementType<StubT : StubElement<*>, PsiT : AHKElement>(
-        debugName: String
+    debugName: String
 ) : IStubElementType<StubT, PsiT>(debugName, AHKLanguage) {
 
     final override fun getExternalId(): String = "rust.${super.toString()}"

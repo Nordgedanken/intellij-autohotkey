@@ -147,11 +147,11 @@ private fun decodeEscape(esc: String): String = when (esc) {
  * but obeys specific escaping rules provided by [decoder].
  */
 inline fun parseStringCharacters(
-        lexer: Lexer,
-        chars: String,
-        outChars: StringBuilder,
-        sourceOffsets: IntArray,
-        decoder: (String) -> String
+    lexer: Lexer,
+    chars: String,
+    outChars: StringBuilder,
+    sourceOffsets: IntArray,
+    decoder: (String) -> String
 ): Boolean {
     val outOffset = outChars.length
     var index = 0
@@ -187,7 +187,6 @@ inline fun parseStringCharacters(
 
     return true
 }
-
 
 private class AHKNormalStringLiteralEscaper(host: AHKLitExpr) : LiteralTextEscaperBase<AHKLitExpr>(host) {
     override fun parseStringCharacters(chars: String, outChars: java.lang.StringBuilder): Pair<IntArray, Boolean> =

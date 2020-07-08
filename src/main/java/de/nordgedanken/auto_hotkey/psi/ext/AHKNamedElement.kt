@@ -25,7 +25,6 @@ abstract class AHKNamedElementImpl(node: ASTNode) : AHKElementImpl(node), PsiNam
     override fun getTextOffset(): Int = nameIdentifier?.textOffset ?: super.getTextOffset()
 }
 
-
 val PsiElement.unescapedText: String get() {
     return this.text ?: return ""
 }
@@ -47,5 +46,4 @@ abstract class AHKStubbedNamedElementImpl<StubT> : AHKStubbedElementImpl<StubT>,
     override fun setName(name: String): PsiElement? {
         return this
     }
-
 }

@@ -14,8 +14,7 @@ import de.nordgedanken.auto_hotkey.psi.AHKTypes.*
 class AHKSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer = AHKHighlightingLexer()
 
-    override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> =
-            pack(map(tokenType)?.textAttributesKey)
+    override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> = pack(map(tokenType)?.textAttributesKey)
 
     companion object {
         fun map(tokenType: IElementType): AHKColor? = when (tokenType) {
@@ -48,5 +47,4 @@ class AHKSyntaxHighlighter : SyntaxHighlighterBase() {
             else -> null
         }
     }
-
 }

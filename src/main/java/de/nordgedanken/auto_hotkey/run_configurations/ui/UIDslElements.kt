@@ -9,7 +9,6 @@ import javax.swing.BorderFactory
 import javax.swing.border.CompoundBorder
 import javax.swing.border.EmptyBorder
 
-
 /**
  * Creates a normal JBTabbedPane within a row using the given constraints, but the pane will have no insets.
  * Use within a panel to add a new tabbedPane in the UI DSL format
@@ -19,6 +18,8 @@ fun Row.tabbedPane(vararg constraints: CCFlags, init: JBTabbedPane.() -> Unit): 
         tabComponentInsets = Insets(0, 0, 0, 0)
     }
     init(jbTabbedPane)
+
+    @Suppress("SpreadOperator")
     return jbTabbedPane(*constraints)
 }
 

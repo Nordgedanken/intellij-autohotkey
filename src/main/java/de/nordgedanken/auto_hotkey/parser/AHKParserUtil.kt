@@ -18,10 +18,10 @@ object AHKParserUtil : GeneratedParserUtilBase() {
     fun defaultKeyword(b: PsiBuilder, level: Int): Boolean = contextualKeyword(b, "default", DEFAULT)
     private val DEFAULT_NEXT_ELEMENTS: TokenSet = tokenSetOf(NOT)
     private fun contextualKeyword(
-            b: PsiBuilder,
-            keyword: String,
-            elementType: IElementType,
-            nextElementPredicate: (IElementType?) -> Boolean = { it !in DEFAULT_NEXT_ELEMENTS }
+        b: PsiBuilder,
+        keyword: String,
+        elementType: IElementType,
+        nextElementPredicate: (IElementType?) -> Boolean = { it !in DEFAULT_NEXT_ELEMENTS }
     ): Boolean {
         // Tricky: the token can be already remapped by some previous rule that was backtracked
         if (b.tokenType == elementType ||

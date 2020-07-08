@@ -5,8 +5,9 @@ import de.nordgedanken.auto_hotkey.psi.AHKFunction
 import de.nordgedanken.auto_hotkey.psi.impl.AHKFunctionImpl
 
 class AHKFunctionStub(
-        parent: StubElement<*>?, elementType: IStubElementType<*, *>,
-        override val name: String?
+    parent: StubElement<*>?,
+    elementType: IStubElementType<*, *>,
+    override val name: String?
 ) : AHKNamedStub, StubBase<AHKFunction>(parent, elementType) {
 
     object Type : AHKStubElementType<AHKFunctionStub, AHKFunction>("FUNCTION") {

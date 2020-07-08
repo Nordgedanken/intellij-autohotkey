@@ -1,9 +1,8 @@
-package de.nordgedanken.auto_hotkey;
+package de.nordgedanken.auto_hotkey
 
-import com.intellij.openapi.fileTypes.LanguageFileType;
+import com.intellij.openapi.fileTypes.LanguageFileType
 import com.intellij.openapi.vfs.VirtualFile
-
-import javax.swing.*;
+import javax.swing.Icon
 
 object AHKFileType : LanguageFileType(AHKLanguage) {
 

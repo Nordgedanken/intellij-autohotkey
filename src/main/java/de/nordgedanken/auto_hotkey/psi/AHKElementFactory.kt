@@ -4,7 +4,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFileFactory
 import de.nordgedanken.auto_hotkey.AHKFileType
 
-
 object AHKElementFactory {
     fun createProperty(project: Project?, name: String?): AHKVariable {
         val file: AHKFile = createFile(project, name)

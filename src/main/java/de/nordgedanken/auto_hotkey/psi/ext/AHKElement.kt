@@ -7,8 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.stubs.IStubElementType
 import com.intellij.psi.stubs.StubElement
 
-interface AHKElement : PsiElement {
-}
+interface AHKElement : PsiElement
 
 abstract class AHKStubbedElementImpl<StubT : StubElement<*>> : StubBasedPsiElementBase<StubT>, AHKElement {
 
@@ -19,5 +18,4 @@ abstract class AHKStubbedElementImpl<StubT : StubElement<*>> : StubBasedPsiEleme
     override fun toString(): String = "${javaClass.simpleName}($elementType)"
 }
 
-abstract class AHKElementImpl(node: ASTNode) : ASTWrapperPsiElement(node), AHKElement {
-}
+abstract class AHKElementImpl(node: ASTNode) : ASTWrapperPsiElement(node), AHKElement

@@ -27,7 +27,6 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
     }
     private val argumentsTextField: ExpandableTextField = ExpandableTextField()
 
-
     override fun resetEditorFrom(s: AhkRunConfig) {
         pathToScriptTextField.text = s.runConfigSettings.pathToScript.toString()
         argumentsTextField.text = s.runConfigSettings.arguments

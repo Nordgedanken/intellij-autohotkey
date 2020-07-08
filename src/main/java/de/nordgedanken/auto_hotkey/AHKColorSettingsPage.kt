@@ -1,16 +1,16 @@
 package de.nordgedanken.auto_hotkey
 
-import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
-import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
 import de.nordgedanken.auto_hotkey.colors.AHKColor
 import javax.swing.Icon
 
 class AHKColorSettingsPage : ColorSettingsPage {
+    @Suppress("VariableNaming", "PrivatePropertyName")
     private val ATTRS = AHKColor.values().map { it.attributesDescriptor }.toTypedArray()
 
+    @Suppress("VariableNaming", "PrivatePropertyName")
     private val ANNOTATOR_TAGS = AHKColor.values().associateBy({ it.name }, { it.textAttributesKey })
 
     override fun getIcon(): Icon = AHKIcons.FILE
@@ -42,7 +42,6 @@ LegacyBrowsers := "IEFrame,OperaWindowClass"
 clipboard := GetActiveBrowserURL()
 Return"""
     }
-
 
     override fun getAdditionalHighlightingTagToDescriptorMap() = ANNOTATOR_TAGS
 

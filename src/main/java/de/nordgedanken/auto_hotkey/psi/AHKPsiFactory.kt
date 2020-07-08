@@ -9,11 +9,10 @@ import com.intellij.util.LocalTimeCounter
 import de.nordgedanken.auto_hotkey.AHKFileType
 import de.nordgedanken.auto_hotkey.psi.ext.AHKElement
 
-
 class AHKPsiFactory(
-        private val project: Project,
-        private val markGenerated: Boolean = true,
-        private val eventSystemEnabled: Boolean = false
+    private val project: Project,
+    private val markGenerated: Boolean = true,
+    private val eventSystemEnabled: Boolean = false
 ) {
     fun createFile(text: CharSequence): AHKFile =
             PsiFileFactory.getInstance(project)
@@ -31,17 +30,13 @@ class AHKPsiFactory(
             PsiParserFacade.SERVICE.getInstance(project).createWhiteSpaceFromText(ws)
 
     fun createFunction(
-            text: String
-    ): AHKFunction =
-            createFromText(text)
-                    ?: error("Failed to create function element: text")
+        text: String
+    ): AHKFunction = createFromText(text) ?: error("Failed to create function element: text")
 
     private inline fun <reified T : AHKElement> createFromText(text: String): T? =
             PsiFileFactory.getInstance(project)
                     .createFileFromText("DUMMY.rs", AHKFileType, text)
                     .descendantOfTypeStrict<T>()
-
-
 }
 
 private fun String.iff(cond: Boolean) = if (cond) "$this " else " "

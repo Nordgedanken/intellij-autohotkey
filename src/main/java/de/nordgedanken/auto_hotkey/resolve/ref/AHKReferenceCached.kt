@@ -5,9 +5,8 @@ import com.intellij.psi.ResolveResult
 import de.nordgedanken.auto_hotkey.psi.ext.AHKElement
 import de.nordgedanken.auto_hotkey.psi.ext.AHKReferenceElement
 
-
 abstract class AHKReferenceCached<T : AHKReferenceElement>(
-        element: T
+    element: T
 ) : AHKReferenceBase<T>(element) {
 
     protected abstract fun resolveInner(): List<AHKElement>

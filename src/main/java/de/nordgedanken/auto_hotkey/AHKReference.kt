@@ -3,11 +3,13 @@ package de.nordgedanken.auto_hotkey
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.*
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiPolyVariantReference
+import com.intellij.psi.PsiReferenceBase
+import com.intellij.psi.ResolveResult
+import com.intellij.psi.PsiElementResolveResult
 import de.nordgedanken.auto_hotkey.psi.AHKVariable
 import de.nordgedanken.auto_hotkey.psi.ext.getKey
-import java.util.*
-
 
 class AHKReference(element: PsiElement, textRange: TextRange) : PsiReferenceBase<PsiElement?>(element, textRange), PsiPolyVariantReference {
     private val key: String = element.text.substring(textRange.startOffset, textRange.endOffset)
@@ -32,13 +34,14 @@ class AHKReference(element: PsiElement, textRange: TextRange) : PsiReferenceBase
         val variants: MutableList<LookupElement> = ArrayList()
         for (property in properties) {
             if (property.getKey().isNotBlank() && property.getKey().isNotEmpty()) {
-                variants.add(LookupElementBuilder
-                        .create(property).withIcon(AHKIcons.FILE)
+                variants.add(
+                    LookupElementBuilder
+                        .create(property)
+                        .withIcon(AHKIcons.FILE)
                         .withTypeText(property.containingFile.name)
                 )
             }
         }
         return variants.toTypedArray()
     }
-
 }

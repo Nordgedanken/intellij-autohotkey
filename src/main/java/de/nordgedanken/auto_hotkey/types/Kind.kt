@@ -12,7 +12,6 @@ interface TypeFolder {
     fun foldTy(ty: Ty): Ty = ty
 }
 
-
 interface TypeVisitor {
     fun visitTy(ty: Ty): Boolean = false
 }

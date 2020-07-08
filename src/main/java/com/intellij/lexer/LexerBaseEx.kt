@@ -2,7 +2,6 @@ package com.intellij.lexer
 
 import com.intellij.psi.tree.IElementType
 
-
 /**
  * Small utility class to ease implementing [LexerBase].
  */

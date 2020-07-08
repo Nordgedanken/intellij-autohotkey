@@ -66,7 +66,6 @@ sealed class AHKLiteralKind(val node: ASTNode) {
             else -> null
         }
     }
-
 }
 
 fun offsetsForNumber(node: ASTNode): LiteralOffsets {
@@ -87,9 +86,7 @@ fun offsetsForNumber(node: ASTNode): LiteralOffsets {
     }
 
     return LiteralOffsets(value = TextRange.allOf(node.text))
-
 }
-
 
 private fun locatePrefix(node: ASTNode): Int {
     node.text.forEachIndexed { i, ch ->
@@ -99,7 +96,6 @@ private fun locatePrefix(node: ASTNode): Int {
     }
     return node.textLength
 }
-
 
 private inline fun doLocate(node: ASTNode, start: Int, locator: (Int) -> Int): Int =
         if (start >= node.textLength) start else locator(start)
@@ -118,6 +114,7 @@ fun offsetsForText(node: ASTNode): LiteralOffsets {
         it + 1
     }
 
+    @Suppress("FunctionNaming")
     val valueEnd = doLocate(node, openDelimEnd, fun(start: Int): Int {
         var escape = false
         text.substring(start).forEachIndexed { i, ch ->
