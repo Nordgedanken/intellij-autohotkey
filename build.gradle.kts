@@ -3,13 +3,27 @@ import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.util.*
+import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
     idea
-    id("org.jetbrains.intellij") version "0.4.20"
+    // gradle-intellij-plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
+    id("org.jetbrains.intellij") version "0.4.21"
+
+
     id("org.jetbrains.grammarkit") version "2020.1.4"
-    kotlin("jvm") version "1.3.72"
-    java
+
+
+    // Kotlin support
+    id("org.jetbrains.kotlin.jvm") version "1.3.72"
+
+    // Java support
+    id("java")
+
+    // detekt linter - read more: https://detekt.github.io/detekt/kotlindsl.html
+    id("io.gitlab.arturbosch.detekt") version "1.10.0"
+    // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
+    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
 }
 
 group = "de.nordgedanken"
@@ -20,6 +34,7 @@ sourceSets.main.get().java.srcDirs("src/main/gen")
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 tasks.test {
@@ -30,7 +45,23 @@ dependencies {
     implementation("com.google.flogger:flogger:0.5.1")
     implementation("com.google.flogger:flogger-system-backend:0.5.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
+    implementation(kotlin("stdlib-jdk8"))
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.10.0")
 }
+
+// Configure detekt plugin.
+// Read more: https://detekt.github.io/detekt/kotlindsl.html
+detekt {
+    config = files("./detekt-config.yml")
+    buildUponDefaultConfig = true
+
+    reports {
+        html.enabled = false
+        xml.enabled = false
+        txt.enabled = false
+    }
+}
+
 
 val intellijPublishToken: String? by project
 tasks.publishPlugin {
@@ -105,11 +136,22 @@ project(":") {
         )
     }
 }
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "1.8"
-        languageVersion = "1.3"
-        apiVersion = "1.3"
-        freeCompilerArgs = listOf("-Xjvm-default=enable")
+
+tasks {
+    // Set the compatibility versions to 1.8
+    withType<JavaCompile> {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
     }
+    listOf("compileKotlin", "compileTestKotlin").forEach {
+        getByName<KotlinCompile>(it) {
+            kotlinOptions.jvmTarget = "1.8"
+            kotlinOptions.freeCompilerArgs = listOf("-Xjvm-default=enable")
+        }
+    }
+
+    withType<Detekt> {
+        jvmTarget = "1.8"
+    }
+
 }
