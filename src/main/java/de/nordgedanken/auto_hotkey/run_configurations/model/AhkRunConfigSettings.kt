@@ -11,7 +11,7 @@ import org.jdom.Element
  * anemic domain model & aren't using a distributed architecture
  * See https://softwareengineering.stackexchange.com/a/359557
  */
-data class AhkRunConfigSettings(var pathToScript: String? = "", var arguments: String? = "") {
+data class AhkRunConfigSettings(var pathToScript: String = "", var arguments: String = "", var runner: String = "") {
     /**
      * Returns the arguments field as a list of properly-delimited strings, accounting for things like multi-word arguments in quotes
      */
@@ -26,12 +26,14 @@ data class AhkRunConfigSettings(var pathToScript: String? = "", var arguments: S
     }
 
     fun populateFromElement(element: Element) {
-        pathToScript = JDOMExternalizerUtil.readField(element, AhkRunConfigSettings::pathToScript.name)
-        arguments = JDOMExternalizerUtil.readField(element, AhkRunConfigSettings::arguments.name)
+        pathToScript = JDOMExternalizerUtil.readField(element, AhkRunConfigSettings::pathToScript.name).orEmpty()
+        arguments = JDOMExternalizerUtil.readField(element, AhkRunConfigSettings::arguments.name).orEmpty()
+        runner = JDOMExternalizerUtil.readField(element, AhkRunConfigSettings::runner.name).orEmpty()
     }
 
     fun writeToElement(element: Element) {
         JDOMExternalizerUtil.writeField(element, AhkRunConfigSettings::pathToScript.name, pathToScript)
         JDOMExternalizerUtil.writeField(element, AhkRunConfigSettings::arguments.name, arguments)
+        JDOMExternalizerUtil.writeField(element, AhkRunConfigSettings::runner.name, runner)
     }
 }

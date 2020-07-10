@@ -26,16 +26,18 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
                 FileChooserDescriptorFactory.createSingleFileDescriptor(AhkConstants.FILE_EXTENSION))
     }
     private val argumentsTextField: ExpandableTextField = ExpandableTextField()
-
+    private val sdkSelectComboBox: SdkSelectComboBox = SdkSelectComboBox(project)
 
     override fun resetEditorFrom(s: AhkRunConfig) {
-        pathToScriptTextField.text = s.runConfigSettings.pathToScript.toString()
+        pathToScriptTextField.text = s.runConfigSettings.pathToScript
         argumentsTextField.text = s.runConfigSettings.arguments
+        sdkSelectComboBox.setSelectedSdkByName(s.runConfigSettings.runner)
     }
 
     override fun applyEditorTo(s: AhkRunConfig) {
         s.runConfigSettings.pathToScript = pathToScriptTextField.text
         s.runConfigSettings.arguments = argumentsTextField.text
+        s.runConfigSettings.runner = sdkSelectComboBox.getSelectedSdkName()
     }
 
     override fun createEditor(): JComponent = panel {
@@ -44,9 +46,7 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
                 outlinedTab(AhkBundle.msg("runconfig.configtab.label")) {
                     row(AhkBundle.msg("runconfig.configtab.scriptpath.label")) { pathToScriptTextField() }
                     row(AhkBundle.msg("runconfig.configtab.scriptargs.label")) { argumentsTextField(growX, pushX) }
-                    row(AhkBundle.msg("runconfig.configtab.ahksdk.label")) {
-                        label(AhkBundle.msg("runconfig.configtab.ahksdk.info"))
-                    }
+                    row(AhkBundle.msg("runconfig.configtab.scriptrunner.label")) { sdkSelectComboBox(growX, pushX) }
                     noteRow(AhkBundle.msg("runconfig.general.info.label"))
                 }
             }
