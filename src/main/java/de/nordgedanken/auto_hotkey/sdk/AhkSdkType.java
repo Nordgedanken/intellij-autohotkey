@@ -8,10 +8,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -58,11 +62,28 @@ public final class AhkSdkType extends SdkType {
 		return "AutoHotkey";
 	}
 
-	/**
-	 * TODO: Run `FileAppend %A_AhkVersion%, *` on new sdk creation and save output to the Sdk object as version
-	 */
 	@Override
 	public final String getVersionString(String sdkHome) {
+		if(sdkHome == null) return null;
+		final String ahkExe = new File(sdkHome, "AutoHotkey.exe").getAbsolutePath();
+		try(InputStream versionScriptReader = AhkSdkType.class.getResourceAsStream("/sdk/getAhkVersion.ahk")) {
+			File versionScript = File.createTempFile(String.valueOf(versionScriptReader.hashCode()), ".ahk");
+			versionScript.deleteOnExit();
+			Files.copy(versionScriptReader, versionScript.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			final String versionScriptPath = versionScript.getAbsolutePath();
+			Process process = new ProcessBuilder(ahkExe, versionScriptPath).redirectErrorStream(true).start();
+			boolean processCompleted = process.waitFor(3, TimeUnit.SECONDS);
+			if(processCompleted) {
+				String result = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))
+						.lines().collect(Collectors.joining("\n"));
+				if(result.contains("\n")) {
+					throw new IllegalStateException("The code to get the AutoHotkey version returned additional lines: " + result);
+				}
+				return result;
+			}
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
 		return "unknown version";
 	}
 
