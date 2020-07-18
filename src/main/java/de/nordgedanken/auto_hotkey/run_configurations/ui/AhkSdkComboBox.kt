@@ -9,13 +9,41 @@ import de.nordgedanken.auto_hotkey.sdk.AhkSdkType
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdkByName
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdks
 
-class AhkSdkComboBox(currentProject: Project) : ComboBox<Any?>() {
-    private val projectSdk: Sdk? = ProjectRootManager.getInstance(currentProject).projectSdk
-    //setModel will set the default selected option to the first in the list, but it doesn't matter
-    // because the settingseditor will change the selectedItem a few moments after construction via setSelectedSdk...()
+class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
+    private var projectSdk: Sdk? = null
+
     init {
-        setModel(CollectionComboBoxModel(getAhkSdks().toList()))
-        setRenderer(AhkSdkListCellRenderer(projectSdk))
+        renderer = AhkSdkListCellRenderer(projectSdk)
+        updateSdkList()
+    }
+
+    /**
+     * Updates the available sdks in this combobox. This method is also called after someone modifies the project SDKs
+     * via the button next to the SDK dropdown in the Ahk run config editor, so we update the sdk list/projectSdk as needed
+     *
+     * Note: setModel will set the default selected option to the first in the list, but it doesn't matter
+     * because the settingseditor will change the selectedItem a few moments after construction via setSelectedSdk...()
+     */
+    fun updateSdkList() {
+        projectSdk = ProjectRootManager.getInstance(currentProject).projectSdk
+        (renderer as AhkSdkListCellRenderer).projectSdk = projectSdk //needed since it starts out null
+        model = CollectionComboBoxModel(getAhkSdks().toList(), getAhkSdkByNameIfArgIsString(selectedItem))
+    }
+
+    /**
+     * This is a rather bespoke method that wraps over getAhkSdkByName(...) in the sdk package.
+     *
+     * It is needed when the user opens up the Project Structure dialog and updates an Ahk Sdk which has
+     * the same name as the Sdk that is selected in the run config. If this method is not executed, the
+     * selected Sdk in the run config does not automatically update to reflect the new settings the user
+     * may have set for the sdk with that name.
+     */
+    private fun getAhkSdkByNameIfArgIsString(selectedComboBoxItem: Any?): Any? {
+        return if (selectedComboBoxItem is String) {
+            getAhkSdkByName(selectedComboBoxItem) ?: selectedComboBoxItem
+        } else {
+            selectedComboBoxItem
+        }
     }
 
     fun getSelectedSdkName(): String {

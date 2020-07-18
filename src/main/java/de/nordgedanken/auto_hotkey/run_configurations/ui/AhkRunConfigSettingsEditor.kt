@@ -1,8 +1,11 @@
 package de.nordgedanken.auto_hotkey.run_configurations.ui
 
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.roots.ui.configuration.IdeaProjectSettingsService
+import com.intellij.openapi.ui.FixedSizeButton
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.fields.ExpandableTextField
 import com.intellij.ui.layout.CCFlags
@@ -27,6 +30,11 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
     }
     private val argumentsTextField: ExpandableTextField = ExpandableTextField()
     private val ahkSdkComboBox: AhkSdkComboBox = AhkSdkComboBox(project)
+    private val openProjectSettingsButton: FixedSizeButton = FixedSizeButton().apply {
+        icon = AllIcons.General.ProjectStructure
+        toolTipText = AhkBundle.msg("runconfig.configtab.scriptrunner.projectsettingsbutton.tooltip")
+        addActionListener { openProjStrucDialogAndThenTriggerEditorUpdate() }
+    }
 
     override fun resetEditorFrom(s: AhkRunConfig) {
         pathToScriptTextField.text = s.runConfigSettings.pathToScript
@@ -46,10 +54,29 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
                 outlinedTab(AhkBundle.msg("runconfig.configtab.label")) {
                     row(AhkBundle.msg("runconfig.configtab.scriptpath.label")) { pathToScriptTextField() }
                     row(AhkBundle.msg("runconfig.configtab.scriptargs.label")) { argumentsTextField(growX, pushX) }
-                    row(AhkBundle.msg("runconfig.configtab.scriptrunner.label")) { ahkSdkComboBox(growX, pushX) }
+                    row(AhkBundle.msg("runconfig.configtab.scriptrunner.label")) {
+                        ahkSdkComboBox(growX, pushX)
+                        openProjectSettingsButton()
+                    }
                     noteRow(AhkBundle.msg("runconfig.general.info.label"))
                 }
             }
         }
+    }
+
+    /**
+     * Executed when the openProjectSettingsButton is clicked. The extra logic
+     * here is needed when you make a change to the sdk that is already selected
+     * in the dropdown so that the editor state is updated (otherwise the editor
+     * sees that the selected sdk is the same and does not fire any update events)
+     */
+    private fun openProjStrucDialogAndThenTriggerEditorUpdate() {
+        IdeaProjectSettingsService.getInstance(project).openProjectSettings()
+        ahkSdkComboBox.updateSdkList()
+        //this part is just to trigger the settings editor event listeners to update the error message
+        val tmp = ahkSdkComboBox.selectedItem
+        ahkSdkComboBox.selectedItem = null
+        fireEditorStateChanged()
+        ahkSdkComboBox.selectedItem = tmp
     }
 }
