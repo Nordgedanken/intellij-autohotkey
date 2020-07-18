@@ -13,7 +13,6 @@ plugins {
 }
 
 group = "de.nordgedanken"
-version = "0.2.0"
 
 // Include the generated files in the source set
 sourceSets.main.get().java.srcDirs("src/main/gen")
@@ -60,7 +59,7 @@ buildscript {
 val pluginDescMkdown = """
 A simple plugin for developing AutoHotKey scripts. The following features are available:
 
-- Syntax highlighting
+- Syntax highlighting (under construction)
 - Run configurations
 - More to come in the future...
 
@@ -75,7 +74,7 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
     changeNotes(Processor.process(latestChangeNotes))
 
     pluginDescription(Processor.process(pluginDescMkdown))
-    setVersion(version)
+    version("## \\[(\\d+\\.\\d+\\.\\d+)\\]".toRegex().find(latestChangesMkdown)!!.groups[1]!!.value)
     untilBuild("201.*")
 }
 
