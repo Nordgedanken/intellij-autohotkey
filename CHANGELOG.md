@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - The arguments text field in the run configuration is now expandable
+- Added support for selecting a AutoHotkey project SDK in the run config to run the script with
+
+### Changed
+- Moved run config validity verifications from runtime to within the "Edit Configurations" dialog
 
 ## [0.2.0] - 2020-06-07
 ### Added
