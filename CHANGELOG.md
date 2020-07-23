@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - The arguments text field in the run configuration is now expandable
 - Added support for selecting a AutoHotkey project SDK in the run config to run the script with
+- Ahk SDKs now show their version in the SDK combobox
 
 ### Changed
 - Moved run config validity verifications from runtime to within the "Edit Configurations" dialog
