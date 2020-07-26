@@ -2,19 +2,16 @@ package de.nordgedanken.auto_hotkey
 
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.util.Condition
-import com.intellij.patterns.PlatformPatterns
-import com.intellij.psi.*
-import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReference
+import com.intellij.psi.PsiFileSystemItem
+import com.intellij.psi.PsiReferenceContributor
+import com.intellij.psi.PsiReferenceRegistrar
 import com.intellij.psi.impl.source.resolve.reference.impl.providers.FileReferenceSet
-import com.intellij.util.ProcessingContext
 import de.nordgedanken.auto_hotkey.psi.AHKLitExpr
-import de.nordgedanken.auto_hotkey.psi.AHKLiteralKind
-import de.nordgedanken.auto_hotkey.psi.kind
 
 class AHKReferenceContributor : PsiReferenceContributor() {
     private val log: Logger = Logger.getInstance("#de.nordgedanken.auto_hotkey.AHKReferenceContributor")
     override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
-        registrar.registerReferenceProvider(PlatformPatterns.psiElement(PsiLiteralExpression::class.java),
+       /* registrar.registerReferenceProvider(PlatformPatterns.psiElement(PsiLiteralExpression::class.java),
                 object : PsiReferenceProvider() {
                     override fun getReferencesByElement(element: PsiElement,
                                                         context: ProcessingContext): Array<out FileReference> {
@@ -26,7 +23,7 @@ class AHKReferenceContributor : PsiReferenceContributor() {
                         return AHKLiteralFileReferenceSet(stringLiteral.value
                                 ?: "", element, startOffset, fs.isCaseSensitive).allReferences
                     }
-                })
+                })*/
     }
 }
 

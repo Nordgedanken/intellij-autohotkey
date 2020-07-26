@@ -4,7 +4,6 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.roots.ui.configuration.IdeaProjectSettingsService
 import com.intellij.openapi.ui.FixedSizeButton
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.fields.ExpandableTextField
@@ -71,7 +70,7 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
      * sees that the selected sdk is the same and does not fire any update events)
      */
     private fun openProjStrucDialogAndThenTriggerEditorUpdate() {
-        IdeaProjectSettingsService.getInstance(project).openProjectSettings()
+//        IdeaProjectSettingsService.getInstance(project).openProjectSettings()
         ahkSdkComboBox.updateSdkList()
         //this part is just to trigger the settings editor event listeners to update the error message
         val tmp = ahkSdkComboBox.selectedItem
