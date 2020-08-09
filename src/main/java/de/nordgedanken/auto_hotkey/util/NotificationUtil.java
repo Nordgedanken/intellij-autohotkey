@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hotkey.run_configurations.core;
+package de.nordgedanken.auto_hotkey.util;
 
 import com.intellij.execution.ExecutionManager;
 import com.intellij.execution.runners.ExecutionEnvironment;
@@ -16,7 +16,11 @@ public class NotificationUtil {
 		if(toolWindowManager.canShowNotification(toolWindowId)) {
 			toolWindowManager.notifyByBalloon(toolWindowId, MessageType.ERROR, message, AllIcons.General.Error, null);
 		} else {
-			Messages.showErrorDialog(project, UIUtil.toHtml(message), title);
+			showErrorDialog(project, title, message);
 		}
+	}
+
+	public static void showErrorDialog(Project project, String title, String message) {
+		Messages.showErrorDialog(project, UIUtil.toHtml(message), title);
 	}
 }

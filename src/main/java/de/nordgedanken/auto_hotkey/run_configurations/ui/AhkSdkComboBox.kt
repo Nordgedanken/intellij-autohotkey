@@ -2,12 +2,12 @@ package de.nordgedanken.auto_hotkey.run_configurations.ui
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.Sdk
-import com.intellij.openapi.roots.ProjectRootManager
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.ui.CollectionComboBoxModel
 import de.nordgedanken.auto_hotkey.sdk.AhkSdkType
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdkByName
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdks
+import de.nordgedanken.auto_hotkey.sdk.sdk
 
 class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
     private var projectSdk: Sdk? = null
@@ -25,7 +25,7 @@ class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
      * because the settingseditor will change the selectedItem a few moments after construction via setSelectedSdk...()
      */
     fun updateSdkList() {
-        projectSdk = ProjectRootManager.getInstance(currentProject).projectSdk
+        projectSdk = currentProject.sdk
         (renderer as AhkSdkListCellRenderer).projectSdk = projectSdk //needed since it starts out null
         model = CollectionComboBoxModel(getAhkSdks().toList(), getAhkSdkByNameIfArgIsString(selectedItem))
     }

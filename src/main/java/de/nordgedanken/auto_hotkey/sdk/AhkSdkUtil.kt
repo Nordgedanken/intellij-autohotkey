@@ -2,7 +2,6 @@ package de.nordgedanken.auto_hotkey.sdk
 
 import com.intellij.openapi.projectRoots.ProjectJdkTable
 import com.intellij.openapi.projectRoots.Sdk
-import com.intellij.openapi.projectRoots.SdkType
 
 /**
  * These methods are auto-written to a static class by Kotlin compiler.
@@ -14,8 +13,6 @@ import com.intellij.openapi.projectRoots.SdkType
  */
 fun getAhkSdkByName(sdkName: String): Sdk? = getAhkSdks().find { it.name == sdkName }
 
-fun getAhkSdks(): MutableList<Sdk> {
-    return ProjectJdkTable.getInstance().getSdksOfType(
-            ProjectJdkTable.getInstance().getSdkTypeByName(
-                    SdkType.findInstance(AhkSdkType::class.java).name)).toMutableList()
+fun getAhkSdks(): List<Sdk> {
+    return ProjectJdkTable.getInstance().getSdksOfType(AhkSdkType.getInstance()).toList()
 }
