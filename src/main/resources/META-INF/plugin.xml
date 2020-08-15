@@ -12,6 +12,11 @@
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="AHK script" implementationClass="de.nordgedanken.auto_hotkey.AHKFileType"
                   fieldName="INSTANCE" language="AutoHotKey" extensions="ahk"/>
+        <projectConfigurable id="language.autohotkey"
+                             parentId="language"
+                             displayName="AutoHotkey"
+                             instance="de.nordgedanken.auto_hotkey.settings.AhkProjectConfigurable"/>
+
         <sdkType implementation="de.nordgedanken.auto_hotkey.sdk.AhkSdkType"/>
         <configurationType implementation="de.nordgedanken.auto_hotkey.run_configurations.core.AhkRunConfigType"/>
 

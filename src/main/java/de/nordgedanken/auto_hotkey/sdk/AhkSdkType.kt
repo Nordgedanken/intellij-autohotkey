@@ -1,7 +1,9 @@
 package de.nordgedanken.auto_hotkey.sdk
 
 import com.google.common.flogger.FluentLogger
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.*
+import com.intellij.openapi.roots.ProjectRootManager
 import com.jetbrains.rd.util.use
 import de.nordgedanken.auto_hotkey.AHKIcons
 import de.nordgedanken.auto_hotkey.AhkConstants
@@ -18,10 +20,14 @@ import javax.swing.Icon
 /**
  * Controls how the AutoHotkey Sdk type will look and work in the IDE. Registered in plugin.xml
  */
-class AhkSdkType : SdkType("AutoHotkeySDK") {
+object AhkSdkType : SdkType("AutoHotkeySDK") {
+    private val logger = FluentLogger.forEnclosingClass()
+
+    fun getInstance() = findInstance(this::class.java)
+
     override fun getIcon(): Icon = AHKIcons.EXE
 
-    override fun suggestHomePath() = "C:\\Program Files\\AutoHotkey"
+    override fun suggestHomePath() = """C:\Program Files\AutoHotkey"""
 
     /**
      * Verified that there is an "AutoHotkey.exe" in the directory the user selects
@@ -74,8 +80,7 @@ class AhkSdkType : SdkType("AutoHotkeySDK") {
     }
 
     override fun setupSdkPaths(sdk: Sdk, sdkModel: SdkModel) = true
-
-    companion object {
-        private val logger = FluentLogger.forEnclosingClass()
-    }
 }
+
+//convenience method to get the projectSdk
+val Project.sdk: Sdk? get() = ProjectRootManager.getInstance(this).projectSdk

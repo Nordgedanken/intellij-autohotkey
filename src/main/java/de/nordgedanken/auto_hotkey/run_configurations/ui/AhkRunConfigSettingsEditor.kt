@@ -3,8 +3,8 @@ package de.nordgedanken.auto_hotkey.run_configurations.ui
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.options.SettingsEditor
+import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.roots.ui.configuration.IdeaProjectSettingsService
 import com.intellij.openapi.ui.FixedSizeButton
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.fields.ExpandableTextField
@@ -13,6 +13,7 @@ import com.intellij.ui.layout.panel
 import de.nordgedanken.auto_hotkey.AhkConstants
 import de.nordgedanken.auto_hotkey.localization.AhkBundle
 import de.nordgedanken.auto_hotkey.run_configurations.core.AhkRunConfig
+import de.nordgedanken.auto_hotkey.settings.AhkProjectConfigurable
 import javax.swing.JComponent
 
 /**
@@ -31,9 +32,9 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
     private val argumentsTextField: ExpandableTextField = ExpandableTextField()
     private val ahkSdkComboBox: AhkSdkComboBox = AhkSdkComboBox(project)
     private val openProjectSettingsButton: FixedSizeButton = FixedSizeButton().apply {
-        icon = AllIcons.General.ProjectStructure
+        icon = AllIcons.General.GearPlain
         toolTipText = AhkBundle.msg("runconfig.configtab.scriptrunner.projectsettingsbutton.tooltip")
-        addActionListener { openProjStrucDialogAndThenTriggerEditorUpdate() }
+        addActionListener { openProjSettingsAndThenTriggerEditorUpdate() }
     }
 
     override fun resetEditorFrom(s: AhkRunConfig) {
@@ -70,8 +71,8 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
      * in the dropdown so that the editor state is updated (otherwise the editor
      * sees that the selected sdk is the same and does not fire any update events)
      */
-    private fun openProjStrucDialogAndThenTriggerEditorUpdate() {
-        IdeaProjectSettingsService.getInstance(project).openProjectSettings()
+    private fun openProjSettingsAndThenTriggerEditorUpdate() {
+        ShowSettingsUtil.getInstance().showSettingsDialog(project, AhkProjectConfigurable::class.java)
         ahkSdkComboBox.updateSdkList()
         //this part is just to trigger the settings editor event listeners to update the error message
         val tmp = ahkSdkComboBox.selectedItem

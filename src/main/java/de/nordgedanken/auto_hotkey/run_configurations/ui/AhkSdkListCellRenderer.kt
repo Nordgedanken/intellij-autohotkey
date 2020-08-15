@@ -9,7 +9,7 @@ import de.nordgedanken.auto_hotkey.localization.AhkBundle
 import de.nordgedanken.auto_hotkey.sdk.AhkSdkType
 import javax.swing.JList
 
-class AhkSdkListCellRenderer constructor(internal var projectSdk: Sdk?) : ColoredListCellRenderer<Any>() {
+class AhkSdkListCellRenderer constructor(var projectSdk: Sdk?) : ColoredListCellRenderer<Any>() {
     /**
      * Render AhkSdks in the combobox list according to setupComboBoxEntry, or some form of error string for the entry otherwise
      */
