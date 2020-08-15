@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- New page added to Settings dialog for AutoHotkey settings
+- Sdk-management toolbar (eg add/edit/remove sdk) added to AutoHotkey settings
+
+### Changed
+- Settings button next to "Script Runner" field in run config UI now points to new AutoHotkey page in Settings
+- Updated compatibility to work with IntelliJ 2020.2
+
+### Fixed
+- Removed/commented classes that prevented the plugin from working in non-IDEA IDEs 
 
 ## [0.3.0] - 2020-07-23
 ### Added
@@ -14,6 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Moved run config validity verifications from runtime to within the "Edit Configurations" dialog
+
+### Removed
+- Removed dependency on Java plugin
 
 ## [0.2.0] - 2020-06-07
 ### Added

@@ -14,12 +14,12 @@ class AhkProjectSettingsPanel(project: Project) {
     fun attachTo(layoutBuilder: LayoutBuilder) = with(layoutBuilder) {
         row {
             cell(true) {
-                label(AhkBundle.msg("settings.ahkrunners.general.label"))
+                label(AhkBundle.msg("settings.autohotkey.ahkrunners.general.label"))
                 ahkSdkToolbar(pushX, growX)
             }
         }
         row {
-            label(AhkBundle.msg("settings.ahkrunners.general.info"))
+            label(AhkBundle.msg("settings.autohotkey.ahkrunners.general.info"))
         }
     }
 }
