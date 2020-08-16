@@ -6,6 +6,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
 import de.nordgedanken.auto_hotkey.psi.AHKVariable
 import de.nordgedanken.auto_hotkey.psi.ext.getKey
+import de.nordgedanken.auto_hotkey.util.AhkIcons
 import java.util.*
 
 
@@ -33,7 +34,7 @@ class AHKReference(element: PsiElement, textRange: TextRange) : PsiReferenceBase
         for (property in properties) {
             if (property.getKey().isNotBlank() && property.getKey().isNotEmpty()) {
                 variants.add(LookupElementBuilder
-                        .create(property).withIcon(AHKIcons.FILE)
+                        .create(property).withIcon(AhkIcons.FILE)
                         .withTypeText(property.containingFile.name)
                 )
             }

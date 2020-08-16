@@ -5,6 +5,7 @@ import com.intellij.psi.PsiManager
 import com.intellij.psi.search.FileTypeIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
+import de.nordgedanken.auto_hotkey.lang.core.AhkFileType
 import de.nordgedanken.auto_hotkey.psi.AHKFile
 import de.nordgedanken.auto_hotkey.psi.AHKVariable
 import de.nordgedanken.auto_hotkey.psi.ext.getKey
@@ -14,7 +15,7 @@ object AHKUtil {
     // Searches the entire project for Simple language files with instances of the Simple property with the given key
     fun findProperties(project: Project?, key: String): List<AHKVariable> {
         val result: MutableList<AHKVariable> = ArrayList()
-        val virtualFiles = FileTypeIndex.getFiles(AHKFileType, GlobalSearchScope.allScope(project!!))
+        val virtualFiles = FileTypeIndex.getFiles(AhkFileType, GlobalSearchScope.allScope(project!!))
         for (virtualFile in virtualFiles) {
             val simpleFile = PsiManager.getInstance(project).findFile(virtualFile!!) as AHKFile?
             if (simpleFile != null) {
@@ -35,7 +36,7 @@ object AHKUtil {
 
     fun findProperties(project: Project?): List<AHKVariable> {
         val result: MutableList<AHKVariable> = ArrayList()
-        val virtualFiles = FileTypeIndex.getFiles(AHKFileType, GlobalSearchScope.allScope(project!!))
+        val virtualFiles = FileTypeIndex.getFiles(AhkFileType, GlobalSearchScope.allScope(project!!))
         for (virtualFile in virtualFiles) {
             val simpleFile = PsiManager.getInstance(project).findFile(virtualFile!!) as AHKFile?
             if (simpleFile != null) {

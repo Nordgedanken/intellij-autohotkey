@@ -1,11 +1,10 @@
 package de.nordgedanken.auto_hotkey
 
-import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
-import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
 import de.nordgedanken.auto_hotkey.colors.AHKColor
+import de.nordgedanken.auto_hotkey.util.AhkIcons
 import javax.swing.Icon
 
 class AHKColorSettingsPage : ColorSettingsPage {
@@ -13,7 +12,7 @@ class AHKColorSettingsPage : ColorSettingsPage {
 
     private val ANNOTATOR_TAGS = AHKColor.values().associateBy({ it.name }, { it.textAttributesKey })
 
-    override fun getIcon(): Icon = AHKIcons.FILE
+    override fun getIcon(): Icon = AhkIcons.FILE
 
     override fun getHighlighter(): SyntaxHighlighter = AHKSyntaxHighlighter()
 

@@ -5,12 +5,12 @@ import com.intellij.psi.stubs.IStubElementType
 import com.intellij.psi.stubs.IndexSink
 import com.intellij.psi.stubs.StubElement
 import com.intellij.psi.tree.IStubFileElementType
-import de.nordgedanken.auto_hotkey.AHKLanguage
+import de.nordgedanken.auto_hotkey.lang.core.AhkLanguage
 import de.nordgedanken.auto_hotkey.psi.ext.AHKElement
 
 abstract class AHKStubElementType<StubT : StubElement<*>, PsiT : AHKElement>(
         debugName: String
-) : IStubElementType<StubT, PsiT>(debugName, AHKLanguage) {
+) : IStubElementType<StubT, PsiT>(debugName, AhkLanguage) {
 
     final override fun getExternalId(): String = "rust.${super.toString()}"
 

@@ -10,8 +10,8 @@
     <resource-bundle>localization.AhkBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="AHK script" implementationClass="de.nordgedanken.auto_hotkey.AHKFileType"
-                  fieldName="INSTANCE" language="AutoHotKey" extensions="ahk"/>
+        <fileType name="AutoHotkey script" implementationClass="de.nordgedanken.auto_hotkey.lang.core.AhkFileType"
+                  fieldName="INSTANCE" language="AutoHotkey" extensions="ahk"/>
         <projectConfigurable id="language.autohotkey"
                              parentId="language"
                              displayName="AutoHotkey"
@@ -41,11 +41,11 @@
     </extensions>
 
     <actions>
-        <action id="AHK.NewAHKFile"
-                class="de.nordgedanken.auto_hotkey.actions.AHKCreateFileAction"
-                text="AutoHotKey File"
-                description="Create new AutoHotKey file">
-            <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
-        </action>
+<!--        <action id="AHK.NewAHKFile"-->
+<!--                class="de.nordgedanken.auto_hotkey.actions.AHKCreateFileAction"-->
+<!--                text="AutoHotKey File"-->
+<!--                description="Create new AutoHotKey file">-->
+<!--            <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>-->
+<!--        </action>-->
     </actions>
 </idea-plugin>

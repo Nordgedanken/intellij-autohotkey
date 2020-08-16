@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hotkey.localization;
+package de.nordgedanken.auto_hotkey.util;
 
 import com.intellij.CommonBundle;
 import org.jetbrains.annotations.NonNls;

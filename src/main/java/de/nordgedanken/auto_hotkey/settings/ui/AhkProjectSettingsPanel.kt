@@ -2,7 +2,7 @@ package de.nordgedanken.auto_hotkey.settings.ui
 
 import com.intellij.openapi.project.Project
 import com.intellij.ui.layout.LayoutBuilder
-import de.nordgedanken.auto_hotkey.localization.AhkBundle
+import de.nordgedanken.auto_hotkey.util.AhkBundle
 import javax.swing.JPanel
 
 /**

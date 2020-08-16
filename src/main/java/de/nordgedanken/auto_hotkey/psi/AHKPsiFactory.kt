@@ -6,7 +6,7 @@ import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiParserFacade
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.LocalTimeCounter
-import de.nordgedanken.auto_hotkey.AHKFileType
+import de.nordgedanken.auto_hotkey.lang.core.AhkFileType
 import de.nordgedanken.auto_hotkey.psi.ext.AHKElement
 
 
@@ -19,7 +19,7 @@ class AHKPsiFactory(
             PsiFileFactory.getInstance(project)
                     .createFileFromText(
                             "DUMMY.shk",
-                            AHKFileType,
+                            AhkFileType,
                             text,
                             /*modificationStamp =*/ LocalTimeCounter.currentTime(), // default value
                             /*eventSystemEnabled =*/ eventSystemEnabled, // `false` by default
@@ -38,7 +38,7 @@ class AHKPsiFactory(
 
     private inline fun <reified T : AHKElement> createFromText(text: String): T? =
             PsiFileFactory.getInstance(project)
-                    .createFileFromText("DUMMY.rs", AHKFileType, text)
+                    .createFileFromText("DUMMY.rs", AhkFileType, text)
                     .descendantOfTypeStrict<T>()
 
 

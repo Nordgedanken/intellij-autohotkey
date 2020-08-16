@@ -1,8 +1,8 @@
-package de.nordgedanken.auto_hotkey.psi;
+package de.nordgedanken.auto_hotkey.psi
 
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
-import de.nordgedanken.auto_hotkey.AHKLanguage
+import de.nordgedanken.auto_hotkey.lang.core.AhkLanguage
 import de.nordgedanken.auto_hotkey.parser.AHKParserDefinition.Companion.BLOCK_COMMENT
 import de.nordgedanken.auto_hotkey.parser.AHKParserDefinition.Companion.EOL_COMMENT
 import de.nordgedanken.auto_hotkey.psi.AHKTypes.*
@@ -14,7 +14,7 @@ val AHK_BLOCK_LIKE_EXPRESSIONS = tokenSetOf(BLOCK_EXPR)
 
 fun tokenSetOf(vararg tokens: IElementType) = TokenSet.create(*tokens)
 
-open class AHKTokenType(debugName: String) : IElementType(debugName, AHKLanguage)
+open class AHKTokenType(debugName: String) : IElementType(debugName, AhkLanguage)
 
 val AHK_COMMENTS = tokenSetOf(BLOCK_COMMENT, EOL_COMMENT)
 

@@ -2,7 +2,7 @@ package de.nordgedanken.auto_hotkey.psi
 
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFileFactory
-import de.nordgedanken.auto_hotkey.AHKFileType
+import de.nordgedanken.auto_hotkey.lang.core.AhkFileType
 
 
 object AHKElementFactory {
@@ -13,6 +13,6 @@ object AHKElementFactory {
 
     private fun createFile(project: Project?, text: String?): AHKFile {
         val name = "dummy.ahk"
-        return PsiFileFactory.getInstance(project).createFileFromText(name, AHKFileType, text!!) as AHKFile
+        return PsiFileFactory.getInstance(project).createFileFromText(name, AhkFileType, text!!) as AHKFile
     }
 }

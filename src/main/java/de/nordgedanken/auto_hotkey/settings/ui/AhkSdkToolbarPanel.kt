@@ -11,11 +11,11 @@ import com.intellij.ui.DoubleClickListener
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.components.JBList
 import com.jetbrains.rd.util.remove
-import de.nordgedanken.auto_hotkey.localization.AhkBundle
 import de.nordgedanken.auto_hotkey.run_configurations.ui.AhkSdkListCellRenderer
 import de.nordgedanken.auto_hotkey.sdk.AhkSdkType
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdks
 import de.nordgedanken.auto_hotkey.sdk.sdk
+import de.nordgedanken.auto_hotkey.util.AhkBundle
 import de.nordgedanken.auto_hotkey.util.NotificationUtil
 import java.awt.event.MouseEvent
 import java.io.File

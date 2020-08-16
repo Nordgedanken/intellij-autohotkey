@@ -11,12 +11,11 @@ import com.intellij.psi.impl.source.tree.TreeElement
 import com.intellij.psi.impl.source.tree.TreeUtil
 import com.intellij.psi.stubs.*
 import com.intellij.psi.tree.*
-import com.intellij.util.BitUtil
 import com.intellij.util.CharTable
 import com.intellij.util.diff.FlyweightCapableTreeStructure
 import com.intellij.util.io.DataInputOutputUtil
-import de.nordgedanken.auto_hotkey.AHKLanguage
 import de.nordgedanken.auto_hotkey.AutoHotKey.flex.AHKLexer
+import de.nordgedanken.auto_hotkey.lang.core.AhkLanguage
 import de.nordgedanken.auto_hotkey.parser.AHKParser
 import de.nordgedanken.auto_hotkey.psi.*
 import de.nordgedanken.auto_hotkey.psi.AHKTypes.*
@@ -177,14 +176,14 @@ object AHKBlockStubType : AHKPlaceholderStub.Type<AHKBlock>("BLOCK", ::AHKBlockI
 
     override fun parseContents(chameleon: ASTNode): ASTNode? {
         val project = chameleon.treeParent.psi.project
-        val builder = PsiBuilderFactory.getInstance().createBuilder(project, chameleon, null, AHKLanguage, chameleon.chars)
+        val builder = PsiBuilderFactory.getInstance().createBuilder(project, chameleon, null, AhkLanguage, chameleon.chars)
         parseBlock(builder)
         return builder.treeBuilt.firstChildNode
     }
 
     override fun parseContents(chameleon: LighterLazyParseableNode): FlyweightCapableTreeStructure<LighterASTNode> {
         val project = chameleon.containingFile?.project ?: error("`containingFile` must not be null: $chameleon")
-        val builder = PsiBuilderFactory.getInstance().createBuilder(project, chameleon, null, AHKLanguage, chameleon.text)
+        val builder = PsiBuilderFactory.getInstance().createBuilder(project, chameleon, null, AhkLanguage, chameleon.text)
         parseBlock(builder)
         return builder.lightTree
     }
@@ -234,7 +233,7 @@ class AHKFileStub(file: AHKFile) : PsiFileStubImpl<AHKFile>(file) {
 
     override fun getType() = Type
 
-    object Type : IStubFileElementType<AHKFileStub>(AHKLanguage) {
+    object Type : IStubFileElementType<AHKFileStub>(AhkLanguage) {
         private const val STUB_VERSION = 1
 
         // Bump this number if Stub structure changes
