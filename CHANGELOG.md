@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.3.1] - 2020-08-17 - Replaces 0.3.0
 ### Added
 - New page added to Settings dialog for AutoHotkey settings
 - Sdk-management toolbar (eg add/edit/remove sdk) added to AutoHotkey settings
@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Removed/commented classes that prevented the plugin from working in non-IDEA IDEs 
 
-## [0.3.0] - 2020-07-23
+## [0.3.0] - 2020-07-23 - Not released itself. Only availale bundled with 0.3.1
 ### Added
 - The arguments text field in the run configuration is now expandable
 - Added support for selecting a AutoHotkey project SDK in the run config to run the script with
