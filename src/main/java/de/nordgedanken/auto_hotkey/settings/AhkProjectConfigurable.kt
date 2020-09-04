@@ -3,8 +3,8 @@ package de.nordgedanken.auto_hotkey.settings
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
 import com.intellij.ui.layout.panel
-import de.nordgedanken.auto_hotkey.AhkConstants
 import de.nordgedanken.auto_hotkey.settings.ui.AhkProjectSettingsPanel
+import de.nordgedanken.auto_hotkey.util.AhkConstants
 
 /**
  * This project configurable is the backend support for the AutoHotkey settings that are present when you click on

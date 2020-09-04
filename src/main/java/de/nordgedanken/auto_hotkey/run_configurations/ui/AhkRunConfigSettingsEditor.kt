@@ -10,10 +10,10 @@ import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.fields.ExpandableTextField
 import com.intellij.ui.layout.CCFlags
 import com.intellij.ui.layout.panel
-import de.nordgedanken.auto_hotkey.AhkConstants
 import de.nordgedanken.auto_hotkey.run_configurations.core.AhkRunConfig
 import de.nordgedanken.auto_hotkey.settings.AhkProjectConfigurable
 import de.nordgedanken.auto_hotkey.util.AhkBundle
+import de.nordgedanken.auto_hotkey.util.AhkConstants
 import javax.swing.JComponent
 
 /**

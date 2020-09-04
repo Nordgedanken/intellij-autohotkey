@@ -41,6 +41,7 @@ tasks.publishPlugin {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version = "2019.3"
+    type = "IC"
 }
 
 configure<JavaPluginConvention> {
@@ -82,17 +83,17 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
 
 project(":") {
     val generateAHKLexer = task<GenerateLexer>("generateAHKLexer") {
-        source = "src/main/java/de/nordgedanken/auto_hotkey/AutoHotKey/flex/AutoHotKey.flex"
+        source = "src/main/java/de/nordgedanken/auto_hotkey/lang/lexer/AutoHotkey.flex"
         targetDir = "src/main/gen/de/nordgedanken/auto_hotkey/"
-        targetClass = "AHKLexer"
+        targetClass = "AhkLexer"
         purgeOldFiles = true
     }
 
     val generateAHKParser = task<GenerateParser>("generateAHKParser") {
-        source = "src/main/java/de/nordgedanken/auto_hotkey/AutoHotKey.bnf"
+        source = "src/main/java/de/nordgedanken/auto_hotkey/lang/grammar/AutoHotkey.bnf"
         targetRoot = "src/main/gen"
-        pathToParser = "de/nordgedanken/auto_hotkey/parser/AHKParser.java"
-        pathToPsiRoot = "de/nordgedanken/auto_hotkey/psi"
+        pathToParser = "de/nordgedanken/auto_hotkey/lang/parser/AhkParser.java"
+        pathToPsiRoot = "de/nordgedanken/auto_hotkey/lang/psi"
         purgeOldFiles = true
     }
 

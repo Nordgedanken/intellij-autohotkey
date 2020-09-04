@@ -2,7 +2,7 @@ package de.nordgedanken.auto_hotkey.run_configurations.core;
 
 import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.ConfigurationType;
-import de.nordgedanken.auto_hotkey.AhkConstants;
+import de.nordgedanken.auto_hotkey.util.AhkConstants;
 import de.nordgedanken.auto_hotkey.util.AhkIcons;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;

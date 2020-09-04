@@ -2,7 +2,7 @@ package de.nordgedanken.auto_hotkey.lang.core
 
 import com.intellij.openapi.fileTypes.LanguageFileType
 import com.intellij.openapi.vfs.VirtualFile
-import de.nordgedanken.auto_hotkey.AhkConstants
+import de.nordgedanken.auto_hotkey.util.AhkConstants
 import de.nordgedanken.auto_hotkey.util.AhkIcons
 import javax.swing.Icon
 

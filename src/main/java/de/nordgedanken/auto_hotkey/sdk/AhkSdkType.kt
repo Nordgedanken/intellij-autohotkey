@@ -5,8 +5,8 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.*
 import com.intellij.openapi.roots.ProjectRootManager
 import com.jetbrains.rd.util.use
-import de.nordgedanken.auto_hotkey.AhkConstants
 import de.nordgedanken.auto_hotkey.util.AhkBundle
+import de.nordgedanken.auto_hotkey.util.AhkConstants
 import de.nordgedanken.auto_hotkey.util.AhkIcons
 import org.jdom.Element
 import java.io.File
