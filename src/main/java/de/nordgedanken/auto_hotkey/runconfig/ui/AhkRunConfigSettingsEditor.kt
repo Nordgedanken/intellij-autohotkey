@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hotkey.run_configurations.ui
+package de.nordgedanken.auto_hotkey.runconfig.ui
 
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
@@ -10,7 +10,7 @@ import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.fields.ExpandableTextField
 import com.intellij.ui.layout.CCFlags
 import com.intellij.ui.layout.panel
-import de.nordgedanken.auto_hotkey.run_configurations.core.AhkRunConfig
+import de.nordgedanken.auto_hotkey.runconfig.core.AhkRunConfig
 import de.nordgedanken.auto_hotkey.settings.AhkProjectConfigurable
 import de.nordgedanken.auto_hotkey.util.AhkBundle
 import de.nordgedanken.auto_hotkey.util.AhkConstants

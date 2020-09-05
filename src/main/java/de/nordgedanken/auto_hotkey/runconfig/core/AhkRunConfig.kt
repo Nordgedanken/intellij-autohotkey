@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hotkey.run_configurations.core
+package de.nordgedanken.auto_hotkey.runconfig.core
 
 import com.intellij.execution.Executor
 import com.intellij.execution.configurations.*
@@ -7,9 +7,9 @@ import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
-import de.nordgedanken.auto_hotkey.run_configurations.execution.AhkRunState
-import de.nordgedanken.auto_hotkey.run_configurations.model.AhkRunConfigSettings
-import de.nordgedanken.auto_hotkey.run_configurations.ui.AhkRunConfigSettingsEditor
+import de.nordgedanken.auto_hotkey.runconfig.execution.AhkRunState
+import de.nordgedanken.auto_hotkey.runconfig.model.AhkRunConfigSettings
+import de.nordgedanken.auto_hotkey.runconfig.ui.AhkRunConfigSettingsEditor
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdkByName
 import de.nordgedanken.auto_hotkey.util.AhkBundle
 import de.nordgedanken.auto_hotkey.util.AhkConstants

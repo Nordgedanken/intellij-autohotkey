@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hotkey.run_configurations.model
+package de.nordgedanken.auto_hotkey.runconfig.model
 
 import com.intellij.execution.configurations.CommandLineTokenizer
 import com.intellij.openapi.util.JDOMExternalizerUtil

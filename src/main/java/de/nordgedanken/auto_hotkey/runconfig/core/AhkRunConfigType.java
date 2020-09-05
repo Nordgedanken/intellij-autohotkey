@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hotkey.run_configurations.core;
+package de.nordgedanken.auto_hotkey.runconfig.core;
 
 import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.execution.configurations.ConfigurationType;

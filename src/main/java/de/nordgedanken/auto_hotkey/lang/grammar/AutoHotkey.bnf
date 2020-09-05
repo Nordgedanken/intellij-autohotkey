@@ -12,7 +12,7 @@
   elementTypeClass="de.nordgedanken.auto_hotkey.lang.psi.AhkElementType"
   tokenTypeClass="de.nordgedanken.auto_hotkey.lang.psi.AhkTokenType"
 
-  psiImplUtilClass="de.nordgedanken.auto_hotkey.lang.psi.impl.AhkPsiImplUtil"
+//  psiImplUtilClass="de.nordgedanken.auto_hotkey.lang.psi.impl.AhkPsiImplUtil"
 }
 
 ahkFile ::= item_*

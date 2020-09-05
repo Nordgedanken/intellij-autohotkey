@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hotkey.run_configurations.ui
+package de.nordgedanken.auto_hotkey.runconfig.ui
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.Sdk

@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hotkey.run_configurations.execution
+package de.nordgedanken.auto_hotkey.runconfig.execution
 
 import com.intellij.execution.ExecutionException
 import com.intellij.execution.configurations.CommandLineState
@@ -6,7 +6,7 @@ import com.intellij.execution.configurations.GeneralCommandLine
 import com.intellij.execution.process.KillableProcessHandler
 import com.intellij.execution.process.ProcessHandler
 import com.intellij.execution.runners.ExecutionEnvironment
-import de.nordgedanken.auto_hotkey.run_configurations.core.AhkRunConfig
+import de.nordgedanken.auto_hotkey.runconfig.core.AhkRunConfig
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdkByName
 import java.nio.file.Paths
 

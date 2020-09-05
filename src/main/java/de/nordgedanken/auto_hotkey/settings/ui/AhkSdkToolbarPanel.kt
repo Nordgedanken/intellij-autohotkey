@@ -11,7 +11,7 @@ import com.intellij.ui.DoubleClickListener
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.components.JBList
 import com.jetbrains.rd.util.remove
-import de.nordgedanken.auto_hotkey.run_configurations.ui.AhkSdkListCellRenderer
+import de.nordgedanken.auto_hotkey.runconfig.ui.AhkSdkListCellRenderer
 import de.nordgedanken.auto_hotkey.sdk.AhkSdkType
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdks
 import de.nordgedanken.auto_hotkey.sdk.sdk

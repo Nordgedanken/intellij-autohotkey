@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hotkey.run_configurations.ui
+package de.nordgedanken.auto_hotkey.runconfig.ui
 
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.ui.components.JBTabbedPane

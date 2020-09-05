@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hotkey.run_configurations.model
+package de.nordgedanken.auto_hotkey.runconfig.model
 
 import org.junit.jupiter.api.Assertions.assertArrayEquals
 import org.junit.jupiter.api.Test

@@ -15,7 +15,7 @@
 
         <!--run config execution-->
         <sdkType implementation="de.nordgedanken.auto_hotkey.sdk.AhkSdkType"/>
-        <configurationType implementation="de.nordgedanken.auto_hotkey.run_configurations.core.AhkRunConfigType"/>
+        <configurationType implementation="de.nordgedanken.auto_hotkey.runconfig.core.AhkRunConfigType"/>
 
         <!--language management (eg parsing, highlighting, etc)-->
         <lang.parserDefinition language="AutoHotkey"
