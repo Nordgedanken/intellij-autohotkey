@@ -28,7 +28,10 @@ tasks.test {
 dependencies {
     implementation("com.google.flogger:flogger:0.5.1")
     implementation("com.google.flogger:flogger-system-backend:0.5.1")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.7.0")
 }
 
 val intellijPublishToken: String? by project
