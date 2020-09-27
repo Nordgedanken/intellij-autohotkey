@@ -93,7 +93,7 @@ project(":") {
     }
 
     val generateAHKParser = task<GenerateParser>("generateAHKParser") {
-        source = "src/main/java/de/nordgedanken/auto_hotkey/lang/grammar/AutoHotkey.bnf"
+        source = "src/main/java/de/nordgedanken/auto_hotkey/lang/parser/AutoHotkey.bnf"
         targetRoot = "src/main/gen"
         pathToParser = "de/nordgedanken/auto_hotkey/lang/parser/AhkParser.java"
         pathToPsiRoot = "de/nordgedanken/auto_hotkey/lang/psi"
