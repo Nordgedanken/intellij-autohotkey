@@ -18,7 +18,7 @@ import de.nordgedanken.auto_hotkey.lang.psi.AhkTypes
 
 class AhkParserDefinition : ParserDefinition {
     val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
-    val COMMENTS = TokenSet.create(AhkTypes.COMMENT)
+    val COMMENTS = TokenSet.create(TokenType.DUMMY_HOLDER)
     val FILE = IFileElementType(AhkLanguage)
 
     override fun createLexer(project: Project?): Lexer = AhkLexerAdapter()

@@ -3,10 +3,9 @@ package de.nordgedanken.auto_hotkey.ide.highlighter
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
-import com.intellij.psi.TokenType.BAD_CHARACTER
 import com.intellij.psi.tree.IElementType
 import de.nordgedanken.auto_hotkey.lang.lexer.AhkLexerAdapter
-import de.nordgedanken.auto_hotkey.lang.psi.AhkTypes.*
+import de.nordgedanken.auto_hotkey.lang.psi.AhkTypes.HOTKEY_ASSIGNMENT
 
 class AhkSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer = AhkLexerAdapter()
@@ -16,11 +15,12 @@ class AhkSyntaxHighlighter : SyntaxHighlighterBase() {
 
     companion object {
         fun map(tokenType: IElementType): AhkColor? = when (tokenType) {
-            SEPARATOR -> AhkColor.SEPARATOR_KEYS
-            KEY -> AhkColor.KEY_KEYS
-            VALUE -> AhkColor.VALUE_KEYS
-            COMMENT -> AhkColor.COMMENT_KEYS
-            BAD_CHARACTER -> AhkColor.BAD_CHAR_KEYS
+            HOTKEY_ASSIGNMENT -> AhkColor.FUNCTION
+//            SEPARATOR -> AhkColor.SEPARATOR_KEYS
+//            KEY -> AhkColor.KEY_KEYS
+//            VALUE -> AhkColor.VALUE_KEYS
+//            COMMENT -> AhkColor.COMMENT_KEYS
+//            BAD_CHARACTER -> AhkColor.BAD_CHAR_KEYS
 //            IDENTIFIER -> AHKColor.IDENTIFIER
 //
 //            STRING_LITERAL -> AHKColor.STRING

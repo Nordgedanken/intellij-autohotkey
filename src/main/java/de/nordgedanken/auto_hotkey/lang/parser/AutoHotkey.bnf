@@ -15,15 +15,28 @@
 //  psiImplUtilClass="de.nordgedanken.auto_hotkey.lang.psi.impl.AhkPsiImplUtil"
 }
 
-ahkFile ::= item_*
-private item_ ::= (property|COMMENT|CRLF)
-property ::= (KEY? SEPARATOR VALUE?) | KEY {
-    pin=3
-    recoverWhile="recover_property"
-}
-private recover_property ::= !(KEY|SEPARATOR|COMMENT)
+/*
+    Naming convention:
+    - psiElements are camelcase
+    - tokens are lowercase: for, if, identifier
+    - rules are PascalCase: StructItem, EnumVariant
+    - recovery related rules are PascalCase_with_snake_suffix: Item_recover
+*/
 
-//HOTKEY ::= ("#"|"!"|"^"|"+"|"&"|"<"|">"|"<^>!"|"*"|"~"|"$")? ANY_CHAR "::"
+
+ahkFile ::= item*
+item ::= (HOTKEY_ASSIGNMENT | ANY)
+//hotkeyAssignment ::= HOTKEY_ASSIGNMENT
+//property ::= (KEY? SEPARATOR VALUE?) | KEY {
+//    pin=3
+//    recoverWhile="recover_property"
+//}
+//private recover_property ::= !(KEY|SEPARATOR|COMMENT)
+
+//A hotkey is made of 0+ modifiers and at least 1 character.
+// Modifiers must appear before characters. You can repeat modifiers (though it's pointless).
+// Custom combinations can be 2 keys only and must have " & " between them.
+//HOTKEY_ASSIGNMENT ::= ('#'|'!'|'^'|'+'|'<'|'>'|'<^>!'|'*'|'~'|'$')* ALPHANUMERIC_OR_SPACE+ (' & ' ALPHANUMERIC_OR_SPACE+)? '::'
 
 /*
 ahkFile ::= Items*

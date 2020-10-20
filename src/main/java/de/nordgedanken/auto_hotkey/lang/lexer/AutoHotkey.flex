@@ -16,33 +16,53 @@ import de.nordgedanken.auto_hotkey.lang.psi.AhkTypes;
 %eof{  return;
 %eof}
 
-CRLF=\R
-WHITE_SPACE=[\ \n\t\f]
-FIRST_VALUE_CHARACTER=[^ \n\f\\] | "\\"{CRLF} | "\\".
-VALUE_CHARACTER=[^\n\f\\] | "\\"{CRLF} | "\\".
-END_OF_LINE_COMMENT=("#"|"!")[^\r\n]*
-SEPARATOR=[:=]
-KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
+//core regexes usable anywhere in the class
+WHITE_SPACE_SINGLE_LINE=[\ \t]
+ALPHANUMERIC_OR_SPACE = [:letter:] | [:digit:] | " "
 
-%state WAITING_VALUE
+//FIRST_VALUE_CHARACTER=[^ \n\f\\] | "\\"{CRLF} | "\\".
+//VALUE_CHARACTER=[^\n\f\\] | "\\"{CRLF} | "\\".
+//END_OF_LINE_COMMENT=("#"|"!")[^\r\n]*
+//SEPARATOR=[:=]
+//KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
+
+//core regexes specific to AutoHotkey language syntax
+HOTKEY_MODIFIERS = [#!\^\+<>\*~\$] | "<^>!"
+
+//combo regexes using both of the above
+HOTKEY = {HOTKEY_MODIFIERS}* {ALPHANUMERIC_OR_SPACE}+ (" "+ '&' " "+ {ALPHANUMERIC_OR_SPACE}+)?
+
+%state HOTKEY
 
 %%
 
-<YYINITIAL> {END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return AhkTypes.COMMENT; }
+<YYINITIAL> {
+    //these 2 are needed to handle a) hotkey at beginning of line, b) space before hotkey at beginning of line
+    ^{HOTKEY} / "::" { yybegin(HOTKEY); return AhkTypes.HOTKEY_ASSIGNMENT; }
+    ^{WHITE_SPACE_SINGLE_LINE}+ / {HOTKEY} "::" { yybegin(HOTKEY); return TokenType.WHITE_SPACE; }
 
-<YYINITIAL> {KEY_CHARACTER}+                                { yybegin(YYINITIAL); return AhkTypes.KEY; }
+    {ALPHANUMERIC_OR_SPACE}+ { return AhkTypes.ANY; }
+    \s+ { return TokenType.WHITE_SPACE; }
+    . { return AhkTypes.ANY; }
+}
 
-<YYINITIAL> {SEPARATOR}                                     { yybegin(WAITING_VALUE); return AhkTypes.SEPARATOR; }
+//need separate state for hotkey to avoid reading any leading spaces with the hotkey token itself
+<HOTKEY> {
+    {HOTKEY} { return AhkTypes.HOTKEY_ASSIGNMENT; }
+    "::" { yybegin(YYINITIAL); return AhkTypes.ANY; }
+}
 
-<WAITING_VALUE> {CRLF}({CRLF}|{WHITE_SPACE})+               { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
 
-<WAITING_VALUE> {WHITE_SPACE}+                              { yybegin(WAITING_VALUE); return TokenType.WHITE_SPACE; }
+//{END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return AhkTypes.COMMENT; }
+//
+//<YYINITIAL> {KEY_CHARACTER}+                                { yybegin(YYINITIAL); return AhkTypes.KEY; }
+//
+//<YYINITIAL> {SEPARATOR}                                     { yybegin(WAITING_VALUE); return AhkTypes.SEPARATOR; }
+//
+//
+//({CRLF}|{WHITE_SPACE})+                                     { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
 
-<WAITING_VALUE> {FIRST_VALUE_CHARACTER}{VALUE_CHARACTER}*   { yybegin(YYINITIAL); return AhkTypes.VALUE; }
-
-({CRLF}|{WHITE_SPACE})+                                     { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
-
-[^]                                                         { return TokenType.BAD_CHARACTER; }
+//[^]                                                         { return TokenType.BAD_CHARACTER; }
 
 //%{
 //  public _AHKLexer() {

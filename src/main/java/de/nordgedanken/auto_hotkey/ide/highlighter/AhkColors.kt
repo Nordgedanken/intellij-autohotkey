@@ -1,16 +1,16 @@
 package de.nordgedanken.auto_hotkey.ide.highlighter
 
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
-import com.intellij.openapi.editor.HighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.options.colors.AttributesDescriptor
 
 enum class AhkColor(humanName: String, default: TextAttributesKey? = null) {
-    SEPARATOR_KEYS("AHK_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN),
-    KEY_KEYS("AHK_KEY", DefaultLanguageHighlighterColors.KEYWORD),
-    VALUE_KEYS("AHK_VALUE", DefaultLanguageHighlighterColors.STRING),
-    COMMENT_KEYS("AHK_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT),
-    BAD_CHAR_KEYS("AHK_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER),
+    FUNCTION("Functions//Function declaration", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION),
+//    SEPARATOR_KEYS("AHK_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN),
+//    KEY_KEYS("AHK_KEY", DefaultLanguageHighlighterColors.KEYWORD),
+//    VALUE_KEYS("AHK_VALUE", DefaultLanguageHighlighterColors.STRING),
+//    COMMENT_KEYS("AHK_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT),
+//    BAD_CHAR_KEYS("AHK_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER),
 //    IDENTIFIER("Variables//Default", DefaultLanguageHighlighterColors.IDENTIFIER),
 //
 //    FUNCTION("Functions//Function declaration", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION),
