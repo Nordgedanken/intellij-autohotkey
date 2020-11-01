@@ -12,7 +12,19 @@
   elementTypeClass="de.nordgedanken.auto_hotkey.lang.psi.AhkElementType"
   tokenTypeClass="de.nordgedanken.auto_hotkey.lang.psi.AhkTokenType"
 
-//  psiImplUtilClass="de.nordgedanken.auto_hotkey.lang.psi.impl.AhkPsiImplUtil"
+  psiImplUtilClass="de.nordgedanken.auto_hotkey.lang.psi.impl.AhkPsiImplUtil"
+
+  tokens = [
+    //generic
+    CHAR_SPECIAL = "regexp:\p{Punct}"
+    CRLF = "regexp:[\n\r\f]"
+    WHITESPACE = "regexp:\p{Blank}+" //reads same-line whitespace only, since AHK requires whitespace/LF in certain places
+
+    //language-specific
+
+    //built-ins
+    id="regexp:\w+"
+  ]
 }
 
 /*
@@ -23,9 +35,17 @@
     - recovery related rules are PascalCase_with_snake_suffix: Item_recover
 */
 
+AhkFile ::= Item*
+private Item ::= Function_Decl | Text | CRLF
 
-ahkFile ::= item*
-item ::= (HOTKEY_ASSIGNMENT | ANY)
+private Function_Decl ::= Hotkey_Decl
+private Hotkey_Decl ::= WHITESPACE? Hotkey_Assignment
+Hotkey_Assignment ::= Hotkey ':' ':' //NOTE: Temporarily set as 2 tokens to allow parsing of :: in other strings. Will be combined in later improvements
+Hotkey ::= ('#'|'!'|'^'|'+'|'<'|'>'|'<^>!'|'*'|'~'|'$')* (id | CHAR_SPECIAL) (WHITESPACE '&' WHITESPACE (id | CHAR_SPECIAL))? (WHITESPACE 'Up')?
+
+private Text ::= (Word | CHAR_SPECIAL | WHITESPACE)+
+Word ::= id
+
 //hotkeyAssignment ::= HOTKEY_ASSIGNMENT
 //property ::= (KEY? SEPARATOR VALUE?) | KEY {
 //    pin=3
