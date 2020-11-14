@@ -3,7 +3,7 @@ package de.nordgedanken.auto_hotkey;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.TokenType;
-import de.nordgedanken.auto_hotkey.lang.psi.AhkTypes;
+import static de.nordgedanken.auto_hotkey.lang.psi.AhkTypes.*;
 
 %%
 
@@ -16,30 +16,35 @@ import de.nordgedanken.auto_hotkey.lang.psi.AhkTypes;
 %eof{  return;
 %eof}
 
-//core regexes usable anywhere in the class
-WHITE_SPACE_SINGLE_LINE=[\ \t]
-ALPHANUMERIC_OR_SPACE = [:letter:] | [:digit:] | " "
+//generic
+CHAR_SPECIAL=[^[a-zA-Z0-9_][ \t][\r\n\u2028\u2029\u000B\u000C\u0085]]
+CRLF=\R
+WHITESPACE=[ \t]+
+ID=[a-zA-Z_0-9]+
 
-//FIRST_VALUE_CHARACTER=[^ \n\f\\] | "\\"{CRLF} | "\\".
-//VALUE_CHARACTER=[^\n\f\\] | "\\"{CRLF} | "\\".
-//END_OF_LINE_COMMENT=("#"|"!")[^\r\n]*
-//SEPARATOR=[:=]
-//KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
-
-//core regexes specific to AutoHotkey language syntax
-HOTKEY_MODIFIERS = [#!\^\+<>\*~\$] | "<^>!"
+//language-specific
+//HOTKEY_MODIFIERS = [#!\^\+<>\*~\$] | "<^>!"
 
 //combo regexes using both of the above
-HOTKEY = {HOTKEY_MODIFIERS}* {ALPHANUMERIC_OR_SPACE}+ (" "+ '&' " "+ {ALPHANUMERIC_OR_SPACE}+)?
+//HOTKEY = {HOTKEY_MODIFIERS}* {ALPHANUMERIC_OR_SPACE}+ (" "+ '&' " "+ {ALPHANUMERIC_OR_SPACE}+)?
 
-%state HOTKEY
+//%state HOTKEY
 
 %%
+<YYINITIAL> {
+  {CHAR_SPECIAL}      { return CHAR_SPECIAL; }
+  {CRLF}              { return CRLF; }
+  {WHITESPACE}        { return WHITESPACE; }
+  {ID}                { return ID; }
+}
 
+//[^] { return BAD_CHARACTER; }
+
+/*
 <YYINITIAL> {
     //these 2 are needed to handle a) hotkey at beginning of line, b) space before hotkey at beginning of line
     ^{HOTKEY} / "::" { yybegin(HOTKEY); return AhkTypes.HOTKEY_ASSIGNMENT; }
-    ^{WHITE_SPACE_SINGLE_LINE}+ / {HOTKEY} "::" { yybegin(HOTKEY); return TokenType.WHITE_SPACE; }
+    ^{WHITESPACE}+ / {HOTKEY} "::" { yybegin(HOTKEY); return TokenType.WHITE_SPACE; }
 
     {ALPHANUMERIC_OR_SPACE}+ { return AhkTypes.ANY; }
     \s+ { return TokenType.WHITE_SPACE; }
@@ -50,7 +55,7 @@ HOTKEY = {HOTKEY_MODIFIERS}* {ALPHANUMERIC_OR_SPACE}+ (" "+ '&' " "+ {ALPHANUMER
 <HOTKEY> {
     {HOTKEY} { return AhkTypes.HOTKEY_ASSIGNMENT; }
     "::" { yybegin(YYINITIAL); return AhkTypes.ANY; }
-}
+}*/
 
 
 //{END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return AhkTypes.COMMENT; }
