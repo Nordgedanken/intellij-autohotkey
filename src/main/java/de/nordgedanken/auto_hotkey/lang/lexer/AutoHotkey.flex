@@ -4,6 +4,7 @@ import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.TokenType;
 import static de.nordgedanken.auto_hotkey.lang.psi.AhkTypes.*;
+import static com.intellij.psi.TokenType.*;
 
 %%
 
@@ -16,217 +17,35 @@ import static de.nordgedanken.auto_hotkey.lang.psi.AhkTypes.*;
 %eof{  return;
 %eof}
 
+//Ahk-specific
+CHAR_SPECIAL=[^\s[:letter:][:digit:]]
+TEXT=\w+
+
 //generic
-CHAR_SPECIAL=[^[a-zA-Z0-9_][ \t][\r\n\u2028\u2029\u000B\u000C\u0085]]
+WHITESPACE_HOZ=\p{Blank}+
 CRLF=\R
-WHITESPACE=[ \t]+
-ID=[a-zA-Z_0-9]+
+LINE_COMMENT=;.*
 
-//language-specific
-//HOTKEY_MODIFIERS = [#!\^\+<>\*~\$] | "<^>!"
-
-//combo regexes using both of the above
-//HOTKEY = {HOTKEY_MODIFIERS}* {ALPHANUMERIC_OR_SPACE}+ (" "+ '&' " "+ {ALPHANUMERIC_OR_SPACE}+)?
-
-//%state HOTKEY
+%state POSSIBLE_EOL_COMMENT
 
 %%
 <YYINITIAL> {
-  {CHAR_SPECIAL}      { return CHAR_SPECIAL; }
-  {CRLF}              { return CRLF; }
-  {WHITESPACE}        { return WHITESPACE; }
-  {ID}                { return ID; }
+	^{LINE_COMMENT}	    { return LINE_COMMENT; }
+	{CHAR_SPECIAL}      { return CHAR_SPECIAL; }
+	{TEXT}              { return TEXT; }
+	{WHITESPACE_HOZ}    {
+							yybegin(POSSIBLE_EOL_COMMENT);
+							return WHITESPACE_HOZ;
+						}
+	{CRLF}              { return CRLF; }
 }
 
-//[^] { return BAD_CHARACTER; }
-
-/*
-<YYINITIAL> {
-    //these 2 are needed to handle a) hotkey at beginning of line, b) space before hotkey at beginning of line
-    ^{HOTKEY} / "::" { yybegin(HOTKEY); return AhkTypes.HOTKEY_ASSIGNMENT; }
-    ^{WHITESPACE}+ / {HOTKEY} "::" { yybegin(HOTKEY); return TokenType.WHITE_SPACE; }
-
-    {ALPHANUMERIC_OR_SPACE}+ { return AhkTypes.ANY; }
-    \s+ { return TokenType.WHITE_SPACE; }
-    . { return AhkTypes.ANY; }
+<POSSIBLE_EOL_COMMENT> {
+	{LINE_COMMENT}      { return LINE_COMMENT; }
+	[^]                 {
+							yypushback(1);      // cancel parsed char (no comment typed here)
+							yybegin(YYINITIAL); // and try to parse it again in <YYINITIAL>
+						}
 }
 
-//need separate state for hotkey to avoid reading any leading spaces with the hotkey token itself
-<HOTKEY> {
-    {HOTKEY} { return AhkTypes.HOTKEY_ASSIGNMENT; }
-    "::" { yybegin(YYINITIAL); return AhkTypes.ANY; }
-}*/
-
-
-//{END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return AhkTypes.COMMENT; }
-//
-//<YYINITIAL> {KEY_CHARACTER}+                                { yybegin(YYINITIAL); return AhkTypes.KEY; }
-//
-//<YYINITIAL> {SEPARATOR}                                     { yybegin(WAITING_VALUE); return AhkTypes.SEPARATOR; }
-//
-//
-//({CRLF}|{WHITE_SPACE})+                                     { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
-
-//[^]                                                         { return TokenType.BAD_CHARACTER; }
-
-//%{
-//  public _AHKLexer() {
-//    this((java.io.Reader)null);
-//  }
-//%}
-//
-//%{}
-//
-//  /**
-//    * Dedicated storage for starting position of some previously successful
-//    * match
-//    */
-//  private int zzPostponedMarkedPos = -1;
-//
-//  /**
-//    * Dedicated nested-comment level counter
-//    */
-//  private int zzNestedCommentLevel = 0;
-//%}
-//
-//%{
-//  IElementType imbueBlockComment() {
-//      assert(zzNestedCommentLevel == 0);
-//      yybegin(YYINITIAL);
-//
-//      zzStartRead = zzPostponedMarkedPos;
-//      zzPostponedMarkedPos = -1;
-//
-//      return BLOCK_COMMENT;
-//  }
-//%}
-//
-//%public
-//%class _AHKLexer
-//%implements FlexLexer
-//%function advance
-//%type IElementType
-//
-//%s IN_BLOCK_COMMENT
-//
-//%unicode
-//
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//// Identifier
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//IDENTIFIER = [_\p{xidstart}][\p{xidcontinue}]*
-//SUFFIX     = {IDENTIFIER}
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//// Whitespaces
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//EOL_WS           = \n | \r | \r\n
-//LINE_WS          = [\ \t]
-//WHITE_SPACE_CHAR = {EOL_WS} | {LINE_WS}
-//WHITE_SPACE      = {WHITE_SPACE_CHAR}+
-//
-//
-//END_OF_LINE_COMMENT=(";")[^\r\n]*
-//
-//VAR_ASIGN=":="
-//
-//NUMBERS="-"? [0-9]*
-//
-//STR =      "\""
-//STRING = {STR} ( [^\"\\\n\r] | "\\" ("\\" | {STR} | {ESCAPES}? | [0-8xuU] ) )* {STR}?
-//ESCAPES = [abfnrtv]
-//
-//C_COMMENT = "#"{IDENTIFIER}
-//
-//HOTKEY = ("#"|"!"|"^"|"+"|"&"|"<"|">"|"<^>!"|"*"|"~"|"$")? [a-zA-Z]? "::"
-//
-//INT_LITERAL = ( {DEC_LITERAL}
-//              | {HEX_LITERAL}
-//              | {OCT_LITERAL}
-//              | {BIN_LITERAL} ) {SUFFIX}?
-//
-//DEC_LITERAL = [0-9] [0-9_]*
-//HEX_LITERAL = "0x" [a-fA-F0-9_]*
-//OCT_LITERAL = "0o" [0-7_]*
-//BIN_LITERAL = "0b" [01_]*
-//
-//STRING_LITERAL = \" ( [^\\\"] | \\[^] | [\\])* ( \" {SUFFIX}? | \\ )?
-//%%
-//
-//
-//
-//<YYINITIAL> {
-//
-//    "+"                                                     { return AHKTypes.PLUS;                                   }
-//    "-"                                                     { return AHKTypes.MINUS;                                  }
-//    "*"                                                     { return AHKTypes.MUL;                                    }
-//    "/"                                                     { return AHKTypes.QUOTIENT;                               }
-//    "("                                                     { return AHKTypes.LPAREN;                                 }
-//    ")"                                                     { return AHKTypes.RPAREN;                                 }
-//    "{"                                                     { return AHKTypes.LBRACE;                                 }
-//    "}"                                                     { return AHKTypes.RBRACE;                                 }
-//    ";"                                                     { return AHKTypes.SEMICOLON;                              }
-//    ":"                                                     { return AHKTypes.COLON;                                  }
-//    ","                                                     { return AHKTypes.COMMA;                                  }
-//    "."                                                     { return AHKTypes.DOT;                                    }
-//    "="                                                     { return AHKTypes.EQUAL;                                  }
-//    "!="                                                    { return AHKTypes.NOT_EQ;                                 }
-//    "<"                                                     { return AHKTypes.LESS;                                   }
-//    ">"                                                     { return AHKTypes.GREATER;                                }
-//    "<="                                                    { return AHKTypes.LESS_OR_EQUAL;                          }
-//    ">="                                                    { return AHKTypes.GREATER_OR_EQUAL;                       }
-//    "if"|"?"                                                { return AHKTypes.IF;                                     }
-//    "%"                                                     { return AHKTypes.EXPRESSION_SCRIPT;                      }
-//    "Return"                                                { return AHKTypes.RETURN;                                 }
-//    {END_OF_LINE_COMMENT}                                   { return EOL_COMMENT;                                     }
-//
-//
-//    {STRING_LITERAL}                                        { return AHKTypes.STRING_LITERAL;                         }
-//    {INT_LITERAL}                                           { return AHKTypes.INTEGER_LITERAL;                        }
-//
-//    {VAR_ASIGN}                                             { return AHKTypes.VAR_ASIGN;                              }
-//
-//    {C_COMMENT}                                             { return AHKTypes.C_COMMENT;                              }
-//
-//    //TODO this might have side effects
-//    //{LBRACE}                                                { yybegin(YYINITIAL); return AHKTypes.FUNCTION_DEF;     }
-//
-//     //TODO this might have side effects
-//    //{RBRACE}                                                { yybegin(YYINITIAL); return AHKTypes.FUNCTION_DEF;     }
-//
-//    {NUMBERS}                                               { return AHKTypes.NUMBERS;                                }
-//
-//    {HOTKEY}                                                { return AHKTypes.HOTKEY;                                 }
-//
-//    {HEX_LITERAL}                                           { return AHKTypes.HEX;                                    }
-//
-//    "/*"                                                    { yybegin(IN_BLOCK_COMMENT); yypushback(2);               }
-//    {IDENTIFIER}                                            { return AHKTypes.IDENTIFIER;                             }
-//    {WHITE_SPACE}                                           { return WHITE_SPACE;                                     }
-//}
-//
-//
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//// Comments
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//<IN_BLOCK_COMMENT> {
-//  "/*"    { if (zzNestedCommentLevel++ == 0)
-//              zzPostponedMarkedPos = zzStartRead;
-//          }
-//
-//  "*/"    { if (--zzNestedCommentLevel == 0)
-//              return imbueBlockComment();
-//          }
-//
-//  <<EOF>> { zzNestedCommentLevel = 0; return imbueBlockComment(); }
-//
-//  [^]     { }
-//}
-//
-//
-//
-//// TODO S: &KEY
-//
-//[^]                                                         { return BAD_CHARACTER;                                   }
+[^] { return BAD_CHARACTER; }

@@ -1,24 +1,19 @@
 package de.nordgedanken.auto_hotkey.lang.psi
 
 import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.TokenSet
 import de.nordgedanken.auto_hotkey.lang.core.AhkLanguage
-
-//import de.nordgedanken.auto_hotkey.psi.AHKTypes.*
+import de.nordgedanken.auto_hotkey.lang.psi.AhkTypes.*
 
 open class AhkTokenType(debugName: String) : IElementType(debugName, AhkLanguage)
 
-//val AHK_ITEMS = tokenSetOf(
-//        FUNCTION
-//)
+fun tokenSetOf(vararg tokens: IElementType) = TokenSet.create(*tokens)
 
-//val AHK_BLOCK_LIKE_EXPRESSIONS = tokenSetOf(BLOCK_EXPR)
+val COMMENT_TOKENS = tokenSetOf(LINE_COMMENT)
 
-//fun tokenSetOf(vararg tokens: IElementType) = TokenSet.create(*tokens)
-
-//val AHK_COMMENTS = tokenSetOf(BLOCK_COMMENT, EOL_COMMENT)
-
-//val AHK_LITERALS = tokenSetOf(STRING_LITERAL, INTEGER_LITERAL)
-
-//val AHK_EOL_COMMENTS = tokenSetOf(EOL_COMMENT)
-
-//val AHK_ALL_STRING_LITERALS = tokenSetOf(STRING_LITERAL)
+/**
+ * Note: CRLF is intentionally not included because including it will mess up
+ * the parsing of full lines. Once the bnf is more developed, it should ideally
+ * be possible to include CRLF in this list.
+ */
+val WHITESPACE_TOKENS = tokenSetOf(WHITESPACE_HOZ)

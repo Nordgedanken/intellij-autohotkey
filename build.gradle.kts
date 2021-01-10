@@ -78,7 +78,7 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
 
     pluginDescription(Processor.process(pluginDescMkdown))
     version("## \\[(\\d+\\.\\d+\\.\\d+)\\]".toRegex().find(latestChangesMkdown)!!.groups[1]!!.value)
-    untilBuild("202.*")
+    untilBuild("203.*")
 }
 
 

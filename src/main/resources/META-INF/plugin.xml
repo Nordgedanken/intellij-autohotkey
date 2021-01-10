@@ -23,7 +23,6 @@
         <lang.syntaxHighlighterFactory language="AutoHotkey"
                                        implementationClass="de.nordgedanken.auto_hotkey.ide.highlighter.AhkSyntaxHighlighterFactory"/>
         <lang.commenter language="AutoHotkey" implementationClass="de.nordgedanken.auto_hotkey.ide.commenter.AhkCommenter"/>
-        <annotator language="AutoHotkey" implementationClass="de.nordgedanken.auto_hotkey.ide.highlighter.AhkHighlightAnnotator"/>
 
         <!--settings-->
         <projectConfigurable id="language.autohotkey"
@@ -38,6 +37,7 @@
 <!--        implementationClass="de.nordgedanken.auto_hotkey.ide.search.AHKFindUsagesProvider"/>-->
 <!--        <psi.referenceContributor implementation="de.nordgedanken.auto_hotkey.AHKReferenceContributor"/>-->
 <!--        <annotator language="AutoHotKey" implementationClass="de.nordgedanken.auto_hotkey.ide.annotator.AHKHighlightingAnnotator"/>-->
+
     </extensions>
 
     <actions>
