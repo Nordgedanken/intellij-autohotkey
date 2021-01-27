@@ -1,0 +1,44 @@
+{
+  parserClass="de.nordgedanken.auto_hotkey.lang.parser.AhkParser"
+
+  extends='com.intellij.extapi.psi.ASTWrapperPsiElement'
+
+  psiClassPrefix="Ahk"
+  psiImplClassSuffix="Impl"
+  psiPackage="de.nordgedanken.auto_hotkey.lang.psi"
+  psiImplPackage="de.nordgedanken.auto_hotkey.lang.psi.impl"
+
+  elementTypeHolderClass="de.nordgedanken.auto_hotkey.lang.psi.AhkTypes"
+  elementTypeClass="de.nordgedanken.auto_hotkey.lang.psi.AhkElementType"
+  tokenTypeClass="de.nordgedanken.auto_hotkey.lang.psi.AhkTokenType"
+
+  tokens = [
+    //Ahk-specific
+    CHAR_SPECIAL="regexp:\p{Punct}"
+    TEXT="regexp:\p{Alnum}+"
+
+    //generic
+    WHITESPACE_HOZ="regexp:\p{Blank}+"
+    CRLF="regexp:\v"
+    /**
+      All line comments must be preceded by whitespace, so specifying the regex
+      here would not work. (Eg: " hel;lo" and " ;test" would parse as a comment
+      even though it is actually a one-word string and whitespace + comment,
+      respectively. Instead, the lexer handles this logic
+     */
+    LINE_COMMENT
+  ]
+}
+
+/*
+    Naming convention:
+    - psiElements are camelcase
+    - tokens are lowercase: for, if, identifier
+    - rules are PascalCase: StructItem, EnumVariant
+    - recovery related rules are PascalCase_with_snake_suffix: Item_recover
+*/
+
+AhkFile ::= Item*
+private Item ::= Line | LINE_COMMENT | CRLF //Note that only CRLF can follow a line comment
+
+Line ::= (TEXT | CHAR_SPECIAL)+ (WHITESPACE_HOZ LINE_COMMENT?)? //optionally match a line comment if there's whitespace while parsing the line

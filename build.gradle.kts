@@ -6,7 +6,7 @@ import java.util.*
 
 plugins {
     idea
-    id("org.jetbrains.intellij") version "0.4.20"
+    id("org.jetbrains.intellij") version "0.6.5"
     id("org.jetbrains.grammarkit") version "2020.1.4"
     kotlin("jvm") version "1.3.72"
     java
@@ -28,7 +28,10 @@ tasks.test {
 dependencies {
     implementation("com.google.flogger:flogger:0.5.1")
     implementation("com.google.flogger:flogger-system-backend:0.5.1")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.7.0")
 }
 
 val intellijPublishToken: String? by project
@@ -40,7 +43,8 @@ tasks.publishPlugin {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version = "2019.3"
+    version = "2020.1"
+    type = "IC"
 }
 
 configure<JavaPluginConvention> {
@@ -74,7 +78,7 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
 
     pluginDescription(Processor.process(pluginDescMkdown))
     version("## \\[(\\d+\\.\\d+\\.\\d+)\\]".toRegex().find(latestChangesMkdown)!!.groups[1]!!.value)
-    untilBuild("202.*")
+    untilBuild("203.*")
 }
 
 
@@ -82,17 +86,17 @@ tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml
 
 project(":") {
     val generateAHKLexer = task<GenerateLexer>("generateAHKLexer") {
-        source = "src/main/java/de/nordgedanken/auto_hotkey/AutoHotKey/flex/AutoHotKey.flex"
+        source = "src/main/java/de/nordgedanken/auto_hotkey/lang/lexer/AutoHotkey.flex"
         targetDir = "src/main/gen/de/nordgedanken/auto_hotkey/"
-        targetClass = "AHKLexer"
+        targetClass = "AhkLexer"
         purgeOldFiles = true
     }
 
     val generateAHKParser = task<GenerateParser>("generateAHKParser") {
-        source = "src/main/java/de/nordgedanken/auto_hotkey/AutoHotKey.bnf"
+        source = "src/main/java/de/nordgedanken/auto_hotkey/lang/parser/AutoHotkey.bnf"
         targetRoot = "src/main/gen"
-        pathToParser = "de/nordgedanken/auto_hotkey/parser/AHKParser.java"
-        pathToPsiRoot = "de/nordgedanken/auto_hotkey/psi"
+        pathToParser = "de/nordgedanken/auto_hotkey/lang/parser/AhkParser.java"
+        pathToPsiRoot = "de/nordgedanken/auto_hotkey/lang/psi"
         purgeOldFiles = true
     }
 

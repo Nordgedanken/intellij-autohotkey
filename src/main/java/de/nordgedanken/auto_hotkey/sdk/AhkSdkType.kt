@@ -5,9 +5,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.*
 import com.intellij.openapi.roots.ProjectRootManager
 import com.jetbrains.rd.util.use
-import de.nordgedanken.auto_hotkey.AHKIcons
-import de.nordgedanken.auto_hotkey.AhkConstants
-import de.nordgedanken.auto_hotkey.localization.AhkBundle
+import de.nordgedanken.auto_hotkey.util.AhkBundle
+import de.nordgedanken.auto_hotkey.util.AhkConstants
+import de.nordgedanken.auto_hotkey.util.AhkIcons
 import org.jdom.Element
 import java.io.File
 import java.io.IOException
@@ -25,7 +25,7 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
 
     fun getInstance() = findInstance(this::class.java)
 
-    override fun getIcon(): Icon = AHKIcons.EXE
+    override fun getIcon(): Icon = AhkIcons.EXE
 
     override fun suggestHomePath() = """C:\Program Files\AutoHotkey"""
 

@@ -10,42 +10,42 @@
     <resource-bundle>localization.AhkBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="AHK script" implementationClass="de.nordgedanken.auto_hotkey.AHKFileType"
-                  fieldName="INSTANCE" language="AutoHotKey" extensions="ahk"/>
+        <fileType name="AutoHotkey script" implementationClass="de.nordgedanken.auto_hotkey.lang.core.AhkFileType"
+                  fieldName="INSTANCE" language="AutoHotkey" extensions="ahk"/>
+
+        <!--run config execution-->
+        <sdkType implementation="de.nordgedanken.auto_hotkey.sdk.AhkSdkType"/>
+        <configurationType implementation="de.nordgedanken.auto_hotkey.runconfig.core.AhkRunConfigType"/>
+
+        <!--language management (eg parsing, highlighting, etc)-->
+        <lang.parserDefinition language="AutoHotkey"
+                               implementationClass="de.nordgedanken.auto_hotkey.lang.parser.AhkParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="AutoHotkey"
+                                       implementationClass="de.nordgedanken.auto_hotkey.ide.highlighter.AhkSyntaxHighlighterFactory"/>
+        <lang.commenter language="AutoHotkey" implementationClass="de.nordgedanken.auto_hotkey.ide.commenter.AhkCommenter"/>
+
+        <!--settings-->
         <projectConfigurable id="language.autohotkey"
                              parentId="language"
                              displayName="AutoHotkey"
                              instance="de.nordgedanken.auto_hotkey.settings.AhkProjectConfigurable"/>
+        <colorSettingsPage implementation="de.nordgedanken.auto_hotkey.ide.highlighter.AhkColorSettingsPage"/>
 
-        <sdkType implementation="de.nordgedanken.auto_hotkey.sdk.AhkSdkType"/>
-        <configurationType implementation="de.nordgedanken.auto_hotkey.run_configurations.core.AhkRunConfigType"/>
+        <!--to be fixed after parser-->
+<!--        <stubElementTypeHolder class="de.nordgedanken.auto_hotkey.psi.AHKTypes"/>-->
+<!--        <lang.findUsagesProvider language="AutoHotKey"-->
+<!--        implementationClass="de.nordgedanken.auto_hotkey.ide.search.AHKFindUsagesProvider"/>-->
+<!--        <psi.referenceContributor implementation="de.nordgedanken.auto_hotkey.AHKReferenceContributor"/>-->
+<!--        <annotator language="AutoHotKey" implementationClass="de.nordgedanken.auto_hotkey.ide.annotator.AHKHighlightingAnnotator"/>-->
 
-        <lang.parserDefinition language="AutoHotKey"
-        implementationClass="de.nordgedanken.auto_hotkey.parser.AHKParserDefinition"/>
-
-        <stubElementTypeHolder class="de.nordgedanken.auto_hotkey.psi.AHKTypes"/>
-        <lang.syntaxHighlighter language="AutoHotKey"
-        implementationClass="de.nordgedanken.auto_hotkey.AHKSyntaxHighlighter"/>
-
-        <colorSettingsPage implementation="de.nordgedanken.auto_hotkey.AHKColorSettingsPage"/>
-
-        <lang.findUsagesProvider language="AutoHotKey"
-        implementationClass="de.nordgedanken.auto_hotkey.search.AHKFindUsagesProvider"/>
-
-        <lang.commenter language="AutoHotKey" implementationClass="de.nordgedanken.auto_hotkey.AHKCommenter"/>
-        <psi.referenceContributor implementation="de.nordgedanken.auto_hotkey.AHKReferenceContributor"/>
-
-
-
-        <annotator language="AutoHotKey" implementationClass="de.nordgedanken.auto_hotkey.annotator.AHKHighlightingAnnotator"/>
     </extensions>
 
     <actions>
-        <action id="AHK.NewAHKFile"
-                class="de.nordgedanken.auto_hotkey.actions.AHKCreateFileAction"
-                text="AutoHotKey File"
-                description="Create new AutoHotKey file">
-            <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
+        <action id="AHK.NewAhkFile"
+                class="de.nordgedanken.auto_hotkey.ide.actions.AhkCreateFileAction"
+                text="AutoHotkey File"
+                description="Create new AutoHotkey file">
+            <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewXml"/>
         </action>
     </actions>
 </idea-plugin>
