@@ -1,6 +1,6 @@
 package de.nordgedanken.auto_hotkey.util;
 
-import com.intellij.CommonBundle;
+import com.intellij.AbstractBundle;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.PropertyKey;
 
@@ -22,6 +22,6 @@ public class AhkBundle {
 	 * Ex: AhkBundle.msg("runconfig.configtab.scriptpath.label")
 	 */
 	public static String msg(@PropertyKey(resourceBundle = BUNDLE_NAME) String key, Object... params) {
-		return CommonBundle.message(BUNDLE, key, params);
+		return AbstractBundle.message(BUNDLE, key, params);
 	}
 }

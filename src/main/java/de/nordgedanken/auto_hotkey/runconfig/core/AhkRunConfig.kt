@@ -57,7 +57,7 @@ class AhkRunConfig(
      */
     override fun readExternal(element: Element) {
         super.readExternal(element)
-        runConfigSettings.populateFromElement(element)
+        runConfigSettings.readFromElement(element)
     }
 
     /**
