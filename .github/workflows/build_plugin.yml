@@ -54,6 +54,9 @@ jobs:
     - name: Run Tests
       run: ./gradlew test
 
+    # Verify code coverage
+    - name: Run Tests
+      run: ./gradlew checkTestCoverage
 
   # Build plugin with buildPlugin Gradle task and provide the artifact for the next workflow jobs
   # Requires test job to be passed
