@@ -1,0 +1,8 @@
+<configuration>
+	<option name="runner" value="AutoHotkey"/>
+	<option name="pathToScript" value="C:\my\test\path"/>
+	<option name="arguments" value="test1 test2"/>
+	<switches>
+		<switch name="/ErrorStdOut" enabled="true"/>
+	</switches>
+</configuration>

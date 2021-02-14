@@ -10,6 +10,8 @@ plugins {
     id("org.jetbrains.grammarkit") version "2020.1.4"
     kotlin("jvm") version "1.3.72"
     java
+    jacoco
+    id("org.barfuin.gradle.jacocolog") version "1.2.4" //show coverage in console
 }
 
 group = "de.nordgedanken"
@@ -29,9 +31,13 @@ dependencies {
     implementation("com.google.flogger:flogger:0.5.1")
     implementation("com.google.flogger:flogger-system-backend:0.5.1")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.7.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.0")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.7.0")
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:4.4.0")
+    testImplementation("io.kotest:kotest-assertions-core:4.4.0")
+    testImplementation("io.kotest:kotest-property:4.4.0")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.7.0") {
+        because("this is needed to run parsing/lexing tests which extend " +
+                "intellij base classes that use junit4")
+    }
 }
 
 val intellijPublishToken: String? by project
@@ -115,3 +121,52 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs = listOf("-Xjvm-default=enable")
     }
 }
+
+val packagesToExcludeFromCoverageCheck = listOf(
+    //below runconfig directories require more complex tests
+    "**/auto_hotkey/runconfig/core/**",
+    "**/auto_hotkey/runconfig/execution/**",
+
+    //swing ui packages; must be tested manually
+    "**/auto_hotkey/runconfig/ui/**",
+    "**/auto_hotkey/settings/ui/**"
+)
+
+tasks.jacocoTestReport {
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude(packagesToExcludeFromCoverageCheck)
+            }
+        })
+    )
+}
+
+tasks.jacocoTestCoverageVerification {
+    classDirectories.setFrom(
+        sourceSets.main.get().output.asFileTree.matching {
+            exclude(packagesToExcludeFromCoverageCheck)
+        }
+    )
+
+    violationRules {
+        rule {
+            limit {
+                counter = "LINE"
+                minimum = "0.60".toBigDecimal()
+            }
+        }
+    }
+}
+
+tasks.register("checkTestCoverage") {
+    group = "verification"
+    description = "Runs the unit tests with coverage."
+
+    dependsOn(":test", ":jacocoTestReport", ":jacocoTestCoverageVerification")
+    val jacocoTestReport = tasks.jacocoTestReport.get()
+    jacocoTestReport.mustRunAfter(tasks.test)
+    tasks.jacocoTestCoverageVerification.get().mustRunAfter(jacocoTestReport)
+}
+
+

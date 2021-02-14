@@ -20,6 +20,7 @@ class AhkRunState(private val ahkRunConfig: AhkRunConfig, environment: Execution
         val ahkCommandLine = GeneralCommandLine()
                 .withWorkDirectory(ahkRunConfig.project.basePath)
                 .withExePath(exePath)
+                .withParameters(ahkRunConfig.runConfigSettings.getEnabledSwitchesAsList())
                 .withParameters(ahkRunConfig.runConfigSettings.pathToScript)
                 .withParameters(ahkRunConfig.runConfigSettings.getArgsAsList())
         return KillableProcessHandler(ahkCommandLine)

@@ -7,10 +7,12 @@ import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.FixedSizeButton
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
+import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.fields.ExpandableTextField
 import com.intellij.ui.layout.CCFlags
 import com.intellij.ui.layout.panel
 import de.nordgedanken.auto_hotkey.runconfig.core.AhkRunConfig
+import de.nordgedanken.auto_hotkey.runconfig.model.AhkSwitch
 import de.nordgedanken.auto_hotkey.settings.AhkProjectConfigurable
 import de.nordgedanken.auto_hotkey.util.AhkBundle
 import de.nordgedanken.auto_hotkey.util.AhkConstants
@@ -23,30 +25,35 @@ import javax.swing.JComponent
  * the UI DSL format to construct the UI instead of a .form file)
  */
 class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<AhkRunConfig>() {
-    private val pathToScriptTextField: TextFieldWithBrowseButton = TextFieldWithBrowseButton().apply {
+    private val pathToScriptTextField = TextFieldWithBrowseButton().apply {
         addBrowseFolderListener(AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.title"),
                 AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.message"),
                 project,
                 FileChooserDescriptorFactory.createSingleFileDescriptor(AhkConstants.FILE_EXTENSION))
     }
-    private val argumentsTextField: ExpandableTextField = ExpandableTextField()
-    private val ahkSdkComboBox: AhkSdkComboBox = AhkSdkComboBox(project)
-    private val openProjectSettingsButton: FixedSizeButton = FixedSizeButton().apply {
+    private val argumentsTextField = ExpandableTextField()
+    private val ahkSdkComboBox = AhkSdkComboBox(project)
+    private val openProjectSettingsButton = FixedSizeButton().apply {
         icon = AllIcons.General.GearPlain
         toolTipText = AhkBundle.msg("runconfig.configtab.scriptrunner.projectsettingsbutton.tooltip")
         addActionListener { openProjSettingsAndThenTriggerEditorUpdate() }
+    }
+    private val printErrToConsoleCheckBox = JBCheckBox(AhkBundle.msg("runconfig.configtab.switches.errorstdout.label"), true).apply {
+        toolTipText = AhkBundle.msg("runconfig.configtab.switches.errorstdout.tooltip")
     }
 
     override fun resetEditorFrom(s: AhkRunConfig) {
         pathToScriptTextField.text = s.runConfigSettings.pathToScript
         argumentsTextField.text = s.runConfigSettings.arguments
         ahkSdkComboBox.setSelectedSdkByName(s.runConfigSettings.runner)
+        printErrToConsoleCheckBox.isSelected = s.runConfigSettings.switches.getOrDefault(AhkSwitch.ERROR_STD_OUT, true)
     }
 
     override fun applyEditorTo(s: AhkRunConfig) {
         s.runConfigSettings.pathToScript = pathToScriptTextField.text
         s.runConfigSettings.arguments = argumentsTextField.text
         s.runConfigSettings.runner = ahkSdkComboBox.getSelectedSdkName()
+        s.runConfigSettings.switches[AhkSwitch.ERROR_STD_OUT] = printErrToConsoleCheckBox.isSelected
     }
 
     override fun createEditor(): JComponent = panel {
@@ -60,6 +67,9 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
                         openProjectSettingsButton()
                     }
                     noteRow(AhkBundle.msg("runconfig.general.info.label"))
+                    titledRow("Additional Options") {
+                        row { printErrToConsoleCheckBox() }
+                    }
                 }
             }
         }

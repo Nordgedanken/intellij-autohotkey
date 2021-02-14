@@ -13,8 +13,9 @@ import com.intellij.psi.tree.TokenSet
 import de.nordgedanken.auto_hotkey.lang.core.AhkLanguage
 import de.nordgedanken.auto_hotkey.lang.lexer.AhkLexerAdapter
 import de.nordgedanken.auto_hotkey.lang.psi.AhkFile
-import de.nordgedanken.auto_hotkey.lang.psi.AhkTypes.*
-import de.nordgedanken.auto_hotkey.lang.psi.*
+import de.nordgedanken.auto_hotkey.lang.psi.AhkTypes.Factory
+import de.nordgedanken.auto_hotkey.lang.psi.COMMENT_TOKENS
+import de.nordgedanken.auto_hotkey.lang.psi.WHITESPACE_TOKENS
 
 class AhkParserDefinition : ParserDefinition {
     override fun createLexer(project: Project?): Lexer = AhkLexerAdapter()
@@ -31,7 +32,7 @@ class AhkParserDefinition : ParserDefinition {
 
     override fun createFile(viewProvider: FileViewProvider): PsiFile = AhkFile(viewProvider)
 
-    override fun spaceExistanceTypeBetweenTokens(left: ASTNode, right: ASTNode) = ParserDefinition.SpaceRequirements.MAY
+    override fun spaceExistenceTypeBetweenTokens(left: ASTNode, right: ASTNode) = ParserDefinition.SpaceRequirements.MAY
 
     override fun createElement(node: ASTNode?): PsiElement =
             Factory.createElement(node)
