@@ -8,7 +8,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     idea
     id("org.jetbrains.intellij") version "0.6.5"
-    id("org.jetbrains.grammarkit") version "2020.1.4"
+    id("org.jetbrains.grammarkit") version "2020.3.2"
     kotlin("jvm") version "1.4.31"
     java
     jacoco
@@ -47,25 +47,19 @@ intellij {
     type = "IC"
 }
 
-project(":") {
-    val generateAHKLexer = task<GenerateLexer>("generateAHKLexer") {
-        source = "src/main/kotlin/de/nordgedanken/auto_hotkey/lang/lexer/AutoHotkey.flex"
-        targetDir = "src/main/gen/de/nordgedanken/auto_hotkey/"
-        targetClass = "AhkLexer"
-        purgeOldFiles = true
-    }
+val generateAhkLexer = task<GenerateLexer>("generateAhkLexer") {
+    source = "src/main/kotlin/de/nordgedanken/auto_hotkey/lang/lexer/AutoHotkey.flex"
+    targetDir = "src/main/gen/de/nordgedanken/auto_hotkey/"
+    targetClass = "AhkLexer"
+    purgeOldFiles = true
+}
 
-    val generateAHKParser = task<GenerateParser>("generateAHKParser") {
-        source = "src/main/kotlin/de/nordgedanken/auto_hotkey/lang/parser/AutoHotkey.bnf"
-        targetRoot = "src/main/gen"
-        pathToParser = "de/nordgedanken/auto_hotkey/lang/parser/AhkParser.java"
-        pathToPsiRoot = "de/nordgedanken/auto_hotkey/lang/psi"
-        purgeOldFiles = true
-    }
-
-    tasks.withType<KotlinCompile> {
-        dependsOn(generateAHKLexer, generateAHKParser)
-    }
+val generateAhkParser = task<GenerateParser>("generateAhkParser") {
+    source = "src/main/kotlin/de/nordgedanken/auto_hotkey/lang/parser/AutoHotkey.bnf"
+    targetRoot = "src/main/gen"
+    pathToParser = "de/nordgedanken/auto_hotkey/lang/parser/AhkParser.java"
+    pathToPsiRoot = "de/nordgedanken/auto_hotkey/lang/psi"
+    purgeOldFiles = true
 }
 
 changelog {
@@ -86,6 +80,7 @@ tasks {
 
     withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
+        dependsOn(generateAhkLexer, generateAhkParser)
     }
 
     patchPluginXml {

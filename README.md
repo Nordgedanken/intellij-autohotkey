@@ -70,9 +70,13 @@ To get a local copy up and running, follow these simple steps:
 
 ### Prerequisites
 
-
-* IntelliJ IDEA 2020.* or newer (Community Edition is fine)
-* Java 8 (or 11)
+* IntelliJ IDEA 2020.* or newer (Community Edition is fine)  
+  Required plugins (for development only):
+  - [Grammar-Kit](https://plugins.jetbrains.com/plugin/6606-grammar-kit)
+  - [PsiViewer](https://plugins.jetbrains.com/plugin/227-psiviewer)
+  - [Kotest](https://plugins.jetbrains.com/plugin/14080-kotest)
+  - [Ktlint](https://plugins.jetbrains.com/plugin/15057-ktlint-unofficial-)
+* Java 11
 
 ### Setting up a Development Environment
  
