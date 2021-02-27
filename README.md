@@ -14,10 +14,10 @@
     <img src="src/main/resources/META-INF/pluginIcon.svg" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">AutoHotkey Jetbrains Plugin</h3>
+  <h3 align="center">AutoHotkey Plugin for the IntelliJ Platform</h3>
 
   <p align="center">
-    A simple plugin to bring support for AutoHotkey into Jetbrains!
+    A simple plugin to bring support for AutoHotkey into IntelliJ-based IDEs!
     <br />
     <a href="https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin"><strong>Explore the docs »</strong></a>
     <br />
@@ -40,7 +40,6 @@
 * [Getting Started](#getting-started)
   * [Prerequisites](#prerequisites)
   * [Setting up a Development Environment](#setting-up-a-development-environment)
-<!--* [Usage](#usage)-->
 * [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [License](#license)
@@ -51,36 +50,38 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+<!-- Plugin description -->
+A simple plugin for developing AutoHotkey scripts. The following features are available:
 
-[![Plugin Screenshot][product-screenshot]](https://plugins.jetbrains.com/plugin/13945-autohotkey-language)
+- Syntax highlighting (under construction)
+- Run configurations
+- More to come in the future...
 
+<p><i>Note: This plugin is under development and does not have a stable release yet</i></p>
+<!-- Plugin description end -->
 
-<!--### Built With
-
-* []()
-* []()
-* []()-->
-
+<!-- [![Plugin Screenshot][product-screenshot]](https://plugins.jetbrains.com/plugin/13945-autohotkey-language) -->
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
+To get a local copy up and running, follow these simple steps:
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* Jetbrains IDEA
+
+* IntelliJ IDEA 2020.* or newer (Community Edition is fine)
+* Java 8 (or 11)
 
 ### Setting up a Development Environment
  
 1. Clone the repo
 ```sh
-git clone https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin.git
+git clone https://github.com/Nordgedanken/intellij-autohotkey.git
 ```
-2. Open the cloned folder in Jetbrains
-3. Run the `Plugin` run configuration or `runIDE` gradle task
+2. Open the cloned folder in IntelliJ
+3. Run the `Run Plugin` run configuration
 
 
 <!-- USAGE EXAMPLES
@@ -133,7 +134,7 @@ Project Link: [https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin](ht
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* [intellij-rust](https://github.com/intellij-rust/intellij-rust) - Which provides a huge starting point to implement undocumented Features
+* [intellij-rust](https://github.com/intellij-rust/intellij-rust) which provided a huge starting point to implement undocumented features
 * [intellij python plugin](https://github.com/JetBrains/intellij-community/tree/master/python) which also provided help with certain features
 * [idea-multimarkdown](https://github.com/vsch/idea-multimarkdown) which also provided help with certain features
 

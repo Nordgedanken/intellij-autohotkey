@@ -28,6 +28,18 @@ jobs:
     - name: Fetch Sources
       uses: actions/checkout@v2
 
+    # Verify no java files committed. Note this is run before any gen/* files are created
+    - name: Verify Kotlin Source Files Only
+      run: |
+        javafiles=(`find src -iname *.java`)
+        if [ ${#javafiles[@]} -gt 0 ]
+        then
+          echo "ERROR: Detected a java file in the committed source code! Only kotlin files are allowed." >&2
+          printf '%s\n' "${javafiles[@]}" 1>&2
+          exit 1
+        fi
+        echo "SUCCESS: No java files detected in the committed source code"
+
     # Setup Java 1.8 environment for the next steps
     - name: Setup Java
       uses: actions/setup-java@v1
@@ -42,9 +54,9 @@ jobs:
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
         restore-keys: ${{ runner.os }}-gradle-
 
-    # Run detekt
-    - name: Run Linters
-      run: ./gradlew check || exit 0
+    # Run ktlint
+    - name: Run Linter
+      run: ./gradlew ktlintCheck
 
     # Run verifyPlugin Gradle task
     - name: Verify Plugin

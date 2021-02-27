@@ -1,17 +1,20 @@
-import com.github.rjeschke.txtmark.Processor
+import org.jetbrains.changelog.closure
+import org.jetbrains.changelog.date
+import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.util.*
 
 plugins {
     idea
     id("org.jetbrains.intellij") version "0.6.5"
     id("org.jetbrains.grammarkit") version "2020.1.4"
-    kotlin("jvm") version "1.3.72"
+    kotlin("jvm") version "1.4.31"
     java
     jacoco
-    id("org.barfuin.gradle.jacocolog") version "1.2.4" //show coverage in console
+    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
+    id("org.barfuin.gradle.jacocolog") version "1.2.4" // show coverage in console
+    id("org.jetbrains.changelog") version "1.1.2"
 }
 
 group = "de.nordgedanken"
@@ -23,10 +26,6 @@ repositories {
     mavenCentral()
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-
 dependencies {
     implementation("com.google.flogger:flogger:0.5.1")
     implementation("com.google.flogger:flogger-system-backend:0.5.1")
@@ -35,15 +34,10 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core:4.4.0")
     testImplementation("io.kotest:kotest-property:4.4.0")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.7.0") {
-        because("this is needed to run parsing/lexing tests which extend " +
-                "intellij base classes that use junit4")
-    }
-}
-
-val intellijPublishToken: String? by project
-tasks.publishPlugin {
-    if (intellijPublishToken != null) {
-        token(intellijPublishToken)
+        because(
+            "this is needed to run parsing/lexing tests which extend " +
+                "intellij base classes that use junit4"
+        )
     }
 }
 
@@ -53,53 +47,16 @@ intellij {
     type = "IC"
 }
 
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-
-buildscript {
-    dependencies {
-        classpath("es.nitaur.markdown:txtmark:0.16")
-    }
-}
-
-val pluginDescMkdown = """
-A simple plugin for developing AutoHotKey scripts. The following features are available:
-
-- Syntax highlighting (under construction)
-- Run configurations
-- More to come in the future...
-
-*Note: This plugin is under development and does not have a stable release yet*
-""".trimIndent()
-
-tasks.getByName<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
-    val latestChangesRegex = """(## \[\d+\.\d+\.\d+\][\w\W]*?)## \["""
-    val latestChangesMkdown = Scanner(rootProject.file("CHANGELOG.md")).findWithinHorizon(latestChangesRegex, 0)
-    var latestChangeNotes = latestChangesRegex.toRegex().find(latestChangesMkdown)!!.groups[1]!!.value
-    latestChangeNotes += "Please see [CHANGELOG.md](https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin/blob/master/CHANGELOG.md) for a full list of changes."
-    changeNotes(Processor.process(latestChangeNotes))
-
-    pluginDescription(Processor.process(pluginDescMkdown))
-    version("## \\[(\\d+\\.\\d+\\.\\d+)\\]".toRegex().find(latestChangesMkdown)!!.groups[1]!!.value)
-    untilBuild("203.*")
-}
-
-
-
-
 project(":") {
     val generateAHKLexer = task<GenerateLexer>("generateAHKLexer") {
-        source = "src/main/java/de/nordgedanken/auto_hotkey/lang/lexer/AutoHotkey.flex"
+        source = "src/main/kotlin/de/nordgedanken/auto_hotkey/lang/lexer/AutoHotkey.flex"
         targetDir = "src/main/gen/de/nordgedanken/auto_hotkey/"
         targetClass = "AhkLexer"
         purgeOldFiles = true
     }
 
     val generateAHKParser = task<GenerateParser>("generateAHKParser") {
-        source = "src/main/java/de/nordgedanken/auto_hotkey/lang/parser/AutoHotkey.bnf"
+        source = "src/main/kotlin/de/nordgedanken/auto_hotkey/lang/parser/AutoHotkey.bnf"
         targetRoot = "src/main/gen"
         pathToParser = "de/nordgedanken/auto_hotkey/lang/parser/AhkParser.java"
         pathToPsiRoot = "de/nordgedanken/auto_hotkey/lang/psi"
@@ -107,66 +64,112 @@ project(":") {
     }
 
     tasks.withType<KotlinCompile> {
-        dependsOn(
-                generateAHKLexer,
-                generateAHKParser
+        dependsOn(generateAHKLexer, generateAHKParser)
+    }
+}
+
+changelog {
+    version = "0.4.0"
+    header = closure { "[$version] - ${date()}" }
+    groups = listOf("Added")
+}
+
+// Imports a property from gradle.properties file
+fun prop(name: String) = extra.properties[name] as? String ?: error("`$name` is not defined in gradle.properties")
+
+tasks {
+    // Set the compatibility versions to 1.8
+    withType<JavaCompile> {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+    }
+
+    withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+    patchPluginXml {
+        changeNotes(
+            closure {
+                changelog.get(changelog.version).withHeader(true).toHTML() +
+                    """Please see <a href="https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin/blob/master/CHANGELOG.md">CHANGELOG.md</a> for a full list of changes."""
+            }
+        )
+        pluginDescription(
+            closure {
+                File("./README.md").readText().lines().run {
+                    val start = "<!-- Plugin description -->"
+                    val end = "<!-- Plugin description end -->"
+                    if (!containsAll(listOf(start, end))) {
+                        throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
+                    }
+                    subList(indexOf(start) + 1, indexOf(end))
+                }.joinToString("\n").run { markdownToHTML(this) }
+            }
+        )
+        version(changelog.version)
+        sinceBuild(prop("pluginSinceBuild"))
+        untilBuild(prop("pluginUntilBuild"))
+    }
+
+    val intellijPublishToken: String? by project
+    publishPlugin {
+        if (intellijPublishToken != null) {
+            token(intellijPublishToken)
+        }
+    }
+
+    // testing-related stuff below
+    test {
+        useJUnitPlatform()
+    }
+
+    val packagesToExcludeFromCoverageCheck = listOf(
+        // below runconfig directories require more complex tests
+        "**/auto_hotkey/runconfig/core/**",
+        "**/auto_hotkey/runconfig/execution/**",
+
+        // swing ui packages; must be tested manually
+        "**/auto_hotkey/runconfig/ui/**",
+        "**/auto_hotkey/settings/ui/**"
+    )
+
+    jacocoTestReport {
+        classDirectories.setFrom(
+            files(
+                classDirectories.files.map {
+                    fileTree(it) {
+                        exclude(packagesToExcludeFromCoverageCheck)
+                    }
+                }
+            )
         )
     }
-}
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "1.8"
-        languageVersion = "1.3"
-        apiVersion = "1.3"
-        freeCompilerArgs = listOf("-Xjvm-default=enable")
-    }
-}
 
-val packagesToExcludeFromCoverageCheck = listOf(
-    //below runconfig directories require more complex tests
-    "**/auto_hotkey/runconfig/core/**",
-    "**/auto_hotkey/runconfig/execution/**",
-
-    //swing ui packages; must be tested manually
-    "**/auto_hotkey/runconfig/ui/**",
-    "**/auto_hotkey/settings/ui/**"
-)
-
-tasks.jacocoTestReport {
-    classDirectories.setFrom(
-        files(classDirectories.files.map {
-            fileTree(it) {
+    jacocoTestCoverageVerification {
+        classDirectories.setFrom(
+            sourceSets.main.get().output.asFileTree.matching {
                 exclude(packagesToExcludeFromCoverageCheck)
             }
-        })
-    )
-}
+        )
 
-tasks.jacocoTestCoverageVerification {
-    classDirectories.setFrom(
-        sourceSets.main.get().output.asFileTree.matching {
-            exclude(packagesToExcludeFromCoverageCheck)
-        }
-    )
-
-    violationRules {
-        rule {
-            limit {
-                counter = "LINE"
-                minimum = "0.60".toBigDecimal()
+        violationRules {
+            rule {
+                limit {
+                    counter = "LINE"
+                    minimum = "0.60".toBigDecimal()
+                }
             }
         }
     }
+
+    register("checkTestCoverage") {
+        group = "verification"
+        description = "Runs the unit tests with coverage."
+
+        dependsOn(test, jacocoTestReport, jacocoTestCoverageVerification)
+        val jacocoTestReport = jacocoTestReport.get()
+        jacocoTestReport.mustRunAfter(test)
+        jacocoTestCoverageVerification.get().mustRunAfter(jacocoTestReport)
+    }
 }
-
-tasks.register("checkTestCoverage") {
-    group = "verification"
-    description = "Runs the unit tests with coverage."
-
-    dependsOn(":test", ":jacocoTestReport", ":jacocoTestCoverageVerification")
-    val jacocoTestReport = tasks.jacocoTestReport.get()
-    jacocoTestReport.mustRunAfter(tasks.test)
-    tasks.jacocoTestCoverageVerification.get().mustRunAfter(jacocoTestReport)
-}
-
-
