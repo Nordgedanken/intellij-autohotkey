@@ -42,6 +42,6 @@
 */
 
 AhkFile ::= Item*
-private Item ::= Line | LINE_COMMENT | CRLF //Note that only CRLF can follow a line comment
+private Item ::= Line | BLOCK_COMMENT | LINE_COMMENT | CRLF //Note that only CRLF can follow a line comment
 
 Line ::= (TEXT | CHAR_SPECIAL)+ (WHITESPACE_HOZ LINE_COMMENT?)? //optionally match a line comment if there's whitespace while parsing the line
