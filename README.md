@@ -85,7 +85,7 @@ To get a local copy up and running, follow these simple steps:
 git clone https://github.com/Nordgedanken/intellij-autohotkey.git
 ```
 2. Open the cloned folder in IntelliJ
-3. Run the `Run Plugin` run configuration
+3. Run the `"Run Plugin in test IDE"` run configuration
 
 
 <!-- USAGE EXAMPLES

@@ -32,17 +32,28 @@ an open /\* tag that has no corresponding *\/
 */
 BLOCK_COMMENT="/*" !([^]* \R\p{Blank}* "*/" [^]*) (\R\p{Blank}* "*/")?
 
-%state EXPRESSION, POSSIBLE_EOL_COMMENT
+%state CHECK_FOR_COMMENTS, EXPRESSION, POSSIBLE_EOL_COMMENT
 
 %%
 <YYINITIAL> {
-	{LINE_COMMENT}	    { return LINE_COMMENT; }
-	{BLOCK_COMMENT}	    { return BLOCK_COMMENT; }
 	{WHITESPACE_HOZ}    { return WHITESPACE_HOZ; }
-	{CRLF}              { return CRLF; }
+	"*/"                { return BLOCK_COMMENT; }   // only occurs if we don't match a full block comment (see block_comment.ahk for explanation)
+    [^]                 {
+                            yypushback(1);              // cancel parsed char
+                            yybegin(CHECK_FOR_COMMENTS); // and try to parse it again in a different state
+                        }
+}
+
+<CHECK_FOR_COMMENTS> {
+	{LINE_COMMENT}	    { return LINE_COMMENT; }    // only CRLF can follow this
+    {BLOCK_COMMENT}	    { return BLOCK_COMMENT; }
+	{CRLF}              {
+                            yybegin(YYINITIAL);
+                            return CRLF;
+                        }
     [^]                 {
                             yypushback(1);       // cancel parsed char
-                            yybegin(EXPRESSION); // and try to parse it again in <EXPRESSION>
+                            yybegin(EXPRESSION); // and try to parse it again in a different state
                         }
 }
 
