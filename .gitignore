@@ -1,26 +1,9 @@
 ### JetBrains template
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
-
-# *.iml
+*.iml
 
 ## Directory-based project format:
-# .idea/
-
-# if you remove the above rule, at least ignore the following:
-
-# User-specific stuff:
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/dictionaries
-.idea/libraries/Gradle__*.xml
-.idea/codeStyleSettings.xml
-
-# Sensitive or high-churn files:
-.idea/dataSources.ids
-.idea/dataSources.xml
-.idea/sqlDataSources.xml
-.idea/dynamic.xml
-.idea/uiDesigner.xml
+.idea/
 
 ## File-based project format:
 *.ipr
@@ -40,4 +23,3 @@ gradle-app.setting
 src/main/gen/
 idea-flex.skeleton
 jflex-1.7.0-2.jar
-gradle.properties

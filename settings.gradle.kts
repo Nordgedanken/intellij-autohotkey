@@ -1,2 +1,1 @@
-rootProject.name = "auto_hotkey"
-
+rootProject.name = "IntelliJ AutoHotkey Plugin"
