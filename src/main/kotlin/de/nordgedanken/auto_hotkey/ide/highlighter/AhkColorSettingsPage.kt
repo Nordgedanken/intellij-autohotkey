@@ -10,7 +10,7 @@ class AhkColorSettingsPage : ColorSettingsPage {
 
     private val ANNOTATOR_TAGS = AhkColor.values().associateBy({ it.name }, { it.textAttributesKey })
 
-    override fun getIcon(): Icon = AhkIcons.FILE
+    override fun getIcon(): Icon = AhkIcons.LOGO
 
     override fun getHighlighter() = AhkSyntaxHighlighter()
 

@@ -16,7 +16,7 @@ class AhkRunConfigType : ConfigurationType {
         return "AutoHotkey Run Configuration Type"
     }
 
-    override fun getIcon() = AhkIcons.FILE
+    override fun getIcon() = AhkIcons.LOGO
 
     override fun getId() = "AHK_RUN_CONFIGURATION"
 
