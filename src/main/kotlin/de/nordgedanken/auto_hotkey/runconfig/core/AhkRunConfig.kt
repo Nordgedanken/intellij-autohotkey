@@ -2,8 +2,8 @@ package de.nordgedanken.auto_hotkey.runconfig.core
 
 import com.intellij.execution.Executor
 import com.intellij.execution.configurations.ConfigurationFactory
+import com.intellij.execution.configurations.LocatableConfigurationBase
 import com.intellij.execution.configurations.RunConfiguration
-import com.intellij.execution.configurations.RunConfigurationBase
 import com.intellij.execution.configurations.RunProfileState
 import com.intellij.execution.configurations.RuntimeConfigurationError
 import com.intellij.execution.configurations.RuntimeConfigurationException
@@ -27,16 +27,18 @@ import java.io.File
 @State(name = AhkConstants.PLUGIN_NAME, storages = [Storage(AhkConstants.PLUGIN_NAME + "__run-configuration.xml")])
 class AhkRunConfig(
     project: Project,
-    factory: ConfigurationFactory?,
+    factory: ConfigurationFactory,
     name: String?
-) : RunConfigurationBase<Any?>(project, factory, name) {
+) : LocatableConfigurationBase<RunProfileState>(project, factory, name) {
     val runConfigSettings = AhkRunConfigSettings()
+
+    override fun suggestedName(): String = runConfigSettings.pathToScript.substringAfterLast('/')
 
     override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration?> {
         return AhkRunConfigSettingsEditor(this.project)
     }
 
-    override fun getState(executor: Executor, environment: ExecutionEnvironment): RunProfileState? {
+    override fun getState(executor: Executor, environment: ExecutionEnvironment): RunProfileState {
         return AhkRunState(this, environment)
     }
 
