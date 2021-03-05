@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>de.nordgedanken.auto_hotkey</id>
-    <name>AutoHotkey Language</name>
+    <name>AutoHotkey</name>
     <vendor email="info@nordgedanken.de" url="https://github.com/Nordgedanken/">Nordgedanken</vendor>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
@@ -10,11 +10,12 @@
     <resource-bundle>localization.AhkBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="AutoHotkey script" implementationClass="de.nordgedanken.auto_hotkey.lang.core.AhkFileType"
+        <fileType name="AutoHotkey" implementationClass="de.nordgedanken.auto_hotkey.lang.core.AhkFileType"
                   fieldName="INSTANCE" language="AutoHotkey" extensions="ahk"/>
 
         <!--run config execution-->
         <sdkType implementation="de.nordgedanken.auto_hotkey.sdk.AhkSdkType"/>
+        <projectSdkSetupValidator implementation="de.nordgedanken.auto_hotkey.sdk.AhkProjectSdkSetupValidator"/>
         <configurationType implementation="de.nordgedanken.auto_hotkey.runconfig.core.AhkRunConfigType"/>
 
         <!--language management (eg parsing, highlighting, etc)-->

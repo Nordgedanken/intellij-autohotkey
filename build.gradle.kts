@@ -33,6 +33,7 @@ dependencies {
     testImplementation("io.kotest:kotest-runner-junit5-jvm:4.4.0")
     testImplementation("io.kotest:kotest-assertions-core:4.4.0")
     testImplementation("io.kotest:kotest-property:4.4.0")
+    testImplementation("io.mockk:mockk:1.10.6")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.7.0") {
         because(
             "this is needed to run parsing/lexing tests which extend " +

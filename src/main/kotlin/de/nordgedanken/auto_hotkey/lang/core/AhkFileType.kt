@@ -7,7 +7,7 @@ import de.nordgedanken.auto_hotkey.util.AhkIcons
 import javax.swing.Icon
 
 object AhkFileType : LanguageFileType(AhkLanguage) {
-    override fun getName() = "${AhkConstants.LANGUAGE_NAME} script"
+    override fun getName() = AhkConstants.LANGUAGE_NAME
 
     override fun getIcon(): Icon = AhkIcons.FILE
 
