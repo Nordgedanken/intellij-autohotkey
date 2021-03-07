@@ -79,7 +79,7 @@ To get a local copy up and running, follow these simple steps:
 * Java 11
 
 ### Setting up a Development Environment
- 
+
 1. Clone the repo
 ```sh
 git clone https://github.com/Nordgedanken/intellij-autohotkey.git

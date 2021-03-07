@@ -54,8 +54,12 @@ jobs:
         path: ~/.gradle/wrapper
         key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
 
+    # Run EditorConfig Linter
+    - name: Run EditorConfig Linter
+      uses: editorconfig-checker/action-editorconfig-checker@v1.0.0
+
     # Run ktlint
-    - name: Run Linter
+    - name: Run KtLinter
       run: ./gradlew ktlintCheck
 
     # Run verifyPlugin Gradle task
@@ -128,9 +132,8 @@ jobs:
       uses: ChrisCarini/intellij-platform-plugin-verifier-action@latest
       with:
         plugin-location: '*.zip'
-        # NOTE: For ide-versions, we just need to verify intellij community & one non-IJ IDE. Other functionality is standard.
+        # NOTE: For ide-versions, we just need to verify IJ community & one non-IJ IDE.
         ide-versions: |
           ideaIC:2020.1
-          ideaIC:2020.2
           ideaIC:2020.3
           pycharmPC:2020.1

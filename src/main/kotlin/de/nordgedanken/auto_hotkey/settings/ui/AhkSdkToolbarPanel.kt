@@ -53,9 +53,15 @@ class AhkSdkToolbarPanel(val project: Project) : JPanel() {
                 ) { chosenVirtualFile ->
                     val existingSdk = sdkListModel.items.find { chosenVirtualFile.path == it.homePath }
                     if (existingSdk != null) {
-                        NotificationUtil.showErrorDialog(project, AhkBundle.msg("settings.autohotkey.ahkrunners.add.error.exists.title"), AhkBundle.msg("settings.autohotkey.ahkrunners.add.error.exists.info").format(existingSdk.name))
+                        NotificationUtil.showErrorDialog(
+                            project,
+                            AhkBundle.msg("settings.autohotkey.ahkrunners.add.error.exists.title"),
+                            AhkBundle.msg("settings.autohotkey.ahkrunners.add.error.exists.info")
+                                .format(existingSdk.name)
+                        )
                     } else {
-                        val newlyAddedSdk = SdkConfigurationUtil.createAndAddSDK(chosenVirtualFile.path, AhkSdkType.getInstance())
+                        val newlyAddedSdk = SdkConfigurationUtil
+                            .createAndAddSDK(chosenVirtualFile.path, AhkSdkType.getInstance())
                         sdkListModel.add(newlyAddedSdk)
                         availableSdksList.selectedIndex = sdkListModel.getElementIndex(newlyAddedSdk)
                     }
@@ -67,7 +73,8 @@ class AhkSdkToolbarPanel(val project: Project) : JPanel() {
                 val selectedSdk = availableSdksList.selectedValue
                 SdkConfigurationUtil.removeSdk(selectedSdk)
                 sdkListModel.remove(selectedSdk)
-                if (sdkListModel.size > 0) availableSdksList.selectedIndex = selectedIndex.coerceIn(0, sdkListModel.size - 1)
+                if (sdkListModel.size > 0)
+                    availableSdksList.selectedIndex = selectedIndex.coerceIn(0, sdkListModel.size - 1)
             }
             setEditActionName(AhkBundle.msg("settings.autohotkey.ahkrunners.edit.buttonlabel"))
             setEditAction { editAction() }
@@ -77,9 +84,15 @@ class AhkSdkToolbarPanel(val project: Project) : JPanel() {
 
     private fun editAction() {
         val selectedSdk = availableSdksList.selectedValue
-        val newSdkName = JOptionPane.showInputDialog(AhkBundle.msg("settings.autohotkey.ahkrunners.edit.message").format(selectedSdk.name), selectedSdk.name) ?: selectedSdk.name
+        val newSdkName = JOptionPane.showInputDialog(
+            AhkBundle.msg("settings.autohotkey.ahkrunners.edit.message").format(selectedSdk.name), selectedSdk.name
+        ) ?: selectedSdk.name
         if (doesGivenNewNameExist(selectedSdk, newSdkName)) {
-            NotificationUtil.showErrorDialog(project, AhkBundle.msg("settings.autohotkey.ahkrunners.edit.error.alreadyexists.dialogtitle"), AhkBundle.msg("settings.autohotkey.ahkrunners.edit.error.alreadyexists.dialogmsg").format(newSdkName))
+            NotificationUtil.showErrorDialog(
+                project,
+                AhkBundle.msg("settings.autohotkey.ahkrunners.edit.error.alreadyexists.dialogtitle"),
+                AhkBundle.msg("settings.autohotkey.ahkrunners.edit.error.alreadyexists.dialogmsg").format(newSdkName)
+            )
         } else {
             selectedSdk.sdkModificator.run {
                 name = newSdkName

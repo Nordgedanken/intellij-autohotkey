@@ -30,7 +30,8 @@ data class AhkRunConfigSettings(
     }
 
     /**
-     * Returns the arguments field as a list of properly-delimited strings, accounting for things like multi-word arguments in quotes
+     * Returns the arguments field as a list of properly-delimited strings,
+     * accounting for things like multi-word arguments in quotes.
      */
     fun getArgsAsList(): List<String> {
         val argsList = mutableListOf<String>()

@@ -18,8 +18,9 @@ class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
     }
 
     /**
-     * Updates the available sdks in this combobox. This method is also called after someone modifies the project SDKs
-     * via the button next to the SDK dropdown in the Ahk run config editor, so we update the sdk list/projectSdk as needed
+     * Updates the available sdks in this combobox. This method is also called
+     * after someone modifies the project SDKs via the button next to the SDK
+     * dropdown in the Ahk run config editor, so we update the sdk list/projectSdk as needed
      *
      * Note: setModel will set the default selected option to the first in the list, but it doesn't matter
      * because the settingseditor will change the selectedItem a few moments after construction via setSelectedSdk...()
@@ -51,7 +52,9 @@ class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
             is Sdk -> selectedSdk.name
             is String -> selectedSdk
             null -> ""
-            else -> throw IllegalStateException("Unexpected sdk present in the combobox options: $selectedSdk, ${selectedSdk::class.qualifiedName}")
+            else -> throw IllegalStateException(
+                "Unexpected sdk present in the combobox options: $selectedSdk, ${selectedSdk::class.qualifiedName}"
+            )
         }
     }
 
@@ -63,8 +66,9 @@ class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
      * 2. If the project's sdk is an AhkSdk, we'll set the box to that option by default.
      *    ^(this option will allow new run configs to have the project default's sdk as the run config's sdk)
      * 3. Otherwise, if there are any Ahk sdks in the list, just set the default runner to that.
-     * Otherwise we just set the sdk to null, which will be rendered differently by the renderer & require the user to select/create an sdk to run the script
-     * (note that brand new projects with no set SDKs will also return a null sdk as the default project sdk, so we are required to handle a null value here)
+     * 4. Otherwise we just set the sdk to null, which will be rendered differently by the renderer & require the user
+     * to select/create an sdk to run the script (note that brand new projects with no set SDKs will also return a null
+     * sdk as the default project sdk, so we are required to handle a null value here)
      */
     fun setSelectedSdkByName(sdkName: String) {
         var matchingSdk: Any? = getAhkSdkByName(sdkName)

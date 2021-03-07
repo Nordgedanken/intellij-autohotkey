@@ -19,10 +19,10 @@
 
     //generic
     /*
-     Note that since WHITESPACE_HOZ is marked as "PsiWhiteSpace", the parser ignores it so we do not need to specify
-     it within the bnf rules.
-     (We return TokenType.WHITE_SPACE in lexer because GrammarKit will not generate the WHITESPACE_HOZ token class otherwise)
-     */
+      Note that since WHITESPACE_HOZ is marked as "PsiWhiteSpace", the parser ignores it so we do not need to specify
+      it within the bnf rules. (We return TokenType.WHITE_SPACE in lexer because GrammarKit will not generate
+      the WHITESPACE_HOZ token class otherwise)
+    */
     WHITESPACE_HOZ="regexp:\p{Blank}+"
     CRLF="regexp:\v"
     /**
@@ -39,11 +39,11 @@
 }
 
 /*
-    Naming convention:
-    - psiElements are camelcase
-    - tokens are lowercase: for, if, identifier
-    - rules are PascalCase: StructItem, EnumVariant
-    - recovery related rules are PascalCase_with_snake_suffix: Item_recover
+  Naming convention:
+  - psiElements are camelcase
+  - tokens are lowercase: for, if, identifier
+  - rules are PascalCase: StructItem, EnumVariant
+  - recovery related rules are PascalCase_with_snake_suffix: Item_recover
 */
 
 AhkFile ::= Item*

@@ -40,7 +40,9 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
         toolTipText = AhkBundle.msg("runconfig.configtab.scriptrunner.projectsettingsbutton.tooltip")
         addActionListener { openProjSettingsAndThenTriggerEditorUpdate() }
     }
-    private val printErrToConsoleCheckBox = JBCheckBox(AhkBundle.msg("runconfig.configtab.switches.errorstdout.label"), true).apply {
+    private val printErrToConsoleCheckBox = JBCheckBox(
+        AhkBundle.msg("runconfig.configtab.switches.errorstdout.label"), true
+    ).apply {
         toolTipText = AhkBundle.msg("runconfig.configtab.switches.errorstdout.tooltip")
     }
 

@@ -19,10 +19,10 @@ class AhkColorSettingsPage : ColorSettingsPage {
 #Include current_url.ahk
 Menu, Tray, Icon, % A_WinDir "\system32\netshell.dll" , 86 ; Shows a world icon in the system tray
 
-ModernBrowsers := "ApplicationFrameWindow,Chrome_WidgetWin_0,Chrome_WidgetWin_1,Maxthon3Cls_MainFrm,MozillaWindowClass,Slimjet_WidgetWin_1"
+ModernBrowsers := "ApplicationFrameWindow,Chrome_WidgetWin_0,Chrome_WidgetWin_1,MozillaWindowClass,Slimjet_WidgetWin_1"
 LegacyBrowsers := "IEFrame,OperaWindowClass"
 
-;^+!u:: 
+;^+!u::
 ;	nTime := A_TickCount
 ;	sURL := GetActiveBrowserURL()
 ;	WinGetClass, sClass, A

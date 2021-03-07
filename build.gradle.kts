@@ -88,7 +88,9 @@ tasks {
         changeNotes(
             closure {
                 changelog.get(changelog.version).withHeader(true).toHTML() +
-                    """Please see <a href="https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin/blob/master/CHANGELOG.md">CHANGELOG.md</a> for a full list of changes."""
+                    """Please see <a href=
+                        |"https://github.com/Nordgedanken/intellij-autohotkey/blob/master/CHANGELOG.md"
+                        |>CHANGELOG.md</a> for a full list of changes.""".trimMargin()
             }
         )
         pluginDescription(
