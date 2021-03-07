@@ -45,4 +45,3 @@ class MissingAhkSdkNotificationProvider : AhkNotificationProvider(), DumbAware {
         private val PROVIDER_KEY: Key<EditorNotificationPanel> = Key.create("Set up AutoHotkey runner")
     }
 }
-

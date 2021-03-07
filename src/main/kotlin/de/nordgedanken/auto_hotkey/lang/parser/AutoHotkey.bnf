@@ -18,6 +18,11 @@
     TEXT="regexp:\p{Alnum}+"
 
     //generic
+    /*
+     Note that since WHITESPACE_HOZ is marked as "PsiWhiteSpace", the parser ignores it so we do not need to specify
+     it within the bnf rules.
+     (We return TokenType.WHITE_SPACE in lexer because GrammarKit will not generate the WHITESPACE_HOZ token class otherwise)
+     */
     WHITESPACE_HOZ="regexp:\p{Blank}+"
     CRLF="regexp:\v"
     /**
@@ -44,4 +49,8 @@
 AhkFile ::= Item*
 private Item ::= Line | BLOCK_COMMENT | LINE_COMMENT | CRLF //Note that only CRLF can follow a line comment
 
-Line ::= (TEXT | CHAR_SPECIAL)+ (WHITESPACE_HOZ LINE_COMMENT?)? //optionally match a line comment if there's whitespace while parsing the line
+/* We check for whitespace before the comment via the lexer.
+The parser will ignore all PsiWhitespace elements during ast verification.
+(so it's like we're really doing (WHITESPACE_HOZ LINE_COMMENT?)? at the end instead)
+ */
+Line ::= (TEXT | CHAR_SPECIAL)+ LINE_COMMENT?

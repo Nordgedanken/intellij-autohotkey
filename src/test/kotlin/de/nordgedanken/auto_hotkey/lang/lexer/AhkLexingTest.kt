@@ -7,6 +7,6 @@ class AhkLexingTest : AhkLexingTestBase() {
 
     override fun createLexer(): Lexer = AhkLexerAdapter()
 
-    fun `test comments`() = doTest()
+    fun `test line comments`() = doTest()
     fun `test block comments`() = doTest()
 }

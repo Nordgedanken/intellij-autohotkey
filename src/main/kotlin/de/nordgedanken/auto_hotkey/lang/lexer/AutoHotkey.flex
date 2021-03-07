@@ -36,7 +36,7 @@ BLOCK_COMMENT="/*" !([^]* \R\p{Blank}* "*/" [^]*) (\R\p{Blank}* "*/")?
 
 %%
 <YYINITIAL> {
-	{WHITESPACE_HOZ}    { return WHITESPACE_HOZ; }
+	{WHITESPACE_HOZ}    { return TokenType.WHITE_SPACE; }
 	"*/"                { return BLOCK_COMMENT; }   // only occurs if we don't match a full block comment (see block_comment.ahk for explanation)
     [^]                 {
                             yypushback(1);              // cancel parsed char
@@ -62,7 +62,7 @@ BLOCK_COMMENT="/*" !([^]* \R\p{Blank}* "*/" [^]*) (\R\p{Blank}* "*/")?
 	{TEXT}              { return TEXT; }
     {WHITESPACE_HOZ}    {
                             yybegin(POSSIBLE_EOL_COMMENT);
-                            return WHITESPACE_HOZ;
+                            return TokenType.WHITE_SPACE;
                         }
     {CRLF}              {
       	                    yybegin(YYINITIAL);
