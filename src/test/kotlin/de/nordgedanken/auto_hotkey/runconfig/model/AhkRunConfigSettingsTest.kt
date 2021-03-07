@@ -52,7 +52,7 @@ class AhkRunConfigSettingsTest : FunSpec({
 
     context("test xml operations") {
         test("test read from xml") {
-            val actualXml = readResourceToString("runconfig/model/samplerunconfigsettings.xml")
+            val actualXml = readResourceToString("samplerunconfigsettings.xml")
             val actualElement = SAXBuilder().build(StringReader(actualXml)).rootElement
             val actualSettings = AhkRunConfigSettings().apply {
                 readFromElement(actualElement)
@@ -75,7 +75,7 @@ class AhkRunConfigSettingsTest : FunSpec({
             val actualElement = Element("configuration")
             testSettings.writeToElement(actualElement)
 
-            val expectedXml = readResourceToString("runconfig/model/samplerunconfigsettings.xml")
+            val expectedXml = readResourceToString("samplerunconfigsettings.xml")
             val expectedElement = SAXBuilder().build(StringReader(expectedXml)).rootElement
             XMLOutputter(Format.getCompactFormat()).outputString(actualElement)
                 .shouldBe(XMLOutputter(Format.getCompactFormat()).outputString(expectedElement))

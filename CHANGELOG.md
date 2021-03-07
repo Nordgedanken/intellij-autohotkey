@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Modified the Ahk runconfig ID to match the format of the Rust plugin (you will need to modify the "type" in the run config's xml to "AhkRunConfiguration" or just re-create any Ahk run configs you saved) 
+- Changed the AutoHotkey file icon to match the icon in Windows File Explorer
 
 ## [0.4.0] - 2021-02-14
 ### Added

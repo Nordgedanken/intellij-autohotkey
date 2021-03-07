@@ -36,7 +36,7 @@ class AhkSdkToolbarPanel(val project: Project) : JPanel() {
 
     init {
         sdkListModel.addAll(0, getAhkSdks())
-        availableSdksList = JBList<Sdk>(sdkListModel).apply {
+        availableSdksList = JBList(sdkListModel).apply {
             emptyText.text = AhkBundle.msg("settings.autohotkey.ahkrunners.general.nosdks")
             cellRenderer = sdkListCellRenderer
             selectionMode = ListSelectionModel.SINGLE_SELECTION
