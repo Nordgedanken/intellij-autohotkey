@@ -53,7 +53,7 @@
 <!-- Plugin description -->
 A simple plugin for developing AutoHotkey scripts. The following features are available:
 
-- Syntax highlighting (under construction)
+- Syntax highlighting (under construction; no error checking available currently)
 - Run configurations
 - More to come in the future...
 

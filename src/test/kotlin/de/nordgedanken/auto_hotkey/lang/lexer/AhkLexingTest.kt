@@ -9,4 +9,5 @@ class AhkLexingTest : AhkLexingTestBase() {
 
     fun `test line comments`() = doTest()
     fun `test block comments`() = doTest()
+    fun `test directives`() = doTest()
 }

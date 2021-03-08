@@ -16,6 +16,7 @@
     //Ahk-specific
     CHAR_SPECIAL="regexp:\p{Punct}"
     TEXT="regexp:\p{Alnum}+"
+    DIRECTIVE="regexp:#[a-zA-Z]+"
 
     //generic
     /*
@@ -53,4 +54,9 @@ private Item ::= Line | BLOCK_COMMENT | LINE_COMMENT | CRLF //Note that only CRL
 The parser will ignore all PsiWhitespace elements during ast verification.
 (so it's like we're really doing (WHITESPACE_HOZ LINE_COMMENT?)? at the end instead)
  */
-Line ::= (TEXT | CHAR_SPECIAL)+ LINE_COMMENT?
+Line ::= Directive | Words+ LINE_COMMENT?
+
+//
+private Directive ::= DIRECTIVE Words*
+
+private Words ::= (TEXT | CHAR_SPECIAL)+

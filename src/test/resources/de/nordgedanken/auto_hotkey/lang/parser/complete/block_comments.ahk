@@ -33,6 +33,12 @@ test4 */
 test5
 */ msgbox hi ;random comment
 
+;block comments can be stacked adjacent to each other on same line
+/* test6
+*//* test7
+*/ /* test8
+*/
+
 ;block comments do not have to be closed; they will automatically extend to the end of the file. (No error here)
 /* test6
 test6

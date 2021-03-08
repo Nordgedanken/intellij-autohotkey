@@ -6,9 +6,9 @@ import de.nordgedanken.auto_hotkey.util.AhkIcons
 import javax.swing.Icon
 
 class AhkColorSettingsPage : ColorSettingsPage {
-    private val ATTRS = AhkColor.values().map { it.attributesDescriptor }.toTypedArray()
+    private val ATTRS = AhkHighlighterColor.values().map { it.attributesDescriptor }.toTypedArray()
 
-    private val ANNOTATOR_TAGS = AhkColor.values().associateBy({ it.name }, { it.textAttributesKey })
+    private val ANNOTATOR_TAGS = AhkHighlighterColor.values().associateBy({ it.name }, { it.textAttributesKey })
 
     override fun getIcon(): Icon = AhkIcons.LOGO
 
