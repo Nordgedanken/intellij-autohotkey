@@ -24,13 +24,12 @@ import java.io.File
 /**
  * Defines instances of Ahk run configurations.
  */
-@State(name = AhkConstants.PLUGIN_NAME, storages = [Storage(AhkConstants.PLUGIN_NAME + "__run-configuration.xml")])
 class AhkRunConfig(
     project: Project,
     factory: ConfigurationFactory,
     name: String?
 ) : LocatableConfigurationBase<RunProfileState>(project, factory, name) {
-    val runConfigSettings = AhkRunConfigSettings()
+    var runConfigSettings = AhkRunConfigSettings()
 
     override fun suggestedName(): String = runConfigSettings.pathToScript.substringAfterLast('/')
 
@@ -73,5 +72,12 @@ class AhkRunConfig(
     override fun writeExternal(element: Element) {
         super.writeExternal(element)
         runConfigSettings.writeToElement(element)
+    }
+
+    /**
+     * Must override clone so that a deep-copy of runConfigSettings is made when generating from template
+     */
+    override fun clone() = (super.clone() as AhkRunConfig).apply {
+        runConfigSettings = runConfigSettings.clone()
     }
 }

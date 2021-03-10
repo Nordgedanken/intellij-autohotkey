@@ -21,7 +21,7 @@ data class AhkRunConfigSettings(
     var switches: MutableMap<AhkSwitch, Boolean> = DEFAULT_SWITCHES,
     var pathToScript: String = "",
     var arguments: String = ""
-) {
+) : Cloneable {
     /**
      * Returns all enabled switches as a list of strings
      */
@@ -77,8 +77,8 @@ data class AhkRunConfigSettings(
         }
         parentElement.addContent(switchesElement)
     }
-}
 
-inline fun <reified T : Enum<T>> enumContains(name: String): Boolean {
-    return enumValues<T>().any { it.name == name }
+    public override fun clone() = (super.clone() as AhkRunConfigSettings).apply {
+        switches = switches.toMap().toMutableMap()
+    }
 }
