@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Syntax highlighting now supports block comments
 - Ide now alerts with a popup notification if there are no Ahk runners configured
+- Right-clicking an Ahk file now offers a 'run' option (only if the file has code)
 
 ### Changed
 - Modified the Ahk runconfig ID to match the format of the Rust plugin (you will need to modify the "type" in the run config's xml to "AhkRunConfiguration" or just re-create any Ahk run configs you saved) 

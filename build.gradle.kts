@@ -45,7 +45,7 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version = "2020.1"
-    type = "IC"
+    type = "PC"
 }
 
 val generateAhkLexer = task<GenerateLexer>("generateAhkLexer") {
@@ -123,8 +123,7 @@ tasks {
     }
 
     val packagesToExcludeFromCoverageCheck = listOf(
-        // below runconfig directories require more complex tests
-        "**/auto_hotkey/runconfig/core/**",
+        // below runconfig directories can't be tested to my knowledge atm
         "**/auto_hotkey/runconfig/execution/**",
 
         // swing ui packages; must be tested manually
@@ -155,7 +154,7 @@ tasks {
             rule {
                 limit {
                     counter = "LINE"
-                    minimum = "0.70".toBigDecimal()
+                    minimum = "0.75".toBigDecimal()
                 }
                 limit {
                     counter = "BRANCH"

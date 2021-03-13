@@ -1,0 +1,11 @@
+<configurations>
+  <configuration name="hello-world" type="AhkRunConfiguration" factoryName="AutoHotkey">
+    <option name="runner" value="" />
+    <option name="pathToScript" value="/src/hello-world.ahk" />
+    <option name="arguments" value="" />
+    <switches>
+      <switch name="/ErrorStdOut" enabled="true" />
+    </switches>
+    <method v="2" />
+  </configuration>
+</configurations>

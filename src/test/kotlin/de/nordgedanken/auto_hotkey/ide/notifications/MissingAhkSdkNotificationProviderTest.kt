@@ -40,7 +40,7 @@ class MissingAhkSdkNotificationProviderTest : AhkBasePlatformTestCase() {
         val actualId = notificationProvider.createNotificationPanel(file, editor, project)?.debugId
         val message = when {
             actualId == null && expectedId != null -> "The notification panel was not shown even though it was expected"
-            actualId != null && expectedId == null -> "The notification panel was shown even though it should not have been"
+            actualId != null && expectedId == null -> "The notification panel was shown even though it shouldn't have"
             else -> ""
         }
         message.asClue {
