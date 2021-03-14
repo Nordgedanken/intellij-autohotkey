@@ -1,21 +1,22 @@
 <idea-plugin>
     <id>de.nordgedanken.auto_hotkey</id>
-    <name>AutoHotkey Language</name>
+    <name>AutoHotkey</name>
     <vendor email="info@nordgedanken.de" url="https://github.com/Nordgedanken/">Nordgedanken</vendor>
 
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-         on how to target different products -->
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
 
     <resource-bundle>localization.AhkBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="AutoHotkey script" implementationClass="de.nordgedanken.auto_hotkey.lang.core.AhkFileType"
+        <fileType name="AutoHotkey" implementationClass="de.nordgedanken.auto_hotkey.lang.core.AhkFileType"
                   fieldName="INSTANCE" language="AutoHotkey" extensions="ahk"/>
 
         <!--run config execution-->
         <sdkType implementation="de.nordgedanken.auto_hotkey.sdk.AhkSdkType"/>
         <configurationType implementation="de.nordgedanken.auto_hotkey.runconfig.core.AhkRunConfigType"/>
+        <runConfigurationProducer
+                implementation="de.nordgedanken.auto_hotkey.runconfig.producer.AhkRunConfigProducer"/>
 
         <!--language management (eg parsing, highlighting, etc)-->
         <lang.parserDefinition language="AutoHotkey"
@@ -23,6 +24,13 @@
         <lang.syntaxHighlighterFactory language="AutoHotkey"
                                        implementationClass="de.nordgedanken.auto_hotkey.ide.highlighter.AhkSyntaxHighlighterFactory"/>
         <lang.commenter language="AutoHotkey" implementationClass="de.nordgedanken.auto_hotkey.ide.commenter.AhkCommenter"/>
+
+        <!-- Notification Providers -->
+        <editorNotificationProvider implementation="de.nordgedanken.auto_hotkey.ide.notifications.MissingAhkSdkNotificationProvider"/>
+
+        <!-- Line Marker Providers -->
+        <runLineMarkerContributor language="AutoHotkey"
+                                  implementationClass="de.nordgedanken.auto_hotkey.ide.linemarkers.AhkExecutableRunLineMarkerContributor"/>
 
         <!--settings-->
         <projectConfigurable id="language.autohotkey"

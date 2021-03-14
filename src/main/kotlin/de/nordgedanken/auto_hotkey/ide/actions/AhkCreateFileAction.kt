@@ -9,12 +9,10 @@ import de.nordgedanken.auto_hotkey.util.AhkIcons
 
 class AhkCreateFileAction : CreateFileFromTemplateAction(CAPTION, "", AhkIcons.FILE), DumbAware {
     override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
-        builder.setTitle(CAPTION).addKind("Empty File", AhkIcons.FILE, "AutoHotkey File")
+        builder.setTitle(CAPTION).addKind("Empty File", AhkIcons.FILE, CAPTION)
     }
 
-    override fun getActionName(directory: PsiDirectory, newName: String, templateName: String): String {
-        return CAPTION
-    }
+    override fun getActionName(directory: PsiDirectory, newName: String, templateName: String) = CAPTION
 
     companion object {
         private const val CAPTION = "AutoHotkey File"

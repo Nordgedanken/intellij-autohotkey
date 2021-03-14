@@ -2,14 +2,12 @@ package de.nordgedanken.auto_hotkey.runconfig.core
 
 import com.intellij.execution.Executor
 import com.intellij.execution.configurations.ConfigurationFactory
+import com.intellij.execution.configurations.LocatableConfigurationBase
 import com.intellij.execution.configurations.RunConfiguration
-import com.intellij.execution.configurations.RunConfigurationBase
 import com.intellij.execution.configurations.RunProfileState
 import com.intellij.execution.configurations.RuntimeConfigurationError
 import com.intellij.execution.configurations.RuntimeConfigurationException
 import com.intellij.execution.runners.ExecutionEnvironment
-import com.intellij.openapi.components.State
-import com.intellij.openapi.components.Storage
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
 import de.nordgedanken.auto_hotkey.runconfig.execution.AhkRunState
@@ -24,19 +22,20 @@ import java.io.File
 /**
  * Defines instances of Ahk run configurations.
  */
-@State(name = AhkConstants.PLUGIN_NAME, storages = [Storage(AhkConstants.PLUGIN_NAME + "__run-configuration.xml")])
 class AhkRunConfig(
     project: Project,
-    factory: ConfigurationFactory?,
+    factory: ConfigurationFactory,
     name: String?
-) : RunConfigurationBase<Any?>(project, factory, name) {
-    val runConfigSettings = AhkRunConfigSettings()
+) : LocatableConfigurationBase<RunProfileState>(project, factory, name) {
+    var runConfigSettings = AhkRunConfigSettings()
+
+    override fun suggestedName(): String = runConfigSettings.pathToScript.substringAfterLast('/')
 
     override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration?> {
         return AhkRunConfigSettingsEditor(this.project)
     }
 
-    override fun getState(executor: Executor, environment: ExecutionEnvironment): RunProfileState? {
+    override fun getState(executor: Executor, environment: ExecutionEnvironment): RunProfileState {
         return AhkRunState(this, environment)
     }
 
@@ -71,5 +70,12 @@ class AhkRunConfig(
     override fun writeExternal(element: Element) {
         super.writeExternal(element)
         runConfigSettings.writeToElement(element)
+    }
+
+    /**
+     * Must override clone so that a deep-copy of runConfigSettings is made when generating from template
+     */
+    override fun clone() = (super.clone() as AhkRunConfig).apply {
+        runConfigSettings = runConfigSettings.clone()
     }
 }

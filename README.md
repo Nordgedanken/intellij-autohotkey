@@ -10,7 +10,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin">
+  <a href="https://github.com/Nordgedanken/intellij-autohotkey">
     <img src="src/main/resources/META-INF/pluginIcon.svg" alt="Logo" width="80" height="80">
   </a>
 
@@ -19,14 +19,14 @@
   <p align="center">
     A simple plugin to bring support for AutoHotkey into IntelliJ-based IDEs!
     <br />
-    <a href="https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/Nordgedanken/intellij-autohotkey"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://plugins.jetbrains.com/plugin/13945-autohotkey-language">Get Plugin</a>
     ·
-    <a href="https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin/issues">Report Bug</a>
+    <a href="https://github.com/Nordgedanken/intellij-autohotkey/issues">Report Bug</a>
     ·
-    <a href="https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin/issues">Request Feature</a>
+    <a href="https://github.com/Nordgedanken/intellij-autohotkey/issues">Request Feature</a>
   </p>
 </p>
 
@@ -53,11 +53,11 @@
 <!-- Plugin description -->
 A simple plugin for developing AutoHotkey scripts. The following features are available:
 
-- Syntax highlighting (under construction)
+- Syntax highlighting (under construction; no error checking available currently)
 - Run configurations
 - More to come in the future...
 
-<p><i>Note: This plugin is under development and does not have a stable release yet</i></p>
+<p><i>Note: This plugin is under development and does not have a stable release yet. Please report any issues to the plugin's <a href="https://github.com/Nordgedanken/intellij-autohotkey/issues">GitHub page</a>.</i></p>
 <!-- Plugin description end -->
 
 <!-- [![Plugin Screenshot][product-screenshot]](https://plugins.jetbrains.com/plugin/13945-autohotkey-language) -->
@@ -79,7 +79,7 @@ To get a local copy up and running, follow these simple steps:
 * Java 11
 
 ### Setting up a Development Environment
- 
+
 1. Clone the repo
 ```sh
 git clone https://github.com/Nordgedanken/intellij-autohotkey.git
@@ -100,7 +100,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/Nordgedanken/intellij-autohotkey/issues) for a list of proposed features (and known issues).
 
 
 
@@ -131,7 +131,7 @@ Distributed under the GPL-3.0 License. See `LICENSE` for more information.
 
 MTRNord - [@mtrnord](https://github.com/mtrnord) - https://matrix.to/#/@mtrnord:nordgedanken.dev
 
-Project Link: [https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin](https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin)
+Project Link: [https://github.com/Nordgedanken/intellij-autohotkey](https://github.com/Nordgedanken/intellij-autohotkey)
 
 
 
@@ -148,14 +148,14 @@ Project Link: [https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin](ht
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/Nordgedanken/auto_hot_key_jetbrains_plugin.svg?style=flat-square
-[contributors-url]: https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Nordgedanken/auto_hot_key_jetbrains_plugin.svg?style=flat-square
-[forks-url]: https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin/network/members
-[stars-shield]: https://img.shields.io/github/stars/Nordgedanken/auto_hot_key_jetbrains_plugin.svg?style=flat-square
-[stars-url]: https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Nordgedanken/auto_hot_key_jetbrains_plugin.svg?style=flat-square
-[issues-url]: https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin/issues
-[license-shield]: https://img.shields.io/github/license/Nordgedanken/auto_hot_key_jetbrains_plugin.svg?style=flat-square
-[license-url]: https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin/blob/master/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/Nordgedanken/intellij-autohotkey.svg?style=flat-square
+[contributors-url]: https://github.com/Nordgedanken/intellij-autohotkey/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Nordgedanken/intellij-autohotkey.svg?style=flat-square
+[forks-url]: https://github.com/Nordgedanken/intellij-autohotkey/network/members
+[stars-shield]: https://img.shields.io/github/stars/Nordgedanken/intellij-autohotkey.svg?style=flat-square
+[stars-url]: https://github.com/Nordgedanken/intellij-autohotkey/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Nordgedanken/intellij-autohotkey.svg?style=flat-square
+[issues-url]: https://github.com/Nordgedanken/intellij-autohotkey/issues
+[license-shield]: https://img.shields.io/github/license/Nordgedanken/intellij-autohotkey.svg?style=flat-square
+[license-url]: https://github.com/Nordgedanken/intellij-autohotkey/blob/master/LICENSE
 [product-screenshot]: images/screenshot.png

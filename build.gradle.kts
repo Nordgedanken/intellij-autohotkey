@@ -33,6 +33,7 @@ dependencies {
     testImplementation("io.kotest:kotest-runner-junit5-jvm:4.4.0")
     testImplementation("io.kotest:kotest-assertions-core:4.4.0")
     testImplementation("io.kotest:kotest-property:4.4.0")
+    testImplementation("io.mockk:mockk:1.10.6")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.7.0") {
         because(
             "this is needed to run parsing/lexing tests which extend " +
@@ -44,7 +45,7 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version = "2020.1"
-    type = "IC"
+    type = "PC"
 }
 
 val generateAhkLexer = task<GenerateLexer>("generateAhkLexer") {
@@ -87,7 +88,9 @@ tasks {
         changeNotes(
             closure {
                 changelog.get(changelog.version).withHeader(true).toHTML() +
-                    """Please see <a href="https://github.com/Nordgedanken/auto_hot_key_jetbrains_plugin/blob/master/CHANGELOG.md">CHANGELOG.md</a> for a full list of changes."""
+                    """Please see <a href=
+                        |"https://github.com/Nordgedanken/intellij-autohotkey/blob/master/CHANGELOG.md"
+                        |>CHANGELOG.md</a> for a full list of changes.""".trimMargin()
             }
         )
         pluginDescription(
@@ -120,9 +123,8 @@ tasks {
     }
 
     val packagesToExcludeFromCoverageCheck = listOf(
-        // below runconfig directories require more complex tests
-        "**/auto_hotkey/runconfig/core/**",
-        "**/auto_hotkey/runconfig/execution/**",
+        "**/auto_hotkey/runconfig/execution/**", // can't be tested to my knowledge atm
+        "**/auto_hotkey/sdk/AhkSdkType*", // can't be tested to my knowledge atm
 
         // swing ui packages; must be tested manually
         "**/auto_hotkey/runconfig/ui/**",
@@ -152,6 +154,10 @@ tasks {
             rule {
                 limit {
                     counter = "LINE"
+                    minimum = "0.80".toBigDecimal()
+                }
+                limit {
+                    counter = "BRANCH"
                     minimum = "0.65".toBigDecimal()
                 }
             }

@@ -65,7 +65,9 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
                     val processSuccess = waitFor(3, SECONDS)
                     if (processSuccess) {
                         return inputStream.bufferedReader().readText().also {
-                            check(!it.contains("\n")) { "The code to get the AutoHotkey version returned additional lines: $it" }
+                            check(!it.contains("\n")) {
+                                "The code to get the AutoHotkey version returned additional lines: $it"
+                            }
                         }
                     }
                 }
@@ -74,7 +76,10 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
         return "unknown version"
     }
 
-    override fun createAdditionalDataConfigurable(sdkModel: SdkModel, sdkModificator: SdkModificator): AdditionalDataConfigurable? {
+    override fun createAdditionalDataConfigurable(
+        sdkModel: SdkModel,
+        sdkModificator: SdkModificator
+    ): AdditionalDataConfigurable? {
         return null
     }
 

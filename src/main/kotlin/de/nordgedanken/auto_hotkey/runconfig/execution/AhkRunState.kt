@@ -11,12 +11,19 @@ import de.nordgedanken.auto_hotkey.sdk.getAhkSdkByName
 import java.nio.file.Paths
 
 /**
- * Gets the state of a run config when you decide to run it. Decides how execution will happen based on the run config properties.
+ * Gets the state of a run config when you decide to run it.
+ * Decides how execution will happen based on the run config properties.
  */
-class AhkRunState(private val ahkRunConfig: AhkRunConfig, environment: ExecutionEnvironment?) : CommandLineState(environment) {
+class AhkRunState(
+    private val ahkRunConfig: AhkRunConfig,
+    environment: ExecutionEnvironment?
+) : CommandLineState(environment) {
     @Throws(ExecutionException::class)
     override fun startProcess(): ProcessHandler {
-        val exePath = Paths.get(getAhkSdkByName(ahkRunConfig.runConfigSettings.runner)!!.homePath!!, "AutoHotkey.exe").toString()
+        val exePath = Paths.get(
+            getAhkSdkByName(ahkRunConfig.runConfigSettings.runner)!!.homePath!!,
+            "AutoHotkey.exe"
+        ).toString()
         val ahkCommandLine = GeneralCommandLine()
             .withWorkDirectory(ahkRunConfig.project.basePath)
             .withExePath(exePath)

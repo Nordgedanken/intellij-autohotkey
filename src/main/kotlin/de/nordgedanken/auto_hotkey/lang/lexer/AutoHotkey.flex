@@ -20,6 +20,7 @@ import static com.intellij.psi.TokenType.*;
 //Ahk-specific
 CHAR_SPECIAL=[^\s[:letter:][:digit:]]
 TEXT=\w+
+DIRECTIVE_NAME=#{TEXT}
 
 //generic
 WHITESPACE_HOZ=\p{Blank}+ //JFlex doesn't support \h
@@ -32,22 +33,34 @@ an open /\* tag that has no corresponding *\/
 */
 BLOCK_COMMENT="/*" !([^]* \R\p{Blank}* "*/" [^]*) (\R\p{Blank}* "*/")?
 
-%state CHECK_FOR_COMMENTS, EXPRESSION, POSSIBLE_EOL_COMMENT
+%state CHECK_FOR_BOL_ELEMENTS, EXPRESSION, POSSIBLE_EOL_COMMENT
 
 %%
+/*
+Starting state. Whenever we hit a CRLF, we return back to this state.
+*/
 <YYINITIAL> {
-	{WHITESPACE_HOZ}    { return WHITESPACE_HOZ; }
-	"*/"                { return BLOCK_COMMENT; }   // only occurs if we don't match a full block comment (see block_comment.ahk for explanation)
+    {WHITESPACE_HOZ}    { return TokenType.WHITE_SPACE; }
+    "*/"                { return BLOCK_COMMENT; }           // only occurs if we don't match a full block comment
+                                                            // (see block_comment.ahk for explanation)
     [^]                 {
-                            yypushback(1);              // cancel parsed char
-                            yybegin(CHECK_FOR_COMMENTS); // and try to parse it again in a different state
-                        }
+                                yypushback(1);                  // cancel parsed char
+                                yybegin(CHECK_FOR_BOL_ELEMENTS);    // and try to parse it again in a different state
+                            }
 }
 
-<CHECK_FOR_COMMENTS> {
-	{LINE_COMMENT}	    { return LINE_COMMENT; }    // only CRLF can follow this
-    {BLOCK_COMMENT}	    { return BLOCK_COMMENT; }
-	{CRLF}              {
+/*
+Contains elements which can only validly occur at the beginning of a line.
+ */
+<CHECK_FOR_BOL_ELEMENTS> {
+    {LINE_COMMENT}	    { return LINE_COMMENT; }    // Only CRLF can follow this
+    {BLOCK_COMMENT}	    { return BLOCK_COMMENT; }   // Can only occur at beginning of line, not after other chars
+    {DIRECTIVE_NAME}	{           // Can only occur at beginning of line, not after other chars
+                            yybegin(EXPRESSION);    // and must be followed by space
+                            return DIRECTIVE;
+                        }
+    {WHITESPACE_HOZ}    { return TokenType.WHITE_SPACE; }
+    {CRLF}              {
                             yybegin(YYINITIAL);
                             return CRLF;
                         }
@@ -58,24 +71,24 @@ BLOCK_COMMENT="/*" !([^]* \R\p{Blank}* "*/" [^]*) (\R\p{Blank}* "*/")?
 }
 
 <EXPRESSION> {
-	{CHAR_SPECIAL}      { return CHAR_SPECIAL; }
-	{TEXT}              { return TEXT; }
+    {CHAR_SPECIAL}      { return CHAR_SPECIAL; }
+    {TEXT}              { return TEXT; }
     {WHITESPACE_HOZ}    {
                             yybegin(POSSIBLE_EOL_COMMENT);
-                            return WHITESPACE_HOZ;
+                            return TokenType.WHITE_SPACE;
                         }
     {CRLF}              {
-      	                    yybegin(YYINITIAL);
-      	                    return CRLF;
+                            yybegin(YYINITIAL);
+                            return CRLF;
                         }
 }
 
 <POSSIBLE_EOL_COMMENT> {
-	{LINE_COMMENT}      { return LINE_COMMENT; }
-	[^]                 {
-							yypushback(1);      // cancel parsed char (no comment typed here)
-							yybegin(EXPRESSION); // and try to parse it again in <YYINITIAL>
-						}
+    {LINE_COMMENT}      { return LINE_COMMENT; }
+    [^]                 {
+                            yypushback(1);      // cancel parsed char (no comment typed here)
+                            yybegin(EXPRESSION); // and try to parse it again in <YYINITIAL>
+                        }
 }
 
 [^] { return BAD_CHARACTER; }

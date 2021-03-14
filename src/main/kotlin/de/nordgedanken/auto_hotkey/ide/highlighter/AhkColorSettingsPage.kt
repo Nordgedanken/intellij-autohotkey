@@ -6,11 +6,11 @@ import de.nordgedanken.auto_hotkey.util.AhkIcons
 import javax.swing.Icon
 
 class AhkColorSettingsPage : ColorSettingsPage {
-    private val ATTRS = AhkColor.values().map { it.attributesDescriptor }.toTypedArray()
+    private val ATTRS = AhkHighlighterColor.values().map { it.attributesDescriptor }.toTypedArray()
 
-    private val ANNOTATOR_TAGS = AhkColor.values().associateBy({ it.name }, { it.textAttributesKey })
+    private val ANNOTATOR_TAGS = AhkHighlighterColor.values().associateBy({ it.name }, { it.textAttributesKey })
 
-    override fun getIcon(): Icon = AhkIcons.FILE
+    override fun getIcon(): Icon = AhkIcons.LOGO
 
     override fun getHighlighter() = AhkSyntaxHighlighter()
 
@@ -19,10 +19,10 @@ class AhkColorSettingsPage : ColorSettingsPage {
 #Include current_url.ahk
 Menu, Tray, Icon, % A_WinDir "\system32\netshell.dll" , 86 ; Shows a world icon in the system tray
 
-ModernBrowsers := "ApplicationFrameWindow,Chrome_WidgetWin_0,Chrome_WidgetWin_1,Maxthon3Cls_MainFrm,MozillaWindowClass,Slimjet_WidgetWin_1"
+ModernBrowsers := "ApplicationFrameWindow,Chrome_WidgetWin_0,Chrome_WidgetWin_1,MozillaWindowClass,Slimjet_WidgetWin_1"
 LegacyBrowsers := "IEFrame,OperaWindowClass"
 
-;^+!u:: 
+;^+!u::
 ;	nTime := A_TickCount
 ;	sURL := GetActiveBrowserURL()
 ;	WinGetClass, sClass, A

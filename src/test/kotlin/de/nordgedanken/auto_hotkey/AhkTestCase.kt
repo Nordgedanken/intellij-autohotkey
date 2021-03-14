@@ -2,6 +2,9 @@ package de.nordgedanken.auto_hotkey
 
 import java.nio.file.Path
 
+/**
+ * Defines convenience methods to access test resources during tests
+ */
 interface AhkTestCase {
     fun getTestDataPath(): String
     fun getTestName(lowercaseFirstLetter: Boolean): String
