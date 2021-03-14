@@ -64,7 +64,7 @@ val generateAhkParser = task<GenerateParser>("generateAhkParser") {
 }
 
 changelog {
-    version = "0.4.0"
+    version = "0.5.0"
     header = closure { "[$version] - ${date()}" }
     groups = listOf("Added")
 }

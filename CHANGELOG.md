@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+
+## [0.5.0] - 2021-03-14
+### Added
 - Syntax highlighting now supports block comments
 - Ide now alerts with a popup notification if there are no Ahk runners configured
 - Right-clicking an Ahk file now offers a 'run' option (only if the file has code)
