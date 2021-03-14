@@ -1,5 +1,6 @@
 package de.nordgedanken.auto_hotkey.runconfig.core
 
+import com.intellij.execution.configurations.ConfigurationFactory
 import com.intellij.execution.configurations.ConfigurationTypeBase
 import com.intellij.execution.configurations.ConfigurationTypeUtil
 import de.nordgedanken.auto_hotkey.util.AhkConstants
@@ -17,6 +18,8 @@ class AhkRunConfigType : ConfigurationTypeBase(
     init {
         addFactory(AhkRunConfigFactory(this))
     }
+
+    val factory: ConfigurationFactory get() = configurationFactories.single()
 
     companion object {
         const val ID = "AhkRunConfiguration"

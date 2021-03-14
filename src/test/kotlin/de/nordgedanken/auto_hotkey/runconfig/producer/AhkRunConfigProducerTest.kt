@@ -23,7 +23,7 @@ import util.toXmlString
 import com.intellij.openapi.fileTypes.PlainTextFileType.INSTANCE as PlainTextFileType
 
 class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
-    val ahkRunConfigProducer = AhkRunConfigProducer()
+    private val ahkRunConfigProducer = AhkRunConfigProducer()
 
     fun `test producer makes no config for non-ahk file`() {
         val configurations = generateContextAhkRunconfigsFromFile("test.txt", "test")

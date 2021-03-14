@@ -17,7 +17,7 @@ import de.nordgedanken.auto_hotkey.sdk.sdk
 
 class AhkRunConfigProducer : LazyRunConfigurationProducer<AhkRunConfig>() {
     override fun getConfigurationFactory(): ConfigurationFactory {
-        return AhkRunConfigType.getInstance().configurationFactories.single()
+        return AhkRunConfigType.getInstance().factory
     }
 
     /**
