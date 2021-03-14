@@ -8,8 +8,6 @@ import com.intellij.execution.configurations.RunProfileState
 import com.intellij.execution.configurations.RuntimeConfigurationError
 import com.intellij.execution.configurations.RuntimeConfigurationException
 import com.intellij.execution.runners.ExecutionEnvironment
-import com.intellij.openapi.components.State
-import com.intellij.openapi.components.Storage
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
 import de.nordgedanken.auto_hotkey.runconfig.execution.AhkRunState

@@ -28,6 +28,10 @@
         <!-- Notification Providers -->
         <editorNotificationProvider implementation="de.nordgedanken.auto_hotkey.ide.notifications.MissingAhkSdkNotificationProvider"/>
 
+        <!-- Line Marker Providers -->
+        <runLineMarkerContributor language="AutoHotkey"
+                                  implementationClass="de.nordgedanken.auto_hotkey.ide.linemarkers.AhkExecutableRunLineMarkerContributor"/>
+
         <!--settings-->
         <projectConfigurable id="language.autohotkey"
                              parentId="language"

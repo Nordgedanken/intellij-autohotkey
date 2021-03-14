@@ -123,8 +123,8 @@ tasks {
     }
 
     val packagesToExcludeFromCoverageCheck = listOf(
-        // below runconfig directories can't be tested to my knowledge atm
-        "**/auto_hotkey/runconfig/execution/**",
+        "**/auto_hotkey/runconfig/execution/**", // can't be tested to my knowledge atm
+        "**/auto_hotkey/sdk/AhkSdkType*", // can't be tested to my knowledge atm
 
         // swing ui packages; must be tested manually
         "**/auto_hotkey/runconfig/ui/**",
@@ -154,11 +154,11 @@ tasks {
             rule {
                 limit {
                     counter = "LINE"
-                    minimum = "0.75".toBigDecimal()
+                    minimum = "0.80".toBigDecimal()
                 }
                 limit {
                     counter = "BRANCH"
-                    minimum = "0.60".toBigDecimal()
+                    minimum = "0.70".toBigDecimal()
                 }
             }
         }

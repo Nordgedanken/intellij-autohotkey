@@ -6,7 +6,7 @@ import de.nordgedanken.auto_hotkey.lang.core.AhkFileType
 
 class AhkCommenterTest : AhkBasePlatformTestCase() {
     fun testGetLineCommentPrefix() {
-        myFixture.configureByText(AhkFileType, " M<caret>sgBox hi")
+        myFixture.configureByText(AhkFileType, " M<caret>sgBox hi") // extra space before 'M' on purpose
         CommentByLineCommentAction().run {
             actionPerformedImpl(project, myFixture.editor)
             myFixture.checkResult("; MsgBox hi")

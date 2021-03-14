@@ -1,11 +1,14 @@
 package de.nordgedanken.auto_hotkey.ide.notifications
 
 import com.intellij.openapi.fileEditor.FileEditorManager
+import com.intellij.openapi.fileTypes.FileType
 import de.nordgedanken.auto_hotkey.AhkBasePlatformTestCase
 import de.nordgedanken.auto_hotkey.ProjectDescriptor
 import de.nordgedanken.auto_hotkey.WithOneAhkSdk
+import de.nordgedanken.auto_hotkey.lang.core.AhkFileType
 import io.kotest.assertions.asClue
 import io.kotest.matchers.shouldBe
+import com.intellij.openapi.fileTypes.PlainTextFileType.INSTANCE as PlainTextFileType
 
 /**
  * Tests whether the MissingAhkSdkNotificationProvider shows the notification in the correct scenarios.
@@ -16,26 +19,24 @@ class MissingAhkSdkNotificationProviderTest : AhkBasePlatformTestCase() {
     private val notificationProvider = MissingAhkSdkNotificationProvider()
 
     fun `test notification doesn't show if non-ahk file opened with no sdks set up`() {
-        doTest("empty.txt", null)
+        verifyIfOpeningFileTypeShowsPanel(PlainTextFileType, null)
     }
 
     fun `test notification shows if ahk file opened with no sdks set up`() {
-        doTest("empty.ahk", MissingAhkSdkNotificationProvider.NO_AHK_SDK_PANEL_ID)
+        verifyIfOpeningFileTypeShowsPanel(AhkFileType, MissingAhkSdkNotificationProvider.NO_AHK_SDK_PANEL_ID)
     }
 
     @ProjectDescriptor(WithOneAhkSdk::class)
     fun `test notification doesn't show if ahk file opened with one sdk set up`() {
-        doTest("empty.ahk", null)
+        verifyIfOpeningFileTypeShowsPanel(AhkFileType, null)
     }
 
     /**
-     * Creates the passed-in file (with no content) and then opens it. Then it will
-     * try to create a notification panel with the provider that the subclass sets
-     * and check whether the id returned matches the expected id to return
+     * Creates an empty file of the passed-in type and opens it. Then it tries to create a notification panel with the
+     * notificationProvider and checks whether the id returned matches the expected id that should be returned
      */
-    private fun doTest(filePath: String, expectedId: String?) {
-        myFixture.addFileToProject(filePath, "")!!
-        val file = myFixture.findFileInTempDir(filePath)!!
+    private fun verifyIfOpeningFileTypeShowsPanel(fileType: FileType, expectedId: String?) {
+        val file = myFixture.configureByText(fileType, "")!!.virtualFile
         val editor = FileEditorManager.getInstance(project).openFile(file, true)[0]
         val actualId = notificationProvider.createNotificationPanel(file, editor, project)?.debugId
         val message = when {
@@ -44,7 +45,7 @@ class MissingAhkSdkNotificationProviderTest : AhkBasePlatformTestCase() {
             else -> ""
         }
         message.asClue {
-            expectedId shouldBe actualId
+            actualId shouldBe expectedId
         }
     }
 }

@@ -112,9 +112,7 @@ class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
         filename: String,
         fileContent: String
     ): List<RunnerAndConfigurationSettings> {
-        myFixture.addFileToProject(filename, fileContent)
-        myFixture.configureFromExistingVirtualFile(myFixture.findFileInTempDir(filename))
-        val element = myFixture.file.run { firstChild ?: originalFile }
+        val element = myFixture.configureByText(filename, fileContent).originalFile.run { firstChild ?: this }
         return ConfigurationContext(element).configurationsFromContext.orEmpty().map { it.configurationSettings }
     }
 
@@ -136,6 +134,6 @@ class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
         return super.getTestName(lowercaseFirstLetter).substringAfterLast(' ')
     }
 
-    fun CodeInsightTestFixture.makeConfigContextFrom(fileType: FileType, fileContent: String) =
+    private fun CodeInsightTestFixture.makeConfigContextFrom(fileType: FileType, fileContent: String) =
         ConfigurationContext(this.configureByText(fileType, fileContent))
 }
