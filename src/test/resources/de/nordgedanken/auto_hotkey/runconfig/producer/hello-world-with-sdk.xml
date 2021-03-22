@@ -1,5 +1,5 @@
 <configurations>
-  <configuration name="hello-world" type="AhkRunConfiguration" factoryName="AutoHotkey">
+  <configuration name="hello-world" type="AhkRunConfiguration">
     <option name="runner" value="Mock Ahk Sdk" />
     <option name="pathToScript" value="/src/hello-world.ahk" />
     <option name="arguments" value="" />

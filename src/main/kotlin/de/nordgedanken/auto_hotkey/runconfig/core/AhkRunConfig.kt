@@ -46,11 +46,11 @@ class AhkRunConfig(
     override fun checkConfiguration() {
         if (getAhkSdkByName(runConfigSettings.runner) == null) {
             throw RuntimeConfigurationError(AhkBundle.msg("runconfig.configtab.error.scriptrunner.notahksdktype"))
-        } else {
-            val f = File(runConfigSettings.pathToScript)
-            if (!f.exists()) {
+        }
+        File(runConfigSettings.pathToScript).run {
+            if (!exists()) {
                 throw RuntimeConfigurationError(AhkBundle.msg("runconfig.configtab.error.scriptpath.notexist"))
-            } else if (f.extension != AhkConstants.FILE_EXTENSION) {
+            } else if (extension != AhkConstants.FILE_EXTENSION) {
                 throw RuntimeConfigurationError(AhkBundle.msg("runconfig.configtab.error.scriptpath.notahkextension"))
             }
         }
