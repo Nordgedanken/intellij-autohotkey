@@ -8,6 +8,7 @@ import de.nordgedanken.auto_hotkey.sdk.AhkSdkType
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdkByName
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdks
 import de.nordgedanken.auto_hotkey.sdk.sdk
+import de.nordgedanken.auto_hotkey.sdk.ui.AhkSdkListCellRenderer
 
 class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
     private var projectSdk: Sdk? = null
