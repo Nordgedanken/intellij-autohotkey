@@ -2,29 +2,33 @@ package de.nordgedanken.auto_hotkey.project.settings.ui
 
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.projectRoots.ProjectJdkTable
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.projectRoots.impl.SdkConfigurationUtil
 import com.intellij.openapi.vfs.LocalFileSystem
-import com.intellij.ui.DoubleClickListener
 import com.intellij.ui.ToolbarDecorator
-import com.intellij.ui.components.JBTextField
+import com.intellij.ui.components.JBRadioButton
 import com.intellij.ui.table.JBTable
-import com.jetbrains.rd.util.remove
+import de.nordgedanken.auto_hotkey.project.settings.defaultAhkSdk
 import de.nordgedanken.auto_hotkey.sdk.AhkSdkType
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdks
 import de.nordgedanken.auto_hotkey.sdk.sdk
+import de.nordgedanken.auto_hotkey.sdk.ui.AhkSdkCellEditor
 import de.nordgedanken.auto_hotkey.sdk.ui.AhkSdkTableCellRenderer
 import de.nordgedanken.auto_hotkey.util.AhkBundle
 import de.nordgedanken.auto_hotkey.util.NotificationUtil
 import java.awt.Component
-import java.awt.event.MouseEvent
+import java.awt.event.ActionEvent
+import java.awt.event.ActionListener
 import java.io.File
-import javax.swing.DefaultCellEditor
+import java.lang.IllegalStateException
+import javax.swing.AbstractCellEditor
 import javax.swing.JPanel
 import javax.swing.JTable
 import javax.swing.ListSelectionModel
+import javax.swing.SwingConstants.CENTER
 import javax.swing.table.AbstractTableModel
+import javax.swing.table.TableCellEditor
+import javax.swing.table.TableCellRenderer
 
 /**
  * Constructs the UI and logic for the Ahk Sdk toolbar widget within the AutoHotkey settings that allows you to add or
@@ -33,63 +37,38 @@ import javax.swing.table.AbstractTableModel
  */
 class AhkSdkToolbarPanel(val project: Project) : JPanel() {
     val panel: JPanel
-    private val sdkTableCellRenderer = AhkSdkTableCellRenderer(project.sdk)
-    private val sdkTableCellEditor = object : DefaultCellEditor(JBTextField()) {
-        lateinit var sdkBeingEdited: Sdk
+    private val sdkTableCellEditor = AhkSdkCellEditor(project)
+    private val ahkSdkCellRenderer = AhkSdkTableCellRenderer(project.sdk)
 
-        /**
-         * Allows editing to stop and the new sdk name to be saved only if the new name doesn't already exist in the
-         * list. (Also see the documentation of this method in the TableCellEditor interface)
-         */
-        override fun stopCellEditing(): Boolean {
-            val newSdkName = cellEditorValue as String
-            if (doesGivenNewNameExist(sdkBeingEdited, newSdkName)) {
-                NotificationUtil.showErrorDialog(
-                    project,
-                    AhkBundle.msg("settings.autohotkey.ahkrunners.edit.error.alreadyexists.dialogtitle"),
-                    AhkBundle.msg("settings.autohotkey.ahkrunners.edit.error.alreadyexists.dialogmsg")
-                        .format(newSdkName)
-                )
-                return false
-            }
-            return super.stopCellEditing()
-        }
-
-        /**
-         * Returns the parent's TableCellEditorComponent, but with just the name of the sdk being edited since that's
-         * all we want to allow the user to edit within this table.
-         */
-        override fun getTableCellEditorComponent(
-            table: JTable?,
-            value: Any?,
-            isSelected: Boolean,
-            row: Int,
-            column: Int
-        ): Component {
-            sdkBeingEdited = value as Sdk
-            return super.getTableCellEditorComponent(table, value.name, isSelected, row, column)
-        }
-    }.apply {
-        clickCountToStart = 2
-    }
-
+    private val sdkTableColumnNames = arrayOf("AutoHotkey runners", "Default")
     private val sdkTableModel = object : AbstractTableModel() {
         val sdks = getAhkSdks().toMutableList()
 
         override fun getRowCount() = sdks.size
 
-        override fun getColumnCount() = 1
+        override fun getColumnCount() = sdkTableColumnNames.size
 
-        override fun getValueAt(rowIndex: Int, columnIndex: Int) = sdks[rowIndex]
-
-        override fun getColumnName(column: Int) = "AutoHotkey runners"
+        override fun getColumnName(column: Int) = sdkTableColumnNames[column]
 
         override fun isCellEditable(rowIndex: Int, columnIndex: Int) = true
 
+        override fun getValueAt(rowIndex: Int, columnIndex: Int): Any = when (columnIndex) {
+            0 -> sdks[rowIndex]
+            1 -> project.defaultAhkSdk === sdks[rowIndex]
+            else -> throw IllegalStateException("Unexpected column is trying to get value")
+        }
+
         override fun setValueAt(aValue: Any?, rowIndex: Int, columnIndex: Int) {
-            sdks[rowIndex].sdkModificator.run {
-                name = aValue as String
-                commitChanges()
+            when (columnIndex) {
+                0 -> sdks[rowIndex].sdkModificator.run {
+                    name = aValue as String
+                    commitChanges()
+                }
+                1 -> {
+                    project.defaultAhkSdk = sdks[rowIndex]
+                    fireTableRowsUpdated(0, rowCount)
+                }
+                else -> throw IllegalStateException("Unexpected column is trying to set value")
             }
         }
     }
@@ -97,9 +76,18 @@ class AhkSdkToolbarPanel(val project: Project) : JPanel() {
         setShowGrid(false)
         emptyText.text = AhkBundle.msg("settings.autohotkey.ahkrunners.general.nosdks")
         selectionModel.selectionMode = ListSelectionModel.SINGLE_SELECTION
-        columnModel.getColumn(0).apply {
-            cellRenderer = sdkTableCellRenderer
-            cellEditor = sdkTableCellEditor
+        tableHeader.resizingAllowed = false
+        tableHeader.reorderingAllowed = false
+        columnModel.apply {
+            getColumn(0).apply {
+                cellRenderer = ahkSdkCellRenderer
+                cellEditor = sdkTableCellEditor
+            }
+            getColumn(1).apply {
+                cellRenderer = RadioButtonCellEditorRenderer
+                cellEditor = RadioButtonCellEditorRenderer
+                maxWidth = 15 + tableHeader.getFontMetrics(tableHeader.font).stringWidth(sdkTableColumnNames[1])
+            }
         }
     }
 
@@ -132,7 +120,7 @@ class AhkSdkToolbarPanel(val project: Project) : JPanel() {
             setRemoveActionName(AhkBundle.msg("settings.autohotkey.ahkrunners.remove.buttonlabel"))
             setRemoveAction {
                 val selectedRowIndex = sdkTable.selectedRow
-                val selectedSdk = sdkTableModel.getValueAt(selectedRowIndex, 0)
+                val selectedSdk = sdkTableModel.getValueAt(selectedRowIndex, 0) as Sdk
                 SdkConfigurationUtil.removeSdk(selectedSdk)
                 sdkTableModel.sdks.remove(selectedSdk)
                 sdkTableModel.fireTableRowsDeleted(selectedRowIndex, selectedRowIndex)
@@ -143,11 +131,6 @@ class AhkSdkToolbarPanel(val project: Project) : JPanel() {
             setEditAction { sdkTable.editCellAt(sdkTable.selectedRow, 0) }
             disableUpDownActions()
         }.createPanel()
-    }
-
-    private fun doesGivenNewNameExist(sdkToRename: Sdk, newSdkName: String): Boolean {
-        val allSdks = ProjectJdkTable.getInstance().allJdks.remove(sdkToRename)
-        return allSdks.map { it.name }.contains(newSdkName)
     }
 }
 
