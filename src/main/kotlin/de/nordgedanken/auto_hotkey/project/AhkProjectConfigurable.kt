@@ -1,9 +1,9 @@
-package de.nordgedanken.auto_hotkey.settings
+package de.nordgedanken.auto_hotkey.project
 
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
 import com.intellij.ui.layout.panel
-import de.nordgedanken.auto_hotkey.settings.ui.AhkProjectSettingsPanel
+import de.nordgedanken.auto_hotkey.project.settings.ui.AhkProjectSettingsPanel
 import de.nordgedanken.auto_hotkey.util.AhkConstants
 
 /**

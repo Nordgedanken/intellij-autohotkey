@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hotkey.settings.ui
+package de.nordgedanken.auto_hotkey.project.settings.ui
 
 import com.intellij.openapi.project.Project
 import com.intellij.ui.layout.LayoutBuilder

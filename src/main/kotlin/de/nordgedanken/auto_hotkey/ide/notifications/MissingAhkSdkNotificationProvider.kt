@@ -9,7 +9,7 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
 import de.nordgedanken.auto_hotkey.lang.core.AhkFileType
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdks
-import de.nordgedanken.auto_hotkey.settings.AhkProjectConfigurable
+import de.nordgedanken.auto_hotkey.project.AhkProjectConfigurable
 import de.nordgedanken.auto_hotkey.util.AhkBundle
 
 /**
