@@ -10,6 +10,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.util.JDOMExternalizerUtil
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdkByName
+import de.nordgedanken.auto_hotkey.sdk.getAhkSdks
 import org.jdom.Element
 
 private const val serviceName: String = "AhkProjectSettings"
@@ -17,14 +18,13 @@ private const val serviceName: String = "AhkProjectSettings"
 @Service
 @State(
     name = serviceName,
-    storages = [
-        Storage(StoragePathMacros.WORKSPACE_FILE)
-    ]
+    storages = [Storage(StoragePathMacros.WORKSPACE_FILE)]
 )
 class AhkProjectSettingsService : PersistentStateComponent<Element> {
     var defaultAhkSdk: Sdk? = null
 
     override fun getState(): Element {
+        println("getState called")
         val element = Element(serviceName)
         defaultAhkSdk?.let { JDOMExternalizerUtil.writeField(element, "defaultAhkSdk", it.name) }
         return element
@@ -33,7 +33,7 @@ class AhkProjectSettingsService : PersistentStateComponent<Element> {
     override fun loadState(state: Element) {
         val res = JDOMExternalizerUtil.readField(state, "defaultAhkSdk")
         println("loadState Field read $res")
-        defaultAhkSdk = getAhkSdkByName(res)
+        defaultAhkSdk = getAhkSdkByName(res) ?: getAhkSdks().firstOrNull()
     }
 }
 
