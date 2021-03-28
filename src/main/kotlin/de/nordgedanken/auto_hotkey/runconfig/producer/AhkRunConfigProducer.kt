@@ -9,11 +9,9 @@ import com.intellij.psi.util.findDescendantOfType
 import de.nordgedanken.auto_hotkey.lang.core.AhkFileType
 import de.nordgedanken.auto_hotkey.lang.psi.AhkLine
 import de.nordgedanken.auto_hotkey.openapiext.toPsiFile
+import de.nordgedanken.auto_hotkey.project.settings.defaultAhkSdk
 import de.nordgedanken.auto_hotkey.runconfig.core.AhkRunConfig
 import de.nordgedanken.auto_hotkey.runconfig.core.AhkRunConfigType
-import de.nordgedanken.auto_hotkey.sdk.AhkSdkType
-import de.nordgedanken.auto_hotkey.sdk.getAhkSdks
-import de.nordgedanken.auto_hotkey.sdk.sdk
 
 class AhkRunConfigProducer : LazyRunConfigurationProducer<AhkRunConfig>() {
     override fun getConfigurationFactory(): ConfigurationFactory {
@@ -43,9 +41,7 @@ class AhkRunConfigProducer : LazyRunConfigurationProducer<AhkRunConfig>() {
         file.toPsiFile(location.project)?.findDescendantOfType<AhkLine>() ?: return false
 
         configuration.name = file.nameWithoutExtension
-        configuration.runConfigSettings.runner = location.project.sdk?.run {
-            if (this.sdkType is AhkSdkType) this else getAhkSdks().firstOrNull()
-        }?.name ?: ""
+        configuration.runConfigSettings.runner = location.project.defaultAhkSdk?.name ?: ""
         configuration.runConfigSettings.pathToScript = file.path
         return true
     }

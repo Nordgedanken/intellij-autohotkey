@@ -4,10 +4,11 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.ui.CollectionComboBoxModel
+import de.nordgedanken.auto_hotkey.project.settings.defaultAhkSdk
 import de.nordgedanken.auto_hotkey.sdk.AhkSdkType
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdkByName
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdks
-import de.nordgedanken.auto_hotkey.sdk.sdk
+import de.nordgedanken.auto_hotkey.sdk.getFirstAvailableAhkSdk
 import de.nordgedanken.auto_hotkey.sdk.ui.AhkSdkListCellRenderer
 
 class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
@@ -27,7 +28,7 @@ class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
      * because the settingseditor will change the selectedItem a few moments after construction via setSelectedSdk...()
      */
     fun updateSdkList() {
-        projectSdk = currentProject.sdk
+        projectSdk = currentProject.defaultAhkSdk
         (renderer as AhkSdkListCellRenderer).projectSdk = projectSdk // needed since it starts out null
         model = CollectionComboBoxModel(getAhkSdks().toList(), getAhkSdkByNameIfArgIsString(selectedItem))
     }
@@ -77,7 +78,7 @@ class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
             matchingSdk = when {
                 sdkName.isNotBlank() -> sdkName
                 projectSdk?.sdkType is AhkSdkType -> projectSdk
-                else -> getAhkSdks().firstOrNull()
+                else -> getFirstAvailableAhkSdk()
             }
         }
         model.selectedItem = matchingSdk

@@ -74,13 +74,11 @@ class AhkSdkTableModel(
 
     fun addSdk(sdk: Sdk) {
         sdks.add(sdk)
-        if (project.defaultAhkSdk === null) project.defaultAhkSdk = sdk
-        fireTableRowsInserted(sdks.size - 1, sdks.size - 1)
+        fireTableRowsInserted(sdks.lastIndex, sdks.lastIndex)
     }
 
     fun removeSdkAtRow(rowIndex: Int) {
-        val removedSdk = sdks.removeAt(rowIndex)
-        if (removedSdk === project.defaultAhkSdk) project.defaultAhkSdk = sdks.firstOrNull()
+        sdks.removeAt(rowIndex)
         fireTableRowsDeleted(rowIndex, rowIndex)
     }
 }

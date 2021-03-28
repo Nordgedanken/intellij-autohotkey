@@ -5,6 +5,7 @@ import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.ui.SimpleColoredComponent
 import com.intellij.ui.SimpleTextAttributes
 import de.nordgedanken.auto_hotkey.sdk.AhkSdkType
+import de.nordgedanken.auto_hotkey.sdk.isAhkSdk
 import de.nordgedanken.auto_hotkey.util.AhkBundle
 import de.nordgedanken.auto_hotkey.util.AhkIcons
 
@@ -22,7 +23,7 @@ import de.nordgedanken.auto_hotkey.util.AhkIcons
  */
 fun SimpleColoredComponent.renderGivenSdk(value: Any?, isProjectSdk: Boolean = false) {
     when {
-        value is Sdk && value.sdkType is AhkSdkType -> {
+        value is Sdk && value.isAhkSdk() -> {
             icon = AhkIcons.EXE
             renderSdkDetails(value)
             if (isProjectSdk) {

@@ -16,3 +16,5 @@ fun getAhkSdkByName(sdkName: String?): Sdk? = getAhkSdks().find { it.name == sdk
 fun getAhkSdks(): List<Sdk> {
     return ProjectJdkTable.getInstance().getSdksOfType(AhkSdkType.getInstance()).toList()
 }
+
+fun getFirstAvailableAhkSdk(): Sdk? = getAhkSdks().firstOrNull()
