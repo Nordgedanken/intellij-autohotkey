@@ -10,6 +10,7 @@ import com.intellij.execution.configurations.RuntimeConfigurationException
 import com.intellij.execution.runners.ExecutionEnvironment
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
+import de.nordgedanken.auto_hotkey.project.settings.defaultAhkSdk
 import de.nordgedanken.auto_hotkey.runconfig.execution.AhkRunState
 import de.nordgedanken.auto_hotkey.runconfig.model.AhkRunConfigSettings
 import de.nordgedanken.auto_hotkey.runconfig.ui.AhkRunConfigSettingsEditor
@@ -29,7 +30,11 @@ class AhkRunConfig(
 ) : LocatableConfigurationBase<RunProfileState>(project, factory, name) {
     var runConfigSettings = AhkRunConfigSettings()
 
-    override fun suggestedName(): String = runConfigSettings.pathToScript.substringAfterLast('/')
+    init {
+        project.defaultAhkSdk?.let { runConfigSettings.runner = it.name }
+    }
+
+    override fun suggestedName() = "Run ${runConfigSettings.pathToScript.substringAfterLast('\\')}"
 
     override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration?> {
         return AhkRunConfigSettingsEditor(this.project)
