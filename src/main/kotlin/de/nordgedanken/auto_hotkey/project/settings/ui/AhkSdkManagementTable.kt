@@ -13,6 +13,12 @@ import javax.swing.table.AbstractTableModel
 
 private val sdkTableColumnNames = arrayOf("AutoHotkey runners", "Default")
 
+/**
+ * Table that displays the current ahk sdks registered in the project and allows the user to select a default. Offers
+ * convenience methods to insert/delete from the table that an outside component can call.
+ *
+ * (See example in AhkSdkToolbarPanel.kt)
+ */
 class AhkSdkManagementTable(
     project: Project
 ) : JBTable(AhkSdkTableModel(project)) {
@@ -39,6 +45,12 @@ class AhkSdkManagementTable(
     }
 }
 
+/**
+ * Model that backs the data displayed in the table. Calling the add/remove methods here will update the display in the
+ * table.
+ *
+ * The 1st column shows the sdk; the 2nd column shows a radio button indicating whether it is the default sdk
+ */
 class AhkSdkTableModel(
     private val project: Project
 ) : AbstractTableModel() {

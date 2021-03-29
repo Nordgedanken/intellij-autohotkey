@@ -7,6 +7,7 @@ import com.intellij.openapi.projectRoots.SimpleJavaSdkType
 import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl
 import com.intellij.openapi.roots.ProjectRootManager
 import com.intellij.testFramework.LightProjectDescriptor
+import de.nordgedanken.auto_hotkey.project.settings.defaultAhkSdk
 import de.nordgedanken.auto_hotkey.sdk.AhkSdkType
 
 /**
@@ -36,23 +37,8 @@ object WithOneAhkSdk : LightProjectDescriptor() {
 object WithOneAhkSdkAsProjDefault : LightProjectDescriptor() {
     override fun setUpProject(project: Project, handler: SetupHandler) {
         super.setUpProject(project, handler)
-        WriteAction.run<Exception> { ProjectRootManager.getInstance(project).projectSdk = mockAhkSdk }
+        project.defaultAhkSdk = mockAhkSdk
     }
 
     override fun getSdk() = mockAhkSdk
-}
-
-/**
- * ProjectDescriptor with a single java sdk added as the project's default
- */
-object WithOneJavaSdkAsProjDefault : LightProjectDescriptor() {
-    private lateinit var mockJavaSdk: Sdk
-
-    override fun setUpProject(project: Project, handler: SetupHandler) {
-        mockJavaSdk = ProjectJdkImpl("Mock Java Sdk", SimpleJavaSdkType.getInstance())
-        super.setUpProject(project, handler)
-        WriteAction.run<Exception> { ProjectRootManager.getInstance(project).projectSdk = mockJavaSdk }
-    }
-
-    override fun getSdk() = mockJavaSdk
 }

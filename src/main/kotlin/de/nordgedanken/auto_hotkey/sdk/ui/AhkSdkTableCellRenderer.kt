@@ -1,7 +1,6 @@
 package de.nordgedanken.auto_hotkey.sdk.ui
 
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.ui.ColoredTableCellRenderer
 import de.nordgedanken.auto_hotkey.project.settings.defaultAhkSdk
 import javax.swing.JTable
@@ -23,4 +22,3 @@ class AhkSdkTableCellRenderer constructor(var project: Project) : ColoredTableCe
         column: Int
     ) = renderGivenSdk(value, value === project.defaultAhkSdk)
 }
-

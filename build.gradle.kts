@@ -128,7 +128,8 @@ tasks {
 
         // swing ui packages; must be tested manually
         "**/auto_hotkey/runconfig/ui/**",
-        "**/auto_hotkey/settings/ui/**"
+        "**/auto_hotkey/sdk/ui/**",
+        "**/auto_hotkey/project/settings/ui/**"
     )
 
     jacocoTestReport {

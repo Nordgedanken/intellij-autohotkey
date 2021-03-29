@@ -4,7 +4,6 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.ui.SimpleColoredComponent
 import com.intellij.ui.SimpleTextAttributes
-import de.nordgedanken.auto_hotkey.sdk.AhkSdkType
 import de.nordgedanken.auto_hotkey.sdk.isAhkSdk
 import de.nordgedanken.auto_hotkey.util.AhkBundle
 import de.nordgedanken.auto_hotkey.util.AhkIcons

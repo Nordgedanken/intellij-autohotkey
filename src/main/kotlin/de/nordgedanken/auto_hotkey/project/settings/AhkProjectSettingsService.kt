@@ -17,6 +17,10 @@ import org.jdom.Element
 
 private const val AHK_PROJECT_SETTINGS: String = "AhkProjectSettings"
 
+/**
+ * Manages project-level state. Currently, we only track the "default ahk sdk" which is used when generating run configs
+ * from context.
+ */
 @Service
 @State(name = AHK_PROJECT_SETTINGS)
 class AhkProjectSettingsService(
@@ -24,7 +28,7 @@ class AhkProjectSettingsService(
 ) : PersistentStateComponent<Element> {
     /**
      * Set to internal on purpose to prevent unauthorized modification. It is set by default to the first available
-     * ahk sdk, but that will be overridden upon reading any pre-saved default sdk in the user's storage
+     * ahk sdk, but that will be overridden upon reading any pre-saved default sdk in the user's storage.
      */
     internal var defaultAhkSdk: Sdk? = getFirstAvailableAhkSdk()
 
@@ -38,7 +42,7 @@ class AhkProjectSettingsService(
 
                 /**
                  * Called right before the sdk is actually deleted from the ide's memory. Since it still exists within
-                 * the ide's memory, we have to remove it before determining which ahk sdk should be the new default.
+                 * the ide's memory, we have to remove it before determining which ahk sdk should become the new default
                  */
                 override fun jdkRemoved(jdk: Sdk) {
                     if (defaultAhkSdk === jdk) defaultAhkSdk = getAhkSdks().minus(jdk).firstOrNull()

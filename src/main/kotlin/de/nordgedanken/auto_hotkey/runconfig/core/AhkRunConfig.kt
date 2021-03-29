@@ -31,6 +31,7 @@ class AhkRunConfig(
     var runConfigSettings = AhkRunConfigSettings()
 
     init {
+        // allows new configs to have the project ahk sdk set as the runner by default (will be overridden by template)
         project.defaultAhkSdk?.let { runConfigSettings.runner = it.name }
     }
 
