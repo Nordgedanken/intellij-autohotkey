@@ -15,7 +15,7 @@ import de.nordgedanken.auto_hotkey.sdk.getFirstAvailableAhkSdk
 import de.nordgedanken.auto_hotkey.sdk.isAhkSdk
 import org.jdom.Element
 
-private const val AHK_PROJECT_SETTINGS: String = "AhkProjectSettings"
+const val AHK_PROJECT_SETTINGS: String = "AhkProjectSettings"
 
 /**
  * Manages project-level state. Currently, we only track the "default ahk sdk" which is used when generating run configs

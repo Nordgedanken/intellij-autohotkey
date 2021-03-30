@@ -1,11 +1,7 @@
 package de.nordgedanken.auto_hotkey
 
-import com.intellij.openapi.application.WriteAction
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.projectRoots.Sdk
-import com.intellij.openapi.projectRoots.SimpleJavaSdkType
 import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl
-import com.intellij.openapi.roots.ProjectRootManager
 import com.intellij.testFramework.LightProjectDescriptor
 import de.nordgedanken.auto_hotkey.project.settings.defaultAhkSdk
 import de.nordgedanken.auto_hotkey.sdk.AhkSdkType
@@ -20,6 +16,7 @@ import de.nordgedanken.auto_hotkey.sdk.AhkSdkType
  */
 
 val mockAhkSdk = ProjectJdkImpl("Mock Ahk Sdk", AhkSdkType.getInstance())
+val mockAhkSdk2 = ProjectJdkImpl("Mock Ahk Sdk2", AhkSdkType.getInstance())
 
 object EmptyDescriptor : LightProjectDescriptor()
 
