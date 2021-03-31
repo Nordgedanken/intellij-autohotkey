@@ -36,7 +36,7 @@
         <projectConfigurable id="language.autohotkey"
                              parentId="language"
                              displayName="AutoHotkey"
-                             instance="de.nordgedanken.auto_hotkey.settings.AhkProjectConfigurable"/>
+                             instance="de.nordgedanken.auto_hotkey.project.AhkProjectConfigurable"/>
         <colorSettingsPage implementation="de.nordgedanken.auto_hotkey.ide.highlighter.AhkColorSettingsPage"/>
 
         <!--to be fixed after parser-->

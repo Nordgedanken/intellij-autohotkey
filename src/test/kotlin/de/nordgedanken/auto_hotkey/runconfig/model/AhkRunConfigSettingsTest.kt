@@ -5,11 +5,9 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.jdom.Element
-import org.jdom.input.SAXBuilder
 import org.jdom.output.Format
 import org.jdom.output.XMLOutputter
-import util.TestUtil.readResourceToString
-import java.io.StringReader
+import util.TestUtil.parseXmlFileToElement
 
 class AhkRunConfigSettingsTest : FunSpec({
     context("verify custom getters") {
@@ -52,8 +50,7 @@ class AhkRunConfigSettingsTest : FunSpec({
 
     context("test xml operations") {
         test("test read from xml") {
-            val actualXml = readResourceToString("samplerunconfigsettings.xml")
-            val actualElement = SAXBuilder().build(StringReader(actualXml)).rootElement
+            val actualElement = parseXmlFileToElement("samplerunconfigsettings")
             val actualSettings = AhkRunConfigSettings().apply {
                 readFromElement(actualElement)
             }
@@ -75,8 +72,7 @@ class AhkRunConfigSettingsTest : FunSpec({
             val actualElement = Element("configuration")
             testSettings.writeToElement(actualElement)
 
-            val expectedXml = readResourceToString("samplerunconfigsettings.xml")
-            val expectedElement = SAXBuilder().build(StringReader(expectedXml)).rootElement
+            val expectedElement = parseXmlFileToElement("samplerunconfigsettings")
             XMLOutputter(Format.getCompactFormat()).outputString(actualElement)
                 .shouldBe(XMLOutputter(Format.getCompactFormat()).outputString(expectedElement))
         }

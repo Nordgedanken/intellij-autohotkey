@@ -11,9 +11,9 @@ import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.fields.ExpandableTextField
 import com.intellij.ui.layout.CCFlags
 import com.intellij.ui.layout.panel
+import de.nordgedanken.auto_hotkey.project.AhkProjectConfigurable
 import de.nordgedanken.auto_hotkey.runconfig.core.AhkRunConfig
 import de.nordgedanken.auto_hotkey.runconfig.model.AhkSwitch
-import de.nordgedanken.auto_hotkey.settings.AhkProjectConfigurable
 import de.nordgedanken.auto_hotkey.util.AhkBundle
 import de.nordgedanken.auto_hotkey.util.AhkConstants
 import javax.swing.JComponent

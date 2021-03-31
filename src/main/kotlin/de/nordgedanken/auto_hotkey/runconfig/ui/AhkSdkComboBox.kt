@@ -4,11 +4,16 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.ui.ComboBox
 import com.intellij.ui.CollectionComboBoxModel
-import de.nordgedanken.auto_hotkey.sdk.AhkSdkType
+import de.nordgedanken.auto_hotkey.project.settings.defaultAhkSdk
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdkByName
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdks
-import de.nordgedanken.auto_hotkey.sdk.sdk
+import de.nordgedanken.auto_hotkey.sdk.ui.AhkSdkListCellRenderer
 
+/**
+ * Defines a combobox that you can select an ahk sdk from the available list of sdks. Rendering is defined by an
+ * AhkSdkListCellRenderer which can render unknown values in a special format. (Eg. This can happen if you restore a run
+ * config from xml but the sdk that that run config was referring to no longer exists in the project)
+ */
 class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
     private var projectSdk: Sdk? = null
 
@@ -26,25 +31,9 @@ class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
      * because the settingseditor will change the selectedItem a few moments after construction via setSelectedSdk...()
      */
     fun updateSdkList() {
-        projectSdk = currentProject.sdk
+        projectSdk = currentProject.defaultAhkSdk
         (renderer as AhkSdkListCellRenderer).projectSdk = projectSdk // needed since it starts out null
-        model = CollectionComboBoxModel(getAhkSdks().toList(), getAhkSdkByNameIfArgIsString(selectedItem))
-    }
-
-    /**
-     * This is a rather bespoke method that wraps over getAhkSdkByName(...) in the sdk package.
-     *
-     * It is needed when the user opens up the Project Structure dialog and updates an Ahk Sdk which has
-     * the same name as the Sdk that is selected in the run config. If this method is not executed, the
-     * selected Sdk in the run config does not automatically update to reflect the new settings the user
-     * may have set for the sdk with that name.
-     */
-    private fun getAhkSdkByNameIfArgIsString(selectedComboBoxItem: Any?): Any? {
-        return if (selectedComboBoxItem is String) {
-            getAhkSdkByName(selectedComboBoxItem) ?: selectedComboBoxItem
-        } else {
-            selectedComboBoxItem
-        }
+        model = CollectionComboBoxModel(getAhkSdks().toList(), selectedItem)
     }
 
     fun getSelectedSdkName(): String {
@@ -60,23 +49,18 @@ class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
 
     /**
      * Sets the selected sdk of this combobox to the AhkSdk that matches the given name.
-     * If the given name doesn't match any existing sdk, we check 3 things:
+     * If the given name doesn't match any existing sdk, we check:
      * 1. If the given name isn't blank, we set the selected item to that given name String.
-     *    ^(this case can occur if the sdk a run config was using was deleted or renamed by some action from the user)
-     * 2. If the project's sdk is an AhkSdk, we'll set the box to that option by default.
-     *    ^(this option will allow new run configs to have the project default's sdk as the run config's sdk)
-     * 3. Otherwise, if there are any Ahk sdks in the list, just set the default runner to that.
-     * 4. Otherwise we just set the sdk to null, which will be rendered differently by the renderer & require the user
-     * to select/create an sdk to run the script (note that brand new projects with no set SDKs will also return a null
-     * sdk as the default project sdk, so we are required to handle a null value here)
+     *    ^(this case can occur if the sdk that the run config was using got deleted)
+     * 2. Otherwise, we just set the sdk to null, which will be rendered differently by the renderer & require the user
+     * to select/create an sdk to run the script (Eg. a brand new project with no set SDKs will trigger this case)
      */
     fun setSelectedSdkByName(sdkName: String) {
         var matchingSdk: Any? = getAhkSdkByName(sdkName)
         if (matchingSdk == null) {
             matchingSdk = when {
                 sdkName.isNotBlank() -> sdkName
-                projectSdk?.sdkType is AhkSdkType -> projectSdk
-                else -> getAhkSdks().firstOrNull()
+                else -> null
             }
         }
         model.selectedItem = matchingSdk

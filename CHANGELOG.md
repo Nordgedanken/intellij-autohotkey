@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Can now select a default Ahk sdk from the Ahk settings
+
+### Changed
+- Sdk renaming is now done in-line within the Ahk settings
+- Can now produce run configs from empty Ahk files when right-clicking them in the project tree
 
 ## [0.5.0] - 2021-03-14
 ### Added

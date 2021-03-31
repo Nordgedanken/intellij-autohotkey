@@ -1,14 +1,12 @@
 package de.nordgedanken.auto_hotkey.sdk
 
 import com.google.common.flogger.FluentLogger
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.AdditionalDataConfigurable
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.projectRoots.SdkAdditionalData
 import com.intellij.openapi.projectRoots.SdkModel
 import com.intellij.openapi.projectRoots.SdkModificator
 import com.intellij.openapi.projectRoots.SdkType
-import com.intellij.openapi.roots.ProjectRootManager
 import com.jetbrains.rd.util.use
 import de.nordgedanken.auto_hotkey.util.AhkBundle
 import de.nordgedanken.auto_hotkey.util.AhkConstants
@@ -92,5 +90,4 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
     override fun setupSdkPaths(sdk: Sdk, sdkModel: SdkModel) = true
 }
 
-// convenience method to get the projectSdk
-val Project.sdk: Sdk? get() = ProjectRootManager.getInstance(this).projectSdk
+fun Sdk.isAhkSdk(): Boolean = sdkType is AhkSdkType

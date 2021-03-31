@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hotkey.settings.ui
+package de.nordgedanken.auto_hotkey.project.settings.ui
 
 import com.intellij.openapi.project.Project
 import com.intellij.ui.layout.LayoutBuilder
@@ -13,13 +13,10 @@ class AhkProjectSettingsPanel(project: Project) {
 
     fun attachTo(layoutBuilder: LayoutBuilder) = with(layoutBuilder) {
         row {
-            cell(true) {
-                label(AhkBundle.msg("settings.autohotkey.ahkrunners.general.label"))
-                ahkSdkToolbar(pushX, growX)
-            }
+            ahkSdkToolbar(pushX, growX)
         }
         row {
-            label(AhkBundle.msg("settings.autohotkey.ahkrunners.general.info"))
+            label(AhkBundle.msg("settings.ahksdktable.general.info"))
         }
     }
 }

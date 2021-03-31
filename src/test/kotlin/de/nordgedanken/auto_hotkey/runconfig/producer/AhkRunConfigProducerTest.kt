@@ -3,17 +3,13 @@ package de.nordgedanken.auto_hotkey.runconfig.producer
 import com.intellij.execution.RunnerAndConfigurationSettings
 import com.intellij.execution.actions.ConfigurationContext
 import com.intellij.execution.impl.RunnerAndConfigurationSettingsImpl
-import com.intellij.openapi.application.WriteAction
 import com.intellij.openapi.fileTypes.FileType
-import com.intellij.openapi.projectRoots.ProjectJdkTable
 import com.intellij.psi.PsiElement
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture
 import de.nordgedanken.auto_hotkey.AhkBasePlatformTestCase
 import de.nordgedanken.auto_hotkey.AhkTestCase
 import de.nordgedanken.auto_hotkey.ProjectDescriptor
-import de.nordgedanken.auto_hotkey.WithOneAhkSdk
 import de.nordgedanken.auto_hotkey.WithOneAhkSdkAsProjDefault
-import de.nordgedanken.auto_hotkey.WithOneJavaSdkAsProjDefault
 import de.nordgedanken.auto_hotkey.lang.core.AhkFileType
 import de.nordgedanken.auto_hotkey.runconfig.core.AhkRunConfig
 import io.kotest.matchers.shouldBe
@@ -30,14 +26,14 @@ class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
         configurations.size shouldBe 0
     }
 
-    fun `test producer makes no config for empty ahk file`() {
+    fun `test producer makes config for empty ahk file`() {
         val configurations = generateContextAhkRunconfigsFromFile("test.ahk", "")
-        configurations.size shouldBe 0
+        configurations.size shouldBe 1
     }
 
-    fun `test producer makes no config for ahk file with no code`() {
+    fun `test producer makes config for ahk file with no code`() {
         val configurations = generateContextAhkRunconfigsFromFile("test.ahk", ";test comment")
-        configurations.size shouldBe 0
+        configurations.size shouldBe 1
     }
 
     fun `test producer makes config with no sdk for proj w no sdk matching hello-world-no-sdk`() {
@@ -46,26 +42,8 @@ class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
         assertSameLinesWithFile("$testDataPath/${getTestName(true)}.xml", runConfigXml)
     }
 
-    @ProjectDescriptor(WithOneJavaSdkAsProjDefault::class)
-    fun `test producer makes config with no sdk for proj w other sdk set as default matching hello-world-no-sdk`() {
-        val configurations = generateContextAhkRunconfigsFromFile("hello-world.ahk", "Msgbox Hi")
-        val runConfigXml = generateXmlStringFromRunConfigs(configurations)
-        assertSameLinesWithFile("$testDataPath/${getTestName(true)}.xml", runConfigXml)
-    }
-
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test producer makes config w proj sdk for proj w ahkSdk set as default matching hello-world-with-sdk`() {
-        val configurations = generateContextAhkRunconfigsFromFile("hello-world.ahk", "Msgbox Hi")
-        val runConfigXml = generateXmlStringFromRunConfigs(configurations)
-        assertSameLinesWithFile("$testDataPath/${getTestName(true)}.xml", runConfigXml)
-    }
-
-    /**
-     * In this scenario, the project contains some other sdk as the default, but the user has configured an ahk sdk too.
-     */
-    @ProjectDescriptor(WithOneJavaSdkAsProjDefault::class)
-    fun `test producer makes config w ahk sdk for proj w other sdk set as default matching hello-world-with-sdk`() {
-        WriteAction.run<Exception> { ProjectJdkTable.getInstance().addJdk(WithOneAhkSdk.sdk, testRootDisposable) }
         val configurations = generateContextAhkRunconfigsFromFile("hello-world.ahk", "Msgbox Hi")
         val runConfigXml = generateXmlStringFromRunConfigs(configurations)
         assertSameLinesWithFile("$testDataPath/${getTestName(true)}.xml", runConfigXml)

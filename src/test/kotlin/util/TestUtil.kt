@@ -3,11 +3,12 @@ package util
 import com.intellij.openapi.util.JDOMUtil
 import junit.framework.TestCase
 import org.jdom.Element
-
-const val PLUGIN_PACKAGE_PREFIX = "de/nordgedanken/auto_hotkey"
+import org.jdom.input.SAXBuilder
+import java.io.StringReader
 
 object TestUtil {
     val STACK_WALKER: StackWalker = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+    val XML_PARSER = SAXBuilder()
 
     /**
      * Returns a string containing the content of the file at the given filename.
@@ -28,6 +29,16 @@ object TestUtil {
      * (Otherwise it would always just return TestUtil's package.)
      */
     inline fun packagePath(): String = STACK_WALKER.callerClass.packageName.replace('.', '/')
+
+    /**
+     * Parses the given xml file into a JDOM Element. The file must be in src/test/resources/{packagePath}/.
+     * This function must be inline in order to get the correct package path of the calling method.
+     *
+     * @param filename The xml file's name without the extension
+     */
+    inline fun parseXmlFileToElement(filename: String): Element {
+        return XML_PARSER.build(StringReader(readResourceToString("$filename.xml"))).rootElement
+    }
 }
 
 /**

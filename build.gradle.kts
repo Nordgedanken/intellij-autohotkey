@@ -128,7 +128,8 @@ tasks {
 
         // swing ui packages; must be tested manually
         "**/auto_hotkey/runconfig/ui/**",
-        "**/auto_hotkey/settings/ui/**"
+        "**/auto_hotkey/sdk/ui/**",
+        "**/auto_hotkey/project/settings/ui/**"
     )
 
     jacocoTestReport {
@@ -154,11 +155,11 @@ tasks {
             rule {
                 limit {
                     counter = "LINE"
-                    minimum = "0.80".toBigDecimal()
+                    minimum = "0.81".toBigDecimal()
                 }
                 limit {
                     counter = "BRANCH"
-                    minimum = "0.65".toBigDecimal()
+                    minimum = "0.67".toBigDecimal()
                 }
             }
         }

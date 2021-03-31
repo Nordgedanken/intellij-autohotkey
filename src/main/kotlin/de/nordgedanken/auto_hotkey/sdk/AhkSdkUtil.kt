@@ -9,10 +9,12 @@ import com.intellij.openapi.projectRoots.Sdk
  */
 
 /**
- * Will retrieve the Ahk Sdk that has the given name if it exists. Otherwise it returns null.
+ * Gets the Ahk Sdk that has the given name if it exists. Otherwise returns null.
  */
-fun getAhkSdkByName(sdkName: String): Sdk? = getAhkSdks().find { it.name == sdkName }
+fun getAhkSdkByName(sdkName: String?): Sdk? = getAhkSdks().find { it.name == sdkName }
 
 fun getAhkSdks(): List<Sdk> {
     return ProjectJdkTable.getInstance().getSdksOfType(AhkSdkType.getInstance()).toList()
 }
+
+fun getFirstAvailableAhkSdk(): Sdk? = getAhkSdks().firstOrNull()
