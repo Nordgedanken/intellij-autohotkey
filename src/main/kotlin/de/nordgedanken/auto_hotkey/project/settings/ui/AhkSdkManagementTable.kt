@@ -11,7 +11,10 @@ import de.nordgedanken.auto_hotkey.util.AhkBundle
 import javax.swing.ListSelectionModel
 import javax.swing.table.AbstractTableModel
 
-private val sdkTableColumnNames = arrayOf("AutoHotkey runners", "Default")
+private val sdkTableColumnNames = arrayOf(
+    AhkBundle.msg("settings.ahksdktable.general.sdkcolumn.label"),
+    AhkBundle.msg("settings.ahksdktable.general.defaultcolumn.label")
+)
 
 /**
  * Table that displays the current ahk sdks registered in the project and allows the user to select a default. Offers
@@ -27,7 +30,7 @@ class AhkSdkManagementTable(
 
     init {
         setShowGrid(false)
-        emptyText.text = AhkBundle.msg("settings.autohotkey.ahkrunners.general.nosdks")
+        emptyText.text = AhkBundle.msg("settings.ahksdktable.general.nosdks")
         selectionModel.selectionMode = ListSelectionModel.SINGLE_SELECTION
         tableHeader.resizingAllowed = false
         tableHeader.reorderingAllowed = false

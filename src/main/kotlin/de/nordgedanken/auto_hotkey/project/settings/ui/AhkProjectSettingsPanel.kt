@@ -16,7 +16,7 @@ class AhkProjectSettingsPanel(project: Project) {
             ahkSdkToolbar(pushX, growX)
         }
         row {
-            label(AhkBundle.msg("settings.autohotkey.ahkrunners.general.info"))
+            label(AhkBundle.msg("settings.ahksdktable.general.info"))
         }
     }
 }

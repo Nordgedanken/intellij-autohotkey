@@ -25,7 +25,7 @@ class AhkSdkToolbarPanel(val project: Project) : JPanel() {
 
     init {
         panel = ToolbarDecorator.createDecorator(sdkTable).apply {
-            setAddActionName(AhkBundle.msg("settings.autohotkey.ahkrunners.add.buttonlabel"))
+            setAddActionName(AhkBundle.msg("settings.ahksdktable.add.buttonlabel"))
             setAddAction {
                 val ahkSdkType = AhkSdkType.getInstance()
                 val fileChooser = ahkSdkType.homeChooserDescriptor
@@ -37,8 +37,8 @@ class AhkSdkToolbarPanel(val project: Project) : JPanel() {
                     if (existingSdk != null) {
                         NotificationUtil.showErrorDialog(
                             project,
-                            AhkBundle.msg("settings.autohotkey.ahkrunners.add.error.exists.title"),
-                            AhkBundle.msg("settings.autohotkey.ahkrunners.add.error.exists.info")
+                            AhkBundle.msg("settings.ahksdktable.add.error.exists.title"),
+                            AhkBundle.msg("settings.ahksdktable.add.error.exists.info")
                                 .format(existingSdk.name)
                         )
                     } else {
@@ -49,7 +49,7 @@ class AhkSdkToolbarPanel(val project: Project) : JPanel() {
                     }
                 }
             }
-            setRemoveActionName(AhkBundle.msg("settings.autohotkey.ahkrunners.remove.buttonlabel"))
+            setRemoveActionName(AhkBundle.msg("settings.ahksdktable.remove.buttonlabel"))
             setRemoveAction {
                 val selectedRowIndex = sdkTable.selectedRow
                 val selectedSdk = sdkTableModel.getValueAt(selectedRowIndex, 0) as Sdk
@@ -58,7 +58,7 @@ class AhkSdkToolbarPanel(val project: Project) : JPanel() {
                 if (sdkTableModel.sdks.size > 0)
                     sdkTable.setSelectedRow(selectedRowIndex.coerceIn(0, sdkTableModel.sdks.size - 1))
             }
-            setEditActionName(AhkBundle.msg("settings.autohotkey.ahkrunners.edit.buttonlabel"))
+            setEditActionName(AhkBundle.msg("settings.ahksdktable.edit.buttonlabel"))
             setEditAction { sdkTable.editCellAt(sdkTable.selectedRow, 0) }
             disableUpDownActions()
         }.createPanel()

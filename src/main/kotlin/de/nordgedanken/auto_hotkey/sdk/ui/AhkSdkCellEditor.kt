@@ -16,8 +16,8 @@ import javax.swing.JTable
  * ahk sdks within the UI. You must create an instance of the editor and assign it as the default cell editor to
  * whatever Swing component is showing the sdks (eg JBTable)
  *
- * @param project The project that contains the cellEditor about to be opened.
- * Required in order to show error modals in the correct location.
+ * @param project The project that contains the cellEditor about to be opened. Required in order to show error modals in
+ * the correct location.
  */
 class AhkSdkCellEditor(private val project: Project) : DefaultCellEditor(JBTextField()) {
     init {
@@ -35,8 +35,8 @@ class AhkSdkCellEditor(private val project: Project) : DefaultCellEditor(JBTextF
         if (doesGivenNewNameExist(sdkBeingEdited, newSdkName)) {
             NotificationUtil.showErrorDialog(
                 project,
-                AhkBundle.msg("settings.autohotkey.ahkrunners.edit.error.alreadyexists.dialogtitle"),
-                AhkBundle.msg("settings.autohotkey.ahkrunners.edit.error.alreadyexists.dialogmsg")
+                AhkBundle.msg("settings.ahksdktable.edit.error.alreadyexists.dialogtitle"),
+                AhkBundle.msg("settings.ahksdktable.edit.error.alreadyexists.dialogmsg")
                     .format(newSdkName)
             )
             return false
@@ -61,6 +61,6 @@ class AhkSdkCellEditor(private val project: Project) : DefaultCellEditor(JBTextF
 
     private fun doesGivenNewNameExist(sdkToRename: Sdk, newSdkName: String): Boolean {
         val allSdks = ProjectJdkTable.getInstance().allJdks.remove(sdkToRename)
-        return allSdks.map { it.name }.contains(newSdkName)
+        return allSdks.any { it.name == newSdkName }
     }
 }
