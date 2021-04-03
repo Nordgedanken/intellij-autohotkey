@@ -1,6 +1,5 @@
 package de.nordgedanken.auto_hotkey.lang.psi
 
-import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import de.nordgedanken.auto_hotkey.lang.core.AhkLanguage
@@ -18,4 +17,4 @@ val COMMENT_TOKENS = tokenSetOf(LINE_COMMENT, BLOCK_COMMENT)
  * the parsing of full lines. Once the bnf is more developed, it should ideally
  * be possible to include CRLF in this list.
  */
-val WHITESPACE_TOKENS = tokenSetOf(TokenType.WHITE_SPACE)
+val WHITESPACE_TOKENS = tokenSetOf()

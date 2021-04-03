@@ -1,5 +1,5 @@
 */
-/* block-comment end symbol on 1st line of a script throws an error,
+/* block-comment end symbol on 1st line of a script actually throws an error,
 but we're purposely not going to handle it for the time being since
 it would increase the parse-logic complexity.
 See https://www.autohotkey.com/boards/viewtopic.php?f=14&t=87455

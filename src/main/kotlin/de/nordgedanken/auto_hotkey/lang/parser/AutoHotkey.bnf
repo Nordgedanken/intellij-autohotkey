@@ -16,15 +16,18 @@
     //Ahk-specific
     CHAR_SPECIAL="regexp:\p{Punct}"
     TEXT="regexp:\p{Alnum}+"
-    DIRECTIVE="regexp:#[a-zA-Z]+"
+//    DIRECTIVE="regexp:#[a-zA-Z]+"
+    COMMA       = ','
+    HASH        = '#'
+    COLONCOLON  = '::'
 
     //generic
     /*
-      Note that since WHITESPACE_HOZ is marked as "PsiWhiteSpace", the parser ignores it so we do not need to specify
+      Note that since WS_HOZ is marked as "PsiWhiteSpace", the parser ignores it so we do not need to specify
       it within the bnf rules. (We return TokenType.WHITE_SPACE in lexer because GrammarKit will not generate
-      the WHITESPACE_HOZ token class otherwise)
+      the WS_HOZ token class otherwise)
     */
-    WHITESPACE_HOZ="regexp:\p{Blank}+"
+    WS_HOZ="regexp:\p{Blank}+" //Horizontal white space (ie space/tab)
     CRLF="regexp:\v"
     /**
       All line comments after code must be preceded by whitespace, so specifying the regex
@@ -36,6 +39,7 @@
     LINE_COMMENT
     /** Block comment begin/end chars must appear at the beginning of the line */
     BLOCK_COMMENT
+    IDENTIFIER = 'regexp:\w+'
   ]
 }
 
@@ -52,11 +56,22 @@ private Item ::= Line | BLOCK_COMMENT | LINE_COMMENT | CRLF //Note that only CRL
 
 /* We check for whitespace before the comment via the lexer.
 The parser will ignore all PsiWhitespace elements during ast verification.
-(so it's like we're really doing (WHITESPACE_HOZ LINE_COMMENT?)? at the end instead)
+(so it's like we're really doing (WS_HOZ LINE_COMMENT?)? at the end instead)
  */
-Line ::= Directive | Words+ LINE_COMMENT?
+Line ::= WS_HOZ? Statement | Words+ LINE_COMMENT?
 
-//
-private Directive ::= DIRECTIVE Words*
+private Statement ::= Hotkey_stmt | Directive_stmt | Other_stmt
 
-private Words ::= (TEXT | CHAR_SPECIAL)+
+Hotkey_stmt ::= Hotkey '::' Words*
+Hotkey ::= (Special_char | IDENTIFIER) (WS_HOZ? (Special_char | IDENTIFIER))*
+
+Directive_stmt ::= Directive (Lang_Fn_Call_Sep WS_HOZ? Words*)? End_of_stmt
+Directive ::= '#' IDENTIFIER
+
+Other_stmt ::= Words+
+
+private Lang_Fn_Call_Sep ::= ',' | WS_HOZ
+private End_of_stmt ::= CRLF | <<eof>>
+
+private Words ::= ('#' | ',' | '::' | IDENTIFIER | TEXT | CHAR_SPECIAL | WS_HOZ)+
+private Special_char ::= '#' | ',' | CHAR_SPECIAL
