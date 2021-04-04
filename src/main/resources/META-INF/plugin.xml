@@ -37,7 +37,7 @@
         <projectConfigurable id="language.autohotkey"
                              parentId="language"
                              displayName="AutoHotkey"
-                             instance="de.nordgedanken.auto_hotkey.project.AhkProjectConfigurable"/>
+                             instance="de.nordgedanken.auto_hotkey.project.configurable.AhkProjectConfigurable"/>
         <colorSettingsPage implementation="de.nordgedanken.auto_hotkey.ide.highlighter.AhkColorSettingsPage"/>
 
         <!--to be fixed after parser-->
@@ -45,12 +45,10 @@
 <!--        <lang.findUsagesProvider language="AutoHotKey"-->
 <!--        implementationClass="de.nordgedanken.auto_hotkey.ide.search.AHKFindUsagesProvider"/>-->
 <!--        <psi.referenceContributor implementation="de.nordgedanken.auto_hotkey.AHKReferenceContributor"/>-->
-<!--        <annotator language="AutoHotKey" implementationClass="de.nordgedanken.auto_hotkey.ide.annotator.AHKHighlightingAnnotator"/>-->
-
     </extensions>
 
     <actions>
-        <action id="AHK.NewAhkFile"
+        <action id="AutoHotkey.NewAhkFile"
                 class="de.nordgedanken.auto_hotkey.ide.actions.AhkCreateFileAction"
                 text="AutoHotkey File"
                 description="Create new AutoHotkey file">

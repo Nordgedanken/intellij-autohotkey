@@ -12,11 +12,11 @@ import de.nordgedanken.auto_hotkey.lang.psi.AhkHotkey
 class AhkHighlightAnnotator : Annotator {
     override fun annotate(psiElem: PsiElement, holder: AnnotationHolder) {
         when (psiElem) {
-            is AhkDirective -> holder.highlightWithColor(DIRECTIVE)
-            is AhkHotkey -> holder.highlightWithColor(HOTKEY)
+            is AhkDirective -> holder.newInfoHighlightAnnotation(DIRECTIVE)
+            is AhkHotkey -> holder.newInfoHighlightAnnotation(HOTKEY)
         }
     }
 }
 
-fun AnnotationHolder.highlightWithColor(color: AhkHighlighterColor) =
+fun AnnotationHolder.newInfoHighlightAnnotation(color: AhkHighlighterColor) =
     newSilentAnnotation(INFORMATION).textAttributes(color.textAttributesKey).create()

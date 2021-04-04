@@ -1,4 +1,4 @@
-package de.nordgedanken.auto_hotkey.project
+package de.nordgedanken.auto_hotkey.project.configurable
 
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
