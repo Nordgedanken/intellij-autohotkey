@@ -60,6 +60,7 @@ The parser will ignore all PsiWhitespace elements during ast verification.
  */
 Line ::= WS_HOZ? Statement | Words+ LINE_COMMENT?
 
+// Hotkey_stmt MUST be checked before Directive_stmt since Hotkeys can begin with a # just like directives
 private Statement ::= Hotkey_stmt | Directive_stmt | Other_stmt
 
 Hotkey_stmt ::= Hotkey '::' Words*

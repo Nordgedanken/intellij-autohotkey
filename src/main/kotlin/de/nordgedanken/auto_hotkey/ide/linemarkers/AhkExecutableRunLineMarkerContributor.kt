@@ -12,7 +12,7 @@ import de.nordgedanken.auto_hotkey.lang.psi.COMMENT_TOKENS
 import de.nordgedanken.auto_hotkey.lang.psi.isLeaf
 
 /**
- * Adds a run icon to the gutter for the first psiElement in the Ahk file which is of AhkLine type.
+ * Adds a run icon to the gutter for the first psiElement in the Ahk file which is not a comment.
  */
 class AhkExecutableRunLineMarkerContributor : RunLineMarkerContributor() {
     override fun getInfo(element: PsiElement): Info? {

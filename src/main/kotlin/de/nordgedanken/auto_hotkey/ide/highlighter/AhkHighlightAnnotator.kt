@@ -9,6 +9,9 @@ import de.nordgedanken.auto_hotkey.ide.highlighter.AhkHighlighterColor.HOTKEY
 import de.nordgedanken.auto_hotkey.lang.psi.AhkDirective
 import de.nordgedanken.auto_hotkey.lang.psi.AhkHotkey
 
+/**
+ * Highlights psiElements that can't be highlighted by [AhkSyntaxHighlighter] since they are made of composite tokens
+ */
 class AhkHighlightAnnotator : Annotator {
     override fun annotate(psiElem: PsiElement, holder: AnnotationHolder) {
         when (psiElem) {

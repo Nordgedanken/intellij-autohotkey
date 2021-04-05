@@ -64,7 +64,7 @@ val generateAhkParser = task<GenerateParser>("generateAhkParser") {
 }
 
 changelog {
-    version = "0.5.0"
+    version = prop("pluginVersion")
     header = closure { "[$version] - ${date()}" }
     groups = listOf("Added")
 }

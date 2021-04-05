@@ -7,10 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Can now select a default Ahk sdk from the Ahk settings
+- Syntax highlighting now supports hotkeys
 
 ### Changed
 - Sdk renaming is now done in-line within the Ahk settings
 - Can now produce run configs from empty Ahk files when right-clicking them in the project tree
+
+### Fixed
+- Fixed a bug with run configs where creating a run config with no ahk sdks declared, and then later adding an ahk sdk, would cause the config to show an error even though editing the config showed no error (since it was showing the project sdk by default)
 
 ## [0.5.0] - 2021-03-14
 ### Added

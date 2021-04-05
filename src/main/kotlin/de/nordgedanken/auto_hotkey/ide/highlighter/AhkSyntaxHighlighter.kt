@@ -8,6 +8,12 @@ import de.nordgedanken.auto_hotkey.lang.lexer.AhkLexerAdapter
 import de.nordgedanken.auto_hotkey.lang.psi.AhkTypes.BLOCK_COMMENT
 import de.nordgedanken.auto_hotkey.lang.psi.AhkTypes.LINE_COMMENT
 
+/**
+ * Defines what color raw tokens read directly from the lexer should be.
+ *
+ * Note: Only immediate tokens read directly from the lexer can be colored with this class. Any composite elements made
+ * of multiple tokens must be highlighted with an annotator such as [AhkHighlightAnnotator]
+ */
 class AhkSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer = AhkLexerAdapter()
 
