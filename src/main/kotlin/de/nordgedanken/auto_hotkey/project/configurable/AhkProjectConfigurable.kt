@@ -3,7 +3,9 @@ package de.nordgedanken.auto_hotkey.project.configurable
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
 import com.intellij.ui.layout.panel
+import com.intellij.uiDesigner.core.Spacer
 import de.nordgedanken.auto_hotkey.project.settings.ui.AhkProjectSettingsPanel
+import de.nordgedanken.auto_hotkey.util.AhkBundle
 import de.nordgedanken.auto_hotkey.util.AhkConstants
 
 /**
@@ -25,5 +27,9 @@ class AhkProjectConfigurable(
 
     override fun createComponent() = panel {
         ahkProjectSettingsPanel.attachTo(this)
+        row {
+            Spacer()(pushY)
+                .comment(AhkBundle.msg("settings.general.thankyou.label"), maxLineLength = 150)
+        }
     }
 }
