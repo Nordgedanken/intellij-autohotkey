@@ -1,0 +1,14 @@
+name: Run PR Checks
+on: [pull_request]
+jobs:
+  check_changelog:
+    name: Verify Changelog Updated
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Changelog check
+      uses: Zomzog/changelog-checker@v1.2.0
+      with:
+        fileName: CHANGELOG.md # default `CHANGELOG.adoc`
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

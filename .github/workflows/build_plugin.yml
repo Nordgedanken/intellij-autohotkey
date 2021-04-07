@@ -1,6 +1,6 @@
 name: Build Plugin
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
@@ -127,7 +127,7 @@ jobs:
         name: plugin-artifact
 
     # Run IntelliJ Plugin Verifier action using GitHub Action
-    - name: Verify Plugin
+    - name: Verify Plugin Compatibility
       id: verify
       uses: ChrisCarini/intellij-platform-plugin-verifier-action@latest
       with:

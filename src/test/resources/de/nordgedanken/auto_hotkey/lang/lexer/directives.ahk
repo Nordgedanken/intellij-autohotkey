@@ -1,7 +1,10 @@
 ;normal directives. Leading whitespace and suffix commas allowed
 #SingleInstance, Force
   #IfWinActive ahk_exe chrome.exe
-^a::Msgbox hi
+
+;should not be read as directives
+#a::Msgbox hi
+#SingleInstance: Force
 
 /* two directives can not be on the same line. The 2nd is ignored (the 1st also would not work, but
 we're ignoring that detail for now

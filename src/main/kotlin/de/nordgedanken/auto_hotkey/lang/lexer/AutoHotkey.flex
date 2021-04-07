@@ -23,9 +23,11 @@ TEXT=\w+
 DIRECTIVE_NAME=#{TEXT}
 
 //generic
-WHITESPACE_HOZ=\p{Blank}+ //JFlex doesn't support \h
+WS_HOZ=\p{Blank}+ //JFlex doesn't support \h
 CRLF=\R
 LINE_COMMENT=;.*
+IDENTIFIER  = \w+
+
 /*
 Basically we parse anything after /\* except a linefeed followed by *\/ since
 that indicates the end of the block comment. Note that you can end a script with
@@ -33,20 +35,20 @@ an open /\* tag that has no corresponding *\/
 */
 BLOCK_COMMENT="/*" !([^]* \R\p{Blank}* "*/" [^]*) (\R\p{Blank}* "*/")?
 
-%state CHECK_FOR_BOL_ELEMENTS, EXPRESSION, POSSIBLE_EOL_COMMENT
+%state CHECK_FOR_BOL_ELEMENTS, LEGACY_MODE, POSSIBLE_EOL_COMMENT
 
 %%
 /*
 Starting state. Whenever we hit a CRLF, we return back to this state.
 */
 <YYINITIAL> {
-    {WHITESPACE_HOZ}    { return TokenType.WHITE_SPACE; }
+    {WS_HOZ}    { return WS_HOZ; }
     "*/"                { return BLOCK_COMMENT; }           // only occurs if we don't match a full block comment
                                                             // (see block_comment.ahk for explanation)
     [^]                 {
-                                yypushback(1);                  // cancel parsed char
-                                yybegin(CHECK_FOR_BOL_ELEMENTS);    // and try to parse it again in a different state
-                            }
+                            yypushback(1);                  // cancel parsed char
+                            yybegin(CHECK_FOR_BOL_ELEMENTS);    // and try to parse it again in a different state
+                        }
 }
 
 /*
@@ -55,27 +57,27 @@ Contains elements which can only validly occur at the beginning of a line.
 <CHECK_FOR_BOL_ELEMENTS> {
     {LINE_COMMENT}	    { return LINE_COMMENT; }    // Only CRLF can follow this
     {BLOCK_COMMENT}	    { return BLOCK_COMMENT; }   // Can only occur at beginning of line, not after other chars
-    {DIRECTIVE_NAME}	{           // Can only occur at beginning of line, not after other chars
-                            yybegin(EXPRESSION);    // and must be followed by space
-                            return DIRECTIVE;
-                        }
-    {WHITESPACE_HOZ}    { return TokenType.WHITE_SPACE; }
+    {WS_HOZ}            { return WS_HOZ; }
     {CRLF}              {
                             yybegin(YYINITIAL);
                             return CRLF;
                         }
     [^]                 {
                             yypushback(1);       // cancel parsed char
-                            yybegin(EXPRESSION); // and try to parse it again in a different state
+                            yybegin(LEGACY_MODE); // and try to parse it again in a different state
                         }
 }
 
-<EXPRESSION> {
+<LEGACY_MODE> {
+    "#"                 { return HASH; }
+    ","                 { return COMMA; }
+    "::"                { return COLONCOLON; }
+    {IDENTIFIER}        { return IDENTIFIER; }
     {CHAR_SPECIAL}      { return CHAR_SPECIAL; }
     {TEXT}              { return TEXT; }
-    {WHITESPACE_HOZ}    {
+    {WS_HOZ}    {
                             yybegin(POSSIBLE_EOL_COMMENT);
-                            return TokenType.WHITE_SPACE;
+                            return WS_HOZ;
                         }
     {CRLF}              {
                             yybegin(YYINITIAL);
@@ -87,7 +89,7 @@ Contains elements which can only validly occur at the beginning of a line.
     {LINE_COMMENT}      { return LINE_COMMENT; }
     [^]                 {
                             yypushback(1);      // cancel parsed char (no comment typed here)
-                            yybegin(EXPRESSION); // and try to parse it again in <YYINITIAL>
+                            yybegin(LEGACY_MODE); // and try to parse it again in <YYINITIAL>
                         }
 }
 

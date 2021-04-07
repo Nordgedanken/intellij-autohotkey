@@ -63,6 +63,19 @@ class AhkRunConfigSettingsTest : FunSpec({
             actualSettings shouldBe expectedSettings
         }
 
+        test("test read from empty xml") {
+            val actualSettings = AhkRunConfigSettings().apply {
+                readFromElement(Element("configuration"))
+            }
+
+            val expectedSettings = AhkRunConfigSettings(
+                runner = "",
+                pathToScript = "",
+                arguments = ""
+            )
+            actualSettings shouldBe expectedSettings
+        }
+
         test("test write to xml") {
             val testSettings = AhkRunConfigSettings(
                 runner = "AutoHotkey",

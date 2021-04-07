@@ -64,7 +64,7 @@ val generateAhkParser = task<GenerateParser>("generateAhkParser") {
 }
 
 changelog {
-    version = "0.5.0"
+    version = prop("pluginVersion")
     header = closure { "[$version] - ${date()}" }
     groups = listOf("Added")
 }
@@ -122,40 +122,18 @@ tasks {
         useJUnitPlatform()
     }
 
-    val packagesToExcludeFromCoverageCheck = listOf(
-        "**/auto_hotkey/runconfig/execution/**", // can't be tested to my knowledge atm
-        "**/auto_hotkey/sdk/AhkSdkType*", // can't be tested to my knowledge atm
-
-        // swing ui packages; must be tested manually
-        "**/auto_hotkey/runconfig/ui/**",
-        "**/auto_hotkey/sdk/ui/**",
-        "**/auto_hotkey/project/settings/ui/**"
-    )
-
     jacocoTestReport {
-        classDirectories.setFrom(
-            files(
-                classDirectories.files.map {
-                    fileTree(it) {
-                        exclude(packagesToExcludeFromCoverageCheck)
-                    }
-                }
-            )
-        )
+        setClassesToIncludeInCoverageCheck(classDirectories)
     }
 
     jacocoTestCoverageVerification {
-        classDirectories.setFrom(
-            sourceSets.main.get().output.asFileTree.matching {
-                exclude(packagesToExcludeFromCoverageCheck)
-            }
-        )
+        setClassesToIncludeInCoverageCheck(classDirectories)
 
         violationRules {
             rule {
                 limit {
                     counter = "LINE"
-                    minimum = "0.81".toBigDecimal()
+                    minimum = "0.85".toBigDecimal()
                 }
                 limit {
                     counter = "BRANCH"
@@ -174,4 +152,30 @@ tasks {
         jacocoTestReport.mustRunAfter(test)
         jacocoTestCoverageVerification.get().mustRunAfter(jacocoTestReport)
     }
+}
+
+fun setClassesToIncludeInCoverageCheck(classDirectories: ConfigurableFileCollection) {
+    // packages listed here can't be tested
+    val packagesToExcludeFromCoverageCheck = listOf(
+        "**/auto_hotkey/runconfig/execution/**",
+
+        // swing ui packages; must be tested manually
+        "**/auto_hotkey/runconfig/ui/**",
+        "**/auto_hotkey/sdk/ui/**",
+        "**/auto_hotkey/project/configurable/**",
+        "**/auto_hotkey/project/settings/ui/**"
+    )
+
+    // files listed here can't be tested, but the package wasn't excluded since other files within it can be tested
+    val filesToExcludeFromCoverageCheck = listOf(
+        "**/auto_hotkey/sdk/AhkSdkType*", // pattern must be specified like this to include declared extension fns
+        "**/auto_hotkey/ide/actions/AhkCreateFileAction*",
+        "**/auto_hotkey/ide/highlighter/AhkColorSettingsPage*"
+    )
+
+    classDirectories.setFrom(
+        sourceSets.main.get().output.asFileTree.matching {
+            exclude(packagesToExcludeFromCoverageCheck + filesToExcludeFromCoverageCheck)
+        }
+    )
 }

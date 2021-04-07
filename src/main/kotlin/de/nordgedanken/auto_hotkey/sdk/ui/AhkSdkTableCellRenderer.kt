@@ -14,7 +14,7 @@ class AhkSdkTableCellRenderer constructor(var project: Project) : ColoredTableCe
      * some form of error string for the value otherwise.
      */
     override fun customizeCellRenderer(
-        table: JTable?,
+        table: JTable,
         value: Any?,
         selected: Boolean,
         hasFocus: Boolean,

@@ -5,10 +5,20 @@ import junit.framework.TestCase
 import org.jdom.Element
 import org.jdom.input.SAXBuilder
 import java.io.StringReader
+import java.net.URL
 
 object TestUtil {
     val STACK_WALKER: StackWalker = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
     val XML_PARSER = SAXBuilder()
+
+    /**
+     * Returns a reference to the resource file at the given filename.
+     * Note that the filepath is expected to be in the same package as the class
+     * calling the method.
+     */
+    fun getResourceFile(filename: String): URL {
+        return javaClass.getResource("/${packagePath()}/$filename")!!
+    }
 
     /**
      * Returns a string containing the content of the file at the given filename.
@@ -28,6 +38,7 @@ object TestUtil {
      * NOTE: Function MUST be inlined for the StackWalker to calculate the correct package path.
      * (Otherwise it would always just return TestUtil's package.)
      */
+    @Suppress("NOTHING_TO_INLINE")
     inline fun packagePath(): String = STACK_WALKER.callerClass.packageName.replace('.', '/')
 
     /**
@@ -36,6 +47,7 @@ object TestUtil {
      *
      * @param filename The xml file's name without the extension
      */
+    @Suppress("NOTHING_TO_INLINE")
     inline fun parseXmlFileToElement(filename: String): Element {
         return XML_PARSER.build(StringReader(readResourceToString("$filename.xml"))).rootElement
     }

@@ -28,6 +28,11 @@ class AhkExecutableRunLineMarkerContributorTest : AhkBasePlatformTestCase() {
         actual shouldContainExactly listOf(Pair(0, "Run 'hello-world'"))
     }
 
+    fun `test run marker shows for file with hotkey`() {
+        val actual = createFileWithContentAndGetLineMarkers("hello-world.ahk", "^a::\nMsgbox hi")
+        actual shouldContainExactly listOf(Pair(0, "Run 'hello-world'"))
+    }
+
     fun `test run marker shows on 2nd line for file w comments and code`() {
         val actual = createFileWithContentAndGetLineMarkers("hello-world.ahk", "; comment\nMsgBox hi")
         actual shouldContainExactly listOf(Pair(1, "Run 'hello-world'"))
