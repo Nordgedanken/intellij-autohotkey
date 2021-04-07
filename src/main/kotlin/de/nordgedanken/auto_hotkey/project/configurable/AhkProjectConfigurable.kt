@@ -2,6 +2,7 @@ package de.nordgedanken.auto_hotkey.project.configurable
 
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.panel.ComponentPanelBuilder
 import com.intellij.ui.layout.panel
 import com.intellij.uiDesigner.core.Spacer
 import de.nordgedanken.auto_hotkey.project.settings.ui.AhkProjectSettingsPanel
@@ -29,7 +30,11 @@ class AhkProjectConfigurable(
         ahkProjectSettingsPanel.attachTo(this)
         row {
             Spacer()(pushY)
-                .comment(AhkBundle.msg("settings.general.thankyou.label"), maxLineLength = 150)
+        }
+        row {
+            // NOTE: We are not using the comment(...) function here because it breaks compatibility between 2020.1 and
+            // 2020.3. Once the minimum supported version is 2021.1, this should be converted to a comment(...) call
+            ComponentPanelBuilder.createCommentComponent(AhkBundle.msg("settings.general.thankyou.label"), true, 150)()
         }
     }
 }
