@@ -107,15 +107,7 @@ See the [open issues](https://github.com/Nordgedanken/intellij-autohotkey/issues
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-Before raising a PR, please raise an issue/feature-request (or comment on an existing issue) saying you'd like to work on issue X. Once you've gotten approval from a project collaborator, just follow the steps below to complete your contribution:
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 
 
