@@ -19,8 +19,6 @@ import static com.intellij.psi.TokenType.*;
 
 //Ahk-specific
 CHAR_SPECIAL=[^\s[:letter:][:digit:]]
-TEXT=\w+
-DIRECTIVE_NAME=#{TEXT}
 
 //generic
 WS_HOZ=\p{Blank}+ //JFlex doesn't support \h
@@ -72,9 +70,9 @@ Contains elements which can only validly occur at the beginning of a line.
     "#"                 { return HASH; }
     ","                 { return COMMA; }
     "::"                { return COLONCOLON; }
+    ":"                 { return COLON; }
     {IDENTIFIER}        { return IDENTIFIER; }
     {CHAR_SPECIAL}      { return CHAR_SPECIAL; }
-    {TEXT}              { return TEXT; }
     {WS_HOZ}    {
                             yybegin(POSSIBLE_EOL_COMMENT);
                             return WS_HOZ;

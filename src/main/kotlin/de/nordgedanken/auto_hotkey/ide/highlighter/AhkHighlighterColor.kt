@@ -14,6 +14,7 @@ enum class AhkHighlighterColor(humanName: String, default: TextAttributesKey? = 
 
     DIRECTIVE("Directive", DefaultColors.METADATA),
     HOTKEY("Hotkey", DefaultColors.FUNCTION_DECLARATION),
+    HOTSTRING("Hotkey", DefaultColors.FUNCTION_DECLARATION),
     ;
 
     val textAttributesKey = TextAttributesKey.createTextAttributesKey("de.nordgedanken.auto_hotkey.$name", default)
