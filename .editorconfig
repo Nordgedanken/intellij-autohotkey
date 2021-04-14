@@ -8,7 +8,7 @@ trim_trailing_whitespace = true
 indent_size = 4
 max_line_length = 120
 
-[*.bnf]
+[{*.bnf,*.yml,*.txt,*.md}]
 indent_size = 2
 
 [*.xml]
@@ -17,12 +17,8 @@ insert_final_newline = unset
 max_line_length = unset
 
 [*.md]
-indent_size = 2
 trim_trailing_whitespace = unset
 max_line_length = unset
-
-[*.yml]
-indent_size = 2
 
 [{*.ahk,*.txt,*.properties,LICENSE,gradlew*}]
 end_of_line = unset

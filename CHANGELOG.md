@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Syntax highlighting now supports hotstrings
+- Can now toggle block comments using the standard block-comment-toggle action
 
 
 ## [0.6.0] - 2021-04-07 

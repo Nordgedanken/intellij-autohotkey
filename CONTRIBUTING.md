@@ -1,6 +1,6 @@
 # Contributing to the IntelliJ AutoHotkey Plugin
 
-First of all, thanks for taking the time to contribute! This entire plugin is built from open-source code with the efforts of developers like you who want to make better software (in their spare time, no less!) for the benefit of everyone.
+First of all, thanks for taking the time to contribute! This entire plugin is built from open-source code with the efforts of developers like you who want to make better software for the benefit of everyone (in their spare time, no less!)
 
 ## Table of Contents
 [Code of Conduct](#code-of-conduct)
@@ -26,7 +26,7 @@ First of all, thanks for taking the time to contribute! This entire plugin is bu
 This project and everyone participating in it is governed by the [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior by posting an issue to the repo.
 
 ## I don't want to read this whole thing I just have a question!!!
-Please file an issue if you have a question.
+Please check the [issues](https://github.com/Nordgedanken/intellij-autohotkey/issues) and [discussions](https://github.com/Nordgedanken/intellij-autohotkey/discussions) to see whether your question has already been answered. If not, please open a new discussion if you have a simple question, or raise a new issue if you're having a problem.
 
 ## What should I know before I get started?
 ### Plugin Feature Locations
@@ -34,22 +34,37 @@ The package structure has been designed to separate each plugin feature into its
 
 _All package listed in the table below are prefixed with `src\main\kotlin\de\nordgedanken\auto_hotkey`._
 
+#### Language-related Features
 | Feature | Location |
 | ------- | -------- |
-| Line Commenter via shortcut | `ide.commenter.AhkCommenter` |
-| New Ahk File action in project tree context menu | `ide.actions.AhkCreateFileAction` |
-| Syntax Highlighting - simple (requires token lexer) | `ide.highlighter.AhkSyntaxHighlighter` |
-| Syntax Highlighting - advanced (requires parser) | `ide.highlighter.AhkHighlightAnnotator` |
-| Run button in editor gutter | `ide.linemarkers.AhkExecutableRunLineMarkerContributor` |
-| Notification when editor opened without Ahk runners set | `ide.notifications.MissingAhkSdkNotificationProvider` |
 | Ahk token lexer (parses text to see if it's a comment, linefeed, etc) | `lang.lexer.AutoHotkey.flex` |
 | Ahk grammar parser (takes tokens from lexer and groups them into elements. Eg `'#' + word = directive`) | `lang.parser.AutoHotkey.bnf` |
-| Ahk project settings | `project.configurable.AhkProjectConfigurable` |
+| Syntax Highlighting - simple (requires token lexer) | `ide.highlighter.AhkSyntaxHighlighter` |
+| Syntax Highlighting - advanced (requires parser) | `ide.highlighter.AhkHighlightAnnotator` |
+
+#### IDE Actions-related Features
+| Feature | Location |
+| ------- | -------- |
+| Line/Block Commenter via shortcut | `ide.commenter.AhkCommenter` |
+| New Ahk File action in project tree context menu | `ide.actions.AhkCreateFileAction` |
+| Run button in editor gutter | `ide.linemarkers.AhkExecutableRunLineMarkerContributor` |
+| Notification when editor opened without Ahk runners set | `ide.notifications.MissingAhkSdkNotificationProvider` |
+
+
+#### Execution-related Features
+| Feature | Location |
+| ------- | -------- |
 | Run configuration definition | `runconfig.core.AhkRunConfig` |
 | Run configuration producer for context menu (shows a run option when right-clicking an Ahk file in the context menu | `runconfig.producer.AhkRunConfigProducer` |
 | Run configuration UI | `runconfig.ui.AhkRunConfigSettingsEditor` |
 | Ahk runner definition | `sdk.AhkSdkType` |
 | Ahk runner renderer (for UI elements where you display a runner) | `sdk.ui.*` |
+
+#### Miscellaneous Features
+| Feature | Location |
+| ------- | -------- |
+| Ahk project settings | `project.configurable.AhkProjectConfigurable` |
+
 
 ### Design Decisions
 The package structure is built based off of the package structure of existing large IntelliJ plugins, namely the [intellij-rust plugin](https://github.com/intellij-rust/intellij-rust). Although some slight differences exist, you should follow the rust plugin's structure when adding new features to the repo.
@@ -63,7 +78,7 @@ Before suggesting a feature, please check the issues list to make sure your requ
 - Currently, you do not need to suggest enhancements related to syntax highlighting or error-checking; that is already on the roadmap 
 
 ### Your First Code Contribution
-You can start by looking through `beginner` and `help-wanted` issues in the issues list. (If none are present, you can look at other existing issues.) If you want to work on an issue, please add a comment to the issue saying that you want to work on it. A repository collaborator will acknowledge your comment and assign the issue to you to work on.
+You can start by looking through `beginner` and `help-wanted` issues in the issues list. (If none are present, you can look at other existing issues.) If you want to work on an issue, please add a comment to the issue saying that you want to work on it. A repository collaborator will acknowledge your comment and assign the issue to you.
 
 To contribute:
 1. Fork the project
