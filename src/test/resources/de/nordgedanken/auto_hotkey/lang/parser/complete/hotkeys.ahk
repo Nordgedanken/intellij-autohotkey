@@ -43,4 +43,4 @@ ds ^^ fda Upp::
 test ::
 a:
 ::btw::by the way
-:*:]d::dd ;actually a hotstring - will fix later
+:*:]d::dd

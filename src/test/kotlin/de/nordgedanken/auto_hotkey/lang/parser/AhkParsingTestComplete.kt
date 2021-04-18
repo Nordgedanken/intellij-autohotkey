@@ -5,4 +5,5 @@ internal class AhkParsingTestComplete : AhkParsingTestBase("complete") {
     fun `test block comments`() = doTest(true)
     fun `test directives`() = doTest(true)
     fun `test hotkeys`() = doTest(true)
+    fun `test hotstrings`() = doTest(true)
 }

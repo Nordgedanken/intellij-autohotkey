@@ -95,7 +95,7 @@ tasks {
         )
         pluginDescription(
             closure {
-                File("./README.md").readText().lines().run {
+                File("$rootDir/README.md").readText().lines().run {
                     val start = "<!-- Plugin description -->"
                     val end = "<!-- Plugin description end -->"
                     if (!containsAll(listOf(start, end))) {
@@ -133,7 +133,7 @@ tasks {
             rule {
                 limit {
                     counter = "LINE"
-                    minimum = "0.85".toBigDecimal()
+                    minimum = "0.87".toBigDecimal()
                 }
                 limit {
                     counter = "BRANCH"

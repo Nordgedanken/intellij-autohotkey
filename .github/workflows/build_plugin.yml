@@ -135,5 +135,5 @@ jobs:
         # NOTE: For ide-versions, we just need to verify IJ community & one non-IJ IDE.
         ide-versions: |
           ideaIC:2020.1
-          ideaIC:2020.3
+          ideaIC:2021.1
           pycharmPC:2020.1

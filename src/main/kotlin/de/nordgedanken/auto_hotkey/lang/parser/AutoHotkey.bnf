@@ -15,11 +15,10 @@
   tokens = [
     //Ahk-specific
     CHAR_SPECIAL="regexp:\p{Punct}"
-    TEXT="regexp:\p{Alnum}+"
-//    DIRECTIVE="regexp:#[a-zA-Z]+"
     COMMA       = ','
     HASH        = '#'
     COLONCOLON  = '::'
+    COLON       = ':'
 
     //generic
     /*
@@ -61,7 +60,10 @@ The parser will ignore all PsiWhitespace elements during ast verification.
 Line ::= WS_HOZ? Statement | Words+ LINE_COMMENT?
 
 // Hotkey_stmt MUST be checked before Directive_stmt since Hotkeys can begin with a # just like directives
-private Statement ::= Hotkey_stmt | Directive_stmt | Other_stmt
+private Statement ::= Hotstring_stmt | Hotkey_stmt | Directive_stmt | Other_stmt
+
+Hotstring_stmt ::= ((':' (Special_char_no_colon | IDENTIFIER | WS_HOZ)+ ':') | '::') Hotstring '::' Words*
+Hotstring ::= (Special_char | IDENTIFIER | WS_HOZ)+
 
 Hotkey_stmt ::= Hotkey '::' Words*
 Hotkey ::= (Special_char | IDENTIFIER) (WS_HOZ? (Special_char | IDENTIFIER))*
@@ -74,5 +76,6 @@ Other_stmt ::= Words+
 private Lang_Fn_Call_Sep ::= ',' | WS_HOZ
 private End_of_stmt ::= CRLF | <<eof>>
 
-private Words ::= ('#' | ',' | '::' | IDENTIFIER | TEXT | CHAR_SPECIAL | WS_HOZ)+
-private Special_char ::= '#' | ',' | CHAR_SPECIAL
+private Words ::= (Special_char | '::' | IDENTIFIER | WS_HOZ)+
+private Special_char ::= ':' | '#' | ',' | CHAR_SPECIAL
+private Special_char_no_colon ::= '#' | ',' | CHAR_SPECIAL

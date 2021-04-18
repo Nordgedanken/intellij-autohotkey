@@ -34,7 +34,6 @@
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
-
 * [About the Project](#about-the-project)
   <!--* [Built With](#built-with)-->
 * [Getting Started](#getting-started)
@@ -65,11 +64,9 @@ A simple plugin for developing AutoHotkey scripts. The following features are av
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
 To get a local copy up and running, follow these simple steps:
 
 ### Prerequisites
-
 * IntelliJ IDEA 2020.* or newer (Community Edition is fine)  
   Required plugins (for development only):
   - [Grammar-Kit](https://plugins.jetbrains.com/plugin/6606-grammar-kit)
@@ -79,7 +76,6 @@ To get a local copy up and running, follow these simple steps:
 * Java 11
 
 ### Setting up a Development Environment
-
 1. Clone the repo
 ```sh
 git clone https://github.com/Nordgedanken/intellij-autohotkey.git
@@ -99,36 +95,24 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 <!-- ROADMAP -->
 ## Roadmap
-
 See the [open issues](https://github.com/Nordgedanken/intellij-autohotkey/issues) for a list of proposed features (and known issues).
 
 
 
 <!-- CONTRIBUTING -->
 ## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-Before raising a PR, please raise an issue/feature-request (or comment on an existing issue) saying you'd like to work on issue X. Once you've gotten approval from a project collaborator, just follow the steps below to complete your contribution:
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**, but please read [CONTRIBUTING.md](CONTRIBUTING.md) before starting any work.
 
 
 
 <!-- LICENSE -->
 ## License
-
 Distributed under the GPL-3.0 License. See `LICENSE` for more information.
 
 
 
 <!-- CONTACT -->
 ## Contact
-
 MTRNord - [@mtrnord](https://github.com/mtrnord) - https://matrix.to/#/@mtrnord:nordgedanken.dev
 
 Project Link: [https://github.com/Nordgedanken/intellij-autohotkey](https://github.com/Nordgedanken/intellij-autohotkey)
@@ -137,11 +121,9 @@ Project Link: [https://github.com/Nordgedanken/intellij-autohotkey](https://gith
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
-
 * [intellij-rust](https://github.com/intellij-rust/intellij-rust) which provided a huge starting point to implement undocumented features
 * [intellij python plugin](https://github.com/JetBrains/intellij-community/tree/master/python) which also provided help with certain features
 * [idea-multimarkdown](https://github.com/vsch/idea-multimarkdown) which also provided help with certain features
-
 
 
 
