@@ -2,49 +2,24 @@ package de.nordgedanken.auto_hotkey.ide.highlighter
 
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
+import com.intellij.openapi.util.io.StreamUtil
+import de.nordgedanken.auto_hotkey.util.AhkConstants
 import de.nordgedanken.auto_hotkey.util.AhkIcons
 import javax.swing.Icon
 
 class AhkColorSettingsPage : ColorSettingsPage {
     private val ATTRS = AhkHighlighterColor.values().map { it.attributesDescriptor }.toTypedArray()
-
     private val ANNOTATOR_TAGS = AhkHighlighterColor.values().associateBy({ it.name }, { it.textAttributesKey })
-
-    override fun getIcon(): Icon = AhkIcons.LOGO
-
-    override fun getHighlighter() = AhkSyntaxHighlighter()
-
-    override fun getDemoText(): String {
-        return """
-#Include current_url.ahk
-Menu, Tray, Icon, % A_WinDir "\system32\netshell.dll" , 86 ; Shows a world icon in the system tray
-
-ModernBrowsers := "ApplicationFrameWindow,Chrome_WidgetWin_0,Chrome_WidgetWin_1,MozillaWindowClass,Slimjet_WidgetWin_1"
-LegacyBrowsers := "IEFrame,OperaWindowClass"
-
-;^+!u::
-;	nTime := A_TickCount
-;	sURL := GetActiveBrowserURL()
-;	WinGetClass, sClass, A
-;	If (sURL != "")
-;		MsgBox, % "The URL is  sURL`nEllapsed time: " (A_TickCount - nTime) " ms (" sClass ")"
-;	Else If sClass In % ModernBrowsers "," LegacyBrowsers
-;		MsgBox, % "The URL couldn't be determined (" sClass ")"
-;	Else
-;		MsgBox, % "Not a browser or browser not supported (" sClass ")"
-;Return
-
-
-#c::
-clipboard := GetActiveBrowserURL()
-Return"""
+    private val DEMO_TEXT by lazy {
+        val stream = javaClass.getResourceAsStream("demo_text_for_color_settings_page.ahk")!!
+        StreamUtil.convertSeparators(StreamUtil.readText(stream, "UTF-8"))
     }
 
-    override fun getAdditionalHighlightingTagToDescriptorMap() = ANNOTATOR_TAGS
-
+    override fun getDisplayName() = AhkConstants.LANGUAGE_NAME
+    override fun getDemoText() = DEMO_TEXT
+    override fun getIcon(): Icon = AhkIcons.LOGO
     override fun getAttributeDescriptors() = ATTRS
-
     override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
-
-    override fun getDisplayName() = "AutoHotkey"
+    override fun getHighlighter() = AhkSyntaxHighlighter()
+    override fun getAdditionalHighlightingTagToDescriptorMap() = ANNOTATOR_TAGS
 }

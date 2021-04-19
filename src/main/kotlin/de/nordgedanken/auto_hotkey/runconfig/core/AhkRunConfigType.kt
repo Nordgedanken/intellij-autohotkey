@@ -18,7 +18,7 @@ import de.nordgedanken.auto_hotkey.util.AhkIcons
 class AhkRunConfigType : SimpleConfigurationType(
     id = ID,
     name = AhkConstants.LANGUAGE_NAME,
-    icon = NotNullLazyValue.createValue { AhkIcons.LOGO }
+    icon = NotNullLazyValue.createValue { AhkIcons.EXE }
 ) {
     val factory: ConfigurationFactory get() = configurationFactories.single()
 

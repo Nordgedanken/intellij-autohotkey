@@ -24,6 +24,9 @@
         <lang.syntaxHighlighterFactory language="AutoHotkey"
                                        implementationClass="de.nordgedanken.auto_hotkey.ide.highlighter.AhkSyntaxHighlighterFactory"/>
         <annotator language="AutoHotkey" implementationClass="de.nordgedanken.auto_hotkey.ide.highlighter.AhkHighlightAnnotator"/>
+        <additionalTextAttributes scheme="Default" file="colorSchemes/AhkDefault.xml"/>
+        <additionalTextAttributes scheme="Darcula" file="colorSchemes/AhkDefault.xml"/>
+
         <lang.commenter language="AutoHotkey" implementationClass="de.nordgedanken.auto_hotkey.ide.commenter.AhkCommenter"/>
 
         <!-- Notification Providers -->

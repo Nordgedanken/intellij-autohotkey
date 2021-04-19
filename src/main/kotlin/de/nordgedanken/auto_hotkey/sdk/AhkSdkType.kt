@@ -54,7 +54,7 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
     override fun getVersionString(sdkHome: String?): String? {
         sdkHome ?: return null
         val ahkExePath = File(sdkHome, "AutoHotkey.exe").absolutePath
-        AhkSdkType::class.java.getResourceAsStream("/sdk/getAhkVersion.ahk").use { versionScriptInputStream ->
+        AhkSdkType::class.java.getResourceAsStream("getAhkVersion.ahk")!!.use { versionScriptInputStream ->
             File.createTempFile("getVersion", ".ahk").apply {
                 versionScriptInputStream.copyTo(outputStream())
                 deleteOnExit()

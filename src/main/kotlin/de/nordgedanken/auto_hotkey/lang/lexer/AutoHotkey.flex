@@ -69,6 +69,7 @@ Contains elements which can only validly occur at the beginning of a line.
 <LEGACY_MODE> {
     "#"                 { return HASH; }
     ","                 { return COMMA; }
+    "`"                 { return BACKTICK; }
     "::"                { return COLONCOLON; }
     ":"                 { return COLON; }
     {IDENTIFIER}        { return IDENTIFIER; }
