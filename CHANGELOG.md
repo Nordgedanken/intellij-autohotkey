@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Syntax highlighting now supports hotstrings and normal labels
 - Can now toggle block comments using the standard block-comment-toggle action
-
+- Errors printed to the console should now show a hyperlink allowing you to jump to any files referenced in the error
 
 ## [0.6.0] - 2021-04-07 
 #### (compatibility: 2020.1 - 2021.1.*) 
