@@ -97,12 +97,20 @@ To contribute:
 After cloning the repo, you should be able to run the "Run Plugin in test IDE" run configuration to start up a test instance of the IDE with the Ahk plugin.
 
 ### Pull Requests
-All PR checks must pass, and a contributor must approve your PR before it is merged. Please add a description to your PR of what is being changed/fixed. All PRs will be squash-merged, so the title of your PR must adhere to the git commit message format too.
+All PR checks must pass, and a contributor must approve your PR before it is merged. Please add a description to your PR of what is being changed/fixed. All PRs will be squash-merged, so the title of your PR must adhere to the [git commit message format](#git-commit-messages).
 
 ## Styleguides
 ### Git Commit Messages
-All git commit messages should be prefixed with the issue nubmer that the commit is related to. 
-- Ex: If working on issue #32, you commit message should be `#32: Added new feature x`
+All git commit messages in a pull request must follow this format:
+
+`#<issue number>: <description of what the commit pertains to (2+ words, no newlines)>`
+
+This format enables linking commit changes with the issue they are associated with and helps keep the git
+history readable when performing searches.
+
+> As an example, if you are working on issue [#49](https://github.com/Nordgedanken/intellij-autohotkey/issues/49) to enable hyperlinks in console messages, your commit message should be something like 
+>
+> `#49: Added console filter to enable file hyperlinks in the console when an error is printed`
 
 ### Code Styleguide
 This plugin is written purely in Kotlin; please do not commit java files or your PR will be rejected. The style of all Kotlin code adheres to the [official Kotlin style guide](https://kotlinlang.org/docs/coding-conventions.html). You can use the `ktlint` IntelliJ plugin from the marketplace to auto-format your code.
