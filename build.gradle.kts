@@ -13,7 +13,6 @@ plugins {
     id("org.jetbrains.intellij") version "0.7.2"
     id("org.jetbrains.grammarkit") version "2021.1.1"
     kotlin("jvm") version "1.4.32"
-    java
     jacoco
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
     id("org.barfuin.gradle.jacocolog") version "1.2.4" // show coverage in console
