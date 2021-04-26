@@ -19,6 +19,7 @@
     HASH        = '#'
     COLONCOLON  = '::'
     COLON       = ':'
+    BACKTICK    = '`'
 
     //generic
     /*
@@ -60,13 +61,20 @@ The parser will ignore all PsiWhitespace elements during ast verification.
 Line ::= WS_HOZ? Statement | Words+ LINE_COMMENT?
 
 // Hotkey_stmt MUST be checked before Directive_stmt since Hotkeys can begin with a # just like directives
-private Statement ::= Hotstring_stmt | Hotkey_stmt | Directive_stmt | Other_stmt
+private Statement ::= Label_stmt | Directive_stmt | Other_stmt
 
-Hotstring_stmt ::= ((':' (Special_char_no_colon | IDENTIFIER | WS_HOZ)+ ':') | '::') Hotstring '::' Words*
+//// BEGIN Labels - https://www.autohotkey.com/docs/misc/Labels.htm
+private Label_stmt ::= Normal_label_stmt | Hotstring_stmt | Hotkey_stmt
+
+Normal_label_stmt ::= Normal_label ':' WS_HOZ? LINE_COMMENT? End_of_stmt
+Normal_label ::= (Valid_special_chars_normal_label | IDENTIFIER)+
+
+Hotstring_stmt ::= ((':' (Valid_special_chars_hotstring | IDENTIFIER | WS_HOZ)+ ':') | '::') Hotstring '::' Words*
 Hotstring ::= (Special_char | IDENTIFIER | WS_HOZ)+
 
 Hotkey_stmt ::= Hotkey '::' Words*
 Hotkey ::= (Special_char | IDENTIFIER) (WS_HOZ? (Special_char | IDENTIFIER))*
+//// END Labels
 
 Directive_stmt ::= Directive (Lang_Fn_Call_Sep WS_HOZ? Words*)? End_of_stmt
 Directive ::= '#' IDENTIFIER
@@ -77,5 +85,6 @@ private Lang_Fn_Call_Sep ::= ',' | WS_HOZ
 private End_of_stmt ::= CRLF | <<eof>>
 
 private Words ::= (Special_char | '::' | IDENTIFIER | WS_HOZ)+
-private Special_char ::= ':' | '#' | ',' | CHAR_SPECIAL
-private Special_char_no_colon ::= '#' | ',' | CHAR_SPECIAL
+private Special_char ::= ':' | '#' | ',' | '`' | CHAR_SPECIAL
+private Valid_special_chars_hotstring ::= '#' | ',' | '`' | CHAR_SPECIAL
+private Valid_special_chars_normal_label ::= '#' | CHAR_SPECIAL

@@ -12,9 +12,12 @@ enum class AhkHighlighterColor(humanName: String, default: TextAttributesKey? = 
     LINE_COMMENT("Comments//Line Comment", DefaultColors.LINE_COMMENT),
     BLOCK_COMMENT("Comments//Block Comment", DefaultColors.BLOCK_COMMENT),
 
+    // Labels
+    NORMAL_LABEL("Labels//Normal Label", DefaultColors.LABEL),
+    HOTKEY("Labels//Hotkey", DefaultColors.FUNCTION_DECLARATION),
+    HOTSTRING("Labels//Hotstring", DefaultColors.FUNCTION_DECLARATION),
+
     DIRECTIVE("Directive", DefaultColors.METADATA),
-    HOTKEY("Hotkey", DefaultColors.FUNCTION_DECLARATION),
-    HOTSTRING("Hotkey", DefaultColors.FUNCTION_DECLARATION),
     ;
 
     val textAttributesKey = TextAttributesKey.createTextAttributesKey("de.nordgedanken.auto_hotkey.$name", default)

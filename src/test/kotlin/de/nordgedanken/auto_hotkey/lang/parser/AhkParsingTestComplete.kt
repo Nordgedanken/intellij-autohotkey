@@ -6,4 +6,5 @@ internal class AhkParsingTestComplete : AhkParsingTestBase("complete") {
     fun `test directives`() = doTest(true)
     fun `test hotkeys`() = doTest(true)
     fun `test hotstrings`() = doTest(true)
+    fun `test normal labels`() = doTest(true)
 }

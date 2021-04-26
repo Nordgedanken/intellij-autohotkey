@@ -5,12 +5,14 @@ import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+// Imports a property from gradle.properties file
+fun properties(key: String) = project.findProperty(key).toString()
+
 plugins {
     idea
-    id("org.jetbrains.intellij") version "0.6.5"
-    id("org.jetbrains.grammarkit") version "2020.3.2"
-    kotlin("jvm") version "1.4.31"
-    java
+    id("org.jetbrains.intellij") version "0.7.2"
+    id("org.jetbrains.grammarkit") version "2021.1.1"
+    kotlin("jvm") version "1.4.32"
     jacoco
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
     id("org.barfuin.gradle.jacocolog") version "1.2.4" // show coverage in console
@@ -64,13 +66,10 @@ val generateAhkParser = task<GenerateParser>("generateAhkParser") {
 }
 
 changelog {
-    version = prop("pluginVersion")
+    version = properties("pluginVersion")
     header = closure { "[$version] - ${date()}" }
     groups = listOf("Added")
 }
-
-// Imports a property from gradle.properties file
-fun prop(name: String) = extra.properties[name] as? String ?: error("`$name` is not defined in gradle.properties")
 
 tasks {
     // Set the compatibility versions to 1.8
@@ -106,8 +105,8 @@ tasks {
             }
         )
         version(changelog.version)
-        sinceBuild(prop("pluginSinceBuild"))
-        untilBuild(prop("pluginUntilBuild"))
+        sinceBuild(properties("pluginSinceBuild"))
+        untilBuild(properties("pluginUntilBuild"))
     }
 
     val intellijPublishToken: String? by project
@@ -158,6 +157,7 @@ fun setClassesToIncludeInCoverageCheck(classDirectories: ConfigurableFileCollect
     // packages listed here can't be tested
     val packagesToExcludeFromCoverageCheck = listOf(
         "**/auto_hotkey/runconfig/execution/**",
+        "**/auto_hotkey/util/**",
 
         // swing ui packages; must be tested manually
         "**/auto_hotkey/runconfig/ui/**",
