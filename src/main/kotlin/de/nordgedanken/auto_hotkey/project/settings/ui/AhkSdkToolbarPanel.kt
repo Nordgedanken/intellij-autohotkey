@@ -30,8 +30,7 @@ class AhkSdkToolbarPanel(val project: Project) : JPanel() {
                 val ahkSdkType = AhkSdkType.getInstance()
                 val fileChooser = ahkSdkType.homeChooserDescriptor
                 FileChooser.chooseFile(
-                    fileChooser, null,
-                    LocalFileSystem.getInstance().findFileByIoFile(File(ahkSdkType.suggestHomePath()))
+                    fileChooser, null, SdkConfigurationUtil.getSuggestedSdkRoot(AhkSdkType)
                 ) { chosenVirtualFile ->
                     val existingSdk = sdkTableModel.sdks.find { chosenVirtualFile.path == it.homePath }
                     if (existingSdk != null) {
