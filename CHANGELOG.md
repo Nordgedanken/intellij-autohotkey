@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Documentation (Ctrl+Q) for built-in commands and variables.
+- Documentation popup (View->Quick Documentation) for built-in commands and variables.
 
 ## [0.7.0] - 2021-04-26
 #### (compatibility: 2020.1 - 2021.1.*)
