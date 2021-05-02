@@ -20,7 +20,7 @@ max_line_length = unset
 trim_trailing_whitespace = unset
 max_line_length = unset
 
-[{*.ahk,*.txt,*.properties,LICENSE,gradlew*}]
+[{*.ahk,*.txt,*.properties,LICENSE,gradlew*,*.chm}]
 end_of_line = unset
 insert_final_newline = unset
 indent_size = unset
