@@ -32,10 +32,7 @@ object ChmArchiveUtil {
             ?: error("Error initializing 7zip file system")
     }
 
-    fun getPathInChm(
-        chm: ArchiveHandler,
-        approximateTitle: String?
-    ): String? {
+    fun getPathInChm(chm: ArchiveHandler, approximateTitle: String?): String? {
         val paths = arrayOf(
             "docs/commands",
             "docs/misc",

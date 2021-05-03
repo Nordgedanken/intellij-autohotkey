@@ -24,16 +24,14 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
         file: PsiFile,
         contextElement: PsiElement?,
         targetOffset: Int
-    ): PsiElement? {
-        return contextElement
-    }
+    ): PsiElement? = contextElement
 
     override fun getUrlFor(element: PsiElement?, originalElement: PsiElement?): MutableList<String>? {
-        val url = getUrl(element) ?: return null
+        val url = generateAhkDocumentationReferenceUrlFor(element) ?: return null
         return mutableListOf(url)
     }
 
-    private fun getUrl(element: PsiElement?): String? {
+    private fun generateAhkDocumentationReferenceUrlFor(element: PsiElement?): String? {
         element ?: return null
 
         val chm = try {
@@ -70,46 +68,27 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
         return extractHtmlText(chm, pathInChm)
     }
 
-    private fun extractVariableText(chm: ArchiveHandler, variableName: String): String? {
+    private fun extractVariableText(chm: ArchiveHandler, variableName: String): String? = runCatching {
         val variablesPage = ChmArchiveUtil.getPathInChm(chm, "Variables")
             ?: return null
 
-        return try {
-            String(chm.contentsToByteArray(variablesPage))
-                .substringAfter("<td>$variableName</td>")
-                .substringBefore("</tr>")
-                .replace("<td>", "<p>")
-                .replace("</td>", "</p>")
-                // disable anchor links
-                .replace("<a href=\"#", "<span href=\"")
-        } catch (e: FileNotFoundException) {
-            "File not found"
-        } catch (e: FileTooBigException) {
-            "File too big"
-        }
+        String(chm.contentsToByteArray(variablesPage))
+            .substringAfter("<td>$variableName</td>")
+            .substringBefore("</tr>")
+            .replace("<td>", "<p>")
+            .replace("</td>", "</p>")
+            // disable anchor links
+            .replace("<a href=\"#", "<span href=\"")
+    }.onFailure { it.toString() }.getOrNull()
 
-    }
+    private fun extractHtmlText(chm: ArchiveHandler, pathInChm: String) = runCatching {
+        String(chm.contentsToByteArray(pathInChm))
+            // disable anchor links
+            .replace("<a href=\"#", "<span href=\"")
+    }.onFailure { it.toString() }.getOrThrow()
 
-    private fun extractHtmlText(
-        chm: ArchiveHandler,
-        pathInChm: String
-    ): String {
-        return try {
-            String(chm.contentsToByteArray(pathInChm))
-                // disable anchor links
-                .replace("<a href=\"#", "<span href=\"")
-        } catch (e: FileNotFoundException) {
-            "File not found"
-        } catch (e: FileTooBigException) {
-            "File too big"
-        }
-    }
-
-    override fun handleExternal(
-        element: PsiElement?,
-        originalElement: PsiElement?
-    ): Boolean {
-        val url = getUrl(element) ?: return false
+    override fun handleExternal(element: PsiElement?, originalElement: PsiElement?): Boolean {
+        val url = generateAhkDocumentationReferenceUrlFor(element) ?: return false
         BrowserUtil.browse(url)
         return true
     }

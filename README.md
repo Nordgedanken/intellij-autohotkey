@@ -55,16 +55,16 @@ A simple plugin for developing AutoHotkey scripts. The following features are av
 - Syntax highlighting (under construction; no error checking available currently)
 - Run configurations
 - Quick documentation
-- More to come in the future...
+- More to come in the future... 
+  
+Dependencies:
+
+- Archive Browser plugin (for documentation assistance)
 
 <p><i>Note: This plugin is under development and does not have a stable release yet. Please report any issues to the plugin's <a href="https://github.com/Nordgedanken/intellij-autohotkey/issues">GitHub page</a>.</i></p>
 <!-- Plugin description end -->
 
 <!-- [![Plugin Screenshot][product-screenshot]](https://plugins.jetbrains.com/plugin/13945-autohotkey-language) -->
-
-
-## Dependency on other plugins
-This plugin requires the [Archive Browser](https://plugins.jetbrains.com/plugin/9491-archive-browser) plugin as a dependency in order to process Ahk documentation files. The IDE will allow you to install the dependency automatically when you try to install this plugin.
 
 <!-- GETTING STARTED -->
 ## Getting Started

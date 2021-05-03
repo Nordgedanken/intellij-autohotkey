@@ -23,9 +23,13 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
             "$testDataPath/de/nordgedanken/auto_hotkey/documentation/"
     }
 
+    private fun getFirstPsiElementOfFileWithText(text: String): PsiElement? {
+        myFixture.configureByText(AhkFileType, text)
+        return myFixture.findElementByText(text, PsiElement::class.java).firstChild
+    }
+
     fun `test getCustomDocumentationElement`() {
-        myFixture.configureByText(AhkFileType, "WinSet")
-        val element = myFixture.findElementByText("WinSet", PsiElement::class.java)
+        val element = getFirstPsiElementOfFileWithText("WinSet")
         val customDocumentationElement = AhkDocumentationProvider().getCustomDocumentationElement(
             myFixture.editor,
             myFixture.file,
@@ -39,8 +43,7 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test getUrlFor for command`() {
         configureHomePath()
-        myFixture.configureByText(AhkFileType, "WinSet")
-        val element = myFixture.findElementByText("WinSet", PsiElement::class.java).firstChild
+        val element = getFirstPsiElementOfFileWithText("WinSet")
         val url = AhkDocumentationProvider().getUrlFor(element, element)
         url shouldBe listOf("https://www.autohotkey.com/docs/commands/WinSet.htm")
     }
@@ -48,8 +51,7 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test getUrlFor for variable`() {
         configureHomePath()
-        myFixture.configureByText(AhkFileType, "A_LineNumber")
-        val element = myFixture.findElementByText("A_LineNumber", PsiElement::class.java).firstChild
+        val element = getFirstPsiElementOfFileWithText("A_LineNumber")
         val url = AhkDocumentationProvider().getUrlFor(element, element)
         url shouldBe listOf("https://www.autohotkey.com/docs/Variables.htm#LineNumber")
     }
@@ -57,8 +59,7 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test generateDoc for command`() {
         configureHomePath()
-        myFixture.configureByText(AhkFileType, "WinSet")
-        val element = myFixture.findElementByText("WinSet", PsiElement::class.java).firstChild
+        val element = getFirstPsiElementOfFileWithText("WinSet")
         val doc = AhkDocumentationProvider().generateDoc(element, element)
         doc shouldContain "<title>WinSet - Syntax &amp; Usage | AutoHotkey</title>"
     }
@@ -66,15 +67,13 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test generateDoc for variable`() {
         configureHomePath()
-        myFixture.configureByText(AhkFileType, "A_LineNumber")
-        val element = myFixture.findElementByText("A_LineNumber", PsiElement::class.java).firstChild
+        val element = getFirstPsiElementOfFileWithText("A_LineNumber")
         val doc = AhkDocumentationProvider().generateDoc(element, element)
         doc shouldContain "The number of the currently executing line within the script"
     }
 
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test handleExternalLink`() {
-
         AhkDocumentationProvider().let {
             it.handleExternalLink(null, "#test", null) shouldBe true
             it.handleExternalLink(null, "test", null) shouldBe true
@@ -93,11 +92,9 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test fetchExternalDocumentation for function`() {
-        (project.defaultAhkSdk as ProjectJdkImpl).homePath = "$testDataPath/de/nordgedanken/auto_hotkey/documentation/"
-        myFixture.configureByText(AhkFileType, "WinSet")
-        val element = myFixture.findElementByText("WinSet", PsiElement::class.java).firstChild
+        configureHomePath()
+        val element = getFirstPsiElementOfFileWithText("WinSet")
         val doc = AhkDocumentationProvider().fetchExternalDocumentation("WinTitle", element)
         doc shouldContain "<title>WinTitle &amp; Last Found Window | AutoHotkey</title>"
     }
-
 }
