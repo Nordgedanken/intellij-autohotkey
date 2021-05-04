@@ -8,6 +8,7 @@ import org.jdom.Element
 import org.jdom.output.Format
 import org.jdom.output.XMLOutputter
 import util.TestUtil.parseXmlFileToElement
+import util.toCompactXmlString
 
 class AhkRunConfigSettingsTest : FunSpec({
     context("verify custom getters") {
@@ -86,8 +87,7 @@ class AhkRunConfigSettingsTest : FunSpec({
             testSettings.writeToElement(actualElement)
 
             val expectedElement = parseXmlFileToElement("samplerunconfigsettings")
-            XMLOutputter(Format.getCompactFormat()).outputString(actualElement)
-                .shouldBe(XMLOutputter(Format.getCompactFormat()).outputString(expectedElement))
+            actualElement.toCompactXmlString() shouldBe expectedElement.toCompactXmlString()
         }
     }
 })

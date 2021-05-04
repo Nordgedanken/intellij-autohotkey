@@ -13,8 +13,16 @@ import com.intellij.openapi.projectRoots.Sdk
  */
 fun getAhkSdkByName(sdkName: String?): Sdk? = getAhkSdks().find { it.name == sdkName }
 
-fun getAhkSdks(): List<Sdk> {
-    return ProjectJdkTable.getInstance().getSdksOfType(AhkSdkType.getInstance()).toList()
-}
+fun getAhkSdks() = ProjectJdkTable.getInstance().getSdksOfType(AhkSdkType.getInstance()).toList()
 
 fun getFirstAvailableAhkSdk(): Sdk? = getAhkSdks().firstOrNull()
+
+fun Sdk.isAhkSdk(): Boolean = sdkType is AhkSdkType
+
+fun Sdk.ahkExeName(): String {
+    sdkAdditionalData ?: sdkModificator.run { sdkAdditionalData = AhkSdkAdditionalData(); commitChanges() }
+    return (sdkAdditionalData as AhkSdkAdditionalData).exeName
+}
+
+val Sdk.ahkDocumentationUrl: String get() =
+    if (versionString!!.startsWith("1")) AHK_DOCUMENTATION_URL_V1 else AHK_DOCUMENTATION_URL_V2

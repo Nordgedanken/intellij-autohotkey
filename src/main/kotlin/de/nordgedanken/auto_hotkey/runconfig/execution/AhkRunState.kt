@@ -10,6 +10,7 @@ import com.intellij.execution.process.KillableProcessHandler
 import com.intellij.execution.process.ProcessHandler
 import com.intellij.execution.runners.ExecutionEnvironment
 import de.nordgedanken.auto_hotkey.runconfig.core.AhkRunConfig
+import de.nordgedanken.auto_hotkey.sdk.ahkExeName
 import de.nordgedanken.auto_hotkey.sdk.getAhkSdkByName
 import java.nio.file.Paths
 
@@ -27,10 +28,8 @@ class AhkRunState(
 
     @Throws(ExecutionException::class)
     override fun startProcess(): ProcessHandler {
-        val exePath = Paths.get(
-            getAhkSdkByName(ahkRunConfig.runConfigSettings.runner)!!.homePath!!,
-            "AutoHotkey.exe"
-        ).toString()
+        val runner = getAhkSdkByName(ahkRunConfig.runConfigSettings.runner)!!
+        val exePath = Paths.get(runner.homePath!!, runner.ahkExeName()).toString()
 
         val ahkCommandLine = GeneralCommandLine()
             .withWorkDirectory(ahkRunConfig.project.basePath)

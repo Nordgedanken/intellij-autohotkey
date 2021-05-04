@@ -4,6 +4,8 @@ import com.intellij.openapi.util.JDOMUtil
 import junit.framework.TestCase
 import org.jdom.Element
 import org.jdom.input.SAXBuilder
+import org.jdom.output.Format
+import org.jdom.output.XMLOutputter
 import java.io.StringReader
 import java.net.URL
 
@@ -63,3 +65,5 @@ inline fun <reified T : Annotation> TestCase.findAnnotationInstance(): T? =
     javaClass.getMethod(name).getAnnotation(T::class.java) ?: javaClass.getAnnotation(T::class.java)
 
 fun Element.toXmlString() = JDOMUtil.writeElement(this)
+
+fun Element.toCompactXmlString() = XMLOutputter(Format.getCompactFormat()).outputString(this)
