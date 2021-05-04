@@ -4,14 +4,12 @@ import com.intellij.ide.BrowserUtil
 import com.intellij.lang.documentation.DocumentationProvider
 import com.intellij.lang.documentation.ExternalDocumentationHandler
 import com.intellij.openapi.editor.Editor
-import com.intellij.openapi.util.io.FileTooBigException
 import com.intellij.openapi.vfs.impl.ArchiveHandler
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import de.nordgedanken.auto_hotkey.lang.psi.AhkTokenType
-import java.io.FileNotFoundException
 
 /**
  * Provides commands/directives documentation by extracting them from the

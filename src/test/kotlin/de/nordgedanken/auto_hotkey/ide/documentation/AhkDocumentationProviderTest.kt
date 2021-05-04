@@ -13,7 +13,6 @@ import io.kotest.matchers.string.shouldContain
 import org.junit.jupiter.api.Test
 import java.io.File
 
-
 class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
     override fun getTestDataPath(): String = File("src/test/resources/").absolutePath
