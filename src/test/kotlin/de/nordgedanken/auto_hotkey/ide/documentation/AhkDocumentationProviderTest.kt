@@ -4,6 +4,7 @@ import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl
 import com.intellij.psi.PsiElement
 import de.nordgedanken.auto_hotkey.AhkBasePlatformTestCase
+import de.nordgedanken.auto_hotkey.AhkTestCase
 import de.nordgedanken.auto_hotkey.ProjectDescriptor
 import de.nordgedanken.auto_hotkey.WithOneAhkSdkAsProjDefault
 import de.nordgedanken.auto_hotkey.lang.core.AhkFileType
@@ -17,11 +18,10 @@ import io.mockk.just
 import io.mockk.mockkStatic
 import io.mockk.verify
 import org.junit.jupiter.api.Test
-import java.io.File
 
 class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
-    override fun getTestDataPath(): String = File("src/test/resources/").absolutePath
+    override fun getTestDataPath(): String = AhkTestCase.testResourcesPath
 
     private fun configureHomePath() {
         (project.defaultAhkSdk as ProjectJdkImpl).homePath =
