@@ -1,5 +1,6 @@
 package de.nordgedanken.auto_hotkey.ide.documentation
 
+import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl
 import com.intellij.psi.PsiElement
 import de.nordgedanken.auto_hotkey.AhkBasePlatformTestCase
@@ -10,6 +11,11 @@ import de.nordgedanken.auto_hotkey.project.settings.defaultAhkSdk
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldContain
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockkStatic
+import io.mockk.verify
 import org.junit.jupiter.api.Test
 import java.io.File
 
@@ -48,6 +54,27 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
     }
 
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
+    fun `test getUrlFor for wrong command`() {
+        configureHomePath()
+        val element = getFirstPsiElementOfFileWithText("WrongCommand")
+        val url = AhkDocumentationProvider().getUrlFor(element, element)
+        url shouldBe null
+    }
+
+    @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
+    fun `test handleExternal for command`() {
+        configureHomePath()
+        val element = getFirstPsiElementOfFileWithText("WinSet")
+        mockkStatic(BrowserUtil::class)
+        every { BrowserUtil.browse(any<String>()) } just Runs
+        val bool = AhkDocumentationProvider().handleExternal(element, element)
+        bool shouldBe true
+        verify {
+            BrowserUtil.browse("https://www.autohotkey.com/docs/commands/WinSet.htm")
+        }
+    }
+
+    @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test getUrlFor for variable`() {
         configureHomePath()
         val element = getFirstPsiElementOfFileWithText("A_LineNumber")
@@ -72,10 +99,31 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
     }
 
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
-    fun `test handleExternalLink`() {
+    fun `test handleExternalLink http`() {
+
+        mockkStatic(BrowserUtil::class)
+        every { BrowserUtil.browse(any<String>()) } just Runs
+
+        AhkDocumentationProvider().handleExternalLink(null, "http://test", null) shouldBe true
+
+        verify {
+            BrowserUtil.browse("http://test")
+        }
+    }
+
+    @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
+    fun `test handleExternalLink local`() {
+
+        mockkStatic(BrowserUtil::class)
+        every { BrowserUtil.browse(any<String>()) } just Runs
+
         AhkDocumentationProvider().let {
             it.handleExternalLink(null, "#test", null) shouldBe true
             it.handleExternalLink(null, "test", null) shouldBe true
+        }
+
+        verify(exactly = 0) {
+            BrowserUtil.browse(any<String>())
         }
     }
 
@@ -95,5 +143,13 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
         val element = getFirstPsiElementOfFileWithText("WinSet")
         val doc = AhkDocumentationProvider().fetchExternalDocumentation("WinTitle", element)
         doc shouldContain "<title>WinTitle &amp; Last Found Window | AutoHotkey</title>"
+    }
+
+    @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
+    fun `test fetchExternalDocumentation for wrong function`() {
+        configureHomePath()
+        val element = getFirstPsiElementOfFileWithText("Wrong")
+        val doc = AhkDocumentationProvider().fetchExternalDocumentation("Wrong", element)
+        doc shouldContain "Cannot find file in chm file for Wrong"
     }
 }
