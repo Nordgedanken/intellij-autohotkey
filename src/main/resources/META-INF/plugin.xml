@@ -5,6 +5,7 @@
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.github.b3er.idea.plugins.arc.browser</depends>
 
     <resource-bundle>localization.AhkBundle</resource-bundle>
 
@@ -48,6 +49,10 @@
 <!--        <lang.findUsagesProvider language="AutoHotKey"-->
 <!--        implementationClass="de.nordgedanken.auto_hotkey.ide.search.AHKFindUsagesProvider"/>-->
 <!--        <psi.referenceContributor implementation="de.nordgedanken.auto_hotkey.AHKReferenceContributor"/>-->
+
+        <lang.documentationProvider language="AutoHotkey"
+                                    implementationClass="de.nordgedanken.auto_hotkey.ide.documentation.AhkDocumentationProvider"/>
+
     </extensions>
 
     <actions>

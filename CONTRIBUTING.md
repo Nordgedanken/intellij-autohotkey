@@ -49,6 +49,7 @@ _All package listed in the table below are prefixed with `src\main\kotlin\de\nor
 | New Ahk File action in project tree context menu | `ide.actions.AhkCreateFileAction` |
 | Run button in editor gutter | `ide.linemarkers.AhkExecutableRunLineMarkerContributor` |
 | Notification when editor opened without Ahk runners set | `ide.notifications.MissingAhkSdkNotificationProvider` |
+| Documentation popup | `ide.documentation.AhkDocumentationProvider` |
 
 
 #### Execution-related Features

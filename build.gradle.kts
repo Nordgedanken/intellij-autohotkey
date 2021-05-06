@@ -48,6 +48,7 @@ dependencies {
 intellij {
     version = "2020.1"
     type = "PC"
+    setPlugins("com.github.b3er.idea.plugins.arc.browser:0.23")
 }
 
 val generateAhkLexer = task<GenerateLexer>("generateAhkLexer") {
