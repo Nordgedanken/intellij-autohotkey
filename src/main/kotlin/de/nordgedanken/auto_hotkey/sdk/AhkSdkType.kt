@@ -5,7 +5,13 @@ import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory.createSingleFolderDescriptor
 import com.intellij.openapi.project.ProjectBundle
-import com.intellij.openapi.projectRoots.*
+import com.intellij.openapi.projectRoots.AdditionalDataConfigurable
+import com.intellij.openapi.projectRoots.ProjectJdkTable
+import com.intellij.openapi.projectRoots.Sdk
+import com.intellij.openapi.projectRoots.SdkAdditionalData
+import com.intellij.openapi.projectRoots.SdkModel
+import com.intellij.openapi.projectRoots.SdkModificator
+import com.intellij.openapi.projectRoots.SdkType
 import com.intellij.openapi.projectRoots.impl.SdkConfigurationUtil
 import com.intellij.openapi.ui.SelectFromListDialog
 import com.intellij.openapi.vfs.VirtualFile
@@ -75,7 +81,8 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
                         AhkBundle.msg("ahksdktype.createsdk.error.nochmfound")
                     }
                     val listDialog = SelectFromListDialog(
-                        null, exeFilesInSelectedPath.toTypedArray(),
+                        null,
+                        exeFilesInSelectedPath.toTypedArray(),
                         { obj -> obj.toString() },
                         AhkBundle.msg("ahksdktype.createsdk.dialogexeselect.title"),
                         ListSelectionModel.SINGLE_SELECTION
@@ -150,14 +157,12 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
     fun showUiToCreateNewAhkSdk(): Sdk? {
         var newlyCreatedSdk: Sdk? = null
         val ahkFileChooser = homeChooserDescriptor
-        FileChooser.chooseFile(
-            ahkFileChooser, null, SdkConfigurationUtil.getSuggestedSdkRoot(this)
-        ) { chosenVirtualFile ->
+        FileChooser.chooseFile(ahkFileChooser, null, SdkConfigurationUtil.getSuggestedSdkRoot(this)) { chosenVFile ->
             val chosenExeName = ahkFileChooser.getUserData(AHK_EXE_NAME_KEY) as String
             val chosenExeVersion = ahkFileChooser.getUserData(AHK_EXE_VERSION_KEY) as String
             newlyCreatedSdk = SdkConfigurationUtil.createSdk(
                 ProjectJdkTable.getInstance().allJdks.asList(),
-                chosenVirtualFile,
+                chosenVFile,
                 this.getInstance(),
                 AhkSdkAdditionalData(chosenExeName),
                 generateAhkSdkNameBasedOn(chosenExeVersion)

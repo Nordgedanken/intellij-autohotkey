@@ -36,8 +36,9 @@ class AhkSdkToolbarPanel(val project: Project) : JPanel() {
                 val selectedSdk = sdkTableModel.getValueAt(selectedRowIndex, 0) as Sdk
                 SdkConfigurationUtil.removeSdk(selectedSdk)
                 sdkTableModel.removeSdkAtRow(selectedRowIndex)
-                if (sdkTableModel.sdks.size > 0)
+                if (sdkTableModel.sdks.size > 0) {
                     sdkTable.setSelectedRow(selectedRowIndex.coerceIn(0, sdkTableModel.sdks.size - 1))
+                }
             }
             setEditActionName(AhkBundle.msg("settings.ahksdktable.edit.buttonlabel"))
             setEditAction { sdkTable.editCellAt(sdkTable.selectedRow, 0) }

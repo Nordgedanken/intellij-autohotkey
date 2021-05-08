@@ -51,6 +51,11 @@ intellij {
     setPlugins("com.github.b3er.idea.plugins.arc.browser:0.23")
 }
 
+ktlint {
+    enableExperimentalRules.set(true)
+    disabledRules.set(setOf("experimental:package-name"))
+}
+
 val generateAhkLexer = task<GenerateLexer>("generateAhkLexer") {
     source = "src/main/kotlin/de/nordgedanken/auto_hotkey/lang/lexer/AutoHotkey.flex"
     targetDir = "src/main/gen/de/nordgedanken/auto_hotkey/"

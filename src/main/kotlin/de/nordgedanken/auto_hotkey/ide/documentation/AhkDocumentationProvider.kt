@@ -45,8 +45,9 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
             return null
         }
 
-        if (element.text.startsWith("A_"))
+        if (element.text.startsWith("A_")) {
             return "${element.project.defaultAhkSdk!!.ahkDocumentationUrl}/docs/Variables.htm#" + element.text.drop(2)
+        }
 
         val pathInChm = ChmArchiveUtil.getPathInChm(chm, element.text)
             ?: return null
@@ -64,8 +65,9 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
             return e.message
         }
 
-        if (element.text.startsWith("A_"))
+        if (element.text.startsWith("A_")) {
             return extractVariableText(chm, element.text)
+        }
 
         val pathInChm = ChmArchiveUtil.getPathInChm(chm, element.text)
             ?: return null
@@ -113,7 +115,6 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
         link != null && !link.startsWith("#") && !link.startsWith("http")
 
     override fun fetchExternalDocumentation(link: String, element: PsiElement?): String {
-
         element ?: return "Cannot fetch documentation"
 
         val chm = try {
