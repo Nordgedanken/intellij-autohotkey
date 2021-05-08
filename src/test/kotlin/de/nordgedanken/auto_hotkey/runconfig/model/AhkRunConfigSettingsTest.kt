@@ -5,8 +5,6 @@ import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.jdom.Element
-import org.jdom.output.Format
-import org.jdom.output.XMLOutputter
 import util.TestUtil.parseXmlFileToElement
 import util.toCompactXmlString
 

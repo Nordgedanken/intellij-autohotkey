@@ -25,4 +25,4 @@ fun Sdk.ahkExeName(): String {
 }
 
 val Sdk.ahkDocumentationUrl: String get() =
-    if (versionString!!.startsWith("1")) AHK_DOCUMENTATION_URL_V1 else AHK_DOCUMENTATION_URL_V2
+    if (versionString?.startsWith("1") != false) AHK_DOCUMENTATION_URL_V1 else AHK_DOCUMENTATION_URL_V2

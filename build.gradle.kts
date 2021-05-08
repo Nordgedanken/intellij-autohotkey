@@ -29,9 +29,6 @@ repositories {
 }
 
 dependencies {
-    implementation("com.google.flogger:flogger:0.5.1")
-    implementation("com.google.flogger:flogger-system-backend:0.5.1")
-
     testImplementation("io.kotest:kotest-runner-junit5-jvm:4.4.0")
     testImplementation("io.kotest:kotest-assertions-core:4.4.0")
     testImplementation("io.kotest:kotest-property:4.4.0")
@@ -156,6 +153,10 @@ tasks {
         val jacocoTestReport = jacocoTestReport.get()
         jacocoTestReport.mustRunAfter(test)
         jacocoTestCoverageVerification.get().mustRunAfter(jacocoTestReport)
+    }
+
+    runPluginVerifier {
+        ideVersions(properties("pluginVerifierIdeVersions"))
     }
 }
 
