@@ -8,12 +8,18 @@ import de.nordgedanken.auto_hotkey.sdk.getAhkSdks
 import de.nordgedanken.auto_hotkey.sdk.ui.AhkSdkCellEditor
 import de.nordgedanken.auto_hotkey.sdk.ui.AhkSdkTableCellRenderer
 import de.nordgedanken.auto_hotkey.util.AhkBundle
+import java.awt.event.MouseEvent
 import javax.swing.ListSelectionModel
 import javax.swing.table.AbstractTableModel
 
 private val sdkTableColumnNames = arrayOf(
     AhkBundle.msg("settings.ahksdktable.general.sdkcolumn.label"),
     AhkBundle.msg("settings.ahksdktable.general.defaultcolumn.label")
+)
+
+private val sdkTableColumnToolTips = arrayOf(
+    null,
+    AhkBundle.msg("settings.ahksdktable.general.defaultcolumn.tooltip")
 )
 
 /**
@@ -45,6 +51,10 @@ class AhkSdkManagementTable(
                 maxWidth = 15 + tableHeader.getFontMetrics(tableHeader.font).stringWidth(model.getColumnName(1))
             }
         }
+    }
+
+    override fun createDefaultTableHeader() = object : JBTableHeader() {
+        override fun getToolTipText(event: MouseEvent) = sdkTableColumnToolTips[columnAtPoint(event.point)]
     }
 }
 

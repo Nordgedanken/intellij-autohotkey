@@ -18,14 +18,14 @@ import io.mockk.just
 import io.mockk.mockkStatic
 import io.mockk.verify
 import org.junit.jupiter.api.Test
+import util.TestUtil
 
 class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
-    override fun getTestDataPath(): String = AhkTestCase.testResourcesPath
+    override fun getTestDataPath(): String = "${AhkTestCase.testResourcesPath}/${TestUtil.packagePath()}"
 
     private fun configureHomePath() {
-        (project.defaultAhkSdk as ProjectJdkImpl).homePath =
-            "$testDataPath/de/nordgedanken/auto_hotkey/documentation/"
+        (project.defaultAhkSdk as ProjectJdkImpl).homePath = "$testDataPath/"
     }
 
     private fun getFirstPsiElementOfFileWithText(text: String): PsiElement? {
@@ -100,7 +100,6 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test handleExternalLink http`() {
-
         mockkStatic(BrowserUtil::class)
         every { BrowserUtil.browse(any<String>()) } just Runs
 
@@ -113,7 +112,6 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test handleExternalLink local`() {
-
         mockkStatic(BrowserUtil::class)
         every { BrowserUtil.browse(any<String>()) } just Runs
 

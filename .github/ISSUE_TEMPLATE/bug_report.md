@@ -1,10 +1,8 @@
 ---
-name: Bug report
+name: Bug Report
 about: Create a report to help us improve
-title: "[BUG]"
+title: "[BUG] <write-bug-summary-here>"
 labels: bug
-assignees: MTRNord
-
 ---
 
 **Describe the bug**

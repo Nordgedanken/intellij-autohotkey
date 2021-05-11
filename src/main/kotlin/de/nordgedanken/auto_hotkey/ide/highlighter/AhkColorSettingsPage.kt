@@ -12,7 +12,7 @@ class AhkColorSettingsPage : ColorSettingsPage {
     private val ANNOTATOR_TAGS = AhkHighlighterColor.values().associateBy({ it.name }, { it.textAttributesKey })
     private val DEMO_TEXT by lazy {
         val stream = javaClass.getResourceAsStream("demo_text_for_color_settings_page.ahk")!!
-        StreamUtil.convertSeparators(StreamUtil.readText(stream, "UTF-8"))
+        String(StreamUtil.readTextAndConvertSeparators(stream.reader()))
     }
 
     override fun getDisplayName() = AhkConstants.LANGUAGE_NAME

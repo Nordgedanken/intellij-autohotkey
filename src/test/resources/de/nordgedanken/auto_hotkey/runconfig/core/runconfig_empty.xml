@@ -1,0 +1,8 @@
+<configuration>
+    <option name="runner" value="" />
+    <option name="pathToScript" value="" />
+    <option name="arguments" value="" />
+    <switches>
+        <switch name="/ErrorStdOut" enabled="true" />
+    </switches>
+</configuration>

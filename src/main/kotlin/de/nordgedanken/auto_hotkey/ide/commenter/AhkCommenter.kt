@@ -3,7 +3,9 @@ package de.nordgedanken.auto_hotkey.ide.commenter
 import com.intellij.codeInsight.generation.CommenterDataHolder
 import com.intellij.codeInsight.generation.IndentedCommenter
 import com.intellij.codeInsight.generation.SelfManagingCommenter
-import com.intellij.codeInsight.generation.SelfManagingCommenterUtil
+import com.intellij.codeInsight.generation.SelfManagingCommenterUtil.getBlockCommentRange
+import com.intellij.codeInsight.generation.SelfManagingCommenterUtil.insertBlockComment
+import com.intellij.codeInsight.generation.SelfManagingCommenterUtil.uncommentBlockComment
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiFile
@@ -64,9 +66,7 @@ class AhkCommenter : IndentedCommenter, SelfManagingCommenter<AhkCommentHolder> 
         selectionEnd: Int,
         document: Document,
         data: AhkCommentHolder
-    ) = SelfManagingCommenterUtil.getBlockCommentRange(
-        selectionStart, selectionEnd, document, blockCommentPrefix, blockCommentSuffix
-    )
+    ) = getBlockCommentRange(selectionStart, selectionEnd, document, blockCommentPrefix, blockCommentSuffix)
 
     override fun getBlockCommentPrefix(selectionStart: Int, document: Document, data: AhkCommentHolder): String =
         blockCommentPrefix
@@ -75,9 +75,7 @@ class AhkCommenter : IndentedCommenter, SelfManagingCommenter<AhkCommentHolder> 
         blockCommentSuffix
 
     override fun uncommentBlockComment(startOffset: Int, endOffset: Int, document: Document, data: AhkCommentHolder?) {
-        SelfManagingCommenterUtil.uncommentBlockComment(
-            startOffset, endOffset, document, blockCommentPrefix, blockCommentSuffix
-        )
+        uncommentBlockComment(startOffset, endOffset, document, blockCommentPrefix, blockCommentSuffix)
     }
 
     /**
@@ -96,17 +94,13 @@ class AhkCommenter : IndentedCommenter, SelfManagingCommenter<AhkCommentHolder> 
         data: AhkCommentHolder?
     ): TextRange {
         val selectionStartLineNum = document.getLineNumber(startOffset)
-        val selStartLineStartOffset = document.getLineStartOffset(selectionStartLineNum)
+        val selLineStartOffset = document.getLineStartOffset(selectionStartLineNum)
         val selectionEndLineNum = document.getLineNumber(endOffset)
-        val selEndLineEndOffset = document.getLineEndOffset(selectionEndLineNum)
-        return if (data?.isToggledFromSelection == true)
-            SelfManagingCommenterUtil.insertBlockComment(
-                selStartLineStartOffset, selEndLineEndOffset, document, blockCommentPrefix, blockCommentSuffix
-            )
-        else {
-            SelfManagingCommenterUtil.insertBlockComment(
-                selStartLineStartOffset, selEndLineEndOffset, document, blockCommentPrefix, blockCommentSuffix
-            )
+        val selLineEndOffset = document.getLineEndOffset(selectionEndLineNum)
+        return if (data?.isToggledFromSelection == true) {
+            insertBlockComment(selLineStartOffset, selLineEndOffset, document, blockCommentPrefix, blockCommentSuffix)
+        } else {
+            insertBlockComment(selLineStartOffset, selLineEndOffset, document, blockCommentPrefix, blockCommentSuffix)
             return TextRange(0, 0)
         }
     }

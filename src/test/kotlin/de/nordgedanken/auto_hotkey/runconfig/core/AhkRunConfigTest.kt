@@ -53,6 +53,18 @@ class AhkRunConfigTest : AhkBasePlatformTestCase() {
         ahkRunConfig.configurationEditor.shouldBeInstanceOf<AhkRunConfigSettingsEditor>()
     }
 
+    fun `test getSuggestedName`() {
+        val ahkRunConfig = generateEmptyAhkRunconfig()
+        ahkRunConfig.runConfigSettings.pathToScript = """C:\test\test.ahk"""
+        ahkRunConfig.suggestedName() shouldBe "Run test.ahk"
+    }
+
+    fun `test readExternal`() {
+        val actualConfigElement = TestUtil.parseXmlFileToElement("runconfig_empty")
+        val actualConfig = generateEmptyAhkRunconfig().apply { readExternal(actualConfigElement) }
+        actualConfig.runConfigSettings shouldBe generateEmptyAhkRunconfig().runConfigSettings
+    }
+
     private fun generateEmptyAhkRunconfig(): AhkRunConfig {
         val factory = AhkRunConfigType.getInstance().factory
         val templateConfig = RunManager.getInstance(project).getConfigurationTemplate(factory).configuration

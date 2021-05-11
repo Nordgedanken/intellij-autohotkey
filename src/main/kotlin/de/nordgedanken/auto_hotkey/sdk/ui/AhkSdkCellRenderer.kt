@@ -4,6 +4,7 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.ui.SimpleColoredComponent
 import com.intellij.ui.SimpleTextAttributes
+import de.nordgedanken.auto_hotkey.sdk.ahkExeName
 import de.nordgedanken.auto_hotkey.sdk.isAhkSdk
 import de.nordgedanken.auto_hotkey.util.AhkBundle
 import de.nordgedanken.auto_hotkey.util.AhkIcons
@@ -58,5 +59,5 @@ fun SimpleColoredComponent.renderGivenSdk(value: Any?, isProjectSdk: Boolean = f
 private fun SimpleColoredComponent.renderSdkDetails(sdk: Sdk) = run {
     append(sdk.name)
     append(" (${sdk.versionString})", SimpleTextAttributes.GRAY_ATTRIBUTES)
-    append(" <${sdk.homePath}>", SimpleTextAttributes.GRAYED_SMALL_ATTRIBUTES)
+    append(" <${sdk.homePath}/${sdk.ahkExeName()}>", SimpleTextAttributes.GRAYED_SMALL_ATTRIBUTES)
 }

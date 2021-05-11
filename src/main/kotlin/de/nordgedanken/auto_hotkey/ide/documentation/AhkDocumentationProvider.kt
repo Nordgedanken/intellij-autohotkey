@@ -10,6 +10,8 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import de.nordgedanken.auto_hotkey.lang.psi.AhkTokenType
+import de.nordgedanken.auto_hotkey.project.settings.defaultAhkSdk
+import de.nordgedanken.auto_hotkey.sdk.ahkDocumentationUrl
 
 /**
  * Provides commands/directives documentation by extracting them from the
@@ -24,6 +26,11 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
         targetOffset: Int
     ): PsiElement? = contextElement
 
+    /**
+     * Note: External reference links will not show at the bottom of the documentation popup for the simple "quick docs"
+     * that appear on mouse hover. You must intentionally execute the View->Quick Documentation action to generate the
+     * external reference URL.
+     */
     override fun getUrlFor(element: PsiElement?, originalElement: PsiElement?): MutableList<String>? {
         val url = generateAhkDocumentationReferenceUrlFor(element) ?: return null
         return mutableListOf(url)
@@ -38,13 +45,14 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
             return null
         }
 
-        if (element.text.startsWith("A_"))
-            return "https://www.autohotkey.com/docs/Variables.htm#" + element.text.drop(2)
+        if (element.text.startsWith("A_")) {
+            return "${element.project.defaultAhkSdk!!.ahkDocumentationUrl}/docs/Variables.htm#" + element.text.drop(2)
+        }
 
         val pathInChm = ChmArchiveUtil.getPathInChm(chm, element.text)
             ?: return null
 
-        return "https://www.autohotkey.com/$pathInChm"
+        return "${element.project.defaultAhkSdk!!.ahkDocumentationUrl}/$pathInChm"
     }
 
     override fun generateDoc(element: PsiElement?, originalElement: PsiElement?): String? {
@@ -57,8 +65,9 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
             return e.message
         }
 
-        if (element.text.startsWith("A_"))
+        if (element.text.startsWith("A_")) {
             return extractVariableText(chm, element.text)
+        }
 
         val pathInChm = ChmArchiveUtil.getPathInChm(chm, element.text)
             ?: return null
@@ -106,7 +115,6 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
         link != null && !link.startsWith("#") && !link.startsWith("http")
 
     override fun fetchExternalDocumentation(link: String, element: PsiElement?): String {
-
         element ?: return "Cannot fetch documentation"
 
         val chm = try {

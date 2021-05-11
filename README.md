@@ -52,8 +52,8 @@
 <!-- Plugin description -->
 A simple plugin for developing AutoHotkey scripts. The following features are available:
 
-- Syntax highlighting (under construction; no error checking available currently)
-- Run configurations
+- Syntax highlighting (under construction; v1 only; no error checking available currently)
+- Run configurations (v1 and v2)
 - Quick documentation
 - More to come in the future... 
   
@@ -105,7 +105,7 @@ See the [open issues](https://github.com/Nordgedanken/intellij-autohotkey/issues
 
 <!-- CONTRIBUTING -->
 ## Contributing
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**, but please read [CONTRIBUTING.md](CONTRIBUTING.md) before starting any work.
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated, **but please read [CONTRIBUTING.md](CONTRIBUTING.md) before starting any work**.
 
 
 

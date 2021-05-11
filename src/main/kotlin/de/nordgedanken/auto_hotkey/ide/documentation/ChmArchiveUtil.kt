@@ -46,8 +46,9 @@ object ChmArchiveUtil {
             for (fileName in files) {
                 if (fileName.equals("$approximateTitle.htm", true) ||
                     fileName.equals("_$approximateTitle.htm", true)
-                )
+                ) {
                     return "$path/$fileName"
+                }
             }
         }
         return null
