@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+
+## [0.8.0] - 2021-05-10
+#### (compatibility: 2020.1 - 2021.1.*)
+### Added
 - Documentation popup (View->Quick Documentation) for built-in commands and variables.
 - AutoHotkey v2 sdks are now supported
 - Can select a specific exe file to use for a particular Ahk sdk while creating it
