@@ -4,8 +4,8 @@ import com.intellij.execution.lineMarker.ExecutorAction
 import com.intellij.execution.lineMarker.RunLineMarkerContributor
 import com.intellij.icons.AllIcons
 import com.intellij.psi.PsiElement
+import com.intellij.psi.util.descendantsOfType
 import com.intellij.psi.util.elementType
-import com.intellij.psi.util.findDescendantOfType
 import com.intellij.refactoring.suggested.startOffset
 import de.nordgedanken.auto_hotkey.lang.psi.AhkLine
 import de.nordgedanken.auto_hotkey.lang.psi.COMMENT_TOKENS
@@ -17,7 +17,7 @@ import de.nordgedanken.auto_hotkey.lang.psi.isLeaf
 class AhkExecutableRunLineMarkerContributor : RunLineMarkerContributor() {
     override fun getInfo(element: PsiElement): Info? {
         if (!element.isLeaf() || element.elementType in COMMENT_TOKENS) return null
-        val firstElem = element.containingFile.findDescendantOfType<AhkLine>()
+        val firstElem = element.containingFile.descendantsOfType<AhkLine>().firstOrNull()
         if (element.startOffset != firstElem?.originalElement?.startOffset) return null
 
         val actions = ExecutorAction.getActions(0)

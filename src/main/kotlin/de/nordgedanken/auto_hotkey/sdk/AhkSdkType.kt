@@ -146,7 +146,7 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
         sdkModel: SdkModel,
         parentComponent: JComponent,
         selectedSdk: Sdk?,
-        sdkCreatedCallback: Consumer<Sdk>
+        sdkCreatedCallback: Consumer<in Sdk>
     ) {
         val newSdk = showUiToCreateNewAhkSdk()
         if (newSdk != null) {

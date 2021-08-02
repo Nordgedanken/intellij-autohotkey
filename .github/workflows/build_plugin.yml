@@ -12,7 +12,7 @@ jobs:
 
     # Validate wrapper
     - name: Gradle Wrapper Validation
-      uses: gradle/wrapper-validation-action@v1.0.3
+      uses: gradle/wrapper-validation-action@v1
 
   # Run verifyPlugin and test Gradle tasks
   test:
@@ -118,6 +118,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout "ide-versions" File for the Verifier Action to Use
+      uses: actions/checkout@v2
 
     # Download plugin artifact provided by the previous job.
     # This will auto-extract zip contents into the current directory
@@ -125,9 +127,6 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: plugin-artifact
-
-    - name: Checkout "ide-versions" File for the Verifier Action to Use
-      uses: actions/checkout@v2
 
     # Run IntelliJ Plugin Verifier action using GitHub Action
     - name: Verify Plugin Compatibility
