@@ -1,4 +1,4 @@
-ideaIC:2020.1
+ideaIC:2021.2
 ideaIC:LATEST-EAP-SNAPSHOT
-pycharmPC:2020.1
+pycharmPC:2021.2
 pycharmPC:LATEST-EAP-SNAPSHOT

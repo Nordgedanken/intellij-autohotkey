@@ -10,9 +10,9 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     idea
-    id("org.jetbrains.intellij") version "0.7.2"
-    id("org.jetbrains.grammarkit") version "2021.1.1"
-    kotlin("jvm") version "1.4.32"
+    id("org.jetbrains.intellij") version "1.1.4"
+    id("org.jetbrains.grammarkit") version "2021.1.3"
+    kotlin("jvm") version "1.5.21"
     jacoco
     id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
     id("org.barfuin.gradle.jacocolog") version "1.2.4" // show coverage in console
@@ -43,9 +43,9 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version = "2020.1"
-    type = "PC"
-    setPlugins("com.github.b3er.idea.plugins.arc.browser:0.23")
+    version.set("2021.2")
+    type.set("PC")
+    plugins.set(listOf("com.github.b3er.idea.plugins.arc.browser:0.23"))
 }
 
 ktlint {
@@ -65,7 +65,7 @@ val generateAhkParser = task<GenerateParser>("generateAhkParser") {
     targetRoot = "src/main/gen"
     pathToParser = "de/nordgedanken/auto_hotkey/lang/parser/AhkParser.java"
     pathToPsiRoot = "de/nordgedanken/auto_hotkey/lang/psi"
-    purgeOldFiles = true
+    purgeOldFiles = false
 }
 
 changelog {
@@ -87,35 +87,33 @@ tasks {
     }
 
     patchPluginXml {
-        changeNotes(
-            closure {
+        changeNotes.set(
+            provider {
                 changelog.get(changelog.version).withHeader(true).toHTML() +
                     """Please see <a href=
                         |"https://github.com/Nordgedanken/intellij-autohotkey/blob/master/CHANGELOG.md"
                         |>CHANGELOG.md</a> for a full list of changes.""".trimMargin()
             }
         )
-        pluginDescription(
-            closure {
-                File("$rootDir/README.md").readText().lines().run {
-                    val start = "<!-- Plugin description -->"
-                    val end = "<!-- Plugin description end -->"
-                    if (!containsAll(listOf(start, end))) {
-                        throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
-                    }
-                    subList(indexOf(start) + 1, indexOf(end))
-                }.joinToString("\n").run { markdownToHTML(this) }
-            }
+        pluginDescription.set(
+            File("$rootDir/README.md").readText().lines().run {
+                val start = "<!-- Plugin description -->"
+                val end = "<!-- Plugin description end -->"
+                if (!containsAll(listOf(start, end))) {
+                    throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
+                }
+                subList(indexOf(start) + 1, indexOf(end))
+            }.joinToString("\n").run { markdownToHTML(this) }
         )
-        version(changelog.version)
-        sinceBuild(properties("pluginSinceBuild"))
-        untilBuild(properties("pluginUntilBuild"))
+        version.set(changelog.version)
+        sinceBuild.set(properties("pluginSinceBuild"))
+        untilBuild.set(properties("pluginUntilBuild"))
     }
 
     val intellijPublishToken: String? by project
     publishPlugin {
         if (intellijPublishToken != null) {
-            token(intellijPublishToken)
+            token.set(intellijPublishToken)
         }
     }
 
@@ -156,7 +154,7 @@ tasks {
     }
 
     runPluginVerifier {
-        ideVersions(properties("pluginVerifierIdeVersions"))
+        ideVersions.set(properties("pluginVerifierIdeVersions").split(',').map(String::trim).filter(String::isNotEmpty))
     }
 }
 

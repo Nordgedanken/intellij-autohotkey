@@ -106,7 +106,7 @@ class AhkCommenter : IndentedCommenter, SelfManagingCommenter<AhkCommentHolder> 
     }
 
     override fun forceIndentedLineComment() = false
-    override fun forceIndentedBlockComment() = true
+    override fun forceIndentedBlockComment() = false
 }
 
 /**
