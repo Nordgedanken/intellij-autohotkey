@@ -56,15 +56,44 @@ A simple plugin for developing AutoHotkey scripts. The following features are av
 - Run configurations (v1 and v2)
 - Quick documentation
 - More to come in the future... 
-  
+
+Check out the <a href="https://github.com/Nordgedanken/intellij-autohotkey#usage">README</a> on the plugin's GitHub page for more information on using this plugin.
+
+<p><i>Note: This plugin is under development and does not have a stable release yet. Please report any issues to the plugin's <a href="https://github.com/Nordgedanken/intellij-autohotkey/issues">GitHub page</a>.</i></p>
+
+<hr>
 Dependencies:
 
 - Archive Browser plugin (for documentation assistance)
 
-<p><i>Note: This plugin is under development and does not have a stable release yet. Please report any issues to the plugin's <a href="https://github.com/Nordgedanken/intellij-autohotkey/issues">GitHub page</a>.</i></p>
 <!-- Plugin description end -->
 
 <!-- [![Plugin Screenshot][product-screenshot]](https://plugins.jetbrains.com/plugin/13945-autohotkey-language) -->
+
+<!-- USAGE EXAMPLES
+Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space.
+-->
+## Usage
+Install the plugin from the [JetBrains Marketplace][jetbrains-marketplace-plugin-page]. The following features will become enabled:
+
+- **AutoHotkey File Recognition**  
+  ![Ahk file with normal icon](assets/demo_ahk_file_recognition.png)
+- **Syntax Highlighting** (under construction; not complete yet)  
+  ![Demo script with syntax highlighting](assets/demo_syntax_highlighting.png)
+- **Run Configurations**  
+  Allows you to run AutoHotkey scripts right in your IDE at the click of a button (or shortcut). Errors are logged straight to the console for easy debugging. Custom script arguments can be defined within the run configuration's settings.
+  ![Sample Ahk run config UI](assets/demo_run_config_ui.png)  
+  > Note: Run configurations can be auto-generated and executed by clicking the green triangle in the gutter as seen next to Line 1 in the "Quick Documentation" screenshot.
+- **AutoHotkey Settings Page**  
+  Custom page that allows you to manage AutoHotkey executables on your machine and swap between them easily in run configurations. 
+  ![Ahk settings page UI](assets/demo_ahk_settings_page.png)
+- **Quick Documentation**  
+  ![Documentation popup for MsgBox function](assets/demo_quick_documentation.png)
+  > Note: The hyperlink shown at the bottom of the documentation popup will link to either the v1 or v2 documentation based on which executable you selected as the default in the AutoHotkey settings page.
+- **Line/Block Commenting**  
+  Comments are toggled by selecting the comment action within the "Code" menu
+
+
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -88,14 +117,6 @@ git clone https://github.com/Nordgedanken/intellij-autohotkey.git
 3. Run the `"Run Plugin in test IDE"` run configuration
 
 
-<!-- USAGE EXAMPLES
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
--->
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -145,3 +166,5 @@ Project Link: [https://github.com/Nordgedanken/intellij-autohotkey](https://gith
 [license-shield]: https://img.shields.io/github/license/Nordgedanken/intellij-autohotkey.svg?style=flat-square
 [license-url]: https://github.com/Nordgedanken/intellij-autohotkey/blob/master/LICENSE
 [product-screenshot]: images/screenshot.png
+
+[jetbrains-marketplace-plugin-page]: https://plugins.jetbrains.com/plugin/13945-autohotkey/
