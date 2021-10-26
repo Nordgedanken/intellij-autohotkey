@@ -62,6 +62,17 @@ jobs:
     - name: Run KtLinter
       run: ./gradlew ktlintCheck
 
+    # Run Qodana code inspections
+    - name: Run Qodana Code Inspection
+      uses: JetBrains/qodana-action@v3.2.1
+
+    # Collect Qodana Result
+    - name: Collect Qodana Result
+      uses: actions/upload-artifact@v2
+      with:
+        name: qodana-result
+        path: ${{ github.workspace }}/qodana
+
     # Run test Gradle task
     - name: Run Tests
       run: ./gradlew test

@@ -1,4 +1,3 @@
-import org.jetbrains.changelog.closure
 import org.jetbrains.changelog.date
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.grammarkit.tasks.GenerateLexer
@@ -10,13 +9,14 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     idea
-    id("org.jetbrains.intellij") version "1.1.4"
-    id("org.jetbrains.grammarkit") version "2021.1.3"
-    kotlin("jvm") version "1.5.30"
+    id("org.jetbrains.intellij") version "1.3.+"
+    id("org.jetbrains.grammarkit") version "2021.1.+"
+    kotlin("jvm") version "1.6.+"
     jacoco
-    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
-    id("org.barfuin.gradle.jacocolog") version "1.2.4" // show coverage in console
-    id("org.jetbrains.changelog") version "1.1.2"
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.+"
+    id("org.barfuin.gradle.jacocolog") version "1.2.+" // show coverage in console
+    id("org.jetbrains.changelog") version "1.3.+"
+    id("org.jetbrains.qodana") version "0.1.+"
 }
 
 group = "de.nordgedanken"
@@ -29,11 +29,11 @@ repositories {
 }
 
 dependencies {
-    testImplementation("io.kotest:kotest-runner-junit5-jvm:4.4.0")
-    testImplementation("io.kotest:kotest-assertions-core:4.4.0")
-    testImplementation("io.kotest:kotest-property:4.4.0")
-    testImplementation("io.mockk:mockk:1.10.6")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.7.0") {
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:4.+")
+    testImplementation("io.kotest:kotest-assertions-core:4.+")
+    testImplementation("io.kotest:kotest-property:4.+")
+    testImplementation("io.mockk:mockk:1.+")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.+") {
         because(
             "this is needed to run parsing/lexing tests which extend " +
                 "intellij base classes that use junit4"
@@ -53,6 +53,19 @@ ktlint {
     disabledRules.set(setOf("experimental:package-name"))
 }
 
+changelog {
+    version.set(properties("pluginVersion"))
+    header.set(provider { "[${version.get()}] - ${date()}" })
+    groups.set(listOf("Added"))
+}
+
+qodana {
+    cachePath.set(projectDir.resolve(".qodana").canonicalPath)
+    reportPath.set(projectDir.resolve("build/reports/inspections").canonicalPath)
+    saveReport.set(true)
+    showReport.set(System.getenv("QODANA_SHOW_REPORT")?.toBoolean() ?: false)
+}
+
 val generateAhkLexer = task<GenerateLexer>("generateAhkLexer") {
     source = "src/main/kotlin/de/nordgedanken/auto_hotkey/lang/lexer/AutoHotkey.flex"
     targetDir = "src/main/gen/de/nordgedanken/auto_hotkey/"
@@ -68,28 +81,21 @@ val generateAhkParser = task<GenerateParser>("generateAhkParser") {
     purgeOldFiles = false
 }
 
-changelog {
-    version = properties("pluginVersion")
-    header = closure { "[$version] - ${date()}" }
-    groups = listOf("Added")
-}
-
 tasks {
-    // Set the compatibility versions to 1.8
     withType<JavaCompile> {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
+        sourceCompatibility = "11"
+        targetCompatibility = "11"
     }
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "11"
         dependsOn(generateAhkLexer, generateAhkParser)
     }
 
     patchPluginXml {
         changeNotes.set(
             provider {
-                changelog.get(changelog.version).withHeader(true).toHTML() +
+                changelog.get(changelog.version.get()).withHeader(true).toHTML() +
                     """Please see <a href=
                         |"https://github.com/Nordgedanken/intellij-autohotkey/blob/master/CHANGELOG.md"
                         |>CHANGELOG.md</a> for a full list of changes.""".trimMargin()
