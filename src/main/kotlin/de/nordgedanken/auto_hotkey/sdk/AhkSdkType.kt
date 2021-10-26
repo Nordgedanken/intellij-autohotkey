@@ -25,6 +25,7 @@ import org.jdom.Element
 import java.io.File
 import java.nio.file.FileVisitOption
 import java.nio.file.Files
+import java.nio.file.Files.createTempFile
 import java.nio.file.Paths
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.swing.Icon
@@ -46,7 +47,7 @@ const val AHK_DOCUMENTATION_URL_V2 = "https://lexikos.github.io/v2"
 object AhkSdkType : SdkType("AutoHotkeySDK") {
     private val AHK_EXE_NAME_KEY = DataKey.create<String>("chosenAhkExeName")
     private val AHK_EXE_VERSION_KEY = DataKey.create<String>("chosenAhkExeVersion")
-    private val versionPrefixRegex = Regex("""\d+\.\d+""")
+    private val versionPrefixRegex = Regex("""^\d+\.\d+[.-]\p{Alpha}?\d+""")
 
     /**
      * WARNING! You MUST call this method if any method in the JetBrains platform API requires an SdkType. Do NOT pass
@@ -72,7 +73,7 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
                     val exeFilesInSelectedPath = Files.walk(Paths.get(selectedPath), 1, FileVisitOption.FOLLOW_LINKS)
                         .filter { it.isFile() }
                         .map { it.fileName.toString() }
-                        .filter { it.toLowerCase().endsWith(".exe") }
+                        .filter { it.lowercase().endsWith(".exe") }
                         .toList()
                     check(exeFilesInSelectedPath.isNotEmpty()) {
                         AhkBundle.msg("ahksdktype.createsdk.error.noexefound")
@@ -172,7 +173,8 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
     }
 
     /**
-     * Builds the sdk name as "AutoHotkey v<major>.<minor>"
+     * Builds the sdk name as "AutoHotkey v<major>.<minor>[.-]<patch>" based on the version string obtained from the
+     * executable
      */
     private fun generateAhkSdkNameBasedOn(ahkExeVersion: String): String {
         return "${AhkConstants.LANGUAGE_NAME} v${versionPrefixRegex.find(ahkExeVersion)?.value}"
@@ -186,7 +188,7 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
      */
     private fun determineAhkVersionString(fullPathToAhkExec: String): String? {
         val ahkExePath = File(fullPathToAhkExec).absolutePath
-        createTempFile().apply {
+        createTempFile("", "").toFile().apply {
             writeText(GET_AHK_VERSION_V1)
             deleteOnExit()
         }.runCatching {
