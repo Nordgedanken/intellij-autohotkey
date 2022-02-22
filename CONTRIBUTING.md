@@ -1,6 +1,6 @@
 # Contributing to the IntelliJ AutoHotkey Plugin
 
-First of all, thanks for taking the time to contribute! This entire plugin is built from open-source code with the efforts of developers like you who want to make better software for the benefit of everyone (in their spare time, no less!)
+First, thanks for taking the time to contribute! This entire plugin is built from open-source code with the efforts of developers like you who want to make better software for the benefit of everyone (in their spare time, no less!)
 
 ## Table of Contents
 [Code of Conduct](#code-of-conduct)
@@ -23,7 +23,7 @@ First of all, thanks for taking the time to contribute! This entire plugin is bu
 * [Documentation Styleguide](#documentation-styleguide)
 
 ## Code of Conduct
-This project and everyone participating in it is governed by the [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior by posting an issue to the repo.
+This project and all its participants are governed by the [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior by posting an issue to the repo.
 
 ## I don't want to read this whole thing I just have a question!!!
 Please check the [issues](https://github.com/Nordgedanken/intellij-autohotkey/issues) and [discussions](https://github.com/Nordgedanken/intellij-autohotkey/discussions) to see whether your question has already been answered. If not, please open a new discussion if you have a simple question, or raise a new issue if you're having a problem.
@@ -32,38 +32,39 @@ Please check the [issues](https://github.com/Nordgedanken/intellij-autohotkey/is
 ### Plugin Feature Locations
 The package structure has been designed to separate each plugin feature into its own package.
 
-_All package listed in the table below are prefixed with `src\main\kotlin\de\nordgedanken\auto_hotkey`._
+_All packages listed below are prefixed with `src\main\kotlin\de\nordgedanken\auto_hotkey`_
 
 #### Language-related Features
-| Feature | Location |
-| ------- | -------- |
-| Ahk token lexer (parses text to see if it's a comment, linefeed, etc) | `lang.lexer.AutoHotkey.flex` |
-| Ahk grammar parser (takes tokens from lexer and groups them into elements. Eg `'#' + word = directive`) | `lang.parser.AutoHotkey.bnf` |
-| Syntax Highlighting - simple (requires token lexer) | `ide.highlighter.AhkSyntaxHighlighter` |
-| Syntax Highlighting - advanced (requires parser) | `ide.highlighter.AhkHighlightAnnotator` |
+| Feature                                                                             | Location                                |
+|-------------------------------------------------------------------------------------|-----------------------------------------|
+| Ahk token lexer (parses text to see if it's a comment, linefeed, etc)               | `lang.lexer.AutoHotkey.flex`            |
+| Ahk grammar parser (groups lexer tokens into elements. Eg `'#' + word = directive`) | `lang.parser.AutoHotkey.bnf`            |
+| Syntax Highlighting - simple (requires token lexer)                                 | `ide.highlighter.AhkSyntaxHighlighter`  |
+| Syntax Highlighting - advanced (requires parser)                                    | `ide.highlighter.AhkHighlightAnnotator` |
 
 #### IDE Actions-related Features
-| Feature | Location |
-| ------- | -------- |
-| Line/Block Commenter via shortcut | `ide.commenter.AhkCommenter` |
-| New Ahk File action in project tree context menu | `ide.actions.AhkCreateFileAction` |
-| Run button in editor gutter | `ide.linemarkers.AhkExecutableRunLineMarkerContributor` |
-| Notification when editor opened without Ahk runners set | `ide.notifications.MissingAhkSdkNotificationProvider` |
-| Quick Documentation popup | `ide.documentation.AhkDocumentationProvider` |
+| Feature                                                 | Location                                                |
+|---------------------------------------------------------|---------------------------------------------------------|
+| Line/Block commenting via shortcut                      | `ide.commenter.AhkCommenter`                            |
+| New Ahk File action in project tree context menu        | `ide.actions.AhkCreateFileAction`                       |
+| Compile to exe action in project tree context menu      | `ide.actions.AhkCompileToExeAction`                     |
+| Run button in editor gutter                             | `ide.linemarkers.AhkExecutableRunLineMarkerContributor` |
+| Notification when editor opened without Ahk runners set | `ide.notifications.MissingAhkSdkNotificationProvider`   |
+| Quick Documentation popup                               | `ide.documentation.AhkDocumentationProvider`            |
 
 
 #### Execution-related Features
-| Feature | Location |
-| ------- | -------- |
-| Run configuration definition | `runconfig.core.AhkRunConfig` |
-| Run configuration producer for context menu (shows a run option when right-clicking an Ahk file in the context menu | `runconfig.producer.AhkRunConfigProducer` |
-| Run configuration UI | `runconfig.ui.AhkRunConfigSettingsEditor` |
-| Ahk runner definition | `sdk.AhkSdkType` |
-| Ahk runner renderer (for UI elements where you display a runner) | `sdk.ui.*` |
+| Feature                                                                       | Location                                  |
+|-------------------------------------------------------------------------------|-------------------------------------------|
+| Run configuration definition                                                  | `runconfig.core.AhkRunConfig`             |
+| Run configuration producer (shows run option when right-clicking an Ahk file) | `runconfig.producer.AhkRunConfigProducer` |
+| Run configuration UI                                                          | `runconfig.ui.AhkRunConfigSettingsEditor` |
+| Ahk runner definition                                                         | `sdk.AhkSdkType`                          |
+| Ahk runner renderer (for UI elements where you display a runner)              | `sdk.ui.*`                                |
 
 #### Miscellaneous Features
-| Feature | Location |
-| ------- | -------- |
+| Feature              | Location                                      |
+|----------------------|-----------------------------------------------|
 | Ahk project settings | `project.configurable.AhkProjectConfigurable` |
 
 
@@ -93,7 +94,7 @@ To contribute:
 
 #### Code requirements: 
 - All classes must have documentation
-- New code must have tests written such that the code coverage does not fall below a certain threshold.
+- New code must have tests written such that the code coverage does not fall below the configured threshold.
 - The changelog must be updated
 - This contributing file must be updated if a new feature or extension point is added
 

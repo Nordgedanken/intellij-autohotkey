@@ -55,6 +55,7 @@ A simple plugin for developing AutoHotkey scripts. The following features are av
 - Syntax highlighting (under construction; v1 only; no error checking available currently)
 - Run configurations (v1 and v2)
 - Quick documentation
+- Compile to exe (file right-click option)
 - More to come in the future... 
 
 Check out the <a href="https://github.com/Nordgedanken/intellij-autohotkey#usage">README</a> on the plugin's GitHub page for more information on using this plugin.
@@ -92,6 +93,8 @@ Install the plugin from the [JetBrains Marketplace][jetbrains-marketplace-plugin
   > Note: The hyperlink shown at the bottom of the documentation popup will link to either the v1 or v2 documentation based on which executable you selected as the default in the AutoHotkey settings page.
 - **Line/Block Commenting**  
   Comments are toggled by selecting the comment action within the "Code" menu
+- **Compile to Executable**  
+  Right-click an AutoHotkey file in the project tree and select the "Compile to exe" option to [compile it to .exe][ahk-doc-url-for-ahk2exe]
 
 
 
@@ -168,3 +171,4 @@ Project Link: [https://github.com/Nordgedanken/intellij-autohotkey](https://gith
 [product-screenshot]: images/screenshot.png
 
 [jetbrains-marketplace-plugin-page]: https://plugins.jetbrains.com/plugin/13945-autohotkey/
+[ahk-doc-url-for-ahk2exe]: https://www.autohotkey.com/docs/Scripts.htm#ahk2exe

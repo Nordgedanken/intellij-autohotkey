@@ -143,6 +143,8 @@ jobs:
     - name: Verify Plugin Compatibility
       id: verify
       uses: ChrisCarini/intellij-platform-plugin-verifier-action@latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         plugin-location: '*.zip'
         # NOTE: For ide-versions, we just need to verify IJ community & one non-IJ IDE.

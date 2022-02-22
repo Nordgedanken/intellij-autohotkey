@@ -6,7 +6,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Verify Changelog Updated
-      uses: takanuva15/verify-changelog-updated@v1
+      uses: takanuva15/verify-file-updated@v1
+  check_readme:
+    name: Verify Readme Updated
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify Readme Updated
+        uses: takanuva15/verify-file-updated@v1
+        with:
+          excused_label: readme update optional
+          filename_to_check: README.md
+  check_contributing:
+    name: Verify Contributing Updated
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify Contributing Updated
+        uses: takanuva15/verify-file-updated@v1
+        with:
+          excused_label: contributing update optional
+          filename_to_check: CONTRIBUTING.md
   verify_pr_and_commit_messages:
     name: Verify PR Title and Commit Message Format
     runs-on: ubuntu-latest
@@ -26,3 +44,4 @@ jobs:
           history readable when performing searches. Please see CONTRIBUTING.md for more details.
         checkAllCommitMessages: true
         accessToken: ${{ secrets.GITHUB_TOKEN }}
+

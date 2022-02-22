@@ -74,3 +74,5 @@ var Project.defaultAhkSdk: Sdk?
     set(newDefaultAhkSdk) {
         service<AhkProjectSettingsService>().defaultAhkSdk = newDefaultAhkSdk
     }
+
+fun Project.hasDefaultAhkSdk() = defaultAhkSdk != null

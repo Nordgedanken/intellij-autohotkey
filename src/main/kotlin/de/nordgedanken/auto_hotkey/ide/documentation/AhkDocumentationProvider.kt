@@ -11,7 +11,7 @@ import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import de.nordgedanken.auto_hotkey.lang.psi.AhkTokenType
 import de.nordgedanken.auto_hotkey.project.settings.defaultAhkSdk
-import de.nordgedanken.auto_hotkey.sdk.ahkDocumentationUrl
+import de.nordgedanken.auto_hotkey.sdk.ahkDocUrlBase
 
 /**
  * Provides commands/directives documentation by extracting them from the
@@ -46,13 +46,13 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
         }
 
         if (element.text.startsWith("A_")) {
-            return "${element.project.defaultAhkSdk!!.ahkDocumentationUrl}/docs/Variables.htm#" + element.text.drop(2)
+            return "${element.project.defaultAhkSdk!!.ahkDocUrlBase}/docs/Variables.htm#" + element.text.drop(2)
         }
 
         val pathInChm = ChmArchiveUtil.getPathInChm(chm, element.text)
             ?: return null
 
-        return "${element.project.defaultAhkSdk!!.ahkDocumentationUrl}/$pathInChm"
+        return "${element.project.defaultAhkSdk!!.ahkDocUrlBase}/$pathInChm"
     }
 
     override fun generateDoc(element: PsiElement?, originalElement: PsiElement?): String? {

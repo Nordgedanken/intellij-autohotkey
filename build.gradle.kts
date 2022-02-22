@@ -9,7 +9,7 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     idea
-    id("org.jetbrains.intellij") version "1.3.+"
+    id("org.jetbrains.intellij") version "1.4.+"
     id("org.jetbrains.grammarkit") version "2021.1.+"
     kotlin("jvm") version "1.6.+"
     jacoco
@@ -19,7 +19,8 @@ plugins {
     id("org.jetbrains.qodana") version "0.1.+"
 }
 
-group = "de.nordgedanken"
+group = properties("pluginGroup")
+version = properties("pluginVersion")
 
 // Include the generated files in the source set
 sourceSets.main.get().java.srcDirs("src/main/gen")
@@ -45,7 +46,7 @@ dependencies {
 intellij {
     version.set("2021.2")
     type.set("PC")
-    plugins.set(listOf("com.github.b3er.idea.plugins.arc.browser:0.23"))
+    plugins.set(properties("pluginDependencies").split(',').map(String::trim).filter(String::isNotEmpty))
 }
 
 ktlint {
@@ -93,6 +94,9 @@ tasks {
     }
 
     patchPluginXml {
+        version.set(changelog.version)
+        sinceBuild.set(properties("pluginSinceBuild"))
+        untilBuild.set(properties("pluginUntilBuild"))
         changeNotes.set(
             provider {
                 changelog.get(changelog.version.get()).withHeader(true).toHTML() +
@@ -111,9 +115,6 @@ tasks {
                 subList(indexOf(start) + 1, indexOf(end))
             }.joinToString("\n").run { markdownToHTML(this) }
         )
-        version.set(changelog.version)
-        sinceBuild.set(properties("pluginSinceBuild"))
-        untilBuild.set(properties("pluginUntilBuild"))
     }
 
     val intellijPublishToken: String? by project

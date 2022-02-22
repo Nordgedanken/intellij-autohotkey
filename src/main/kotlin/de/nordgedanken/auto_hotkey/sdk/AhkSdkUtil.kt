@@ -24,5 +24,5 @@ fun Sdk.ahkExeName(): String {
     return (sdkAdditionalData as AhkSdkAdditionalData).exeName
 }
 
-val Sdk.ahkDocumentationUrl: String get() =
+val Sdk.ahkDocUrlBase: String get() =
     if (versionString?.startsWith("1") != false) AHK_DOCUMENTATION_URL_V1 else AHK_DOCUMENTATION_URL_V2

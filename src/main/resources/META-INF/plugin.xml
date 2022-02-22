@@ -62,5 +62,9 @@
                 description="Create new AutoHotkey file">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewXml"/>
         </action>
+        <action id="de.nordgedanken.auto_hotkey.ide.actions.AhkCompileToExeAction"
+                class="de.nordgedanken.auto_hotkey.ide.actions.AhkCompileToExeAction">
+            <add-to-group group-id="RunContextGroupInner" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>
