@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- "Compile to exe" action available when right-clicking on Ahk files in the project tree
 
 ## [0.9.1] - 2021-12-10
 #### (compatibility: 2021.2.* - 2021.3.*)

@@ -1,6 +1,6 @@
 package de.nordgedanken.auto_hotkey.ide.documentation
 
-import com.github.b3er.idea.plugins.arc.browser.formats.SevenZipArchiveFileSystemImpl
+import com.github.b3er.idea.plugins.arc.browser.formats.sevenzip.SevenZipArchiveFileSystemImpl
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.impl.ArchiveHandler
@@ -29,7 +29,6 @@ object ChmArchiveUtil {
         }
 
         return SevenZipArchiveFileSystemImpl.instance.getHandlerForFile(stub)
-            ?: error("Error initializing 7zip file system")
     }
 
     fun getPathInChm(chm: ArchiveHandler, approximateTitle: String?): String? {
