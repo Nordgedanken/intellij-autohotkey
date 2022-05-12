@@ -1,4 +1,4 @@
-ideaIC:2021.2
-ideaIC:2021.3
-pycharmPC:2021.2
-pycharmPC:2021.3
+ideaIC:2022.1
+ideaIC:221-EAP-SNAPSHOT
+pycharmPC:2022.1
+pycharmPC:221-EAP-SNAPSHOT

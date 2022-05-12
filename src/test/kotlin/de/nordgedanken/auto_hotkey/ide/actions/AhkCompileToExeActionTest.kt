@@ -9,9 +9,9 @@ import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl
 import com.intellij.openapi.ui.MessageType
 import com.intellij.openapi.wm.ToolWindowBalloonShowOptions
 import com.intellij.openapi.wm.ToolWindowManager
-import com.intellij.openapi.wm.impl.ToolWindowHeadlessManagerImpl
 import com.intellij.testFramework.TemporaryDirectory
 import com.intellij.testFramework.replaceService
+import com.intellij.toolWindow.ToolWindowHeadlessManagerImpl
 import de.nordgedanken.auto_hotkey.AhkBasePlatformTestCase
 import de.nordgedanken.auto_hotkey.ProjectDescriptor
 import de.nordgedanken.auto_hotkey.WithOneAhkSdkAsProjDefault

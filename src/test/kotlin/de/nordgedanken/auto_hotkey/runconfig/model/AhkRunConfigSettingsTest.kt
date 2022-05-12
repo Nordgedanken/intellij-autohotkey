@@ -1,7 +1,7 @@
 package de.nordgedanken.auto_hotkey.runconfig.model
 
-import io.kotest.core.datatest.forAll
 import io.kotest.core.spec.style.FunSpec
+import io.kotest.datatest.withData
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.shouldBe
 import org.jdom.Element
@@ -12,19 +12,21 @@ class AhkRunConfigSettingsTest : FunSpec(
     {
         context("verify custom getters") {
             context("getEnabledSwitchesAsList") {
-                forAll<Pair<AhkRunConfigSettings, List<String>>>(
-                    "default" to Pair(AhkRunConfigSettings(), listOf("/ErrorStdOut")),
-                    "empty switch list" to Pair(
-                        AhkRunConfigSettings(switches = mutableMapOf()),
-                        emptyList()
-                    ),
-                    "one enabled switch" to Pair(
-                        AhkRunConfigSettings(switches = mutableMapOf(AhkSwitch.ERROR_STD_OUT to true)),
-                        listOf("/ErrorStdOut")
-                    ),
-                    "one disabled switch" to Pair(
-                        AhkRunConfigSettings(switches = mutableMapOf(AhkSwitch.ERROR_STD_OUT to false)),
-                        emptyList()
+                withData(
+                    mapOf(
+                        "default" to Pair(AhkRunConfigSettings(), listOf("/ErrorStdOut")),
+                        "empty switch list" to Pair(
+                            AhkRunConfigSettings(switches = mutableMapOf()),
+                            emptyList()
+                        ),
+                        "one enabled switch" to Pair(
+                            AhkRunConfigSettings(switches = mutableMapOf(AhkSwitch.ERROR_STD_OUT to true)),
+                            listOf("/ErrorStdOut")
+                        ),
+                        "one disabled switch" to Pair(
+                            AhkRunConfigSettings(switches = mutableMapOf(AhkSwitch.ERROR_STD_OUT to false)),
+                            emptyList()
+                        )
                     )
                 ) { (settings, expectedList) ->
                     settings.getEnabledSwitchesAsList() shouldContainExactly expectedList
@@ -32,15 +34,17 @@ class AhkRunConfigSettingsTest : FunSpec(
             }
 
             context("getArgsAsList") {
-                forAll<Pair<AhkRunConfigSettings, List<String>>>(
-                    "default" to Pair(AhkRunConfigSettings(), emptyList()),
-                    "regular args" to Pair(
-                        AhkRunConfigSettings(arguments = """arg1 arg2"""),
-                        listOf("arg1", "arg2")
-                    ),
-                    "quoted args" to Pair(
-                        AhkRunConfigSettings(arguments = """arg1 "ar g2" arg3"""),
-                        listOf("arg1", "ar g2", "arg3")
+                withData(
+                    mapOf(
+                        "default" to Pair(AhkRunConfigSettings(), emptyList()),
+                        "regular args" to Pair(
+                            AhkRunConfigSettings(arguments = """arg1 arg2"""),
+                            listOf("arg1", "arg2")
+                        ),
+                        "quoted args" to Pair(
+                            AhkRunConfigSettings(arguments = """arg1 "ar g2" arg3"""),
+                            listOf("arg1", "ar g2", "arg3")
+                        )
                     )
                 ) { (settings, expectedList) ->
                     settings.getArgsAsList() shouldContainExactly expectedList

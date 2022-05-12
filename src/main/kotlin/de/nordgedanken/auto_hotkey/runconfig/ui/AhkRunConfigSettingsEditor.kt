@@ -9,8 +9,9 @@ import com.intellij.openapi.ui.FixedSizeButton
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.fields.ExpandableTextField
-import com.intellij.ui.layout.CCFlags
-import com.intellij.ui.layout.panel
+import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.gridLayout.Gaps
+import com.intellij.ui.dsl.gridLayout.HorizontalAlign.FILL
 import de.nordgedanken.auto_hotkey.project.configurable.AhkProjectConfigurable
 import de.nordgedanken.auto_hotkey.runconfig.core.AhkRunConfig
 import de.nordgedanken.auto_hotkey.runconfig.model.AhkSwitch
@@ -63,17 +64,25 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
 
     override fun createEditor(): JComponent = panel {
         row {
-            tabbedPane(CCFlags.growX, CCFlags.pushX) {
+            tabbedPane {
                 outlinedTab(AhkBundle.msg("runconfig.configtab.label")) {
-                    row(AhkBundle.msg("runconfig.configtab.scriptpath.label")) { pathToScriptTextField() }
-                    row(AhkBundle.msg("runconfig.configtab.scriptargs.label")) { argumentsTextField(growX, pushX) }
-                    row(AhkBundle.msg("runconfig.configtab.scriptrunner.label")) {
-                        ahkSdkComboBox(growX, pushX)
-                        openProjectSettingsButton()
+                    row(AhkBundle.msg("runconfig.configtab.scriptpath.label")) {
+                        cell(pathToScriptTextField).horizontalAlign(FILL)
                     }
-                    noteRow(AhkBundle.msg("runconfig.general.info.label"))
-                    titledRow("Additional Options") {
-                        row { printErrToConsoleCheckBox() }
+                    row(AhkBundle.msg("runconfig.configtab.scriptargs.label")) {
+                        cell(argumentsTextField).horizontalAlign(FILL)
+                    }
+                    row(AhkBundle.msg("runconfig.configtab.scriptrunner.label")) {
+                        cell(ahkSdkComboBox).resizableColumn().horizontalAlign(FILL).customize(SMALL_RIGHT_GAP)
+                        cell(openProjectSettingsButton)
+                    }
+                    row {
+                        label(AhkBundle.msg("runconfig.general.info.label"))
+                    }
+                    group("Additional Options") {
+                        row {
+                            cell(printErrToConsoleCheckBox)
+                        }
                     }
                 }
             }
@@ -94,5 +103,9 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
         ahkSdkComboBox.selectedItem = null
         fireEditorStateChanged()
         ahkSdkComboBox.selectedItem = tmp
+    }
+
+    companion object {
+        val SMALL_RIGHT_GAP = Gaps(right = 5)
     }
 }
