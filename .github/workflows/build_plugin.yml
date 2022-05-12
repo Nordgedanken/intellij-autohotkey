@@ -79,7 +79,7 @@ jobs:
 
     # Verify code coverage
     - name: Check Code Coverage
-      run: ./gradlew checkTestCoverage
+      run: ./gradlew jacocoTestCoverageVerification
 
     # Run verifyPlugin Gradle task
     - name: Verify Plugin

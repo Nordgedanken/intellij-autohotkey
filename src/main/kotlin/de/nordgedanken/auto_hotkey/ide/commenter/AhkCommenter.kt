@@ -1,11 +1,11 @@
 package de.nordgedanken.auto_hotkey.ide.commenter
 
 import com.intellij.codeInsight.generation.CommenterDataHolder
-import com.intellij.codeInsight.generation.IndentedCommenter
 import com.intellij.codeInsight.generation.SelfManagingCommenter
 import com.intellij.codeInsight.generation.SelfManagingCommenterUtil.getBlockCommentRange
 import com.intellij.codeInsight.generation.SelfManagingCommenterUtil.insertBlockComment
 import com.intellij.codeInsight.generation.SelfManagingCommenterUtil.uncommentBlockComment
+import com.intellij.lang.Commenter
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiFile
@@ -18,7 +18,7 @@ import com.intellij.util.text.CharArrayUtil
  * - If you create a block comment, then highlight text within the block comment and toggle again, it will create a new
  * block comment within the original.
  */
-class AhkCommenter : IndentedCommenter, SelfManagingCommenter<AhkCommentHolder> {
+class AhkCommenter : Commenter, SelfManagingCommenter<AhkCommentHolder> {
     override fun getLineCommentPrefix() = ";"
 
     override fun getBlockCommentPrefix(): String = "/*"
@@ -105,8 +105,7 @@ class AhkCommenter : IndentedCommenter, SelfManagingCommenter<AhkCommentHolder> 
         }
     }
 
-    override fun forceIndentedLineComment() = false
-    override fun forceIndentedBlockComment() = false
+    override fun blockCommentRequiresFullLineSelection() = true
 }
 
 /**

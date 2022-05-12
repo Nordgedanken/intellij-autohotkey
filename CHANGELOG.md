@@ -5,9 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Added
+#### (compatibility: 2022.1 - 2022.1.*)
+### Changed
+- Dependencies updated to support IntelliJ 2022.1.
 
 ## [0.10.0] - 2022-03-03
+#### (compatibility: 2021.2.* - 2021.3.*)
 ### Added
 - "Compile to exe" action available when right-clicking on Ahk files in the project tree
 

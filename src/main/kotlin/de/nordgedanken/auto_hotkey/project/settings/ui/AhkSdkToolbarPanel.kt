@@ -14,7 +14,7 @@ import javax.swing.JPanel
  * remove Sdks. This widget is necessary for non-IDEA IDEs, since they don't have a "Project Structure" dialog that
  * you can use to manage Sdks.
  */
-class AhkSdkToolbarPanel(val project: Project) : JPanel() {
+class AhkSdkToolbarPanel(val project: Project) {
     val panel: JPanel
     private val sdkTable = AhkSdkManagementTable(project)
     private val sdkTableModel = sdkTable.model as AhkSdkTableModel

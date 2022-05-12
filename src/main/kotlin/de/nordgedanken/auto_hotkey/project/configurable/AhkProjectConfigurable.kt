@@ -2,11 +2,13 @@ package de.nordgedanken.auto_hotkey.project.configurable
 
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
-import com.intellij.ui.layout.panel
-import com.intellij.uiDesigner.core.Spacer
-import de.nordgedanken.auto_hotkey.project.settings.ui.AhkProjectSettingsPanel
+import com.intellij.ui.dsl.builder.panel
+import com.intellij.ui.dsl.gridLayout.HorizontalAlign
+import com.intellij.ui.dsl.gridLayout.VerticalAlign
+import de.nordgedanken.auto_hotkey.project.settings.ui.AhkSdkToolbarPanel
 import de.nordgedanken.auto_hotkey.util.AhkBundle
 import de.nordgedanken.auto_hotkey.util.AhkConstants
+import javax.swing.JPanel
 
 /**
  * This project configurable is the backend support for the AutoHotkey settings that are present when you click on
@@ -16,7 +18,7 @@ import de.nordgedanken.auto_hotkey.util.AhkConstants
 class AhkProjectConfigurable(
     project: Project
 ) : Configurable {
-    private val ahkProjectSettingsPanel = AhkProjectSettingsPanel(project)
+    private val ahkSdkToolbar: JPanel = AhkSdkToolbarPanel(project).panel
 
     override fun isModified(): Boolean = false
 
@@ -26,12 +28,14 @@ class AhkProjectConfigurable(
     }
 
     override fun createComponent() = panel {
-        ahkProjectSettingsPanel.attachTo(this)
         row {
-            Spacer()(pushY)
+            cell(ahkSdkToolbar).horizontalAlign(HorizontalAlign.FILL)
         }
         row {
-            comment(AhkBundle.msg("settings.general.thankyou.label"), 150)
+            label(AhkBundle.msg("settings.ahksdktable.general.info"))
         }
+        row {
+            comment(AhkBundle.msg("settings.general.thankyou.label"), 150).verticalAlign(VerticalAlign.BOTTOM)
+        }.resizableRow()
     }
 }

@@ -1,7 +1,7 @@
 import org.jetbrains.changelog.date
 import org.jetbrains.changelog.markdownToHTML
-import org.jetbrains.grammarkit.tasks.GenerateLexer
-import org.jetbrains.grammarkit.tasks.GenerateParser
+import org.jetbrains.grammarkit.tasks.GenerateLexerTask
+import org.jetbrains.grammarkit.tasks.GenerateParserTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 // Imports a property from gradle.properties file
@@ -9,11 +9,11 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     idea
-    id("org.jetbrains.intellij") version "1.4.+"
-    id("org.jetbrains.grammarkit") version "2021.1.+"
+    id("org.jetbrains.intellij") version "1.5.+"
+    id("org.jetbrains.grammarkit") version "2021.2.+"
     kotlin("jvm") version "1.6.+"
     jacoco
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.+"
+    id("org.jlleitschuh.gradle.ktlint") version "10.3.+"
     id("org.barfuin.gradle.jacocolog") version "1.2.+" // show coverage in console
     id("org.jetbrains.changelog") version "1.3.+"
     id("org.jetbrains.qodana") version "0.1.+"
@@ -30,9 +30,9 @@ repositories {
 }
 
 dependencies {
-    testImplementation("io.kotest:kotest-runner-junit5-jvm:4.+")
-    testImplementation("io.kotest:kotest-assertions-core:4.+")
-    testImplementation("io.kotest:kotest-property:4.+")
+    testImplementation("io.kotest:kotest-runner-junit5:5.+")
+    testImplementation("io.kotest:kotest-assertions-core:5.+")
+    testImplementation("io.kotest:kotest-framework-datatest:5.+")
     testImplementation("io.mockk:mockk:1.+")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.+") {
         because(
@@ -44,7 +44,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2021.2")
+    version.set("2022.1")
     type.set("PC")
     plugins.set(properties("pluginDependencies").split(',').map(String::trim).filter(String::isNotEmpty))
 }
@@ -67,19 +67,19 @@ qodana {
     showReport.set(System.getenv("QODANA_SHOW_REPORT")?.toBoolean() ?: false)
 }
 
-val generateAhkLexer = task<GenerateLexer>("generateAhkLexer") {
-    source = "src/main/kotlin/de/nordgedanken/auto_hotkey/lang/lexer/AutoHotkey.flex"
-    targetDir = "src/main/gen/de/nordgedanken/auto_hotkey/"
-    targetClass = "AhkLexer"
-    purgeOldFiles = true
+val generateAhkLexer = task<GenerateLexerTask>("generateAhkLexer") {
+    source.set("src/main/kotlin/de/nordgedanken/auto_hotkey/lang/lexer/AutoHotkey.flex")
+    targetDir.set("src/main/gen/de/nordgedanken/auto_hotkey/")
+    targetClass.set("AhkLexer")
+    purgeOldFiles.set(true)
 }
 
-val generateAhkParser = task<GenerateParser>("generateAhkParser") {
-    source = "src/main/kotlin/de/nordgedanken/auto_hotkey/lang/parser/AutoHotkey.bnf"
-    targetRoot = "src/main/gen"
-    pathToParser = "de/nordgedanken/auto_hotkey/lang/parser/AhkParser.java"
-    pathToPsiRoot = "de/nordgedanken/auto_hotkey/lang/psi"
-    purgeOldFiles = false
+val generateAhkParser = task<GenerateParserTask>("generateAhkParser") {
+    source.set("src/main/kotlin/de/nordgedanken/auto_hotkey/lang/parser/AutoHotkey.bnf")
+    targetRoot.set("src/main/gen")
+    pathToParser.set("de/nordgedanken/auto_hotkey/lang/parser/AhkParser.java")
+    pathToPsiRoot.set("de/nordgedanken/auto_hotkey/lang/psi")
+    purgeOldFiles.set(false)
 }
 
 tasks {
@@ -99,10 +99,14 @@ tasks {
         untilBuild.set(properties("pluginUntilBuild"))
         changeNotes.set(
             provider {
-                changelog.get(changelog.version.get()).withHeader(true).toHTML() +
+                val newChangeNotes = changelog.get(changelog.version.get()).withHeader(true).toHTML() +
                     """Please see <a href=
                         |"https://github.com/Nordgedanken/intellij-autohotkey/blob/master/CHANGELOG.md"
                         |>CHANGELOG.md</a> for a full list of changes.""".trimMargin()
+                check(newChangeNotes.contains("(compatibility:")) {
+                    "Latest change notes must specify the compatibility range of the plugin!"
+                }
+                return@provider newChangeNotes
             }
         )
         pluginDescription.set(
@@ -130,10 +134,12 @@ tasks {
     }
 
     jacocoTestReport {
+        dependsOn(test)
         setClassesToIncludeInCoverageCheck(classDirectories)
     }
 
     jacocoTestCoverageVerification {
+        dependsOn(jacocoTestReport)
         setClassesToIncludeInCoverageCheck(classDirectories)
 
         violationRules {
@@ -148,16 +154,6 @@ tasks {
                 }
             }
         }
-    }
-
-    register("checkTestCoverage") {
-        group = "verification"
-        description = "Runs the unit tests with coverage."
-
-        dependsOn(test, jacocoTestReport, jacocoTestCoverageVerification)
-        val jacocoTestReport = jacocoTestReport.get()
-        jacocoTestReport.mustRunAfter(test)
-        jacocoTestCoverageVerification.get().mustRunAfter(jacocoTestReport)
     }
 
     runPluginVerifier {

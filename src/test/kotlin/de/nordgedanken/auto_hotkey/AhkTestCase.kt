@@ -16,7 +16,7 @@ interface AhkTestCase {
         fun camelOrWordsToSnake(name: String): String {
             if (' ' in name) return name.trim().replace(" ", "_")
 
-            return name.split("(?=[A-Z])".toRegex()).joinToString("_", transform = String::toLowerCase)
+            return name.split("(?=[A-Z])".toRegex()).joinToString("_", transform = String::lowercase)
         }
     }
 }
