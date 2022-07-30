@@ -9,12 +9,12 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     idea
-    id("org.jetbrains.intellij") version "1.5.+"
+    id("org.jetbrains.intellij") version "1.8.+"
     id("org.jetbrains.grammarkit") version "2021.2.+"
-    kotlin("jvm") version "1.6.+"
+    kotlin("jvm") version "1.7.+"
     jacoco
-    id("org.jlleitschuh.gradle.ktlint") version "10.3.+"
-    id("org.barfuin.gradle.jacocolog") version "1.2.+" // show coverage in console
+    id("org.jlleitschuh.gradle.ktlint") version "10.+"
+    id("org.barfuin.gradle.jacocolog") version "1.+" // show coverage in console
     id("org.jetbrains.changelog") version "1.3.+"
     id("org.jetbrains.qodana") version "0.1.+"
 }
@@ -33,7 +33,7 @@ dependencies {
     testImplementation("io.kotest:kotest-runner-junit5:5.+")
     testImplementation("io.kotest:kotest-assertions-core:5.+")
     testImplementation("io.kotest:kotest-framework-datatest:5.+")
-    testImplementation("io.mockk:mockk:1.+")
+    testImplementation("io.mockk:mockk:1.12.4")
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.+") {
         because(
             "this is needed to run parsing/lexing tests which extend " +
