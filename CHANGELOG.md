@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+
+## [0.10.2] - 2022-08-07
 #### (compatibility: 2022.1 - 2022.3.*)
 ### Changed
 - Dependencies updated to support IntelliJ 2022.1 - 2022.3.
