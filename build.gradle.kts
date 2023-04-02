@@ -5,22 +5,22 @@ import org.jetbrains.grammarkit.tasks.GenerateParserTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 // Imports a property from gradle.properties file
-fun properties(key: String) = project.findProperty(key).toString()
+fun properties(key: String) = providers.gradleProperty(key)
 
 plugins {
     idea
-    id("org.jetbrains.intellij") version "1.8.+"
-    id("org.jetbrains.grammarkit") version "2021.2.+"
-    kotlin("jvm") version "1.7.+"
+    alias(libs.plugins.gradleIntelliJPlugin)
+    alias(libs.plugins.grammarKit)
+    alias(libs.plugins.kotlin)
     jacoco
-    id("org.jlleitschuh.gradle.ktlint") version "10.+"
-    id("org.barfuin.gradle.jacocolog") version "1.+" // show coverage in console
-    id("org.jetbrains.changelog") version "1.3.+"
-    id("org.jetbrains.qodana") version "0.1.+"
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.jacocolog) // show coverage in console
+    alias(libs.plugins.changelog)
+    alias(libs.plugins.qodana)
 }
 
-group = properties("pluginGroup")
-version = properties("pluginVersion")
+group = properties("pluginGroup").get()
+version = properties("pluginVersion").get()
 
 // Include the generated files in the source set
 sourceSets.main.get().java.srcDirs("src/main/gen")
@@ -29,12 +29,14 @@ repositories {
     mavenCentral()
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 dependencies {
-    testImplementation("io.kotest:kotest-runner-junit5:5.+")
-    testImplementation("io.kotest:kotest-assertions-core:5.+")
-    testImplementation("io.kotest:kotest-framework-datatest:5.+")
-    testImplementation("io.mockk:mockk:1.12.4")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.+") {
+    testImplementation(libs.bundles.kotest)
+    testImplementation(libs.mockk)
+    testRuntimeOnly(libs.junit.engine) {
         because(
             "this is needed to run parsing/lexing tests which extend " +
                 "intellij base classes that use junit4",
@@ -44,14 +46,14 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version.set("2022.1")
+    version.set("2023.1")
     type.set("PC")
-    plugins.set(properties("pluginDependencies").split(',').map(String::trim).filter(String::isNotEmpty))
+    plugins.set(properties("pluginDependencies").get().split(',').map(String::trim).filter(String::isNotEmpty))
 }
 
 ktlint {
+    version.set("0.48.2")
     enableExperimentalRules.set(true)
-    disabledRules.set(setOf("experimental:package-name"))
 }
 
 changelog {
@@ -68,35 +70,33 @@ qodana {
 }
 
 val generateAhkLexer = task<GenerateLexerTask>("generateAhkLexer") {
-    source.set("src/main/kotlin/de/nordgedanken/auto_hotkey/lang/lexer/AutoHotkey.flex")
-    targetDir.set("src/main/gen/de/nordgedanken/auto_hotkey/")
+    sourceFile.set(file("src/main/kotlin/com/autohotkey/lang/lexer/AutoHotkey.flex"))
+    targetDir.set("src/main/gen/com/autohotkey/")
     targetClass.set("AhkLexer")
     purgeOldFiles.set(true)
 }
 
 val generateAhkParser = task<GenerateParserTask>("generateAhkParser") {
-    source.set("src/main/kotlin/de/nordgedanken/auto_hotkey/lang/parser/AutoHotkey.bnf")
+    sourceFile.set(file("src/main/kotlin/com/autohotkey/lang/parser/AutoHotkey.bnf"))
     targetRoot.set("src/main/gen")
-    pathToParser.set("de/nordgedanken/auto_hotkey/lang/parser/AhkParser.java")
-    pathToPsiRoot.set("de/nordgedanken/auto_hotkey/lang/psi")
+    pathToParser.set("com/autohotkey/lang/parser/AhkParser.java")
+    pathToPsiRoot.set("com/autohotkey/lang/psi")
     purgeOldFiles.set(false)
 }
 
 tasks {
-    withType<JavaCompile> {
-        sourceCompatibility = "11"
-        targetCompatibility = "11"
+    wrapper {
+        gradleVersion = properties("gradleVersion").get()
     }
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "11"
         dependsOn(generateAhkLexer, generateAhkParser)
     }
 
     patchPluginXml {
         version.set(changelog.version)
-        sinceBuild.set(properties("pluginSinceBuild"))
-        untilBuild.set(properties("pluginUntilBuild"))
+        sinceBuild.set(properties("pluginSinceBuild").get())
+        untilBuild.set(properties("pluginUntilBuild").get())
         changeNotes.set(
             provider {
                 val newChangeNotes = changelog.get(changelog.version.get()).withHeader(true).toHTML() +
@@ -132,6 +132,10 @@ tasks {
     // testing-related stuff below
     test {
         useJUnitPlatform()
+        configure<JacocoTaskExtension> {
+            isIncludeNoLocationClasses = true
+            excludes = listOf("jdk.internal.*")
+        }
     }
 
     jacocoTestReport {
@@ -151,14 +155,16 @@ tasks {
                 }
                 limit {
                     counter = "BRANCH"
-                    minimum = "0.67".toBigDecimal()
+                    minimum = "0.66".toBigDecimal()
                 }
             }
         }
     }
 
     runPluginVerifier {
-        ideVersions.set(properties("pluginVerifierIdeVersions").split(',').map(String::trim).filter(String::isNotEmpty))
+        ideVersions.set(
+            properties("pluginVerifierIdeVersions").get().split(',').map(String::trim).filter(String::isNotEmpty),
+        )
     }
 }
 

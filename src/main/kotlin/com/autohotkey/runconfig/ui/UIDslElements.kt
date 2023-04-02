@@ -2,11 +2,11 @@ package com.autohotkey.runconfig.ui
 
 import com.intellij.openapi.editor.colors.EditorColorsManager
 import com.intellij.ui.components.JBTabbedPane
+import com.intellij.ui.dsl.builder.AlignX
 import com.intellij.ui.dsl.builder.Cell
 import com.intellij.ui.dsl.builder.Panel
 import com.intellij.ui.dsl.builder.Row
 import com.intellij.ui.dsl.builder.panel
-import com.intellij.ui.dsl.gridLayout.HorizontalAlign
 import org.jetbrains.annotations.Nls
 import java.awt.Insets
 import javax.swing.BorderFactory
@@ -22,7 +22,7 @@ fun Row.tabbedPane(init: JBTabbedPane.() -> Unit): Cell<JBTabbedPane> {
         tabComponentInsets = Insets(0, 0, 0, 0)
     }
     init(jbTabbedPane)
-    return cell(jbTabbedPane).horizontalAlign(HorizontalAlign.FILL)
+    return cell(jbTabbedPane).align(AlignX.FILL)
 }
 
 /**

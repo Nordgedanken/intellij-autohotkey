@@ -43,6 +43,6 @@ class MissingAhkSdkNotificationProviderTest : AhkBasePlatformTestCase() {
     private fun getPanelAfterOpeningFileOfType(fileType: FileType): EditorNotificationPanel? {
         val file = myFixture.configureByText(fileType, "")!!.virtualFile
         val editor = FileEditorManager.getInstance(project).openFile(file, true)[0]
-        return notificationProvider.collectNotificationData(project, file).apply(editor) as EditorNotificationPanel?
+        return notificationProvider.collectNotificationData(project, file)?.apply(editor) as EditorNotificationPanel?
     }
 }

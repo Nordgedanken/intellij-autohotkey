@@ -28,7 +28,7 @@ object TestUtil {
      * calling the method.
      */
     fun readResourceToString(filename: String): String {
-        return javaClass.getResource("/${packagePath()}/$filename").readText()
+        return javaClass.getResource("/${packagePath()}/$filename")!!.readText()
     }
 
     /**

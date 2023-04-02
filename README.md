@@ -1,3 +1,4 @@
+
 <!-- PROJECT SHIELDS -->
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -103,13 +104,13 @@ Install the plugin from the [JetBrains Marketplace][jetbrains-marketplace-plugin
 To get a local copy up and running, follow these simple steps:
 
 ### Prerequisites
-* IntelliJ IDEA 2020.* or newer (Community Edition is fine)  
+* IntelliJ IDEA 2023.* or newer (Community Edition is fine)  
   Required plugins (for development only):
   - [Grammar-Kit](https://plugins.jetbrains.com/plugin/6606-grammar-kit)
   - [PsiViewer](https://plugins.jetbrains.com/plugin/227-psiviewer)
   - [Kotest](https://plugins.jetbrains.com/plugin/14080-kotest)
   - [Ktlint](https://plugins.jetbrains.com/plugin/15057-ktlint-unofficial-)
-* Java 11
+* Java 17
 
 ### Setting up a Development Environment
 1. Clone the repo
