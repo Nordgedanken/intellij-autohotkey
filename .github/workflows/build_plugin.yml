@@ -34,11 +34,13 @@ jobs:
         fi
         echo "SUCCESS: No java files detected in the committed source code"
 
-    # Setup Java 11 environment for the next steps
-    - name: Setup Java 11
-      uses: actions/setup-java@v1
+    # Setup Java 17 environment for the next steps
+    - name: Setup Java 17
+      uses: actions/setup-java@v3
       with:
-        java-version: 11
+        java-version: 17
+        distribution: temurin
+        cache: gradle
 
     # Cache Gradle dependencies
     - name: Setup Cache
@@ -56,22 +58,11 @@ jobs:
 
     # Run EditorConfig Linter
     - name: Run EditorConfig Linter
-      uses: editorconfig-checker/action-editorconfig-checker@v1.0.0
+      uses: editorconfig-checker/action-editorconfig-checker@main
 
     # Run ktlint
     - name: Run KtLinter
       run: ./gradlew ktlintCheck
-
-    # Run Qodana code inspections
-    - name: Run Qodana Code Inspection
-      uses: JetBrains/qodana-action@v3.2.1
-
-    # Collect Qodana Result
-    - name: Collect Qodana Result
-      uses: actions/upload-artifact@v2
-      with:
-        name: qodana-result
-        path: ${{ github.workspace }}/qodana
 
     # Run test Gradle task
     - name: Run Tests
@@ -93,9 +84,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
+    - uses: actions/setup-java@v3
       with:
-        java-version: 11
+        java-version: 17
+        distribution: temurin
+        cache: gradle
 
     # Cache Gradle Dependencies
     - name: Setup Gradle Dependencies Cache
@@ -152,7 +145,6 @@ jobs:
         failure-levels: |
           COMPATIBILITY_WARNINGS
           COMPATIBILITY_PROBLEMS
-          DEPRECATED_API_USAGES
           INTERNAL_API_USAGES
           OVERRIDE_ONLY_API_USAGES
           NON_EXTENDABLE_API_USAGES

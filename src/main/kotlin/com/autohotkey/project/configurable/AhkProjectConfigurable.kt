@@ -2,6 +2,9 @@ package com.autohotkey.project.configurable
 
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
+import com.intellij.ui.dsl.builder.Align
+import com.intellij.ui.dsl.builder.AlignX
+import com.intellij.ui.dsl.builder.AlignY
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.gridLayout.HorizontalAlign
 import com.intellij.ui.dsl.gridLayout.VerticalAlign
@@ -29,13 +32,13 @@ class AhkProjectConfigurable(
 
     override fun createComponent() = panel {
         row {
-            cell(ahkSdkToolbar).horizontalAlign(HorizontalAlign.FILL)
+            cell(ahkSdkToolbar).align(AlignX.FILL)
         }
         row {
             label(AhkBundle.msg("settings.ahksdktable.general.info"))
         }
         row {
-            comment(AhkBundle.msg("settings.general.thankyou.label"), 150).verticalAlign(VerticalAlign.BOTTOM)
+            comment(AhkBundle.msg("settings.general.thankyou.label")).align(AlignY.BOTTOM)
         }.resizableRow()
     }
 }

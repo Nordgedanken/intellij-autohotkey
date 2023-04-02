@@ -22,8 +22,8 @@ import javax.swing.JComponent
  * Note: We aren't using ProjectSdkSetupValidator because that doesn't work for non-IntelliJ IDEs
  */
 class MissingAhkSdkNotificationProvider : EditorNotificationProvider, DumbAware {
-    override fun collectNotificationData(proj: Project, file: VirtualFile): Function<in FileEditor, out JComponent?> {
-        if (!file.isAhkFile() || getAhkSdks().isNotEmpty()) return CONST_NULL
+    override fun collectNotificationData(proj: Project, file: VirtualFile): Function<in FileEditor, out JComponent?>? {
+        if (!file.isAhkFile() || getAhkSdks().isNotEmpty()) return null
         return Function { fileEditor ->
             EditorNotificationPanel(fileEditor).apply {
                 text = AhkBundle.msg("ahksdktype.projectsetup.noahksdksfound.message")

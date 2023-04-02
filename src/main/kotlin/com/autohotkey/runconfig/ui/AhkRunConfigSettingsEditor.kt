@@ -1,5 +1,10 @@
 package com.autohotkey.runconfig.ui
 
+import com.autohotkey.project.configurable.AhkProjectConfigurable
+import com.autohotkey.runconfig.core.AhkRunConfig
+import com.autohotkey.runconfig.model.AhkSwitch
+import com.autohotkey.util.AhkBundle
+import com.autohotkey.util.AhkConstants
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.options.SettingsEditor
@@ -9,14 +14,9 @@ import com.intellij.openapi.ui.FixedSizeButton
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.fields.ExpandableTextField
+import com.intellij.ui.dsl.builder.AlignX
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.gridLayout.Gaps
-import com.intellij.ui.dsl.gridLayout.HorizontalAlign.FILL
-import com.autohotkey.project.configurable.AhkProjectConfigurable
-import com.autohotkey.runconfig.core.AhkRunConfig
-import com.autohotkey.runconfig.model.AhkSwitch
-import com.autohotkey.util.AhkBundle
-import com.autohotkey.util.AhkConstants
 import javax.swing.JComponent
 
 /**
@@ -31,7 +31,7 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
             AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.title"),
             AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.message"),
             project,
-            FileChooserDescriptorFactory.createSingleFileDescriptor(AhkConstants.FILE_EXTENSION)
+            FileChooserDescriptorFactory.createSingleFileDescriptor(AhkConstants.FILE_EXTENSION),
         )
     }
     private val argumentsTextField = ExpandableTextField()
@@ -43,7 +43,7 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
     }
     private val printErrToConsoleCheckBox = JBCheckBox(
         AhkBundle.msg("runconfig.configtab.switches.errorstdout.label"),
-        true
+        true,
     ).apply {
         toolTipText = AhkBundle.msg("runconfig.configtab.switches.errorstdout.tooltip")
     }
@@ -67,13 +67,13 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
             tabbedPane {
                 outlinedTab(AhkBundle.msg("runconfig.configtab.label")) {
                     row(AhkBundle.msg("runconfig.configtab.scriptpath.label")) {
-                        cell(pathToScriptTextField).horizontalAlign(FILL)
+                        cell(pathToScriptTextField).align(AlignX.FILL)
                     }
                     row(AhkBundle.msg("runconfig.configtab.scriptargs.label")) {
-                        cell(argumentsTextField).horizontalAlign(FILL)
+                        cell(argumentsTextField).align(AlignX.FILL)
                     }
                     row(AhkBundle.msg("runconfig.configtab.scriptrunner.label")) {
-                        cell(ahkSdkComboBox).resizableColumn().horizontalAlign(FILL).customize(SMALL_RIGHT_GAP)
+                        cell(ahkSdkComboBox).resizableColumn().align(AlignX.FILL).customize(SMALL_RIGHT_GAP)
                         cell(openProjectSettingsButton)
                     }
                     row {
