@@ -10,60 +10,60 @@
     <resource-bundle>localization.AhkBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="AutoHotkey" implementationClass="de.nordgedanken.auto_hotkey.lang.core.AhkFileType"
+        <fileType name="AutoHotkey" implementationClass="com.autohotkey.lang.core.AhkFileType"
                   fieldName="INSTANCE" language="AutoHotkey" extensions="ahk"/>
 
         <!--run config execution-->
-        <sdkType implementation="de.nordgedanken.auto_hotkey.sdk.AhkSdkType"/>
-        <configurationType implementation="de.nordgedanken.auto_hotkey.runconfig.core.AhkRunConfigType"/>
+        <sdkType implementation="com.autohotkey.sdk.AhkSdkType"/>
+        <configurationType implementation="com.autohotkey.runconfig.core.AhkRunConfigType"/>
         <runConfigurationProducer
-                implementation="de.nordgedanken.auto_hotkey.runconfig.producer.AhkRunConfigProducer"/>
+                implementation="com.autohotkey.runconfig.producer.AhkRunConfigProducer"/>
 
         <!--language management (eg parsing, highlighting, etc)-->
         <lang.parserDefinition language="AutoHotkey"
-                               implementationClass="de.nordgedanken.auto_hotkey.lang.parser.AhkParserDefinition"/>
+                               implementationClass="com.autohotkey.lang.parser.AhkParserDefinition"/>
         <lang.syntaxHighlighterFactory language="AutoHotkey"
-                                       implementationClass="de.nordgedanken.auto_hotkey.ide.highlighter.AhkSyntaxHighlighterFactory"/>
-        <annotator language="AutoHotkey" implementationClass="de.nordgedanken.auto_hotkey.ide.highlighter.AhkHighlightAnnotator"/>
+                                       implementationClass="com.autohotkey.ide.highlighter.AhkSyntaxHighlighterFactory"/>
+        <annotator language="AutoHotkey" implementationClass="com.autohotkey.ide.highlighter.AhkHighlightAnnotator"/>
         <additionalTextAttributes scheme="Default" file="colorSchemes/AhkDefault.xml"/>
         <additionalTextAttributes scheme="Darcula" file="colorSchemes/AhkDefault.xml"/>
 
-        <lang.commenter language="AutoHotkey" implementationClass="de.nordgedanken.auto_hotkey.ide.commenter.AhkCommenter"/>
+        <lang.commenter language="AutoHotkey" implementationClass="com.autohotkey.ide.commenter.AhkCommenter"/>
 
         <!-- Notification Providers -->
-        <editorNotificationProvider implementation="de.nordgedanken.auto_hotkey.ide.notifications.MissingAhkSdkNotificationProvider"/>
+        <editorNotificationProvider implementation="com.autohotkey.ide.notifications.MissingAhkSdkNotificationProvider"/>
 
         <!-- Line Marker Providers -->
         <runLineMarkerContributor language="AutoHotkey"
-                                  implementationClass="de.nordgedanken.auto_hotkey.ide.linemarkers.AhkExecutableRunLineMarkerContributor"/>
+                                  implementationClass="com.autohotkey.ide.linemarkers.AhkExecutableRunLineMarkerContributor"/>
 
         <!--settings-->
         <projectConfigurable id="language.autohotkey"
                              parentId="language"
                              displayName="AutoHotkey"
-                             instance="de.nordgedanken.auto_hotkey.project.configurable.AhkProjectConfigurable"/>
-        <colorSettingsPage implementation="de.nordgedanken.auto_hotkey.ide.highlighter.AhkColorSettingsPage"/>
+                             instance="com.autohotkey.project.configurable.AhkProjectConfigurable"/>
+        <colorSettingsPage implementation="com.autohotkey.ide.highlighter.AhkColorSettingsPage"/>
 
         <!--to be fixed after parser-->
-<!--        <stubElementTypeHolder class="de.nordgedanken.auto_hotkey.psi.AHKTypes"/>-->
+<!--        <stubElementTypeHolder class="com.autohotkey.psi.AHKTypes"/>-->
 <!--        <lang.findUsagesProvider language="AutoHotKey"-->
-<!--        implementationClass="de.nordgedanken.auto_hotkey.ide.search.AHKFindUsagesProvider"/>-->
-<!--        <psi.referenceContributor implementation="de.nordgedanken.auto_hotkey.AHKReferenceContributor"/>-->
+<!--        implementationClass="com.autohotkey.ide.search.AHKFindUsagesProvider"/>-->
+<!--        <psi.referenceContributor implementation="com.autohotkey.AHKReferenceContributor"/>-->
 
         <lang.documentationProvider language="AutoHotkey"
-                                    implementationClass="de.nordgedanken.auto_hotkey.ide.documentation.AhkDocumentationProvider"/>
+                                    implementationClass="com.autohotkey.ide.documentation.AhkDocumentationProvider"/>
 
     </extensions>
 
     <actions>
         <action id="AutoHotkey.NewAhkFile"
-                class="de.nordgedanken.auto_hotkey.ide.actions.AhkCreateFileAction"
+                class="com.autohotkey.ide.actions.AhkCreateFileAction"
                 text="AutoHotkey File"
                 description="Create new AutoHotkey file">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewXml"/>
         </action>
-        <action id="de.nordgedanken.auto_hotkey.ide.actions.AhkCompileToExeAction"
-                class="de.nordgedanken.auto_hotkey.ide.actions.AhkCompileToExeAction">
+        <action id="com.autohotkey.ide.actions.AhkCompileToExeAction"
+                class="com.autohotkey.ide.actions.AhkCompileToExeAction">
             <add-to-group group-id="RunContextGroupInner" anchor="last"/>
         </action>
     </actions>

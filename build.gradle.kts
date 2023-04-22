@@ -37,7 +37,7 @@ dependencies {
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.+") {
         because(
             "this is needed to run parsing/lexing tests which extend " +
-                "intellij base classes that use junit4"
+                "intellij base classes that use junit4",
         )
     }
 }
@@ -102,12 +102,13 @@ tasks {
                 val newChangeNotes = changelog.get(changelog.version.get()).withHeader(true).toHTML() +
                     """Please see <a href=
                         |"https://github.com/Nordgedanken/intellij-autohotkey/blob/master/CHANGELOG.md"
-                        |>CHANGELOG.md</a> for a full list of changes.""".trimMargin()
+                        |>CHANGELOG.md</a> for a full list of changes.
+                    """.trimMargin()
                 check(newChangeNotes.contains("(compatibility:")) {
                     "Latest change notes must specify the compatibility range of the plugin!"
                 }
                 return@provider newChangeNotes
-            }
+            },
         )
         pluginDescription.set(
             File("$rootDir/README.md").readText().lines().run {
@@ -117,7 +118,7 @@ tasks {
                     throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
                 }
                 subList(indexOf(start) + 1, indexOf(end))
-            }.joinToString("\n").run { markdownToHTML(this) }
+            }.joinToString("\n").run { markdownToHTML(this) },
         )
     }
 
@@ -164,26 +165,26 @@ tasks {
 fun setClassesToIncludeInCoverageCheck(classDirectories: ConfigurableFileCollection) {
     // packages listed here can't be tested
     val packagesToExcludeFromCoverageCheck = listOf(
-        "**/auto_hotkey/runconfig/execution/**",
-        "**/auto_hotkey/util/**",
+        "**/autohotkey/runconfig/execution/**",
+        "**/autohotkey/util/**",
 
         // swing ui packages; must be tested manually
-        "**/auto_hotkey/runconfig/ui/**",
-        "**/auto_hotkey/sdk/ui/**",
-        "**/auto_hotkey/project/configurable/**",
-        "**/auto_hotkey/project/settings/ui/**"
+        "**/autohotkey/runconfig/ui/**",
+        "**/autohotkey/sdk/ui/**",
+        "**/autohotkey/project/configurable/**",
+        "**/autohotkey/project/settings/ui/**",
     )
 
     // files listed here can't be tested, but the package wasn't excluded since other files within it can be tested
     val filesToExcludeFromCoverageCheck = listOf(
-        "**/auto_hotkey/sdk/AhkSdkType*", // pattern must be specified like this to include declared extension fns
-        "**/auto_hotkey/ide/actions/AhkCreateFileAction*",
-        "**/auto_hotkey/ide/highlighter/AhkColorSettingsPage*"
+        "**/autohotkey/sdk/AhkSdkType*", // pattern must be specified like this to include declared extension fns
+        "**/autohotkey/ide/actions/AhkCreateFileAction*",
+        "**/autohotkey/ide/highlighter/AhkColorSettingsPage*",
     )
 
     classDirectories.setFrom(
         sourceSets.main.get().output.asFileTree.matching {
             exclude(packagesToExcludeFromCoverageCheck + filesToExcludeFromCoverageCheck)
-        }
+        },
     )
 }

@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <list>
-    <option name="de.nordgedanken.auto_hotkey.NORMAL_LABEL">
+    <option name="com.autohotkey.NORMAL_LABEL">
         <value>
             <option name="FONT_TYPE" value="1"/>
         </value>
