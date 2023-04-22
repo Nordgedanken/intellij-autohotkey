@@ -34,8 +34,8 @@ object TestUtil {
     /**
      * Calculates the package path based on where the method is called.
      *
-     * Ex: if calling this from "de.nordgedanken.auto_hotkey.runconfig.model",
-     * it will return "de/nordgedanken/auto_hotkey/runconfig/model".
+     * Ex: if calling this from "com.autohotkey.runconfig.model",
+     * it will return "de/nordgedanken/autohotkey/runconfig/model".
      *
      * NOTE: Function MUST be inlined for the StackWalker to calculate the correct package path.
      * (Otherwise it would always just return TestUtil's package.)
