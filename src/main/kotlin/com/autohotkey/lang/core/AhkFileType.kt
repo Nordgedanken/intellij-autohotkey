@@ -1,9 +1,9 @@
 package com.autohotkey.lang.core
 
-import com.intellij.openapi.fileTypes.LanguageFileType
-import com.intellij.openapi.vfs.VirtualFile
 import com.autohotkey.util.AhkConstants
 import com.autohotkey.util.AhkIcons
+import com.intellij.openapi.fileTypes.LanguageFileType
+import com.intellij.openapi.vfs.VirtualFile
 import javax.swing.Icon
 
 object AhkFileType : LanguageFileType(AhkLanguage) {

@@ -1,10 +1,10 @@
 package com.autohotkey.ide.highlighter
 
+import com.autohotkey.util.AhkConstants
+import com.autohotkey.util.AhkIcons
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
 import com.intellij.openapi.util.io.StreamUtil
-import com.autohotkey.util.AhkConstants
-import com.autohotkey.util.AhkIcons
 import javax.swing.Icon
 
 class AhkColorSettingsPage : ColorSettingsPage {

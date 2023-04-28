@@ -37,10 +37,10 @@ fun JBTabbedPane.outlinedTab(@Nls tabName: String?, init: Panel.() -> Unit) {
             init()
         }.apply {
             val lineBorder = BorderFactory.createLineBorder(
-                EditorColorsManager.getInstance().globalScheme.defaultForeground
+                EditorColorsManager.getInstance().globalScheme.defaultForeground,
             )
             val margin = EmptyBorder(10, 10, 10, 10)
             border = CompoundBorder(lineBorder, margin)
-        }
+        },
     )
 }

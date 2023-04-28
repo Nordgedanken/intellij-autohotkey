@@ -34,5 +34,5 @@ class AhkSdkAdditionalDataTest : FunSpec(
                 actualAhkSdkAdditionalData shouldBe expectedAhkSdkAdditionalData
             }
         }
-    }
+    },
 )

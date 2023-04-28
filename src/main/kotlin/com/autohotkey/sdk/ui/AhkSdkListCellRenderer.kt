@@ -17,6 +17,6 @@ class AhkSdkListCellRenderer constructor(var projectSdk: Sdk?) : ColoredListCell
         value: Any?,
         index: Int,
         selected: Boolean,
-        hasFocus: Boolean
+        hasFocus: Boolean,
     ) = renderGivenSdk(value, value === projectSdk)
 }

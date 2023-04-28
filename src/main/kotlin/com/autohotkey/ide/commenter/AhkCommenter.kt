@@ -2,7 +2,9 @@ package com.autohotkey.ide.commenter
 
 import com.intellij.codeInsight.generation.CommenterDataHolder
 import com.intellij.codeInsight.generation.SelfManagingCommenter
-import com.intellij.codeInsight.generation.SelfManagingCommenterUtil.*
+import com.intellij.codeInsight.generation.SelfManagingCommenterUtil.getBlockCommentRange
+import com.intellij.codeInsight.generation.SelfManagingCommenterUtil.insertBlockComment
+import com.intellij.codeInsight.generation.SelfManagingCommenterUtil.uncommentBlockComment
 import com.intellij.lang.Commenter
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.util.TextRange
@@ -30,14 +32,14 @@ class AhkCommenter : Commenter, SelfManagingCommenter<AhkCommentHolder> {
         startLine: Int,
         endLine: Int,
         document: Document,
-        file: PsiFile
+        file: PsiFile,
     ) = AhkCommentHolder(false)
 
     override fun createBlockCommentingState(
         selectionStart: Int,
         selectionEnd: Int,
         document: Document,
-        file: PsiFile
+        file: PsiFile,
     ) = AhkCommentHolder(selectionStart != selectionEnd)
 
     override fun commentLine(line: Int, offset: Int, document: Document, data: AhkCommentHolder) {
@@ -63,7 +65,7 @@ class AhkCommenter : Commenter, SelfManagingCommenter<AhkCommentHolder> {
         selectionStart: Int,
         selectionEnd: Int,
         document: Document,
-        data: AhkCommentHolder
+        data: AhkCommentHolder,
     ) = getBlockCommentRange(selectionStart, selectionEnd, document, blockCommentPrefix, blockCommentSuffix)
 
     override fun getBlockCommentPrefix(selectionStart: Int, document: Document, data: AhkCommentHolder): String =
@@ -89,7 +91,7 @@ class AhkCommenter : Commenter, SelfManagingCommenter<AhkCommentHolder> {
         startOffset: Int,
         endOffset: Int,
         document: Document,
-        data: AhkCommentHolder?
+        data: AhkCommentHolder?,
     ): TextRange {
         val selectionStartLineNum = document.getLineNumber(startOffset)
         val selLineStartOffset = document.getLineStartOffset(selectionStartLineNum)

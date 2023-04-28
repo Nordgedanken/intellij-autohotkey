@@ -1,14 +1,14 @@
 package com.autohotkey.runconfig.producer
 
+import com.autohotkey.lang.core.isAhkFile
+import com.autohotkey.project.settings.defaultAhkSdk
+import com.autohotkey.runconfig.core.AhkRunConfig
+import com.autohotkey.runconfig.core.AhkRunConfigType
 import com.intellij.execution.actions.ConfigurationContext
 import com.intellij.execution.actions.LazyRunConfigurationProducer
 import com.intellij.execution.configurations.ConfigurationFactory
 import com.intellij.openapi.util.Ref
 import com.intellij.psi.PsiElement
-import com.autohotkey.lang.core.isAhkFile
-import com.autohotkey.project.settings.defaultAhkSdk
-import com.autohotkey.runconfig.core.AhkRunConfig
-import com.autohotkey.runconfig.core.AhkRunConfigType
 
 /**
  * Allows the user to generate a run config and run an ahk file by right-clicking on the ahk file within the project
@@ -29,7 +29,7 @@ class AhkRunConfigProducer : LazyRunConfigurationProducer<AhkRunConfig>() {
     override fun setupConfigurationFromContext(
         configuration: AhkRunConfig,
         context: ConfigurationContext,
-        sourceElement: Ref<PsiElement>
+        sourceElement: Ref<PsiElement>,
     ): Boolean {
         val location = context.location ?: return false
         val file = location.virtualFile ?: return false

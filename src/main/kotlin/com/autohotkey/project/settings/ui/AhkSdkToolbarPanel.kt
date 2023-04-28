@@ -1,12 +1,12 @@
 package com.autohotkey.project.settings.ui
 
+import com.autohotkey.sdk.AhkSdkType
+import com.autohotkey.util.AhkBundle
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.projectRoots.impl.SdkConfigurationUtil
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.table.JBTable
-import com.autohotkey.sdk.AhkSdkType
-import com.autohotkey.util.AhkBundle
 import javax.swing.JPanel
 
 /**
@@ -33,7 +33,7 @@ class AhkSdkToolbarPanel(val project: Project) {
             setRemoveActionName(AhkBundle.msg("settings.ahksdktable.remove.buttonlabel"))
             setRemoveAction {
                 val selectedRowIndex = sdkTable.selectedRow
-                val selectedSdk = sdkTableModel.getValueAt(selectedRowIndex, 0) as Sdk
+                val selectedSdk = sdkTableModel.getValueAt(selectedRowIndex, SdkTableColumns.SDK_INFO.index) as Sdk
                 SdkConfigurationUtil.removeSdk(selectedSdk)
                 sdkTableModel.removeSdkAtRow(selectedRowIndex)
                 if (sdkTableModel.sdks.size > 0) {
@@ -41,7 +41,9 @@ class AhkSdkToolbarPanel(val project: Project) {
                 }
             }
             setEditActionName(AhkBundle.msg("settings.ahksdktable.edit.buttonlabel"))
-            setEditAction { sdkTable.editCellAt(sdkTable.selectedRow, 0) }
+            setEditAction {
+                sdkTable.editCellAt(sdkTable.selectedRow, SdkTableColumns.SDK_INFO.index)
+            }
             disableUpDownActions()
         }.createPanel()
     }

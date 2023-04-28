@@ -1,5 +1,9 @@
 package com.autohotkey.sdk
 
+import com.autohotkey.runconfig.model.AhkSwitch
+import com.autohotkey.util.AhkBundle
+import com.autohotkey.util.AhkConstants
+import com.autohotkey.util.AhkIcons
 import com.intellij.openapi.actionSystem.DataKey
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
@@ -17,10 +21,6 @@ import com.intellij.openapi.ui.SelectFromListDialog
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.util.Consumer
 import com.intellij.util.io.isFile
-import com.autohotkey.runconfig.model.AhkSwitch
-import com.autohotkey.util.AhkBundle
-import com.autohotkey.util.AhkConstants
-import com.autohotkey.util.AhkIcons
 import org.jdom.Element
 import java.io.File
 import java.nio.file.FileVisitOption
@@ -86,7 +86,7 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
                         exeFilesInSelectedPath.toTypedArray(),
                         { obj -> obj.toString() },
                         AhkBundle.msg("ahksdktype.createsdk.dialogexeselect.title"),
-                        ListSelectionModel.SINGLE_SELECTION
+                        ListSelectionModel.SINGLE_SELECTION,
                     )
 
                     if (listDialog.showAndGet()) {
@@ -126,7 +126,7 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
 
     override fun createAdditionalDataConfigurable(
         sdkModel: SdkModel,
-        sdkModificator: SdkModificator
+        sdkModificator: SdkModificator,
     ): AdditionalDataConfigurable? {
         return null
     }
@@ -147,7 +147,7 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
         sdkModel: SdkModel,
         parentComponent: JComponent,
         selectedSdk: Sdk?,
-        sdkCreatedCallback: Consumer<in Sdk>
+        sdkCreatedCallback: Consumer<in Sdk>,
     ) {
         val newSdk = showUiToCreateNewAhkSdk()
         if (newSdk != null) {
@@ -166,7 +166,7 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
                 chosenVFile,
                 this.getInstance(),
                 AhkSdkAdditionalData(chosenExeName),
-                generateAhkSdkNameBasedOn(chosenExeVersion)
+                generateAhkSdkNameBasedOn(chosenExeVersion),
             )
         }
         return newlyCreatedSdk

@@ -1,5 +1,12 @@
 package com.autohotkey.runconfig.core
 
+import com.autohotkey.project.settings.defaultAhkSdk
+import com.autohotkey.runconfig.execution.AhkRunState
+import com.autohotkey.runconfig.model.AhkRunConfigSettings
+import com.autohotkey.runconfig.ui.AhkRunConfigSettingsEditor
+import com.autohotkey.sdk.getAhkSdkByName
+import com.autohotkey.util.AhkBundle
+import com.autohotkey.util.AhkConstants
 import com.intellij.execution.Executor
 import com.intellij.execution.configurations.ConfigurationFactory
 import com.intellij.execution.configurations.LocatableConfigurationBase
@@ -10,13 +17,6 @@ import com.intellij.execution.configurations.RuntimeConfigurationException
 import com.intellij.execution.runners.ExecutionEnvironment
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
-import com.autohotkey.project.settings.defaultAhkSdk
-import com.autohotkey.runconfig.execution.AhkRunState
-import com.autohotkey.runconfig.model.AhkRunConfigSettings
-import com.autohotkey.runconfig.ui.AhkRunConfigSettingsEditor
-import com.autohotkey.sdk.getAhkSdkByName
-import com.autohotkey.util.AhkBundle
-import com.autohotkey.util.AhkConstants
 import org.jdom.Element
 import java.io.File
 
@@ -26,7 +26,7 @@ import java.io.File
 class AhkRunConfig(
     project: Project,
     factory: ConfigurationFactory,
-    name: String?
+    name: String?,
 ) : LocatableConfigurationBase<RunProfileState>(project, factory, name) {
     var runConfigSettings = AhkRunConfigSettings()
 

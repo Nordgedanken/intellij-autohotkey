@@ -1,11 +1,11 @@
 package com.autohotkey.ide.actions
 
+import com.autohotkey.util.AhkIcons
 import com.intellij.ide.actions.CreateFileFromTemplateAction
 import com.intellij.ide.actions.CreateFileFromTemplateDialog
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDirectory
-import com.autohotkey.util.AhkIcons
 
 /**
  * Defines the settings for creating a new Ahk file when you right-click on a file/folder in the project tree

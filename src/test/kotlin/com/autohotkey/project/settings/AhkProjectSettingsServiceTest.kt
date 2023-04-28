@@ -1,8 +1,5 @@
 package com.autohotkey.project.settings
 
-import com.intellij.openapi.application.WriteAction
-import com.intellij.openapi.components.service
-import com.intellij.openapi.projectRoots.ProjectJdkTable
 import com.autohotkey.AhkBasePlatformTestCase
 import com.autohotkey.AhkTestCase
 import com.autohotkey.ProjectDescriptor
@@ -10,6 +7,9 @@ import com.autohotkey.WithOneAhkSdk
 import com.autohotkey.WithOneAhkSdkAsProjDefault
 import com.autohotkey.mockAhkSdk
 import com.autohotkey.mockAhkSdk2
+import com.intellij.openapi.application.WriteAction
+import com.intellij.openapi.components.service
+import com.intellij.openapi.projectRoots.ProjectJdkTable
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.types.shouldBeSameInstanceAs
 import util.TestUtil

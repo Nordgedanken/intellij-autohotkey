@@ -1,26 +1,29 @@
 package com.autohotkey.project.settings.ui
 
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.projectRoots.Sdk
-import com.intellij.ui.table.JBTable
 import com.autohotkey.project.settings.defaultAhkSdk
 import com.autohotkey.sdk.getAhkSdks
 import com.autohotkey.sdk.ui.AhkSdkCellEditor
 import com.autohotkey.sdk.ui.AhkSdkTableCellRenderer
 import com.autohotkey.util.AhkBundle
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.projectRoots.Sdk
+import com.intellij.ui.table.JBTable
 import java.awt.event.MouseEvent
 import javax.swing.ListSelectionModel
 import javax.swing.table.AbstractTableModel
 
-private val sdkTableColumnNames = arrayOf(
-    AhkBundle.msg("settings.ahksdktable.general.sdkcolumn.label"),
-    AhkBundle.msg("settings.ahksdktable.general.defaultcolumn.label")
-)
-
-private val sdkTableColumnToolTips = arrayOf(
-    null,
-    AhkBundle.msg("settings.ahksdktable.general.defaultcolumn.tooltip")
-)
+enum class SdkTableColumns(val index: Int, val title: String, val tooltip: String?) {
+    DEFAULT(
+        0,
+        AhkBundle.msg("settings.ahksdktable.general.defaultcolumn.label"),
+        AhkBundle.msg("settings.ahksdktable.general.defaultcolumn.tooltip"),
+    ),
+    SDK_INFO(
+        1,
+        AhkBundle.msg("settings.ahksdktable.general.sdkcolumn.label"),
+        null,
+    ),
+}
 
 /**
  * Table that displays the current ahk sdks registered in the project and allows the user to select a default. Offers
@@ -29,7 +32,7 @@ private val sdkTableColumnToolTips = arrayOf(
  * (See example in AhkSdkToolbarPanel.kt)
  */
 class AhkSdkManagementTable(
-    project: Project
+    project: Project,
 ) : JBTable(AhkSdkTableModel(project)) {
     private val sdkTableCellEditor = AhkSdkCellEditor(project)
     private val ahkSdkCellRenderer = AhkSdkTableCellRenderer(project)
@@ -41,20 +44,22 @@ class AhkSdkManagementTable(
         tableHeader.resizingAllowed = false
         tableHeader.reorderingAllowed = false
         columnModel.apply {
-            getColumn(0).apply {
-                cellRenderer = ahkSdkCellRenderer
-                cellEditor = sdkTableCellEditor
-            }
-            getColumn(1).apply {
+            getColumn(SdkTableColumns.DEFAULT.index).apply {
                 cellRenderer = RadioButtonCellEditorRenderer
                 cellEditor = RadioButtonCellEditorRenderer
                 maxWidth = 15 + tableHeader.getFontMetrics(tableHeader.font).stringWidth(model.getColumnName(1))
+            }
+            getColumn(SdkTableColumns.SDK_INFO.index).apply {
+                cellRenderer = ahkSdkCellRenderer
+                cellEditor = sdkTableCellEditor
             }
         }
     }
 
     override fun createDefaultTableHeader() = object : JBTableHeader() {
-        override fun getToolTipText(event: MouseEvent) = sdkTableColumnToolTips[columnAtPoint(event.point)]
+        override fun getToolTipText(event: MouseEvent): String? = SdkTableColumns.values().first {
+            it.index == columnAtPoint(event.point)
+        }.tooltip
     }
 }
 
@@ -62,36 +67,37 @@ class AhkSdkManagementTable(
  * Model that backs the data displayed in the table. Calling the add/remove methods here will update the display in the
  * table.
  *
- * The 1st column shows the sdk; the 2nd column shows a radio button indicating whether it is the default sdk
+ * Column DEFAULT: Radio button marking whether the current row is the default sdk
+ * Column SDK_INFO: Info about the sdk itself
  */
 class AhkSdkTableModel(
-    private val project: Project
+    private val project: Project,
 ) : AbstractTableModel() {
     val sdks = getAhkSdks().toMutableList()
 
     override fun getRowCount() = sdks.size
 
-    override fun getColumnCount() = sdkTableColumnNames.size
+    override fun getColumnCount() = SdkTableColumns.values().size
 
-    override fun getColumnName(column: Int) = sdkTableColumnNames[column]
+    override fun getColumnName(column: Int): String = SdkTableColumns.values().first { it.index == column }.title
 
     override fun isCellEditable(rowIndex: Int, columnIndex: Int) = true
 
     override fun getValueAt(rowIndex: Int, columnIndex: Int): Any = when (columnIndex) {
-        0 -> sdks[rowIndex]
-        1 -> project.defaultAhkSdk === sdks[rowIndex]
+        SdkTableColumns.DEFAULT.index -> project.defaultAhkSdk === sdks[rowIndex]
+        SdkTableColumns.SDK_INFO.index -> sdks[rowIndex]
         else -> throw IllegalStateException("Unexpected column is trying to get value")
     }
 
     override fun setValueAt(aValue: Any?, rowIndex: Int, columnIndex: Int) {
         when (columnIndex) {
-            0 -> sdks[rowIndex].sdkModificator.run {
-                name = aValue as String
-                commitChanges()
-            }
-            1 -> {
+            SdkTableColumns.DEFAULT.index -> {
                 project.defaultAhkSdk = sdks[rowIndex]
                 fireTableRowsUpdated(0, rowCount)
+            }
+            SdkTableColumns.SDK_INFO.index -> sdks[rowIndex].sdkModificator.run {
+                name = aValue as String
+                commitChanges()
             }
             else -> throw IllegalStateException("Unexpected column is trying to set value")
         }

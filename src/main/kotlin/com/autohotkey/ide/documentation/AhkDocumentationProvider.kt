@@ -1,5 +1,8 @@
 package com.autohotkey.ide.documentation
 
+import com.autohotkey.lang.psi.AhkTokenType
+import com.autohotkey.project.settings.defaultAhkSdk
+import com.autohotkey.sdk.ahkDocUrlBase
 import com.intellij.ide.BrowserUtil
 import com.intellij.lang.documentation.DocumentationProvider
 import com.intellij.lang.documentation.ExternalDocumentationHandler
@@ -9,9 +12,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.autohotkey.lang.psi.AhkTokenType
-import com.autohotkey.project.settings.defaultAhkSdk
-import com.autohotkey.sdk.ahkDocUrlBase
 
 /**
  * Provides commands/directives documentation by extracting them from the
@@ -23,7 +23,7 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
         editor: Editor,
         file: PsiFile,
         contextElement: PsiElement?,
-        targetOffset: Int
+        targetOffset: Int,
     ): PsiElement? = contextElement
 
     /**
@@ -103,7 +103,7 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
     override fun handleExternalLink(
         psiManager: PsiManager?,
         link: String?,
-        context: PsiElement?
+        context: PsiElement?,
     ): Boolean {
         if (link?.startsWith("http") == true) {
             BrowserUtil.browse(link)

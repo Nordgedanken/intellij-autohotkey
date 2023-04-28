@@ -1,13 +1,13 @@
 package com.autohotkey.ide.notifications
 
-import com.intellij.openapi.fileEditor.FileEditorManager
-import com.intellij.openapi.fileTypes.FileType
-import com.intellij.ui.EditorNotificationPanel
 import com.autohotkey.AhkBasePlatformTestCase
 import com.autohotkey.ProjectDescriptor
 import com.autohotkey.WithOneAhkSdk
 import com.autohotkey.lang.core.AhkFileType
 import com.autohotkey.util.AhkBundle
+import com.intellij.openapi.fileEditor.FileEditorManager
+import com.intellij.openapi.fileTypes.FileType
+import com.intellij.ui.EditorNotificationPanel
 import io.kotest.matchers.nulls.shouldBeNull
 import io.kotest.matchers.shouldBe
 import com.intellij.openapi.fileTypes.PlainTextFileType.INSTANCE as PlainTextFileType

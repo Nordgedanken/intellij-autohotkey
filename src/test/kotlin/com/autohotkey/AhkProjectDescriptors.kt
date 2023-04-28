@@ -1,10 +1,10 @@
 package com.autohotkey
 
+import com.autohotkey.project.settings.defaultAhkSdk
+import com.autohotkey.sdk.AhkSdkType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl
 import com.intellij.testFramework.LightProjectDescriptor
-import com.autohotkey.project.settings.defaultAhkSdk
-import com.autohotkey.sdk.AhkSdkType
 
 /**
  * This class contains a number of descriptors that can be used with the

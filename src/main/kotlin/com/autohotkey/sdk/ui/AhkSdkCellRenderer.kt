@@ -1,13 +1,13 @@
 package com.autohotkey.sdk.ui
 
-import com.intellij.icons.AllIcons
-import com.intellij.openapi.projectRoots.Sdk
-import com.intellij.ui.SimpleColoredComponent
-import com.intellij.ui.SimpleTextAttributes
 import com.autohotkey.sdk.ahkExeName
 import com.autohotkey.sdk.isAhkSdk
 import com.autohotkey.util.AhkBundle
 import com.autohotkey.util.AhkIcons
+import com.intellij.icons.AllIcons
+import com.intellij.openapi.projectRoots.Sdk
+import com.intellij.ui.SimpleColoredComponent
+import com.intellij.ui.SimpleTextAttributes
 
 /**
  * Defines methods for the standard render of an ahk sdk within a SimpleColoredComponent. If the value isn't an ahk sdk,
@@ -29,7 +29,7 @@ fun SimpleColoredComponent.renderGivenSdk(value: Any?, isProjectSdk: Boolean = f
             if (isProjectSdk) {
                 append(
                     "  [${AhkBundle.msg("runconfig.configtab.scriptrunner.sdklabel.default")}]",
-                    SimpleTextAttributes.SYNTHETIC_ATTRIBUTES
+                    SimpleTextAttributes.SYNTHETIC_ATTRIBUTES,
                 )
             }
         }
@@ -37,18 +37,18 @@ fun SimpleColoredComponent.renderGivenSdk(value: Any?, isProjectSdk: Boolean = f
             icon = AllIcons.Nodes.PpInvalid
             append(
                 "$value <${AhkBundle.msg("runconfig.configtab.scriptrunner.sdklabel.unrecognized")}>",
-                SimpleTextAttributes.ERROR_ATTRIBUTES
+                SimpleTextAttributes.ERROR_ATTRIBUTES,
             )
         }
         value === null -> {
             icon = AllIcons.Nodes.PpInvalid
             append(
                 "<${AhkBundle.msg("runconfig.configtab.scriptrunner.sdklabel.noneselected")}>",
-                SimpleTextAttributes.ERROR_ATTRIBUTES
+                SimpleTextAttributes.ERROR_ATTRIBUTES,
             )
         }
         else -> throw IllegalStateException(
-            "ColoredComponent was asked to render unexpected value: $value, ${value::class.qualifiedName}"
+            "ColoredComponent was asked to render unexpected value: $value, ${value::class.qualifiedName}",
         )
     }
 }

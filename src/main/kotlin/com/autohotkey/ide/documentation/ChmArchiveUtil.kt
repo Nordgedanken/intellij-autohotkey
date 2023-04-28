@@ -1,12 +1,12 @@
 package com.autohotkey.ide.documentation
 
+import com.autohotkey.project.settings.defaultAhkSdk
+import com.autohotkey.util.AhkBundle
 import com.github.b3er.idea.plugins.arc.browser.formats.sevenzip.SevenZipArchiveFileSystemImpl
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.impl.ArchiveHandler
 import com.intellij.openapi.vfs.newvfs.impl.StubVirtualFile
-import com.autohotkey.project.settings.defaultAhkSdk
-import com.autohotkey.util.AhkBundle
 
 /**
  * Helpers to manipulate the AutoHotkey.chm file
@@ -37,7 +37,7 @@ object ChmArchiveUtil {
             "docs/misc",
             "docs/objects",
             "docs",
-            "docs/scripts"
+            "docs/scripts",
         )
 
         for (path in paths) {

@@ -5,12 +5,12 @@
 
 package com.autohotkey.lang.parser
 
+import com.autohotkey.AhkTestCase
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.PsiFile
 import com.intellij.testFramework.ParsingTestCase
-import com.autohotkey.AhkTestCase
 import org.jetbrains.annotations.NonNls
 
 abstract class AhkParsingTestBase(@NonNls dataPath: String) :
@@ -18,7 +18,7 @@ abstract class AhkParsingTestBase(@NonNls dataPath: String) :
         "com/autohotkey/lang/parser/$dataPath",
         "ahk",
         true,
-        AhkParserDefinition()
+        AhkParserDefinition(),
     ),
     AhkTestCase {
     override fun getTestName(lowercaseFirstLetter: Boolean): String {
@@ -39,7 +39,7 @@ abstract class AhkParsingTestBase(@NonNls dataPath: String) :
                     }
                     element.acceptChildren(this)
                 }
-            }
+            },
         )
         return hasErrors
     }

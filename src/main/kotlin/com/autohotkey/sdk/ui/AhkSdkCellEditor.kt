@@ -1,12 +1,12 @@
 package com.autohotkey.sdk.ui
 
+import com.autohotkey.util.AhkBundle
+import com.autohotkey.util.NotificationUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.ProjectJdkTable
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.ui.components.JBTextField
 import com.jetbrains.rd.util.remove
-import com.autohotkey.util.AhkBundle
-import com.autohotkey.util.NotificationUtil
 import java.awt.Component
 import javax.swing.DefaultCellEditor
 import javax.swing.JTable
@@ -37,7 +37,7 @@ class AhkSdkCellEditor(private val project: Project) : DefaultCellEditor(JBTextF
                 project,
                 AhkBundle.msg("settings.ahksdktable.edit.error.alreadyexists.dialogtitle"),
                 AhkBundle.msg("settings.ahksdktable.edit.error.alreadyexists.dialogmsg")
-                    .format(newSdkName)
+                    .format(newSdkName),
             )
             return false
         }
@@ -53,7 +53,7 @@ class AhkSdkCellEditor(private val project: Project) : DefaultCellEditor(JBTextF
         value: Any?,
         isSelected: Boolean,
         row: Int,
-        column: Int
+        column: Int,
     ): Component {
         sdkBeingEdited = value as Sdk
         return super.getTableCellEditorComponent(table, value.name, isSelected, row, column)
