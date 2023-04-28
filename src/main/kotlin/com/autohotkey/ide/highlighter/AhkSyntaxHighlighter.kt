@@ -1,12 +1,12 @@
 package com.autohotkey.ide.highlighter
 
+import com.autohotkey.lang.lexer.AhkLexerAdapter
+import com.autohotkey.lang.psi.AhkTypes.BLOCK_COMMENT
+import com.autohotkey.lang.psi.AhkTypes.LINE_COMMENT
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.tree.IElementType
-import com.autohotkey.lang.lexer.AhkLexerAdapter
-import com.autohotkey.lang.psi.AhkTypes.BLOCK_COMMENT
-import com.autohotkey.lang.psi.AhkTypes.LINE_COMMENT
 
 /**
  * Defines what color raw tokens read directly from the lexer should be.

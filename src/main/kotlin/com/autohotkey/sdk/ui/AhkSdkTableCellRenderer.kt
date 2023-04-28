@@ -1,8 +1,8 @@
 package com.autohotkey.sdk.ui
 
+import com.autohotkey.project.settings.defaultAhkSdk
 import com.intellij.openapi.project.Project
 import com.intellij.ui.ColoredTableCellRenderer
-import com.autohotkey.project.settings.defaultAhkSdk
 import javax.swing.JTable
 
 /**
@@ -19,6 +19,6 @@ class AhkSdkTableCellRenderer constructor(var project: Project) : ColoredTableCe
         selected: Boolean,
         hasFocus: Boolean,
         row: Int,
-        column: Int
+        column: Int,
     ) = renderGivenSdk(value, value === project.defaultAhkSdk)
 }

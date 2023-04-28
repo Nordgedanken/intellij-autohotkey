@@ -32,7 +32,7 @@ import javax.swing.event.HyperlinkEvent
 class AhkCompileToExeAction : DumbAwareAction(
     AhkBundle.msg("compiletoexeaction.text"),
     AhkBundle.msg("compiletoexeaction.description"),
-    AhkIcons.EXE
+    AhkIcons.EXE,
 ) {
     override fun update(e: AnActionEvent) {
         e.presentation.isEnabledAndVisible = e.dataContext.getData(CommonDataKeys.VIRTUAL_FILE)?.isAhkFile() == true
@@ -72,7 +72,7 @@ class AhkCompileToExeAction : DumbAwareAction(
                     if (it.eventType == HyperlinkEvent.EventType.ACTIVATED) {
                         ShowSettingsUtil.getInstance().showSettingsDialog(project, AhkProjectConfigurable::class.java)
                     }
-                }
+                },
             )
         }
 
@@ -86,7 +86,7 @@ class AhkCompileToExeAction : DumbAwareAction(
                     if (it.eventType == HyperlinkEvent.EventType.ACTIVATED) {
                         openDirectory(sdkHomeDir)
                     }
-                }
+                },
             )
         }
 
@@ -95,7 +95,7 @@ class AhkCompileToExeAction : DumbAwareAction(
                 ToolWindowId.PROJECT_VIEW,
                 MessageType.ERROR,
                 AhkBundle.msg("compiletoexeaction.error.errorrunningahk2exe").format(scriptName),
-                AllIcons.General.Error
+                AllIcons.General.Error,
             )
         }
 
@@ -104,7 +104,7 @@ class AhkCompileToExeAction : DumbAwareAction(
                 ToolWindowId.PROJECT_VIEW,
                 MessageType.INFO,
                 AhkBundle.msg("compiletoexeaction.success.message").format(ahkDocUrl),
-                listener = BrowserHyperlinkListener.INSTANCE
+                listener = BrowserHyperlinkListener.INSTANCE,
             )
         }
     }

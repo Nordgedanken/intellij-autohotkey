@@ -1,17 +1,17 @@
 package com.autohotkey.runconfig.producer
 
-import com.intellij.execution.RunnerAndConfigurationSettings
-import com.intellij.execution.actions.ConfigurationContext
-import com.intellij.execution.impl.RunnerAndConfigurationSettingsImpl
-import com.intellij.openapi.fileTypes.FileType
-import com.intellij.psi.PsiElement
-import com.intellij.testFramework.fixtures.CodeInsightTestFixture
 import com.autohotkey.AhkBasePlatformTestCase
 import com.autohotkey.AhkTestCase
 import com.autohotkey.ProjectDescriptor
 import com.autohotkey.WithOneAhkSdkAsProjDefault
 import com.autohotkey.lang.core.AhkFileType
 import com.autohotkey.runconfig.core.AhkRunConfig
+import com.intellij.execution.RunnerAndConfigurationSettings
+import com.intellij.execution.actions.ConfigurationContext
+import com.intellij.execution.impl.RunnerAndConfigurationSettingsImpl
+import com.intellij.openapi.fileTypes.FileType
+import com.intellij.psi.PsiElement
+import com.intellij.testFramework.fixtures.CodeInsightTestFixture
 import io.kotest.matchers.shouldBe
 import org.jdom.Element
 import util.TestUtil.packagePath
@@ -88,7 +88,7 @@ class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
      */
     private fun generateContextAhkRunconfigsFromFile(
         filename: String,
-        fileContent: String
+        fileContent: String,
     ): List<RunnerAndConfigurationSettings> {
         val element = myFixture.configureByText(filename, fileContent).originalFile.run { firstChild ?: this }
         return ConfigurationContext(element).configurationsFromContext.orEmpty().map { it.configurationSettings }

@@ -1,13 +1,13 @@
 package com.autohotkey.runconfig.ui
 
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.projectRoots.Sdk
-import com.intellij.openapi.ui.ComboBox
-import com.intellij.ui.CollectionComboBoxModel
 import com.autohotkey.project.settings.defaultAhkSdk
 import com.autohotkey.sdk.getAhkSdkByName
 import com.autohotkey.sdk.getAhkSdks
 import com.autohotkey.sdk.ui.AhkSdkListCellRenderer
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.projectRoots.Sdk
+import com.intellij.openapi.ui.ComboBox
+import com.intellij.ui.CollectionComboBoxModel
 
 /**
  * Defines a combobox that you can select an ahk sdk from the available list of sdks. Rendering is defined by an
@@ -42,7 +42,7 @@ class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
             is String -> selectedSdk
             null -> ""
             else -> throw IllegalStateException(
-                "Unexpected sdk present in the combobox options: $selectedSdk, ${selectedSdk::class.qualifiedName}"
+                "Unexpected sdk present in the combobox options: $selectedSdk, ${selectedSdk::class.qualifiedName}",
             )
         }
     }

@@ -7,11 +7,11 @@ import org.intellij.lang.annotations.Language
 
 class AhkHighlightAnnotatorTest : AhkBasePlatformTestCase() {
     fun `test directive is highlighted`() = checkInfoHighlighting(
-        """<info descr="null">#Warn</info>"""
+        """<info descr="null">#Warn</info>""",
     )
 
     fun `test hotkey is highlighted`() = checkInfoHighlighting(
-        """<info descr="null">^a</info>::"""
+        """<info descr="null">^a</info>::""",
     )
 
     private fun checkInfoHighlighting(@Language(AhkConstants.LANGUAGE_NAME) ahkCodeWAnnotationInfo: String) {

@@ -1,14 +1,14 @@
 package com.autohotkey.ide.documentation
 
-import com.intellij.ide.BrowserUtil
-import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl
-import com.intellij.psi.PsiElement
 import com.autohotkey.AhkBasePlatformTestCase
 import com.autohotkey.AhkTestCase
 import com.autohotkey.ProjectDescriptor
 import com.autohotkey.WithOneAhkSdkAsProjDefault
 import com.autohotkey.lang.core.AhkFileType
 import com.autohotkey.project.settings.defaultAhkSdk
+import com.intellij.ide.BrowserUtil
+import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl
+import com.intellij.psi.PsiElement
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldContain
@@ -39,7 +39,7 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
             myFixture.editor,
             myFixture.file,
             element,
-            0
+            0,
         )
         customDocumentationElement shouldNotBe null
         customDocumentationElement shouldBe element

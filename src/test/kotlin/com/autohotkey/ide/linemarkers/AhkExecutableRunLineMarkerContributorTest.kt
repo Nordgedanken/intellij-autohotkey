@@ -1,9 +1,9 @@
 package com.autohotkey.ide.linemarkers
 
+import com.autohotkey.AhkBasePlatformTestCase
 import com.intellij.codeInsight.daemon.impl.DaemonCodeAnalyzerImpl
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
-import com.autohotkey.AhkBasePlatformTestCase
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 
@@ -59,7 +59,7 @@ class AhkExecutableRunLineMarkerContributorTest : AhkBasePlatformTestCase() {
             .map {
                 Pair(
                     editor.document.getLineNumber(it.element?.textRange?.startOffset as Int),
-                    it.lineMarkerTooltip ?: "null"
+                    it.lineMarkerTooltip ?: "null",
                 )
             }
             .sortedWith(compareBy({ it.first }, { it.second }))

@@ -1,11 +1,11 @@
 package com.autohotkey.runconfig.core
 
-import com.intellij.execution.RunManager
-import com.intellij.execution.configurations.RuntimeConfigurationException
 import com.autohotkey.AhkBasePlatformTestCase
 import com.autohotkey.ProjectDescriptor
 import com.autohotkey.WithOneAhkSdk
 import com.autohotkey.runconfig.ui.AhkRunConfigSettingsEditor
+import com.intellij.execution.RunManager
+import com.intellij.execution.configurations.RuntimeConfigurationException
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe

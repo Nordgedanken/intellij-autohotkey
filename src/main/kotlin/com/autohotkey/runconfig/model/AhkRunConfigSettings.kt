@@ -20,7 +20,7 @@ data class AhkRunConfigSettings(
     var runner: String = "",
     var switches: MutableMap<AhkSwitch, Boolean> = DEFAULT_SWITCHES,
     var pathToScript: String = "",
-    var arguments: String = ""
+    var arguments: String = "",
 ) : Cloneable {
     /**
      * Returns all enabled switches as a list of strings

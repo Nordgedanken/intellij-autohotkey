@@ -1,5 +1,8 @@
 package com.autohotkey.runconfig.execution
 
+import com.autohotkey.runconfig.core.AhkRunConfig
+import com.autohotkey.sdk.ahkExeName
+import com.autohotkey.sdk.getAhkSdkByName
 import com.intellij.execution.ExecutionException
 import com.intellij.execution.configurations.CommandLineState
 import com.intellij.execution.configurations.GeneralCommandLine
@@ -9,9 +12,6 @@ import com.intellij.execution.filters.RegexpFilter.LINE_MACROS
 import com.intellij.execution.process.KillableProcessHandler
 import com.intellij.execution.process.ProcessHandler
 import com.intellij.execution.runners.ExecutionEnvironment
-import com.autohotkey.runconfig.core.AhkRunConfig
-import com.autohotkey.sdk.ahkExeName
-import com.autohotkey.sdk.getAhkSdkByName
 import java.nio.file.Paths
 
 /**
@@ -20,7 +20,7 @@ import java.nio.file.Paths
  */
 class AhkRunState(
     private val ahkRunConfig: AhkRunConfig,
-    environment: ExecutionEnvironment?
+    environment: ExecutionEnvironment?,
 ) : CommandLineState(environment) {
     init {
         addConsoleFilters(RegexpFilter(ahkRunConfig.project, "$FILE_PATH_MACROS \\($LINE_MACROS\\)"))

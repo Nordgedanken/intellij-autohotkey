@@ -1,10 +1,10 @@
 package com.autohotkey.sdk
 
-import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl
 import com.autohotkey.AhkBasePlatformTestCase
 import com.autohotkey.ProjectDescriptor
 import com.autohotkey.WithOneAhkSdk
 import com.autohotkey.mockAhkSdk
+import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull

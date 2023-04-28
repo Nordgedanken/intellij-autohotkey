@@ -1,5 +1,9 @@
 package com.autohotkey.ide.notifications
 
+import com.autohotkey.lang.core.isAhkFile
+import com.autohotkey.project.configurable.AhkProjectConfigurable
+import com.autohotkey.sdk.getAhkSdks
+import com.autohotkey.util.AhkBundle
 import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.DumbAware
@@ -7,11 +11,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
 import com.intellij.ui.EditorNotificationProvider
-import com.intellij.ui.EditorNotificationProvider.CONST_NULL
-import com.autohotkey.lang.core.isAhkFile
-import com.autohotkey.project.configurable.AhkProjectConfigurable
-import com.autohotkey.sdk.getAhkSdks
-import com.autohotkey.util.AhkBundle
 import java.util.function.Function
 import javax.swing.JComponent
 

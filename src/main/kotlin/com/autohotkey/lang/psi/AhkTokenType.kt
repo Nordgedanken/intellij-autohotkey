@@ -1,10 +1,10 @@
 package com.autohotkey.lang.psi
 
-import com.intellij.psi.tree.IElementType
-import com.intellij.psi.tree.TokenSet
 import com.autohotkey.lang.core.AhkLanguage
 import com.autohotkey.lang.psi.AhkTypes.BLOCK_COMMENT
 import com.autohotkey.lang.psi.AhkTypes.LINE_COMMENT
+import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.TokenSet
 
 open class AhkTokenType(debugName: String) : IElementType(debugName, AhkLanguage)
 

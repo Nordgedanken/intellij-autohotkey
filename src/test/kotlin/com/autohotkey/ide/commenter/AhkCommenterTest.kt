@@ -1,9 +1,9 @@
 package com.autohotkey.ide.commenter
 
-import com.intellij.codeInsight.generation.actions.CommentByBlockCommentAction
-import com.intellij.codeInsight.generation.actions.CommentByLineCommentAction
 import com.autohotkey.AhkBasePlatformTestCase
 import com.autohotkey.lang.core.AhkFileType
+import com.intellij.codeInsight.generation.actions.CommentByBlockCommentAction
+import com.intellij.codeInsight.generation.actions.CommentByLineCommentAction
 
 class AhkCommenterTest : AhkBasePlatformTestCase() {
     fun `test line comment added to caret's line with no selection`() {

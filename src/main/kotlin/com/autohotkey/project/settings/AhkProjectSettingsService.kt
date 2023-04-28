@@ -1,5 +1,9 @@
 package com.autohotkey.project.settings
 
+import com.autohotkey.sdk.getAhkSdkByName
+import com.autohotkey.sdk.getAhkSdks
+import com.autohotkey.sdk.getFirstAvailableAhkSdk
+import com.autohotkey.sdk.isAhkSdk
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.State
@@ -9,10 +13,6 @@ import com.intellij.openapi.projectRoots.ProjectJdkTable
 import com.intellij.openapi.projectRoots.ProjectJdkTable.JDK_TABLE_TOPIC
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.util.JDOMExternalizerUtil
-import com.autohotkey.sdk.getAhkSdkByName
-import com.autohotkey.sdk.getAhkSdks
-import com.autohotkey.sdk.getFirstAvailableAhkSdk
-import com.autohotkey.sdk.isAhkSdk
 import org.jdom.Element
 
 const val AHK_PROJECT_SETTINGS: String = "AhkProjectSettings"
@@ -24,7 +24,7 @@ const val AHK_PROJECT_SETTINGS: String = "AhkProjectSettings"
 @Service
 @State(name = AHK_PROJECT_SETTINGS)
 class AhkProjectSettingsService(
-    project: Project
+    project: Project,
 ) : PersistentStateComponent<Element> {
     /**
      * Set to internal on purpose to prevent unauthorized modification. It is set by default to the first available
@@ -49,7 +49,7 @@ class AhkProjectSettingsService(
                 }
 
                 override fun jdkNameChanged(jdk: Sdk, previousName: String) {}
-            }
+            },
         )
     }
 

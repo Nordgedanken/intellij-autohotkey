@@ -19,5 +19,5 @@ class AhkSwitchTest : FunSpec(
                 AhkSwitch.valueOfBySwitchName("/invalidSwitch")
             }
         }
-    }
+    },
 )

@@ -28,7 +28,7 @@ object RadioButtonCellEditorRenderer : AbstractCellEditor(), TableCellRenderer, 
         isSelected: Boolean,
         hasFocus: Boolean,
         row: Int,
-        column: Int
+        column: Int,
     ): Component {
         radioButton.isSelected = value == true
         return radioButton
@@ -39,7 +39,7 @@ object RadioButtonCellEditorRenderer : AbstractCellEditor(), TableCellRenderer, 
         value: Any,
         isSelected: Boolean,
         row: Int,
-        column: Int
+        column: Int,
     ): Component {
         radioButton.isSelected = value == true
         return radioButton

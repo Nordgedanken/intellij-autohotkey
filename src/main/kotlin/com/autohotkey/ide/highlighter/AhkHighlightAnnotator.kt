@@ -1,9 +1,5 @@
 package com.autohotkey.ide.highlighter
 
-import com.intellij.lang.annotation.AnnotationHolder
-import com.intellij.lang.annotation.Annotator
-import com.intellij.lang.annotation.HighlightSeverity.INFORMATION
-import com.intellij.psi.PsiElement
 import com.autohotkey.ide.highlighter.AhkHighlighterColor.DIRECTIVE
 import com.autohotkey.ide.highlighter.AhkHighlighterColor.HOTKEY
 import com.autohotkey.ide.highlighter.AhkHighlighterColor.HOTSTRING
@@ -12,6 +8,10 @@ import com.autohotkey.lang.psi.AhkDirective
 import com.autohotkey.lang.psi.AhkHotkey
 import com.autohotkey.lang.psi.AhkHotstring
 import com.autohotkey.lang.psi.AhkNormalLabel
+import com.intellij.lang.annotation.AnnotationHolder
+import com.intellij.lang.annotation.Annotator
+import com.intellij.lang.annotation.HighlightSeverity.INFORMATION
+import com.intellij.psi.PsiElement
 
 /**
  * Highlights psiElements that can't be highlighted by [AhkSyntaxHighlighter] since they are made of composite tokens

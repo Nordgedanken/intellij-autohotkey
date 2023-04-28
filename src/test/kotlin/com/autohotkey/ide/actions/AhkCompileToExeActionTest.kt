@@ -1,5 +1,11 @@
 package com.autohotkey.ide.actions
 
+import com.autohotkey.AhkBasePlatformTestCase
+import com.autohotkey.ProjectDescriptor
+import com.autohotkey.WithOneAhkSdkAsProjDefault
+import com.autohotkey.project.settings.defaultAhkSdk
+import com.autohotkey.sdk.ahkDocUrlBase
+import com.autohotkey.util.AhkBundle
 import com.intellij.ide.DataManager
 import com.intellij.ide.impl.HeadlessDataManager
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -12,12 +18,6 @@ import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.testFramework.TemporaryDirectory
 import com.intellij.testFramework.replaceService
 import com.intellij.toolWindow.ToolWindowHeadlessManagerImpl
-import com.autohotkey.AhkBasePlatformTestCase
-import com.autohotkey.ProjectDescriptor
-import com.autohotkey.WithOneAhkSdkAsProjDefault
-import com.autohotkey.project.settings.defaultAhkSdk
-import com.autohotkey.sdk.ahkDocUrlBase
-import com.autohotkey.util.AhkBundle
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.shouldBe
 import io.mockk.Runs

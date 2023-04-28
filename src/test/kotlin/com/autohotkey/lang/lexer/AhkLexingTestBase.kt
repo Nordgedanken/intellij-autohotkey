@@ -1,14 +1,14 @@
 package com.autohotkey.lang.lexer
 
+import com.autohotkey.AhkTestCase
+import com.autohotkey.pathToGoldTestFile
+import com.autohotkey.pathToSourceTestFile
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.openapi.vfs.CharsetToolkit
 import com.intellij.testFramework.LexerTestCase
 import com.intellij.testFramework.UsefulTestCase
-import com.autohotkey.AhkTestCase
-import com.autohotkey.pathToGoldTestFile
-import com.autohotkey.pathToSourceTestFile
 import org.jetbrains.annotations.NonNls
 import java.io.IOException
 
