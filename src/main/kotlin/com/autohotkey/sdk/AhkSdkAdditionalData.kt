@@ -14,7 +14,7 @@ const val DEFAULT_AHK_EXE_NAME = "AutoHotkey.exe"
  */
 data class AhkSdkAdditionalData(var exeName: String = DEFAULT_AHK_EXE_NAME) : SdkAdditionalData {
     fun writeTo(element: Element) {
-        JDOMExternalizerUtil.writeField(element, ::exeName.name, exeName)
+        JDOMExternalizerUtil.writeField(element, AhkSdkAdditionalData::exeName.name, exeName)
     }
 
     companion object {

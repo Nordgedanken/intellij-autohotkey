@@ -10,10 +10,13 @@ import com.autohotkey.util.AhkIcons
 import com.intellij.icons.AllIcons
 import com.intellij.ide.actions.RevealFileAction.findLocalFile
 import com.intellij.ide.actions.RevealFileAction.openDirectory
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.options.ShowSettingsUtil
+import com.intellij.openapi.progress.ProgressIndicator
+import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.DumbAwareAction
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.MessageType
@@ -38,6 +41,8 @@ class AhkCompileToExeAction : DumbAwareAction(
         e.presentation.isEnabledAndVisible = e.dataContext.getData(CommonDataKeys.VIRTUAL_FILE)?.isAhkFile() == true
     }
 
+    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
+
     override fun actionPerformed(e: AnActionEvent) {
         val toolWindowManager = ToolWindowManager.getInstance(e.project!!)
         if (!e.project!!.hasDefaultAhkSdk()) {
@@ -48,17 +53,24 @@ class AhkCompileToExeAction : DumbAwareAction(
         if (!ahk2ExeFile.isFile) {
             return toolWindowManager.notifyByBalloon(ERROR_BALLOON_NO_AHK2EXE_EXISTS(defaultAhkSdkHomeDir))
         }
-        val scriptToCompile = findLocalFile(e.getData(CommonDataKeys.VIRTUAL_FILE))!!
+        val script = findLocalFile(e.getData(CommonDataKeys.VIRTUAL_FILE))!!
         // Below required since IDE doesn't instantly save to disk if a quick edit is made before selecting compile
-        FileDocumentManager.getInstance().run { saveDocument(getCachedDocument(scriptToCompile)!!) }
-        ProcessBuilder(ahk2ExeFile.path, "/in", scriptToCompile.path).directory(defaultAhkSdkHomeDir).start().run {
-            val processTerminated = waitFor(60, SECONDS)
-            if (!processTerminated || exitValue() != 0) {
-                return toolWindowManager.notifyByBalloon(ERROR_BALLOON_ERROR_RUNNING_AHK2EXE(scriptToCompile.name))
+        FileDocumentManager.getInstance().run { saveDocument(getCachedDocument(script)!!) }
+
+        object : Task.Backgroundable(e.project!!, AhkBundle.msg("compiletoexeaction.task.title"), false) {
+            override fun run(indicator: ProgressIndicator) {
+                indicator.isIndeterminate = true
+                indicator.text = AhkBundle.msg("compiletoexeaction.task.indicator.label").format(script.name)
+                ProcessBuilder(ahk2ExeFile.path, "/in", script.path).directory(defaultAhkSdkHomeDir).start().run {
+                    val processTerminated = waitFor(60, SECONDS)
+                    if (!processTerminated || exitValue() != 0) {
+                        return toolWindowManager.notifyByBalloon(ERROR_BALLOON_ERROR_RUNNING_AHK2EXE(script.name))
+                    }
+                    toolWindowManager.notifyByBalloon(SUCCESS_BALLOON(e.project!!.defaultAhkSdk!!.ahkDocUrlBase))
+                    VfsUtil.markDirtyAndRefresh(true, false, true, script.parent)
+                }
             }
-            toolWindowManager.notifyByBalloon(SUCCESS_BALLOON(e.project!!.defaultAhkSdk!!.ahkDocUrlBase))
-            VfsUtil.markDirtyAndRefresh(true, false, true, scriptToCompile.parent)
-        }
+        }.queue()
     }
 
     companion object {

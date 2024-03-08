@@ -4,7 +4,9 @@ import com.autohotkey.runconfig.model.AhkSwitch
 import com.autohotkey.util.AhkBundle
 import com.autohotkey.util.AhkConstants
 import com.autohotkey.util.AhkIcons
+import com.autohotkey.util.runInBg
 import com.intellij.openapi.actionSystem.DataKey
+import com.intellij.openapi.application.WriteAction
 import com.intellij.openapi.fileChooser.FileChooser
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory.createSingleFolderDescriptor
@@ -20,7 +22,6 @@ import com.intellij.openapi.projectRoots.impl.SdkConfigurationUtil
 import com.intellij.openapi.ui.SelectFromListDialog
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.util.Consumer
-import com.intellij.util.io.isFile
 import org.jdom.Element
 import java.io.File
 import java.nio.file.FileVisitOption
@@ -31,35 +32,35 @@ import java.util.concurrent.TimeUnit.SECONDS
 import javax.swing.Icon
 import javax.swing.JComponent
 import javax.swing.ListSelectionModel
-import kotlin.streams.toList
+import kotlin.io.path.isRegularFile
 
 const val GET_AHK_VERSION_V1 = """FileAppend %A_AhkVersion%, *"""
 const val GET_AHK_VERSION_V2 = """FileAppend A_AhkVersion, "*""""
 const val AHK_DOCUMENTATION_FILENAME = "AutoHotkey.chm"
-const val AHK_DOCUMENTATION_URL_V1 = "https://www.autohotkey.com"
-const val AHK_DOCUMENTATION_URL_V2 = "https://lexikos.github.io/v2"
+const val AHK_DOCUMENTATION_URL_V1 = "https://www.autohotkey.com/docs/v1"
+const val AHK_DOCUMENTATION_URL_V2 = "https://www.autohotkey.com/docs/v2"
 
 /**
  * Controls how the AutoHotkey Sdk type will look and work in the IDE. Registered in plugin.xml
  *
  * NOTE: If you need to pass an instance of this class to an IntelliJ API, you must call [getInstance]
  */
-object AhkSdkType : SdkType("AutoHotkeySDK") {
+class AhkSdkType : SdkType("AutoHotkeySDK") {
     private val AHK_EXE_NAME_KEY = DataKey.create<String>("chosenAhkExeName")
     private val AHK_EXE_VERSION_KEY = DataKey.create<String>("chosenAhkExeVersion")
     private val versionPrefixRegex = Regex("""^\d+\.\d+[.-]\p{Alpha}?\d+""")
-
-    /**
-     * WARNING! You MUST call this method if any method in the JetBrains platform API requires an SdkType. Do NOT pass
-     * the AhkSdkType object class directly - it will cause unexpected behavior!
-     */
-    fun getInstance() = findInstance(this::class.java)
 
     override fun getIcon(): Icon = AhkIcons.EXE
 
     override fun getPresentableName() = "${AhkConstants.LANGUAGE_NAME} SDK"
 
     override fun suggestHomePath() = """C:\Program Files\AutoHotkey"""
+
+    override fun getDefaultDocumentationUrl(sdk: Sdk): String =
+        when {
+            sdk.versionString?.startsWith("1") == true -> AHK_DOCUMENTATION_URL_V1
+            else -> AHK_DOCUMENTATION_URL_V2
+        }
 
     /**
      * Returns a custom file descriptor that asks the user to select a folder for the AutoHotkey home path and then
@@ -71,7 +72,7 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
                 if (files.isNotEmpty()) {
                     val selectedPath = files[0].path
                     val exeFilesInSelectedPath = Files.walk(Paths.get(selectedPath), 1, FileVisitOption.FOLLOW_LINKS)
-                        .filter { it.isFile() }
+                        .filter { it.isRegularFile() }
                         .map { it.fileName.toString() }
                         .filter { it.lowercase().endsWith(".exe") }
                         .toList()
@@ -158,16 +159,21 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
     fun showUiToCreateNewAhkSdk(): Sdk? {
         var newlyCreatedSdk: Sdk? = null
         val ahkFileChooser = homeChooserDescriptor
-        FileChooser.chooseFile(ahkFileChooser, null, SdkConfigurationUtil.getSuggestedSdkRoot(this)) { chosenVFile ->
+        val defaultSdkRoot = runInBg { SdkConfigurationUtil.getSuggestedSdkRoot(this) }.get()
+        FileChooser.chooseFile(ahkFileChooser, null, defaultSdkRoot) { chosenVFile ->
             val chosenExeName = ahkFileChooser.getUserData(AHK_EXE_NAME_KEY) as String
             val chosenExeVersion = ahkFileChooser.getUserData(AHK_EXE_VERSION_KEY) as String
             newlyCreatedSdk = SdkConfigurationUtil.createSdk(
                 ProjectJdkTable.getInstance().allJdks.asList(),
                 chosenVFile,
-                this.getInstance(),
+                AhkSdkTypeInstance,
                 AhkSdkAdditionalData(chosenExeName),
                 generateAhkSdkNameBasedOn(chosenExeVersion),
             )
+            newlyCreatedSdk!!.sdkModificator.run {
+                versionString = getVersionString(newlyCreatedSdk!!)
+                WriteAction.run<Throwable>(::commitChanges)
+            }
         }
         return newlyCreatedSdk
     }

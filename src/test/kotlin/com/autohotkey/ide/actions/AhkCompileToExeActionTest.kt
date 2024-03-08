@@ -8,10 +8,10 @@ import com.autohotkey.sdk.ahkDocUrlBase
 import com.autohotkey.util.AhkBundle
 import com.intellij.ide.DataManager
 import com.intellij.ide.impl.HeadlessDataManager
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl
 import com.intellij.openapi.ui.MessageType
 import com.intellij.openapi.wm.ToolWindowBalloonShowOptions
 import com.intellij.openapi.wm.ToolWindowManager
@@ -27,11 +27,17 @@ import io.mockk.mockk
 import io.mockk.mockkConstructor
 import io.mockk.slot
 import io.mockk.spyk
+import util.changeHomePathTo
 import java.nio.file.Files
 import java.nio.file.Path
+import javax.swing.event.HyperlinkEvent
 
 class AhkCompileToExeActionTest : AhkBasePlatformTestCase() {
     private val TEST_AHK_SCRIPT_FILENAME = "test.ahk"
+
+    fun `test that the action runs in the background`() {
+        AhkCompileToExeAction().actionUpdateThread shouldBe ActionUpdateThread.BGT
+    }
 
     fun `test action does not show if triggered from a non-ahk file`() {
         val resultPresentation = myFixture.testAction(AhkCompileToExeAction())
@@ -45,6 +51,7 @@ class AhkCompileToExeActionTest : AhkBasePlatformTestCase() {
         balloonToCapture.captured.run {
             type shouldBe MessageType.ERROR
             htmlBody shouldBe AhkBundle.msg("compiletoexeaction.error.norunnerconfigured")
+            listener!!.hyperlinkUpdate(HyperlinkEvent(Object(), HyperlinkEvent.EventType.ACTIVATED, null))
         }
     }
 
@@ -65,7 +72,7 @@ class AhkCompileToExeActionTest : AhkBasePlatformTestCase() {
         configureCompileToExeActionToBeCalledFromFakeAhkScript()
         val sdkHomeDir = TemporaryDirectory.generateTemporaryPath("")
         createFakeAhk2ExeFileWithin(sdkHomeDir)
-        (project.defaultAhkSdk as ProjectJdkImpl).homePath = sdkHomeDir.toString()
+        project.defaultAhkSdk!!.changeHomePathTo(sdkHomeDir.toString())
 
         val mockProcess = mockProcessBuilderWithATerminatingMockProcess()
         every { mockProcess.exitValue() } returns 1
@@ -84,7 +91,7 @@ class AhkCompileToExeActionTest : AhkBasePlatformTestCase() {
         configureCompileToExeActionToBeCalledFromFakeAhkScript()
         val sdkHomeDir = TemporaryDirectory.generateTemporaryPath("")
         createFakeAhk2ExeFileWithin(sdkHomeDir)
-        (project.defaultAhkSdk as ProjectJdkImpl).homePath = sdkHomeDir.toString()
+        project.defaultAhkSdk!!.changeHomePathTo(sdkHomeDir.toString())
 
         val mockProcess = mockProcessBuilderWithATerminatingMockProcess()
         every { mockProcess.exitValue() } returns 0
