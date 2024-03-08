@@ -21,7 +21,7 @@ const val AHK_PROJECT_SETTINGS: String = "AhkProjectSettings"
  * Manages project-level state. Currently, we only track the "default ahk sdk" which is used when generating run configs
  * from context.
  */
-@Service
+@Service(Service.Level.PROJECT)
 @State(name = AHK_PROJECT_SETTINGS)
 class AhkProjectSettingsService(
     project: Project,

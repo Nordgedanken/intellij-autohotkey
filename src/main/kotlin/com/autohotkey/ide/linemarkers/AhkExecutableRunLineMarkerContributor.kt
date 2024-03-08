@@ -24,7 +24,7 @@ class AhkExecutableRunLineMarkerContributor : RunLineMarkerContributor() {
         return Info(
             AllIcons.RunConfigurations.TestState.Run,
             { psiElement ->
-                actions.mapNotNull { getText(it, psiElement) }.joinToString("\n")
+                actions.mapNotNull { getText(it, createActionEvent(psiElement)) }.joinToString("\n")
             },
             *actions,
         )

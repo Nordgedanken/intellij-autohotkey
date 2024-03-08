@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit.SECONDS
 import javax.swing.Icon
 import javax.swing.JComponent
 import javax.swing.ListSelectionModel
+import kotlin.io.path.isRegularFile
 import kotlin.streams.toList
 
 const val GET_AHK_VERSION_V1 = """FileAppend %A_AhkVersion%, *"""
@@ -71,7 +72,7 @@ object AhkSdkType : SdkType("AutoHotkeySDK") {
                 if (files.isNotEmpty()) {
                     val selectedPath = files[0].path
                     val exeFilesInSelectedPath = Files.walk(Paths.get(selectedPath), 1, FileVisitOption.FOLLOW_LINKS)
-                        .filter { it.isFile() }
+                        .filter { it.isRegularFile() }
                         .map { it.fileName.toString() }
                         .filter { it.lowercase().endsWith(".exe") }
                         .toList()

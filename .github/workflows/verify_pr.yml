@@ -53,7 +53,7 @@ jobs:
 
     # Run Qodana code inspections
     - name: Run Qodana Code Inspection
-      uses: JetBrains/qodana-action@v2023.1.0
+      uses: JetBrains/qodana-action@v2023.3.1
 
     # Collect Qodana Result
     - name: Collect Qodana Result

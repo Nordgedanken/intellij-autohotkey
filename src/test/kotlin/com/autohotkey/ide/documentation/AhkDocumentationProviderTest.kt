@@ -7,26 +7,18 @@ import com.autohotkey.WithOneAhkSdkAsProjDefault
 import com.autohotkey.lang.core.AhkFileType
 import com.autohotkey.project.settings.defaultAhkSdk
 import com.intellij.ide.BrowserUtil
-import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl
 import com.intellij.psi.PsiElement
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldContain
-import io.mockk.Runs
-import io.mockk.every
-import io.mockk.just
-import io.mockk.mockkStatic
-import io.mockk.verify
+import io.mockk.*
 import org.junit.jupiter.api.Test
 import util.TestUtil
+import util.changeHomePathTo
 
 class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
     override fun getTestDataPath(): String = "${AhkTestCase.testResourcesPath}/${TestUtil.packagePath()}"
-
-    private fun configureHomePath() {
-        (project.defaultAhkSdk as ProjectJdkImpl).homePath = "$testDataPath/"
-    }
 
     private fun getFirstPsiElementOfFileWithText(text: String): PsiElement? {
         myFixture.configureByText(AhkFileType, text)
@@ -47,7 +39,7 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test getUrlFor for command`() {
-        configureHomePath()
+        project.defaultAhkSdk!!.changeHomePathTo("$testDataPath/")
         val element = getFirstPsiElementOfFileWithText("WinSet")
         val url = AhkDocumentationProvider().getUrlFor(element, element)
         url shouldBe listOf("https://www.autohotkey.com/docs/commands/WinSet.htm")
@@ -55,7 +47,7 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test getUrlFor for wrong command`() {
-        configureHomePath()
+        project.defaultAhkSdk!!.changeHomePathTo("$testDataPath/")
         val element = getFirstPsiElementOfFileWithText("WrongCommand")
         val url = AhkDocumentationProvider().getUrlFor(element, element)
         url shouldBe null
@@ -63,7 +55,7 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test handleExternal for command`() {
-        configureHomePath()
+        project.defaultAhkSdk!!.changeHomePathTo("$testDataPath/")
         val element = getFirstPsiElementOfFileWithText("WinSet")
         mockkStatic(BrowserUtil::class)
         every { BrowserUtil.browse(any<String>()) } just Runs
@@ -76,7 +68,7 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test getUrlFor for variable`() {
-        configureHomePath()
+        project.defaultAhkSdk!!.changeHomePathTo("$testDataPath/")
         val element = getFirstPsiElementOfFileWithText("A_LineNumber")
         val url = AhkDocumentationProvider().getUrlFor(element, element)
         url shouldBe listOf("https://www.autohotkey.com/docs/Variables.htm#LineNumber")
@@ -84,7 +76,7 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test generateDoc for command`() {
-        configureHomePath()
+        project.defaultAhkSdk!!.changeHomePathTo("$testDataPath/")
         val element = getFirstPsiElementOfFileWithText("WinSet")
         val doc = AhkDocumentationProvider().generateDoc(element, element)
         doc shouldContain "<title>WinSet - Syntax &amp; Usage | AutoHotkey</title>"
@@ -92,7 +84,7 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test generateDoc for variable`() {
-        configureHomePath()
+        project.defaultAhkSdk!!.changeHomePathTo("$testDataPath/")
         val element = getFirstPsiElementOfFileWithText("A_LineNumber")
         val doc = AhkDocumentationProvider().generateDoc(element, element)
         doc shouldContain "The number of the currently executing line within the script"
@@ -137,7 +129,7 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test fetchExternalDocumentation for function`() {
-        configureHomePath()
+        project.defaultAhkSdk!!.changeHomePathTo("$testDataPath/")
         val element = getFirstPsiElementOfFileWithText("WinSet")
         val doc = AhkDocumentationProvider().fetchExternalDocumentation("WinTitle", element)
         doc shouldContain "<title>WinTitle &amp; Last Found Window | AutoHotkey</title>"
@@ -145,7 +137,7 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
     @ProjectDescriptor(WithOneAhkSdkAsProjDefault::class)
     fun `test fetchExternalDocumentation for wrong function`() {
-        configureHomePath()
+        project.defaultAhkSdk!!.changeHomePathTo("$testDataPath/")
         val element = getFirstPsiElementOfFileWithText("Wrong")
         val doc = AhkDocumentationProvider().fetchExternalDocumentation("Wrong", element)
         doc shouldContain "Cannot find file in chm file for Wrong"
