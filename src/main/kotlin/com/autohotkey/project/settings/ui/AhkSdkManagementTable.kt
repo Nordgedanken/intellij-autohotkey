@@ -5,6 +5,7 @@ import com.autohotkey.sdk.getAhkSdks
 import com.autohotkey.sdk.ui.AhkSdkCellEditor
 import com.autohotkey.sdk.ui.AhkSdkTableCellRenderer
 import com.autohotkey.util.AhkBundle
+import com.intellij.openapi.application.WriteAction
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.ui.table.JBTable
@@ -95,9 +96,11 @@ class AhkSdkTableModel(
                 project.defaultAhkSdk = sdks[rowIndex]
                 fireTableRowsUpdated(0, rowCount)
             }
-            SdkTableColumns.SDK_INFO.index -> sdks[rowIndex].sdkModificator.run {
-                name = aValue as String
-                commitChanges()
+            SdkTableColumns.SDK_INFO.index -> WriteAction.run<Throwable> {
+                sdks[rowIndex].sdkModificator.run {
+                    name = aValue as String
+                    commitChanges()
+                }
             }
             else -> throw IllegalStateException("Unexpected column is trying to set value")
         }

@@ -33,6 +33,7 @@ object ChmArchiveUtil {
 
     fun getPathInChm(chm: ArchiveHandler, approximateTitle: String?): String? {
         val paths = arrayOf(
+            "docs/lib",
             "docs/commands",
             "docs/misc",
             "docs/objects",

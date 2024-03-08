@@ -1,6 +1,6 @@
 package com.autohotkey.project.settings.ui
 
-import com.autohotkey.sdk.AhkSdkType
+import com.autohotkey.sdk.AhkSdkTypeInstance
 import com.autohotkey.util.AhkBundle
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.Sdk
@@ -23,7 +23,7 @@ class AhkSdkToolbarPanel(val project: Project) {
         panel = ToolbarDecorator.createDecorator(sdkTable).apply {
             setAddActionName(AhkBundle.msg("settings.ahksdktable.add.buttonlabel"))
             setAddAction {
-                val sdkToAdd = AhkSdkType.showUiToCreateNewAhkSdk()
+                val sdkToAdd = AhkSdkTypeInstance.showUiToCreateNewAhkSdk()
                 if (sdkToAdd != null) {
                     SdkConfigurationUtil.addSdk(sdkToAdd)
                     sdkTableModel.addSdk(sdkToAdd)

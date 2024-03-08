@@ -46,10 +46,10 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
         }
 
         if (element.text.startsWith("A_")) {
-            return "${element.project.defaultAhkSdk!!.ahkDocUrlBase}/docs/Variables.htm#" + element.text.drop(2)
+            return "${element.project.defaultAhkSdk!!.ahkDocUrlBase}/Variables.htm#" + element.text.drop(2)
         }
 
-        val pathInChm = ChmArchiveUtil.getPathInChm(chm, element.text)
+        val pathInChm = ChmArchiveUtil.getPathInChm(chm, element.text)?.removePrefix("docs/")
             ?: return null
 
         return "${element.project.defaultAhkSdk!!.ahkDocUrlBase}/$pathInChm"

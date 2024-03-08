@@ -51,7 +51,7 @@ class AhkProjectSettingsServiceTest : AhkBasePlatformTestCase(), AhkTestCase {
 
     @ProjectDescriptor(WithOneAhkSdk::class)
     fun `test correct default ahk sdk set if one read in loadState() and two exist in project`() {
-        WriteAction.run<Exception> { ProjectJdkTable.getInstance().addJdk(mockAhkSdk2, testRootDisposable) }
+        WriteAction.run<Throwable> { ProjectJdkTable.getInstance().addJdk(mockAhkSdk2, testRootDisposable) }
         val savedProjSettingsState = parseXmlFileToElement("with-default-ahk-sdk2-state")
         myFixture.project.service<AhkProjectSettingsService>().loadState(savedProjSettingsState)
         myFixture.project.defaultAhkSdk shouldBeSameInstanceAs mockAhkSdk2

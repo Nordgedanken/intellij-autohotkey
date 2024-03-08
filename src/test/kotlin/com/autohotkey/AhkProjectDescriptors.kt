@@ -1,7 +1,7 @@
 package com.autohotkey
 
 import com.autohotkey.project.settings.defaultAhkSdk
-import com.autohotkey.sdk.AhkSdkType
+import com.autohotkey.sdk.AhkSdkTypeInstance
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl
 import com.intellij.testFramework.LightProjectDescriptor
@@ -15,8 +15,8 @@ import com.intellij.testFramework.LightProjectDescriptor
  * @see MissingAhkSdkNotificationProviderTest
  */
 
-val mockAhkSdk = ProjectJdkImpl("Mock Ahk Sdk", AhkSdkType.getInstance())
-val mockAhkSdk2 = ProjectJdkImpl("Mock Ahk Sdk2", AhkSdkType.getInstance())
+val mockAhkSdk = ProjectJdkImpl("Mock Ahk Sdk", AhkSdkTypeInstance)
+val mockAhkSdk2 = ProjectJdkImpl("Mock Ahk Sdk2", AhkSdkTypeInstance)
 
 object EmptyDescriptor : LightProjectDescriptor()
 
