@@ -11,7 +11,11 @@ import com.intellij.psi.PsiElement
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldContain
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockkStatic
+import io.mockk.verify
 import org.junit.jupiter.api.Test
 import util.TestUtil
 import util.changeHomePathTo

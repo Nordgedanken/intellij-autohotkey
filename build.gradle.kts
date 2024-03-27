@@ -39,7 +39,7 @@ dependencies {
     testRuntimeOnly(libs.junit.engine) {
         because(
             "this is needed to run parsing/lexing tests which extend " +
-                "intellij base classes that use junit4"
+                "intellij base classes that use junit4",
         )
     }
 }
@@ -101,7 +101,7 @@ tasks {
                 var newChangeNotes =
                     changelog.renderItem(
                         (changelog.getOrNull(version.get()) ?: changelog.getUnreleased()).withHeader(true),
-                        Changelog.OutputType.HTML
+                        Changelog.OutputType.HTML,
                     )
                 check(newChangeNotes.contains("(compatibility:")) {
                     "Latest change notes must specify the compatibility range of the plugin!"
@@ -121,7 +121,7 @@ tasks {
                     throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
                 }
                 subList(indexOf(start) + 1, indexOf(end))
-            }.joinToString("\n").let(::markdownToHTML)
+            }.joinToString("\n").let(::markdownToHTML),
         )
     }
 
@@ -166,7 +166,7 @@ tasks {
 
     runPluginVerifier {
         ideVersions.set(
-            properties("pluginVerifierIdeVersions").get().split(',').map(String::trim).filter(String::isNotEmpty)
+            properties("pluginVerifierIdeVersions").get().split(',').map(String::trim).filter(String::isNotEmpty),
         )
     }
 }
@@ -181,7 +181,7 @@ fun setClassesToIncludeInCoverageCheck(classDirectories: ConfigurableFileCollect
             "**/autohotkey/runconfig/ui/**",
             "**/autohotkey/sdk/ui/**",
             "**/autohotkey/project/configurable/**",
-            "**/autohotkey/project/settings/ui/**"
+            "**/autohotkey/project/settings/ui/**",
         )
 
     // files listed here can't be tested, but the package wasn't excluded since other files within it can be tested
@@ -190,12 +190,12 @@ fun setClassesToIncludeInCoverageCheck(classDirectories: ConfigurableFileCollect
             // pattern must be specified with trailing asterisk to include extension fns
             "**/autohotkey/sdk/AhkSdkType*",
             "**/autohotkey/ide/actions/AhkCreateFileAction*",
-            "**/autohotkey/ide/highlighter/AhkColorSettingsPage*"
+            "**/autohotkey/ide/highlighter/AhkColorSettingsPage*",
         )
 
     classDirectories.setFrom(
         sourceSets.main.get().output.asFileTree.matching {
             exclude(packagesToExcludeFromCoverageCheck + filesToExcludeFromCoverageCheck)
-        }
+        },
     )
 }
