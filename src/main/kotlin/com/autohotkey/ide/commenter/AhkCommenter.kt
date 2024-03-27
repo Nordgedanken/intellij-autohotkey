@@ -22,10 +22,12 @@ class AhkCommenter : Commenter, SelfManagingCommenter<AhkCommentHolder> {
     override fun getLineCommentPrefix() = ";"
 
     override fun getBlockCommentPrefix(): String = "/*"
+
     override fun getBlockCommentSuffix(): String = "\n*/"
 
     // unused since we use SelfManagingCommenter
     override fun getCommentedBlockCommentPrefix(): String = "/*"
+
     override fun getCommentedBlockCommentSuffix(): String = "*/"
 
     override fun createLineCommentingState(
@@ -42,24 +44,43 @@ class AhkCommenter : Commenter, SelfManagingCommenter<AhkCommentHolder> {
         file: PsiFile,
     ) = AhkCommentHolder(selectionStart != selectionEnd)
 
-    override fun commentLine(line: Int, offset: Int, document: Document, data: AhkCommentHolder) {
+    override fun commentLine(
+        line: Int,
+        offset: Int,
+        document: Document,
+        data: AhkCommentHolder,
+    ) {
         document.insertString(offset, ";")
     }
 
-    override fun uncommentLine(line: Int, offset: Int, document: Document, data: AhkCommentHolder) {
+    override fun uncommentLine(
+        line: Int,
+        offset: Int,
+        document: Document,
+        data: AhkCommentHolder,
+    ) {
         document.deleteString(offset, offset + 1)
     }
 
     /**
      * Checks whether the first non-whitespace char on the line is [AhkCommenter.getLineCommentPrefix]
      */
-    override fun isLineCommented(line: Int, offset: Int, document: Document, data: AhkCommentHolder): Boolean {
+    override fun isLineCommented(
+        line: Int,
+        offset: Int,
+        document: Document,
+        data: AhkCommentHolder,
+    ): Boolean {
         val offsetOfLineStart = document.getLineStartOffset(line)
         val chars = document.charsSequence
         return chars[CharArrayUtil.shiftForward(chars, offsetOfLineStart, " \t")] == lineCommentPrefix.single()
     }
 
-    override fun getCommentPrefix(line: Int, document: Document, data: AhkCommentHolder): String = lineCommentPrefix
+    override fun getCommentPrefix(
+        line: Int,
+        document: Document,
+        data: AhkCommentHolder,
+    ): String = lineCommentPrefix
 
     override fun getBlockCommentRange(
         selectionStart: Int,
@@ -68,13 +89,24 @@ class AhkCommenter : Commenter, SelfManagingCommenter<AhkCommentHolder> {
         data: AhkCommentHolder,
     ) = getBlockCommentRange(selectionStart, selectionEnd, document, blockCommentPrefix, blockCommentSuffix)
 
-    override fun getBlockCommentPrefix(selectionStart: Int, document: Document, data: AhkCommentHolder): String =
-        blockCommentPrefix
+    override fun getBlockCommentPrefix(
+        selectionStart: Int,
+        document: Document,
+        data: AhkCommentHolder,
+    ): String = blockCommentPrefix
 
-    override fun getBlockCommentSuffix(selectionEnd: Int, document: Document, data: AhkCommentHolder): String =
-        blockCommentSuffix
+    override fun getBlockCommentSuffix(
+        selectionEnd: Int,
+        document: Document,
+        data: AhkCommentHolder,
+    ): String = blockCommentSuffix
 
-    override fun uncommentBlockComment(startOffset: Int, endOffset: Int, document: Document, data: AhkCommentHolder?) {
+    override fun uncommentBlockComment(
+        startOffset: Int,
+        endOffset: Int,
+        document: Document,
+        data: AhkCommentHolder?,
+    ) {
         uncommentBlockComment(startOffset, endOffset, document, blockCommentPrefix, blockCommentSuffix)
     }
 

@@ -43,7 +43,10 @@ class AhkExecutableRunLineMarkerContributorTest : AhkBasePlatformTestCase() {
         actual shouldContainExactly listOf(Pair(0, "Run 'hello-world'"))
     }
 
-    private fun createFileWithContentAndGetLineMarkers(filename: String, fileContent: String): List<Pair<Int, String>> {
+    private fun createFileWithContentAndGetLineMarkers(
+        filename: String,
+        fileContent: String,
+    ): List<Pair<Int, String>> {
         myFixture.run {
             configureByText(filename, fileContent)
             doHighlighting()
@@ -54,7 +57,10 @@ class AhkExecutableRunLineMarkerContributorTest : AhkBasePlatformTestCase() {
     /**
      * Finds line markers in the given editor and returns them as a list of Pair(line number, marker tooltip text)
      */
-    private fun getMarkersFromOpenFileIn(editor: Editor, project: Project): List<Pair<Int, String>> =
+    private fun getMarkersFromOpenFileIn(
+        editor: Editor,
+        project: Project,
+    ): List<Pair<Int, String>> =
         DaemonCodeAnalyzerImpl.getLineMarkers(editor.document, project)
             .map {
                 Pair(

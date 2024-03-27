@@ -36,10 +36,11 @@ class AhkSdkUtilKtTest : AhkBasePlatformTestCase() {
         mockAhkSdk.ahkExeName() shouldBe DEFAULT_AHK_EXE_NAME
     }
 
-    fun `test ahkDocumentationUrl`() = mockAhkSdk.run {
-        versionString = "1.1.33.07"
-        ahkDocUrlBase shouldBe AHK_DOCUMENTATION_URL_V1
-        versionString = "2.0-a133"
-        ahkDocUrlBase shouldBe AHK_DOCUMENTATION_URL_V2
-    }
+    fun `test ahkDocumentationUrl`() =
+        mockAhkSdk.run {
+            versionString = "1.1.33.07"
+            ahkDocUrlBase shouldBe AHK_DOCUMENTATION_URL_V1
+            versionString = "2.0-a133"
+            ahkDocUrlBase shouldBe AHK_DOCUMENTATION_URL_V2
+        }
 }

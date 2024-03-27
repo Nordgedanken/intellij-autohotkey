@@ -9,10 +9,8 @@ import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.ui.SimpleColoredComponent
 import com.intellij.ui.SimpleTextAttributes
 
-/**
- * Defines methods for the standard render of an ahk sdk within a SimpleColoredComponent. If the value isn't an ahk sdk,
- * it will render an alternative error string.
- */
+// Defines methods for the standard render of an ahk sdk within a SimpleColoredComponent. If the value isn't an ahk sdk,
+// it will render an alternative error string.
 
 /**
  * Will render the given value if one of three conditions match:
@@ -21,7 +19,10 @@ import com.intellij.ui.SimpleTextAttributes
  * 3. value is null -> error rendering with no sdk
  * else it throws an exception since this case should never occur
  */
-fun SimpleColoredComponent.renderGivenSdk(value: Any?, isProjectSdk: Boolean = false) {
+fun SimpleColoredComponent.renderGivenSdk(
+    value: Any?,
+    isProjectSdk: Boolean = false,
+) {
     when {
         value is Sdk && value.isAhkSdk() -> {
             icon = AhkIcons.EXE
@@ -56,8 +57,9 @@ fun SimpleColoredComponent.renderGivenSdk(value: Any?, isProjectSdk: Boolean = f
 /**
  * Adds 3 strings into the SimpleColoredComponent's rendering for the given sdk: sdk's name, version, and home path
  */
-private fun SimpleColoredComponent.renderSdkDetails(sdk: Sdk) = run {
-    append(sdk.name)
-    append(" (${sdk.versionString})", SimpleTextAttributes.GRAY_ATTRIBUTES)
-    append(" <${sdk.homePath}/${sdk.ahkExeName()}>", SimpleTextAttributes.GRAYED_SMALL_ATTRIBUTES)
-}
+private fun SimpleColoredComponent.renderSdkDetails(sdk: Sdk) =
+    run {
+        append(sdk.name)
+        append(" (${sdk.versionString})", SimpleTextAttributes.GRAY_ATTRIBUTES)
+        append(" <${sdk.homePath}/${sdk.ahkExeName()}>", SimpleTextAttributes.GRAYED_SMALL_ATTRIBUTES)
+    }

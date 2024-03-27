@@ -31,12 +31,13 @@ class AhkRunState(
         val runner = getAhkSdkByName(ahkRunConfig.runConfigSettings.runner)!!
         val exePath = Paths.get(runner.homePath!!, runner.ahkExeName()).toString()
 
-        val ahkCommandLine = GeneralCommandLine()
-            .withWorkDirectory(ahkRunConfig.project.basePath)
-            .withExePath(exePath)
-            .withParameters(ahkRunConfig.runConfigSettings.getEnabledSwitchesAsList())
-            .withParameters(ahkRunConfig.runConfigSettings.pathToScript)
-            .withParameters(ahkRunConfig.runConfigSettings.getArgsAsList())
+        val ahkCommandLine =
+            GeneralCommandLine()
+                .withWorkDirectory(ahkRunConfig.project.basePath)
+                .withExePath(exePath)
+                .withParameters(ahkRunConfig.runConfigSettings.getEnabledSwitchesAsList())
+                .withParameters(ahkRunConfig.runConfigSettings.pathToScript)
+                .withParameters(ahkRunConfig.runConfigSettings.getArgsAsList())
         return KillableProcessHandler(ahkCommandLine)
     }
 }

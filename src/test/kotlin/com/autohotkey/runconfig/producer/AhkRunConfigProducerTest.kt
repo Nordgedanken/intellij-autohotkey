@@ -63,8 +63,9 @@ class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
     }
 
     fun `test producer doesn't reuse old config when making from a different file`() {
-        val ahkRunConfig = generateContextAhkRunconfigsFromFile("hello-world.ahk", "Msgbox Hi")
-            .single().configuration as AhkRunConfig
+        val ahkRunConfig =
+            generateContextAhkRunconfigsFromFile("hello-world.ahk", "Msgbox Hi")
+                .single().configuration as AhkRunConfig
         val otherContextDiffAhkFile = myFixture.makeConfigContextFrom(AhkFileType, "Msgbox Hi from another file")
         val otherContextNonAhkFile = myFixture.makeConfigContextFrom(PlainTextFileType, "Msgbox Hi from another file")
 
@@ -103,7 +104,7 @@ class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
         return root.toXmlString()
     }
 
-    override fun getTestDataPath(): String = "${AhkTestCase.testResourcesPath}/${packagePath()}"
+    override fun getTestDataPath(): String = "${AhkTestCase.TEST_RESOURCES_PATH}/${packagePath()}"
 
     /**
      * We want to grab the run config xml that matches the last word in the test's name
@@ -112,6 +113,8 @@ class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
         return super.getTestName(lowercaseFirstLetter).substringAfterLast(' ')
     }
 
-    private fun CodeInsightTestFixture.makeConfigContextFrom(fileType: FileType, fileContent: String) =
-        ConfigurationContext(this.configureByText(fileType, fileContent))
+    private fun CodeInsightTestFixture.makeConfigContextFrom(
+        fileType: FileType,
+        fileContent: String,
+    ) = ConfigurationContext(this.configureByText(fileType, fileContent))
 }

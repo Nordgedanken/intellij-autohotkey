@@ -17,7 +17,10 @@ import com.intellij.psi.PsiElement
  * Highlights psiElements that can't be highlighted by [AhkSyntaxHighlighter] since they are made of composite tokens
  */
 class AhkHighlightAnnotator : Annotator {
-    override fun annotate(psiElem: PsiElement, holder: AnnotationHolder) {
+    override fun annotate(
+        psiElem: PsiElement,
+        holder: AnnotationHolder,
+    ) {
         when (psiElem) {
             is AhkNormalLabel -> holder.newInfoHighlightAnnotation(NORMAL_LABEL)
             is AhkHotkey -> holder.newInfoHighlightAnnotation(HOTKEY)

@@ -21,10 +21,11 @@ class AhkSyntaxHighlighter : SyntaxHighlighterBase() {
         pack(map(tokenType)?.textAttributesKey)
 
     companion object {
-        fun map(tokenType: IElementType): AhkHighlighterColor? = when (tokenType) {
-            LINE_COMMENT -> AhkHighlighterColor.LINE_COMMENT
-            BLOCK_COMMENT -> AhkHighlighterColor.BLOCK_COMMENT
-            else -> null
-        }
+        fun map(tokenType: IElementType): AhkHighlighterColor? =
+            when (tokenType) {
+                LINE_COMMENT -> AhkHighlighterColor.LINE_COMMENT
+                BLOCK_COMMENT -> AhkHighlighterColor.BLOCK_COMMENT
+                else -> null
+            }
     }
 }

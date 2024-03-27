@@ -13,7 +13,10 @@ object AhkFileType : LanguageFileType(AhkLanguage) {
 
     override fun getDefaultExtension() = AhkConstants.FILE_EXTENSION
 
-    override fun getCharset(file: VirtualFile, content: ByteArray) = "UTF-8"
+    override fun getCharset(
+        file: VirtualFile,
+        content: ByteArray,
+    ) = "UTF-8"
 
     override fun getDescription() = "${AhkConstants.LANGUAGE_NAME} script file"
 }

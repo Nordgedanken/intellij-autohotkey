@@ -32,7 +32,10 @@ class AhkParserDefinition : ParserDefinition {
 
     override fun createFile(viewProvider: FileViewProvider): PsiFile = AhkFile(viewProvider)
 
-    override fun spaceExistenceTypeBetweenTokens(left: ASTNode, right: ASTNode) = ParserDefinition.SpaceRequirements.MAY
+    override fun spaceExistenceTypeBetweenTokens(
+        left: ASTNode,
+        right: ASTNode,
+    ) = ParserDefinition.SpaceRequirements.MAY
 
     override fun createElement(node: ASTNode?): PsiElement = Factory.createElement(node)
 }

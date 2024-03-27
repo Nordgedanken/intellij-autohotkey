@@ -17,10 +17,11 @@ import javax.swing.table.TableCellRenderer
  * Code obtained from: https://stackoverflow.com/a/11259671
  */
 object RadioButtonCellEditorRenderer : AbstractCellEditor(), TableCellRenderer, TableCellEditor, ActionListener {
-    private val radioButton = JBRadioButton().also {
-        it.horizontalAlignment = SwingConstants.CENTER
-        it.addActionListener(this)
-    }
+    private val radioButton =
+        JBRadioButton().also {
+            it.horizontalAlignment = SwingConstants.CENTER
+            it.addActionListener(this)
+        }
 
     override fun getTableCellRendererComponent(
         table: JTable?,
@@ -45,7 +46,9 @@ object RadioButtonCellEditorRenderer : AbstractCellEditor(), TableCellRenderer, 
         return radioButton
     }
 
-    override fun actionPerformed(e: ActionEvent?) { stopCellEditing() }
+    override fun actionPerformed(e: ActionEvent?) {
+        stopCellEditing()
+    }
 
     override fun getCellEditorValue(): Any = radioButton.isSelected
 }

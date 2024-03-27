@@ -57,11 +57,13 @@ class AhkSdkManagementTable(
         }
     }
 
-    override fun createDefaultTableHeader() = object : JBTableHeader() {
-        override fun getToolTipText(event: MouseEvent): String? = SdkTableColumns.values().first {
-            it.index == columnAtPoint(event.point)
-        }.tooltip
-    }
+    override fun createDefaultTableHeader() =
+        object : JBTableHeader() {
+            override fun getToolTipText(event: MouseEvent): String? =
+                SdkTableColumns.values().first {
+                    it.index == columnAtPoint(event.point)
+                }.tooltip
+        }
 }
 
 /**
@@ -82,26 +84,38 @@ class AhkSdkTableModel(
 
     override fun getColumnName(column: Int): String = SdkTableColumns.values().first { it.index == column }.title
 
-    override fun isCellEditable(rowIndex: Int, columnIndex: Int) = true
+    override fun isCellEditable(
+        rowIndex: Int,
+        columnIndex: Int,
+    ) = true
 
-    override fun getValueAt(rowIndex: Int, columnIndex: Int): Any = when (columnIndex) {
-        SdkTableColumns.DEFAULT.index -> project.defaultAhkSdk === sdks[rowIndex]
-        SdkTableColumns.SDK_INFO.index -> sdks[rowIndex]
-        else -> throw IllegalStateException("Unexpected column is trying to get value")
-    }
+    override fun getValueAt(
+        rowIndex: Int,
+        columnIndex: Int,
+    ): Any =
+        when (columnIndex) {
+            SdkTableColumns.DEFAULT.index -> project.defaultAhkSdk === sdks[rowIndex]
+            SdkTableColumns.SDK_INFO.index -> sdks[rowIndex]
+            else -> throw IllegalStateException("Unexpected column is trying to get value")
+        }
 
-    override fun setValueAt(aValue: Any?, rowIndex: Int, columnIndex: Int) {
+    override fun setValueAt(
+        aValue: Any?,
+        rowIndex: Int,
+        columnIndex: Int,
+    ) {
         when (columnIndex) {
             SdkTableColumns.DEFAULT.index -> {
                 project.defaultAhkSdk = sdks[rowIndex]
                 fireTableRowsUpdated(0, rowCount)
             }
-            SdkTableColumns.SDK_INFO.index -> WriteAction.run<Throwable> {
-                sdks[rowIndex].sdkModificator.run {
-                    name = aValue as String
-                    commitChanges()
+            SdkTableColumns.SDK_INFO.index ->
+                WriteAction.run<Throwable> {
+                    sdks[rowIndex].sdkModificator.run {
+                        name = aValue as String
+                        commitChanges()
+                    }
                 }
-            }
             else -> throw IllegalStateException("Unexpected column is trying to set value")
         }
     }

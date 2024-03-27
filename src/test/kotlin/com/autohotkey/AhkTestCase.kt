@@ -7,10 +7,11 @@ import java.nio.file.Path
  */
 interface AhkTestCase {
     fun getTestDataPath(): String
+
     fun getTestName(lowercaseFirstLetter: Boolean): String
 
     companion object {
-        const val testResourcesPath = "src/test/resources"
+        const val TEST_RESOURCES_PATH = "src/test/resources"
 
         @JvmStatic
         fun camelOrWordsToSnake(name: String): String {
@@ -22,7 +23,7 @@ interface AhkTestCase {
 }
 
 fun AhkTestCase.pathToSourceTestFile(): Path =
-    java.nio.file.Paths.get("${AhkTestCase.testResourcesPath}/${getTestDataPath()}/${getTestName(true)}.ahk")
+    java.nio.file.Paths.get("${AhkTestCase.TEST_RESOURCES_PATH}/${getTestDataPath()}/${getTestName(true)}.ahk")
 
 fun AhkTestCase.pathToGoldTestFile(): Path =
-    java.nio.file.Paths.get("${AhkTestCase.testResourcesPath}/${getTestDataPath()}/${getTestName(true)}.txt")
+    java.nio.file.Paths.get("${AhkTestCase.TEST_RESOURCES_PATH}/${getTestDataPath()}/${getTestName(true)}.txt")
