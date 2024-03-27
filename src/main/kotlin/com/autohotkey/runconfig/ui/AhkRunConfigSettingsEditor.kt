@@ -26,27 +26,30 @@ import javax.swing.JComponent
  * the UI DSL format to construct the UI instead of a .form file)
  */
 class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<AhkRunConfig>() {
-    private val pathToScriptTextField = TextFieldWithBrowseButton().apply {
-        addBrowseFolderListener(
-            AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.title"),
-            AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.message"),
-            project,
-            FileChooserDescriptorFactory.createSingleFileDescriptor(AhkConstants.FILE_EXTENSION),
-        )
-    }
+    private val pathToScriptTextField =
+        TextFieldWithBrowseButton().apply {
+            addBrowseFolderListener(
+                AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.title"),
+                AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.message"),
+                project,
+                FileChooserDescriptorFactory.createSingleFileDescriptor(AhkConstants.FILE_EXTENSION),
+            )
+        }
     private val argumentsTextField = ExpandableTextField()
     private val ahkSdkComboBox = AhkSdkComboBox(project)
-    private val openProjectSettingsButton = FixedSizeButton().apply {
-        icon = AllIcons.General.GearPlain
-        toolTipText = AhkBundle.msg("runconfig.configtab.scriptrunner.projectsettingsbutton.tooltip")
-        addActionListener { openProjSettingsAndThenTriggerEditorUpdate() }
-    }
-    private val printErrToConsoleCheckBox = JBCheckBox(
-        AhkBundle.msg("runconfig.configtab.switches.errorstdout.label"),
-        true,
-    ).apply {
-        toolTipText = AhkBundle.msg("runconfig.configtab.switches.errorstdout.tooltip")
-    }
+    private val openProjectSettingsButton =
+        FixedSizeButton().apply {
+            icon = AllIcons.General.GearPlain
+            toolTipText = AhkBundle.msg("runconfig.configtab.scriptrunner.projectsettingsbutton.tooltip")
+            addActionListener { openProjSettingsAndThenTriggerEditorUpdate() }
+        }
+    private val printErrToConsoleCheckBox =
+        JBCheckBox(
+            AhkBundle.msg("runconfig.configtab.switches.errorstdout.label"),
+            true,
+        ).apply {
+            toolTipText = AhkBundle.msg("runconfig.configtab.switches.errorstdout.tooltip")
+        }
 
     override fun resetEditorFrom(s: AhkRunConfig) {
         pathToScriptTextField.text = s.runConfigSettings.pathToScript
@@ -62,32 +65,33 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
         s.runConfigSettings.switches[AhkSwitch.ERROR_STD_OUT] = printErrToConsoleCheckBox.isSelected
     }
 
-    override fun createEditor(): JComponent = panel {
-        row {
-            tabbedPane {
-                outlinedTab(AhkBundle.msg("runconfig.configtab.label")) {
-                    row(AhkBundle.msg("runconfig.configtab.scriptpath.label")) {
-                        cell(pathToScriptTextField).align(AlignX.FILL)
-                    }
-                    row(AhkBundle.msg("runconfig.configtab.scriptargs.label")) {
-                        cell(argumentsTextField).align(AlignX.FILL)
-                    }
-                    row(AhkBundle.msg("runconfig.configtab.scriptrunner.label")) {
-                        cell(ahkSdkComboBox).resizableColumn().align(AlignX.FILL).customize(SMALL_RIGHT_GAP)
-                        cell(openProjectSettingsButton)
-                    }
-                    row {
-                        label(AhkBundle.msg("runconfig.general.info.label"))
-                    }
-                    group("Additional Options") {
+    override fun createEditor(): JComponent =
+        panel {
+            row {
+                tabbedPane {
+                    outlinedTab(AhkBundle.msg("runconfig.configtab.label")) {
+                        row(AhkBundle.msg("runconfig.configtab.scriptpath.label")) {
+                            cell(pathToScriptTextField).align(AlignX.FILL)
+                        }
+                        row(AhkBundle.msg("runconfig.configtab.scriptargs.label")) {
+                            cell(argumentsTextField).align(AlignX.FILL)
+                        }
+                        row(AhkBundle.msg("runconfig.configtab.scriptrunner.label")) {
+                            cell(ahkSdkComboBox).resizableColumn().align(AlignX.FILL).customize(SMALL_RIGHT_GAP)
+                            cell(openProjectSettingsButton)
+                        }
                         row {
-                            cell(printErrToConsoleCheckBox)
+                            label(AhkBundle.msg("runconfig.general.info.label"))
+                        }
+                        group("Additional Options") {
+                            row {
+                                cell(printErrToConsoleCheckBox)
+                            }
                         }
                     }
                 }
             }
         }
-    }
 
     /**
      * Executed when the openProjectSettingsButton is clicked. The extra logic

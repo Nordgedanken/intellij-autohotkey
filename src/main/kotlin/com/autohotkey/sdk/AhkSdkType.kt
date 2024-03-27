@@ -46,8 +46,8 @@ const val AHK_DOCUMENTATION_URL_V2 = "https://www.autohotkey.com/docs/v2"
  * NOTE: If you need to pass an instance of this class to an IntelliJ API, you must call [getInstance]
  */
 class AhkSdkType : SdkType("AutoHotkeySDK") {
-    private val AHK_EXE_NAME_KEY = DataKey.create<String>("chosenAhkExeName")
-    private val AHK_EXE_VERSION_KEY = DataKey.create<String>("chosenAhkExeVersion")
+    private val keyAhkExeName = DataKey.create<String>("chosenAhkExeName")
+    private val keyAhkExeVersion = DataKey.create<String>("chosenAhkExeVersion")
     private val versionPrefixRegex = Regex("""^\d+\.\d+[.-]\p{Alpha}?\d+""")
 
     override fun getIcon(): Icon = AhkIcons.EXE
@@ -71,31 +71,33 @@ class AhkSdkType : SdkType("AutoHotkeySDK") {
             override fun validateSelectedFiles(files: Array<VirtualFile>) {
                 if (files.isNotEmpty()) {
                     val selectedPath = files[0].path
-                    val exeFilesInSelectedPath = Files.walk(Paths.get(selectedPath), 1, FileVisitOption.FOLLOW_LINKS)
-                        .filter { it.isRegularFile() }
-                        .map { it.fileName.toString() }
-                        .filter { it.lowercase().endsWith(".exe") }
-                        .toList()
+                    val exeFilesInSelectedPath =
+                        Files.walk(Paths.get(selectedPath), 1, FileVisitOption.FOLLOW_LINKS)
+                            .filter { it.isRegularFile() }
+                            .map { it.fileName.toString() }
+                            .filter { it.lowercase().endsWith(".exe") }
+                            .toList()
                     check(exeFilesInSelectedPath.isNotEmpty()) {
                         AhkBundle.msg("ahksdktype.createsdk.error.noexefound")
                     }
                     check(File(selectedPath).resolve(AHK_DOCUMENTATION_FILENAME).isFile) {
                         AhkBundle.msg("ahksdktype.createsdk.error.nochmfound")
                     }
-                    val listDialog = SelectFromListDialog(
-                        null,
-                        exeFilesInSelectedPath.toTypedArray(),
-                        { obj -> obj.toString() },
-                        AhkBundle.msg("ahksdktype.createsdk.dialogexeselect.title"),
-                        ListSelectionModel.SINGLE_SELECTION,
-                    )
+                    val listDialog =
+                        SelectFromListDialog(
+                            null,
+                            exeFilesInSelectedPath.toTypedArray(),
+                            { obj -> obj.toString() },
+                            AhkBundle.msg("ahksdktype.createsdk.dialogexeselect.title"),
+                            ListSelectionModel.SINGLE_SELECTION,
+                        )
 
                     if (listDialog.showAndGet()) {
                         val selectedExe = listDialog.selection.single() as String
                         val versionStr = determineAhkVersionString("$selectedPath/$selectedExe")
                         checkNotNull(versionStr) { AhkBundle.msg("ahksdktype.createsdk.error.noversion") }
-                        putUserData(AHK_EXE_NAME_KEY, selectedExe)
-                        putUserData(AHK_EXE_VERSION_KEY, versionStr)
+                        putUserData(keyAhkExeName, selectedExe)
+                        putUserData(keyAhkExeVersion, versionStr)
                     } else {
                         error(AhkBundle.msg("ahksdktype.createsdk.error.noexeselected"))
                     }
@@ -113,7 +115,10 @@ class AhkSdkType : SdkType("AutoHotkeySDK") {
      */
     override fun isValidSdkHome(selectedSdkPath: String) = true
 
-    override fun suggestSdkName(currentSdkName: String?, sdkHome: String) = AhkConstants.LANGUAGE_NAME
+    override fun suggestSdkName(
+        currentSdkName: String?,
+        sdkHome: String,
+    ) = AhkConstants.LANGUAGE_NAME
 
     /**
      * This method executes once while a new Sdk is being created. It will create a temporary file with the contents of
@@ -132,7 +137,10 @@ class AhkSdkType : SdkType("AutoHotkeySDK") {
         return null
     }
 
-    override fun saveAdditionalData(additionalData: SdkAdditionalData, additional: Element) {
+    override fun saveAdditionalData(
+        additionalData: SdkAdditionalData,
+        additional: Element,
+    ) {
         (additionalData as AhkSdkAdditionalData).writeTo(additional)
     }
 
@@ -161,15 +169,16 @@ class AhkSdkType : SdkType("AutoHotkeySDK") {
         val ahkFileChooser = homeChooserDescriptor
         val defaultSdkRoot = runInBg { SdkConfigurationUtil.getSuggestedSdkRoot(this) }.get()
         FileChooser.chooseFile(ahkFileChooser, null, defaultSdkRoot) { chosenVFile ->
-            val chosenExeName = ahkFileChooser.getUserData(AHK_EXE_NAME_KEY) as String
-            val chosenExeVersion = ahkFileChooser.getUserData(AHK_EXE_VERSION_KEY) as String
-            newlyCreatedSdk = SdkConfigurationUtil.createSdk(
-                ProjectJdkTable.getInstance().allJdks.asList(),
-                chosenVFile,
-                AhkSdkTypeInstance,
-                AhkSdkAdditionalData(chosenExeName),
-                generateAhkSdkNameBasedOn(chosenExeVersion),
-            )
+            val chosenExeName = ahkFileChooser.getUserData(keyAhkExeName) as String
+            val chosenExeVersion = ahkFileChooser.getUserData(keyAhkExeVersion) as String
+            newlyCreatedSdk =
+                SdkConfigurationUtil.createSdk(
+                    ProjectJdkTable.getInstance().allJdks.asList(),
+                    chosenVFile,
+                    AhkSdkTypeInstance,
+                    AhkSdkAdditionalData(chosenExeName),
+                    generateAhkSdkNameBasedOn(chosenExeVersion),
+                )
             newlyCreatedSdk!!.sdkModificator.run {
                 versionString = getVersionString(newlyCreatedSdk!!)
                 WriteAction.run<Throwable>(::commitChanges)
@@ -218,10 +227,11 @@ class AhkSdkType : SdkType("AutoHotkeySDK") {
  *
  * Note: This method should only be executed within a runCatching block to handle potential exceptions being thrown
  */
-private fun ProcessBuilder.startProcessAndReturnSingleLineOutput(): String = start().run {
-    val processTerminated = waitFor(3, SECONDS)
-    check(processTerminated && errorStream.available() == 0) { "Process failed to run correctly" }
-    return inputStream.bufferedReader().readText().also {
-        check(!it.contains("\n")) { "The process output contained multiple lines: $it" }
+private fun ProcessBuilder.startProcessAndReturnSingleLineOutput(): String =
+    start().run {
+        val processTerminated = waitFor(3, SECONDS)
+        check(processTerminated && errorStream.available() == 0) { "Process failed to run correctly" }
+        return inputStream.bufferedReader().readText().also {
+            check(!it.contains("\n")) { "The process output contained multiple lines: $it" }
+        }
     }
-}

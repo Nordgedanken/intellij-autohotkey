@@ -20,7 +20,11 @@ abstract class AhkLexingTestBase : LexerTestCase(), AhkTestCase {
         return AhkTestCase.camelOrWordsToSnake(camelCase)
     }
 
-    override fun doTest(@NonNls text: String, expected: String?, lexer: Lexer) {
+    override fun doTest(
+        @NonNls text: String,
+        expected: String?,
+        lexer: Lexer,
+    ) {
         val result = printTokens(text, 0, lexer)
         if (expected != null) {
             UsefulTestCase.assertSameLines(expected, result)

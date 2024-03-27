@@ -11,11 +11,19 @@ import com.intellij.psi.PsiDirectory
  * Defines the settings for creating a new Ahk file when you right-click on a file/folder in the project tree
  */
 class AhkCreateFileAction : CreateFileFromTemplateAction(CAPTION, "", AhkIcons.FILE), DumbAware {
-    override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
+    override fun buildDialog(
+        project: Project,
+        directory: PsiDirectory,
+        builder: CreateFileFromTemplateDialog.Builder,
+    ) {
         builder.setTitle(CAPTION).addKind("Empty File", AhkIcons.FILE, CAPTION)
     }
 
-    override fun getActionName(directory: PsiDirectory, newName: String, templateName: String) = CAPTION
+    override fun getActionName(
+        directory: PsiDirectory,
+        newName: String,
+        templateName: String,
+    ) = CAPTION
 
     companion object {
         private const val CAPTION = "AutoHotkey File"

@@ -48,16 +48,20 @@ class AhkProjectSettingsService(
                     if (defaultAhkSdk === jdk) defaultAhkSdk = getAhkSdks().minus(jdk).firstOrNull()
                 }
 
-                override fun jdkNameChanged(jdk: Sdk, previousName: String) {}
+                override fun jdkNameChanged(
+                    jdk: Sdk,
+                    previousName: String,
+                ) {}
             },
         )
     }
 
-    override fun getState() = Element(AHK_PROJECT_SETTINGS).also { elem ->
-        defaultAhkSdk?.let {
-            JDOMExternalizerUtil.writeField(elem, AhkProjectSettingsService::defaultAhkSdk.name, it.name)
+    override fun getState() =
+        Element(AHK_PROJECT_SETTINGS).also { elem ->
+            defaultAhkSdk?.let {
+                JDOMExternalizerUtil.writeField(elem, AhkProjectSettingsService::defaultAhkSdk.name, it.name)
+            }
         }
-    }
 
     override fun loadState(state: Element) {
         val res = JDOMExternalizerUtil.readField(state, AhkProjectSettingsService::defaultAhkSdk.name)

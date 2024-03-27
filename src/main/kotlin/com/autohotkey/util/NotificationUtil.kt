@@ -10,7 +10,12 @@ import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.util.ui.UIUtil
 
 object NotificationUtil {
-    fun showErrorPopup(title: String, message: String, project: Project, environment: ExecutionEnvironment) {
+    fun showErrorPopup(
+        title: String,
+        message: String,
+        project: Project,
+        environment: ExecutionEnvironment,
+    ) {
         val toolWindowId = RunContentManager.getInstance(project).getToolWindowIdByEnvironment(environment)
         val toolWindowManager = ToolWindowManager.getInstance(project)
         if (toolWindowManager.canShowNotification(toolWindowId)) {
@@ -20,7 +25,11 @@ object NotificationUtil {
         }
     }
 
-    fun showErrorDialog(project: Project, title: String, message: String) {
+    fun showErrorDialog(
+        project: Project,
+        title: String,
+        message: String,
+    ) {
         Messages.showErrorDialog(project, UIUtil.toHtml(message), title)
     }
 }

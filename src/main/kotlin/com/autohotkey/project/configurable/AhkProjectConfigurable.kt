@@ -27,15 +27,16 @@ class AhkProjectConfigurable(
     override fun apply() {
     }
 
-    override fun createComponent() = panel {
-        row {
-            cell(ahkSdkToolbar).align(AlignX.FILL)
+    override fun createComponent() =
+        panel {
+            row {
+                cell(ahkSdkToolbar).align(AlignX.FILL)
+            }
+            row {
+                label(AhkBundle.msg("settings.ahksdktable.general.info"))
+            }
+            row {
+                comment(AhkBundle.msg("settings.general.thankyou.label")).align(AlignY.BOTTOM)
+            }.resizableRow()
         }
-        row {
-            label(AhkBundle.msg("settings.ahksdktable.general.info"))
-        }
-        row {
-            comment(AhkBundle.msg("settings.general.thankyou.label")).align(AlignY.BOTTOM)
-        }.resizableRow()
-    }
 }

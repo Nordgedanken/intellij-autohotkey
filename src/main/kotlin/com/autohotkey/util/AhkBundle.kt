@@ -15,7 +15,10 @@ object AhkBundle {
      *
      * Ex: AhkBundle.msg("runconfig.configtab.scriptpath.label")
      */
-    fun msg(@PropertyKey(resourceBundle = BUNDLE_NAME) key: String, vararg params: Any?): String {
+    fun msg(
+        @PropertyKey(resourceBundle = BUNDLE_NAME) key: String,
+        vararg params: Any?,
+    ): String {
         return AbstractBundle.message(BUNDLE, key, *params)
     }
 }

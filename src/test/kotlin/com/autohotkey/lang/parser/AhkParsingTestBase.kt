@@ -13,14 +13,16 @@ import com.intellij.psi.PsiFile
 import com.intellij.testFramework.ParsingTestCase
 import org.jetbrains.annotations.NonNls
 
-abstract class AhkParsingTestBase(@NonNls dataPath: String) :
+abstract class AhkParsingTestBase(
+    @NonNls dataPath: String,
+) :
     ParsingTestCase(
-        "com/autohotkey/lang/parser/$dataPath",
-        "ahk",
-        true,
-        AhkParserDefinition(),
-    ),
-    AhkTestCase {
+            "com/autohotkey/lang/parser/$dataPath",
+            "ahk",
+            true,
+            AhkParserDefinition(),
+        ),
+        AhkTestCase {
     override fun getTestName(lowercaseFirstLetter: Boolean): String {
         val camelCase = super.getTestName(lowercaseFirstLetter)
         return AhkTestCase.camelOrWordsToSnake(camelCase)

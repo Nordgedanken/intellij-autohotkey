@@ -41,7 +41,10 @@ class AhkRunConfigProducer : LazyRunConfigurationProducer<AhkRunConfig>() {
         return true
     }
 
-    override fun isConfigurationFromContext(configuration: AhkRunConfig, context: ConfigurationContext): Boolean {
+    override fun isConfigurationFromContext(
+        configuration: AhkRunConfig,
+        context: ConfigurationContext,
+    ): Boolean {
         val file = context.location?.virtualFile ?: return false
         if (!file.isAhkFile()) return false
         configuration.runConfigSettings.run {

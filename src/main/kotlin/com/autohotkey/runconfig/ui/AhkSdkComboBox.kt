@@ -58,10 +58,11 @@ class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
     fun setSelectedSdkByName(sdkName: String) {
         var matchingSdk: Any? = getAhkSdkByName(sdkName)
         if (matchingSdk == null) {
-            matchingSdk = when {
-                sdkName.isNotBlank() -> sdkName
-                else -> null
-            }
+            matchingSdk =
+                when {
+                    sdkName.isNotBlank() -> sdkName
+                    else -> null
+                }
         }
         model.selectedItem = matchingSdk
     }

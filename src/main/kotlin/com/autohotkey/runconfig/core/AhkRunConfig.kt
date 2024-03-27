@@ -41,7 +41,10 @@ class AhkRunConfig(
         return AhkRunConfigSettingsEditor(this.project)
     }
 
-    override fun getState(executor: Executor, environment: ExecutionEnvironment): RunProfileState {
+    override fun getState(
+        executor: Executor,
+        environment: ExecutionEnvironment,
+    ): RunProfileState {
         return AhkRunState(this, environment)
     }
 
@@ -81,7 +84,8 @@ class AhkRunConfig(
     /**
      * Must override clone so that a deep-copy of runConfigSettings is made when generating from template
      */
-    override fun clone() = (super.clone() as AhkRunConfig).apply {
-        runConfigSettings = runConfigSettings.clone()
-    }
+    override fun clone() =
+        (super.clone() as AhkRunConfig).apply {
+            runConfigSettings = runConfigSettings.clone()
+        }
 }

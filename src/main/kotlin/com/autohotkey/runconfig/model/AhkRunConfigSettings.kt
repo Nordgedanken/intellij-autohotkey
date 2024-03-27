@@ -78,7 +78,8 @@ data class AhkRunConfigSettings(
         parentElement.addContent(switchesElement)
     }
 
-    public override fun clone() = (super.clone() as AhkRunConfigSettings).apply {
-        switches = switches.toMap().toMutableMap()
-    }
+    public override fun clone() =
+        (super.clone() as AhkRunConfigSettings).apply {
+            switches = switches.toMap().toMutableMap()
+        }
 }

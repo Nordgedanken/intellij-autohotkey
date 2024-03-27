@@ -12,14 +12,17 @@ import com.intellij.psi.PsiElement
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldContain
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.every
+import io.mockk.just
+import io.mockk.mockkStatic
+import io.mockk.verify
 import org.junit.jupiter.api.Test
 import util.TestUtil
 import util.changeHomePathTo
 
 class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
-
-    override fun getTestDataPath(): String = "${AhkTestCase.testResourcesPath}/${TestUtil.packagePath()}"
+    override fun getTestDataPath(): String = "${AhkTestCase.TEST_RESOURCES_PATH}/${TestUtil.packagePath()}"
 
     private fun getFirstPsiElementOfFileWithText(text: String): PsiElement? {
         myFixture.configureByText(AhkFileType, text)
@@ -28,12 +31,13 @@ class AhkDocumentationProviderTest : AhkBasePlatformTestCase() {
 
     fun `test getCustomDocumentationElement`() {
         val element = getFirstPsiElementOfFileWithText("WinSet")
-        val customDocumentationElement = AhkDocumentationProvider().getCustomDocumentationElement(
-            myFixture.editor,
-            myFixture.file,
-            element,
-            0,
-        )
+        val customDocumentationElement =
+            AhkDocumentationProvider().getCustomDocumentationElement(
+                myFixture.editor,
+                myFixture.file,
+                element,
+                0,
+            )
         customDocumentationElement shouldNotBe null
         customDocumentationElement shouldBe element
     }

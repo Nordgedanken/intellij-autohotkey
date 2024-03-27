@@ -59,7 +59,10 @@ class AhkSdkCellEditor(private val project: Project) : DefaultCellEditor(JBTextF
         return super.getTableCellEditorComponent(table, value.name, isSelected, row, column)
     }
 
-    private fun doesGivenNewNameExist(sdkToRename: Sdk, newSdkName: String): Boolean {
+    private fun doesGivenNewNameExist(
+        sdkToRename: Sdk,
+        newSdkName: String,
+    ): Boolean {
         val allSdks = ProjectJdkTable.getInstance().allJdks.remove(sdkToRename)
         return allSdks.any { it.name == newSdkName }
     }

@@ -17,7 +17,6 @@ import util.TestUtil.parseXmlFileToElement
 import util.toXmlString
 
 class AhkProjectSettingsServiceTest : AhkBasePlatformTestCase(), AhkTestCase {
-
     fun `test that if no default ahk sdk set, getState matches empty-state`() {
         val state = myFixture.project.service<AhkProjectSettingsService>().state
         assertSameLinesWithFile("$testDataPath/${getTestName(true)}.xml", state.toXmlString())
@@ -61,5 +60,5 @@ class AhkProjectSettingsServiceTest : AhkBasePlatformTestCase(), AhkTestCase {
         return super.getTestName(lowercaseFirstLetter).substringAfterLast(' ')
     }
 
-    override fun getTestDataPath(): String = "${AhkTestCase.testResourcesPath}/${TestUtil.packagePath()}"
+    override fun getTestDataPath(): String = "${AhkTestCase.TEST_RESOURCES_PATH}/${TestUtil.packagePath()}"
 }

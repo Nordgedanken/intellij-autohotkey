@@ -32,7 +32,10 @@ object WithOneAhkSdk : LightProjectDescriptor() {
  * ProjectDescriptor with a single ahk sdk added as the project's default
  */
 object WithOneAhkSdkAsProjDefault : LightProjectDescriptor() {
-    override fun setUpProject(project: Project, handler: SetupHandler) {
+    override fun setUpProject(
+        project: Project,
+        handler: SetupHandler,
+    ) {
         super.setUpProject(project, handler)
         project.defaultAhkSdk = mockAhkSdk
     }

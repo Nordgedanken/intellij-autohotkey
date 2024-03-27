@@ -32,9 +32,9 @@ import java.nio.file.Files
 import java.nio.file.Path
 import javax.swing.event.HyperlinkEvent
 
-class AhkCompileToExeActionTest : AhkBasePlatformTestCase() {
-    private val TEST_AHK_SCRIPT_FILENAME = "test.ahk"
+const val TEST_AHK_SCRIPT_FILENAME = "test.ahk"
 
+class AhkCompileToExeActionTest : AhkBasePlatformTestCase() {
     fun `test that the action runs in the background`() {
         AhkCompileToExeAction().actionUpdateThread shouldBe ActionUpdateThread.BGT
     }
@@ -80,8 +80,9 @@ class AhkCompileToExeActionTest : AhkBasePlatformTestCase() {
         myFixture.testAction(AhkCompileToExeAction())
         balloonToCapture.captured.run {
             type shouldBe MessageType.ERROR
-            htmlBody shouldBe AhkBundle.msg("compiletoexeaction.error.errorrunningahk2exe")
-                .format(TEST_AHK_SCRIPT_FILENAME)
+            htmlBody shouldBe
+                AhkBundle.msg("compiletoexeaction.error.errorrunningahk2exe")
+                    .format(TEST_AHK_SCRIPT_FILENAME)
         }
     }
 
@@ -99,37 +100,41 @@ class AhkCompileToExeActionTest : AhkBasePlatformTestCase() {
         myFixture.testAction(AhkCompileToExeAction())
         balloonToCapture.captured.run {
             type shouldBe MessageType.INFO
-            htmlBody shouldBe AhkBundle.msg("compiletoexeaction.success.message")
-                .format(project.defaultAhkSdk!!.ahkDocUrlBase)
+            htmlBody shouldBe
+                AhkBundle.msg("compiletoexeaction.success.message")
+                    .format(project.defaultAhkSdk!!.ahkDocUrlBase)
         }
     }
 
-    private fun mockToolWindowManagerAndCaptureBalloonNotification() = slot<ToolWindowBalloonShowOptions>().also {
-        val spyToolWindowManager = spyk(ToolWindowHeadlessManagerImpl(project))
-        every { spyToolWindowManager.notifyByBalloon(options = capture(it)) } just Runs
-        project.replaceService(ToolWindowManager::class.java, spyToolWindowManager, testRootDisposable)
-    }
+    private fun mockToolWindowManagerAndCaptureBalloonNotification() =
+        slot<ToolWindowBalloonShowOptions>().also {
+            val spyToolWindowManager = spyk(ToolWindowHeadlessManagerImpl(project))
+            every { spyToolWindowManager.notifyByBalloon(options = capture(it)) } just Runs
+            project.replaceService(ToolWindowManager::class.java, spyToolWindowManager, testRootDisposable)
+        }
 
     private fun configureCompileToExeActionToBeCalledFromFakeAhkScript() {
         val fakeAhkScriptFile = myFixture.configureByText(TEST_AHK_SCRIPT_FILENAME, "")!!.virtualFile
         // Make a fake data context that pretends it was generated from the fake script
-        val dataContextWScript = DataContext {
-            return@DataContext when (it) {
-                CommonDataKeys.PROJECT.name -> project
-                CommonDataKeys.VIRTUAL_FILE.name -> fakeAhkScriptFile
-                else -> null
+        val dataContextWScript =
+            DataContext {
+                return@DataContext when (it) {
+                    CommonDataKeys.PROJECT.name -> project
+                    CommonDataKeys.VIRTUAL_FILE.name -> fakeAhkScriptFile
+                    else -> null
+                }
             }
-        }
         // Inject a mock DataManager to provide our fake data context when requested from the action event
         val spyDataManager = spyk(HeadlessDataManager())
         every { spyDataManager.dataContext } returns dataContextWScript
         ApplicationManager.getApplication().replaceService(DataManager::class.java, spyDataManager, testRootDisposable)
     }
 
-    private fun createFakeAhk2ExeFileWithin(dir: Path) = dir.resolve("Compiler").resolve("Ahk2Exe.exe").let {
-        Files.createDirectories(it.parent)
-        Files.createFile(it)
-    }
+    private fun createFakeAhk2ExeFileWithin(dir: Path) =
+        dir.resolve("Compiler").resolve("Ahk2Exe.exe").let {
+            Files.createDirectories(it.parent)
+            Files.createFile(it)
+        }
 
     private fun mockProcessBuilderWithATerminatingMockProcess(): Process {
         mockkConstructor(ProcessBuilder::class)

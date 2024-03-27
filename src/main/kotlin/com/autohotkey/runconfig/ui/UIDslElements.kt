@@ -18,9 +18,10 @@ import javax.swing.border.EmptyBorder
  * Use within a panel to add a new tabbedPane in the UI DSL format
  */
 fun Row.tabbedPane(init: JBTabbedPane.() -> Unit): Cell<JBTabbedPane> {
-    val jbTabbedPane = JBTabbedPane().apply {
-        tabComponentInsets = Insets(0, 0, 0, 0)
-    }
+    val jbTabbedPane =
+        JBTabbedPane().apply {
+            tabComponentInsets = Insets(0, 0, 0, 0)
+        }
     init(jbTabbedPane)
     return cell(jbTabbedPane).align(AlignX.FILL)
 }
@@ -30,15 +31,19 @@ fun Row.tabbedPane(init: JBTabbedPane.() -> Unit): Cell<JBTabbedPane> {
  * except the bottom, since the createIntelliJSpacingConfiguration() invoked by panel already does that
  * Use within a tabbedPane to add new tabs in the UI DSL format
  */
-fun JBTabbedPane.outlinedTab(@Nls tabName: String?, init: Panel.() -> Unit) {
+fun JBTabbedPane.outlinedTab(
+    @Nls tabName: String?,
+    init: Panel.() -> Unit,
+) {
     addTab(
         tabName,
         panel {
             init()
         }.apply {
-            val lineBorder = BorderFactory.createLineBorder(
-                EditorColorsManager.getInstance().globalScheme.defaultForeground,
-            )
+            val lineBorder =
+                BorderFactory.createLineBorder(
+                    EditorColorsManager.getInstance().globalScheme.defaultForeground,
+                )
             val margin = EmptyBorder(10, 10, 10, 10)
             border = CompoundBorder(lineBorder, margin)
         },
