@@ -145,6 +145,7 @@ jobs:
         failure-levels: |
           COMPATIBILITY_WARNINGS
           COMPATIBILITY_PROBLEMS
+          DEPRECATED_API_USAGES
           INTERNAL_API_USAGES
           OVERRIDE_ONLY_API_USAGES
           NON_EXTENDABLE_API_USAGES

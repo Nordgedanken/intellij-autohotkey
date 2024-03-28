@@ -1,12 +1,14 @@
 root = true
 
 [*] #includes .flex and .bnf
-end_of_line = lf #git automatically converts all line endings to lf so no need to change it
+#git automatically converts all line endings to lf so no need to change it
+end_of_line = lf
 insert_final_newline = true
 indent_style = space
 trim_trailing_whitespace = true
 indent_size = 4
 max_line_length = 120
+
 
 [{*.bnf,*.yml,*.txt,*.md}]
 indent_size = 2

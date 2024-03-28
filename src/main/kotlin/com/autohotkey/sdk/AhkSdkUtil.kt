@@ -1,5 +1,6 @@
 package com.autohotkey.sdk
 
+import com.intellij.openapi.application.WriteAction
 import com.intellij.openapi.projectRoots.ProjectJdkTable
 import com.intellij.openapi.projectRoots.Sdk
 
@@ -20,7 +21,12 @@ fun getFirstAvailableAhkSdk(): Sdk? = getAhkSdks().firstOrNull()
 fun Sdk.isAhkSdk(): Boolean = sdkType is AhkSdkType
 
 fun Sdk.ahkExeName(): String {
-    sdkAdditionalData ?: sdkModificator.run { sdkAdditionalData = AhkSdkAdditionalData(); commitChanges() }
+    sdkAdditionalData ?: WriteAction.run<Throwable> {
+        sdkModificator.run {
+            sdkAdditionalData = AhkSdkAdditionalData()
+            commitChanges()
+        }
+    }
     return (sdkAdditionalData as AhkSdkAdditionalData).exeName
 }
 

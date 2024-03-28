@@ -5,6 +5,7 @@ import com.autohotkey.ProjectDescriptor
 import com.autohotkey.WithOneAhkSdk
 import com.autohotkey.mockAhkSdk
 import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl
+import com.intellij.openapi.projectRoots.impl.UnknownSdkType
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldBeNull
@@ -27,7 +28,7 @@ class AhkSdkUtilKtTest : AhkBasePlatformTestCase() {
 
     fun `test isAhkSdk`() {
         mockAhkSdk.isAhkSdk().shouldBeTrue()
-        val mockNonAhkSdk = ProjectJdkImpl("Mock Non Ahk Sdk", null)
+        val mockNonAhkSdk = ProjectJdkImpl("Mock Non Ahk Sdk", UnknownSdkType.getInstance(""))
         mockNonAhkSdk.isAhkSdk().shouldBeFalse()
     }
 

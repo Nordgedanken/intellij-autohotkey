@@ -16,7 +16,7 @@ import com.intellij.ui.components.JBCheckBox
 import com.intellij.ui.components.fields.ExpandableTextField
 import com.intellij.ui.dsl.builder.AlignX
 import com.intellij.ui.dsl.builder.panel
-import com.intellij.ui.dsl.gridLayout.Gaps
+import com.intellij.ui.dsl.gridLayout.UnscaledGaps
 import javax.swing.JComponent
 
 /**
@@ -106,6 +106,6 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
     }
 
     companion object {
-        val SMALL_RIGHT_GAP = Gaps(right = 5)
+        val SMALL_RIGHT_GAP = UnscaledGaps(right = 5)
     }
 }

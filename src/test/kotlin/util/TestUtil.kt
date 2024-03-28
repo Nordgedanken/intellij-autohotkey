@@ -1,5 +1,7 @@
 package util
 
+import com.intellij.openapi.application.WriteAction
+import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.util.JDOMUtil
 import junit.framework.TestCase
 import org.jdom.Element
@@ -67,3 +69,12 @@ inline fun <reified T : Annotation> TestCase.findAnnotationInstance(): T? =
 fun Element.toXmlString() = JDOMUtil.writeElement(this)
 
 fun Element.toCompactXmlString() = XMLOutputter(Format.getCompactFormat()).outputString(this)
+
+fun Sdk.changeHomePathTo(path: String) {
+    WriteAction.run<Throwable> {
+        sdkModificator.run {
+            homePath = path
+            commitChanges()
+        }
+    }
+}
