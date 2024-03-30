@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 (compatibility: 2024.1 - 2024.3.*)
+### Added
+- Added download option to Ahk runner-setup notification
+
 ### Changed
 - Dependencies updated to support IntelliJ 2024.*
 
