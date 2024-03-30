@@ -2,8 +2,10 @@ package com.autohotkey.ide.notifications
 
 import com.autohotkey.lang.core.isAhkFile
 import com.autohotkey.project.configurable.AhkProjectConfigurable
+import com.autohotkey.sdk.AhkSdkTypeInstance
 import com.autohotkey.sdk.getAhkSdks
 import com.autohotkey.util.AhkBundle
+import com.intellij.ide.BrowserUtil
 import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.options.ShowSettingsUtil
 import com.intellij.openapi.project.DumbAware
@@ -27,10 +29,13 @@ class MissingAhkSdkNotificationProvider : EditorNotificationProvider, DumbAware 
     ): Function<in FileEditor, out JComponent?>? {
         if (!file.isAhkFile() || getAhkSdks().isNotEmpty()) return null
         return Function { fileEditor ->
-            EditorNotificationPanel(fileEditor).apply {
+            EditorNotificationPanel(fileEditor, EditorNotificationPanel.Status.Warning).apply {
                 text = AhkBundle.msg("ahksdktype.projectsetup.noahksdksfound.message")
-                createActionLabel(AhkBundle.msg("ahksdktype.projectsetup.noahksdksfound.actionlabel")) {
+                createActionLabel(AhkBundle.msg("ahksdktype.projectsetup.noahksdksfound.configurelabel")) {
                     ShowSettingsUtil.getInstance().showSettingsDialog(proj, AhkProjectConfigurable::class.java)
+                }
+                createActionLabel(AhkBundle.msg("ahksdktype.projectsetup.noahksdksfound.downloadlabel")) {
+                    BrowserUtil.browse(AhkSdkTypeInstance.downloadSdkUrl)
                 }
             }
         }

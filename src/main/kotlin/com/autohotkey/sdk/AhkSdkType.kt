@@ -56,6 +56,8 @@ class AhkSdkType : SdkType("AutoHotkeySDK") {
 
     override fun suggestHomePath() = """C:\Program Files\AutoHotkey"""
 
+    override fun getDownloadSdkUrl(): String = "https://www.autohotkey.com/download/"
+
     override fun getDefaultDocumentationUrl(sdk: Sdk): String =
         when {
             sdk.versionString?.startsWith("1") == true -> AHK_DOCUMENTATION_URL_V1
