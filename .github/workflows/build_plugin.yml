@@ -132,7 +132,7 @@ jobs:
     # Download plugin artifact provided by the previous job.
     # This will auto-extract zip contents into the current directory
     - name: Download Artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       with:
         name: plugin-artifact
 
