@@ -47,18 +47,28 @@ jobs:
   qodana:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Java 21
+        uses: actions/setup-java@v5
+        with:
+          java-version: 21
+          distribution: temurin
+          cache: gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v5
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@v2026.1
+        with:
+          pr-mode: false
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_504518424 }}
+          QODANA_ENDPOINT: 'https://qodana.cloud'
 
-    # Run Qodana code inspections
-    - name: Run Qodana Code Inspection
-      uses: JetBrains/qodana-action@v2023.3.2
-
-    # Collect Qodana Result
-    - name: Collect Qodana Result
-      uses: actions/upload-artifact@v2
-      with:
-        name: qodana-result
-        path: ${{ github.workspace }}/qodana
-
+      # Collect Qodana Result
+#      - name: Collect Qodana Result
+#        uses: actions/upload-artifact@v7
+#        with:
+#          name: qodana-result
+#          path: ${{ github.workspace }}/qodana

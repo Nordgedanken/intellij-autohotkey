@@ -4,43 +4,51 @@ import com.autohotkey.AhkBasePlatformTestCase
 import com.autohotkey.ProjectDescriptor
 import com.autohotkey.WithOneAhkSdk
 import com.autohotkey.mockAhkSdk
+import com.intellij.openapi.application.WriteAction
 import com.intellij.openapi.projectRoots.impl.ProjectJdkImpl
 import com.intellij.openapi.projectRoots.impl.UnknownSdkType
-import io.kotest.matchers.booleans.shouldBeFalse
-import io.kotest.matchers.booleans.shouldBeTrue
-import io.kotest.matchers.nulls.shouldBeNull
-import io.kotest.matchers.shouldBe
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class AhkSdkUtilKtTest : AhkBasePlatformTestCase() {
     fun `test getAhkSdkByName for no sdks`() {
-        getAhkSdkByName("Test sdk").shouldBeNull()
+        assertNull(getAhkSdkByName("Test sdk"))
     }
 
     @ProjectDescriptor(WithOneAhkSdk::class)
     fun `test getAhkSdkByName for ahk sdk that doesn't match given name`() {
-        getAhkSdkByName("Test sdk").shouldBeNull()
+        assertNull(getAhkSdkByName("Test sdk"))
     }
 
     @ProjectDescriptor(WithOneAhkSdk::class)
     fun `test getAhkSdkByName for ahk sdk that matches given name`() {
-        getAhkSdkByName("Mock Ahk Sdk") shouldBe mockAhkSdk
+        assertEquals(mockAhkSdk, getAhkSdkByName("Mock Ahk Sdk"))
     }
 
     fun `test isAhkSdk`() {
-        mockAhkSdk.isAhkSdk().shouldBeTrue()
+        assertTrue(mockAhkSdk.isAhkSdk())
         val mockNonAhkSdk = ProjectJdkImpl("Mock Non Ahk Sdk", UnknownSdkType.getInstance(""))
-        mockNonAhkSdk.isAhkSdk().shouldBeFalse()
+        assertFalse(mockNonAhkSdk.isAhkSdk())
     }
 
     fun `test ahkExeName`() {
-        mockAhkSdk.ahkExeName() shouldBe DEFAULT_AHK_EXE_NAME
+        assertEquals(DEFAULT_AHK_EXE_NAME, mockAhkSdk.ahkExeName())
     }
 
     fun `test ahkDocumentationUrl`() =
         mockAhkSdk.run {
-            versionString = "1.1.33.07"
-            ahkDocUrlBase shouldBe AHK_DOCUMENTATION_URL_V1
-            versionString = "2.0-a133"
-            ahkDocUrlBase shouldBe AHK_DOCUMENTATION_URL_V2
+            sdkModificator.run {
+                versionString = "1.1.33.07"
+                WriteAction.run<Throwable>(::commitChanges)
+            }
+            assertEquals(AHK_DOCUMENTATION_URL_V1, ahkDocUrlBase)
+
+            sdkModificator.run {
+                versionString = "2.0-a133"
+                WriteAction.run<Throwable>(::commitChanges)
+            }
+            assertEquals(AHK_DOCUMENTATION_URL_V2, ahkDocUrlBase)
         }
 }

@@ -1,23 +1,23 @@
 package com.autohotkey.runconfig.model
 
-import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.matchers.booleans.shouldBeFalse
-import io.kotest.matchers.booleans.shouldBeTrue
-import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
-class AhkSwitchTest : FunSpec(
-    {
-        test("isValidSwitch correctly validates switches") {
-            AhkSwitch.isValidSwitch("/invalidSwitch").shouldBeFalse()
-            AhkSwitch.isValidSwitch("/ErrorStdOut").shouldBeTrue()
-        }
+class AhkSwitchTest {
+    @Test
+    fun `test isValidSwitch`() {
+        assertFalse(AhkSwitch.isValidSwitch("/invalidSwitch"))
+        assertTrue(AhkSwitch.isValidSwitch("/ErrorStdOut"))
+    }
 
-        test("valueOfBySwitchName correctly returns the expected switch or fails") {
-            AhkSwitch.valueOfBySwitchName("/ErrorStdOut") shouldBe AhkSwitch.ERROR_STD_OUT
-            shouldThrow<NoSuchElementException> {
-                AhkSwitch.valueOfBySwitchName("/invalidSwitch")
-            }
+    @Test
+    fun `test valueOfBySwitchName`() {
+        assertEquals(AhkSwitch.ERROR_STD_OUT, AhkSwitch.valueOfBySwitchName("/ErrorStdOut"))
+        assertFailsWith<NoSuchElementException> {
+            AhkSwitch.valueOfBySwitchName("/invalidSwitch")
         }
-    },
-)
+    }
+}

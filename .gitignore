@@ -4,6 +4,8 @@
 
 ## Directory-based project format:
 .idea/
+.intellijPlatform/
+.kotlin/
 
 ## File-based project format:
 *.ipr
