@@ -57,7 +57,7 @@ jobs:
 
     # Collect Qodana Result
     - name: Collect Qodana Result
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: qodana-result
         path: ${{ github.workspace }}/qodana

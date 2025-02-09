@@ -6,14 +6,15 @@ mockk = "1.13.+"
 
 # plugins
 changelog = "2.+"
-gradleIntelliJPlugin = "1.17.+"
+intelliJPlatform = "2.3.+"
 grammarKit = "2022.3.+"
-kotlin = "1.9.+"
+kotlin = "2.1.+"
 ktlint = "12.+"
 jacocolog = "3.+"
 qodana = "0.1.+"
 
 [libraries]
+junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junit" }
 kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
@@ -25,7 +26,7 @@ kotest = ["kotest-runner", "kotest-assertions", "kotest-datatest"]
 
 [plugins]
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
-gradleIntelliJPlugin = { id = "org.jetbrains.intellij", version.ref = "gradleIntelliJPlugin" }
+intelliJPlatform = { id = "org.jetbrains.intellij.platform", version.ref = "intelliJPlatform" }
 grammarKit = { id = "org.jetbrains.grammarkit", version.ref = "grammarKit" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }

@@ -5,7 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+(compatibility: 2025.* - infinite)
 ### Added
+
+### Changed
+- Dependencies updated to support IntelliJ 2025.*
+
 
 ## [0.10.4] - 2024-04-10
 (compatibility: 2024.1 - 2024.3.*)
