@@ -25,7 +25,6 @@ class AhkHighlightAnnotator : Annotator {
             is AhkNormalLabel -> holder.newInfoHighlightAnnotation(NORMAL_LABEL)
             is AhkHotkey -> holder.newInfoHighlightAnnotation(HOTKEY)
             is AhkHotstring -> holder.newInfoHighlightAnnotation(HOTSTRING)
-
             is AhkDirective -> holder.newInfoHighlightAnnotation(DIRECTIVE)
         }
     }

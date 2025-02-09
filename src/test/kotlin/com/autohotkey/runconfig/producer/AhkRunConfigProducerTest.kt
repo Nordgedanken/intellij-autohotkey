@@ -12,10 +12,12 @@ import com.intellij.execution.impl.RunnerAndConfigurationSettingsImpl
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.PsiElement
 import com.intellij.testFramework.fixtures.CodeInsightTestFixture
-import io.kotest.matchers.shouldBe
 import org.jdom.Element
 import util.TestUtil.packagePath
 import util.toXmlString
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 import com.intellij.openapi.fileTypes.PlainTextFileType.INSTANCE as PlainTextFileType
 
 class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
@@ -23,17 +25,17 @@ class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
 
     fun `test producer makes no config for non-ahk file`() {
         val configurations = generateContextAhkRunconfigsFromFile("test.txt", "test")
-        configurations.size shouldBe 0
+        assertEquals(0, configurations.size)
     }
 
     fun `test producer makes config for empty ahk file`() {
         val configurations = generateContextAhkRunconfigsFromFile("test.ahk", "")
-        configurations.size shouldBe 1
+        assertEquals(1, configurations.size)
     }
 
     fun `test producer makes config for ahk file with no code`() {
         val configurations = generateContextAhkRunconfigsFromFile("test.ahk", ";test comment")
-        configurations.size shouldBe 1
+        assertEquals(1, configurations.size)
     }
 
     fun `test producer makes config with no sdk for proj w no sdk matching hello-world-no-sdk`() {
@@ -57,8 +59,8 @@ class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
         val configs = contexts.map { it.configurationsFromContext!!.single() }.map { it.configuration as AhkRunConfig }
 
         ahkRunConfigProducer.run {
-            isConfigurationFromContext(configs[0], contexts[1]) shouldBe true
-            isConfigurationFromContext(configs[1], contexts[0]) shouldBe true
+            assertTrue(isConfigurationFromContext(configs[0], contexts[1]))
+            assertTrue(isConfigurationFromContext(configs[1], contexts[0]))
         }
     }
 
@@ -69,8 +71,8 @@ class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
         val otherContextDiffAhkFile = myFixture.makeConfigContextFrom(AhkFileType, "Msgbox Hi from another file")
         val otherContextNonAhkFile = myFixture.makeConfigContextFrom(PlainTextFileType, "Msgbox Hi from another file")
 
-        ahkRunConfigProducer.isConfigurationFromContext(ahkRunConfig, otherContextDiffAhkFile) shouldBe false
-        ahkRunConfigProducer.isConfigurationFromContext(ahkRunConfig, otherContextNonAhkFile) shouldBe false
+        assertFalse(ahkRunConfigProducer.isConfigurationFromContext(ahkRunConfig, otherContextDiffAhkFile))
+        assertFalse(ahkRunConfigProducer.isConfigurationFromContext(ahkRunConfig, otherContextNonAhkFile))
     }
 
     fun `test producer doesn't reuse old config if the arguments have changed`() {
@@ -78,7 +80,7 @@ class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
         val ahkRunConfig = ctx.configurationsFromContext!!.single().configuration as AhkRunConfig
         ahkRunConfig.runConfigSettings.arguments = "arg1"
 
-        ahkRunConfigProducer.isConfigurationFromContext(ahkRunConfig, ctx) shouldBe false
+        assertFalse(ahkRunConfigProducer.isConfigurationFromContext(ahkRunConfig, ctx))
     }
 
     /**

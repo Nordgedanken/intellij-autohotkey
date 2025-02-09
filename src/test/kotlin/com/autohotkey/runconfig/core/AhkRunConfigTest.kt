@@ -6,28 +6,36 @@ import com.autohotkey.WithOneAhkSdk
 import com.autohotkey.runconfig.ui.AhkRunConfigSettingsEditor
 import com.intellij.execution.RunManager
 import com.intellij.execution.configurations.RuntimeConfigurationException
-import io.kotest.assertions.throwables.shouldNotThrowAny
-import io.kotest.assertions.throwables.shouldThrow
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.string.shouldStartWith
-import io.kotest.matchers.types.shouldBeInstanceOf
 import util.TestUtil
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertIs
+import kotlin.test.assertTrue
 
 class AhkRunConfigTest : AhkBasePlatformTestCase() {
     fun `test check configuration throws error if no runner selected`() {
         val ahkRunConfig = generateEmptyAhkRunconfig()
-        shouldThrow<RuntimeConfigurationException> {
-            ahkRunConfig.checkConfiguration()
-        }.message shouldStartWith "The script runner does not point to a valid AutoHotkey runner!"
+        val exception =
+            assertFailsWith<RuntimeConfigurationException> {
+                ahkRunConfig.checkConfiguration()
+            }
+        assertTrue(
+            exception.message!!.startsWith("The script runner does not point to a valid AutoHotkey runner!"),
+        )
     }
 
     @ProjectDescriptor(WithOneAhkSdk::class)
     fun `test check configuration throws error if file doesn't exist`() {
         val ahkRunConfig = generateEmptyAhkRunconfig()
         ahkRunConfig.runConfigSettings.runner = WithOneAhkSdk.sdk.name
-        shouldThrow<RuntimeConfigurationException> {
-            ahkRunConfig.checkConfiguration()
-        }.message shouldBe "The script path does not exist on disk!"
+        val exception =
+            assertFailsWith<RuntimeConfigurationException> {
+                ahkRunConfig.checkConfiguration()
+            }
+        assertEquals(
+            "The script path does not exist on disk!",
+            exception.message,
+        )
     }
 
     @ProjectDescriptor(WithOneAhkSdk::class)
@@ -35,9 +43,14 @@ class AhkRunConfigTest : AhkBasePlatformTestCase() {
         val ahkRunConfig = generateEmptyAhkRunconfig()
         ahkRunConfig.runConfigSettings.runner = WithOneAhkSdk.sdk.name
         ahkRunConfig.runConfigSettings.pathToScript = TestUtil.getResourceFile("empty.txt").path
-        shouldThrow<RuntimeConfigurationException> {
-            ahkRunConfig.checkConfiguration()
-        }.message shouldBe "The script path does not point to an AutoHotkey (.ahk) file!"
+        val exception =
+            assertFailsWith<RuntimeConfigurationException> {
+                ahkRunConfig.checkConfiguration()
+            }
+        assertEquals(
+            "The script path does not point to an AutoHotkey (.ahk) file!",
+            exception.message,
+        )
     }
 
     @ProjectDescriptor(WithOneAhkSdk::class)
@@ -45,24 +58,24 @@ class AhkRunConfigTest : AhkBasePlatformTestCase() {
         val ahkRunConfig = generateEmptyAhkRunconfig()
         ahkRunConfig.runConfigSettings.runner = WithOneAhkSdk.sdk.name
         ahkRunConfig.runConfigSettings.pathToScript = TestUtil.getResourceFile("empty.ahk").path
-        shouldNotThrowAny { ahkRunConfig.checkConfiguration() }
+        ahkRunConfig.checkConfiguration()
     }
 
     fun `test config's editor has type AhkRunConfigSettingsEditor`() {
         val ahkRunConfig = generateEmptyAhkRunconfig()
-        ahkRunConfig.configurationEditor.shouldBeInstanceOf<AhkRunConfigSettingsEditor>()
+        assertIs<AhkRunConfigSettingsEditor>(ahkRunConfig.configurationEditor)
     }
 
     fun `test getSuggestedName`() {
         val ahkRunConfig = generateEmptyAhkRunconfig()
         ahkRunConfig.runConfigSettings.pathToScript = """C:\test\test.ahk"""
-        ahkRunConfig.suggestedName() shouldBe "Run test.ahk"
+        assertEquals("Run test.ahk", ahkRunConfig.suggestedName())
     }
 
     fun `test readExternal`() {
         val actualConfigElement = TestUtil.parseXmlFileToElement("runconfig_empty")
         val actualConfig = generateEmptyAhkRunconfig().apply { readExternal(actualConfigElement) }
-        actualConfig.runConfigSettings shouldBe generateEmptyAhkRunconfig().runConfigSettings
+        assertEquals(generateEmptyAhkRunconfig().runConfigSettings, actualConfig.runConfigSettings)
     }
 
     private fun generateEmptyAhkRunconfig(): AhkRunConfig {

@@ -8,8 +8,8 @@ import com.autohotkey.util.AhkBundle
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.ui.EditorNotificationPanel
-import io.kotest.matchers.nulls.shouldBeNull
-import io.kotest.matchers.shouldBe
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 import com.intellij.openapi.fileTypes.PlainTextFileType.INSTANCE as PlainTextFileType
 
 /**
@@ -22,18 +22,18 @@ class MissingAhkSdkNotificationProviderTest : AhkBasePlatformTestCase() {
 
     fun `test notification doesn't show if non-ahk file opened with no sdks set up`() {
         val panel = getPanelAfterOpeningFileOfType(PlainTextFileType)
-        panel.shouldBeNull()
+        assertNull(panel)
     }
 
     fun `test notification shows if ahk file opened with no sdks set up`() {
         val panel = getPanelAfterOpeningFileOfType(AhkFileType)
-        panel!!.text shouldBe AhkBundle.msg("ahksdktype.projectsetup.noahksdksfound.message")
+        assertEquals(AhkBundle.msg("ahksdktype.projectsetup.noahksdksfound.message"), panel!!.text)
     }
 
     @ProjectDescriptor(WithOneAhkSdk::class)
     fun `test notification doesn't show if ahk file opened with one sdk set up`() {
         val panel = getPanelAfterOpeningFileOfType(AhkFileType)
-        panel.shouldBeNull()
+        assertNull(panel)
     }
 
     /**
