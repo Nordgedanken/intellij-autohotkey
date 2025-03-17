@@ -9,7 +9,6 @@ import com.intellij.icons.AllIcons
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.descendantsOfType
 import com.intellij.psi.util.elementType
-import com.intellij.refactoring.suggested.startOffset
 
 /**
  * Adds a run icon to the gutter for the first psiElement in the Ahk file which is not a comment.
@@ -30,3 +29,7 @@ class AhkExecutableRunLineMarkerContributor : RunLineMarkerContributor() {
         )
     }
 }
+
+// temporary method to stop "interal api usage" issue until base IDE range upgraded to 2025
+val PsiElement.startOffset: Int
+    get() = textRange.startOffset

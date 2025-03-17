@@ -94,7 +94,7 @@ tasks {
     patchPluginXml {
         version = properties("pluginVersion")
         sinceBuild = properties("pluginSinceBuild")
-        untilBuild = properties("pluginUntilBuild")
+        untilBuild = provider { null } // intentionally blank to allow unlimited future support
         changeNotes =
             provider {
                 var newChangeNotes =

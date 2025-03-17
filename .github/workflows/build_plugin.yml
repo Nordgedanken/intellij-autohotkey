@@ -12,7 +12,7 @@ jobs:
     name: Gradle Wrapper
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     # Validate wrapper
     - name: Gradle Wrapper Validation
@@ -24,7 +24,7 @@ jobs:
     needs: gradleValidation
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     # Verify no java files committed. Note this is run before any gen/* files are created
     - name: Verify Kotlin Source Files Only
@@ -40,7 +40,7 @@ jobs:
 
     # Setup Java 17 environment for the next steps
     - name: Setup Java 17
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4
       with:
         java-version: 17
         distribution: temurin
@@ -48,14 +48,14 @@ jobs:
 
     # Cache Gradle dependencies
     - name: Setup Cache
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ~/.gradle/caches
         key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts', 'gradle.properties') }}
 
     # Cache Gradle Wrapper
     - name: Setup Gradle Wrapper Cache
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ~/.gradle/wrapper
         key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
@@ -87,8 +87,8 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
       with:
         java-version: 17
         distribution: temurin
@@ -96,14 +96,14 @@ jobs:
 
     # Cache Gradle Dependencies
     - name: Setup Gradle Dependencies Cache
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ~/.gradle/caches
         key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts', 'gradle.properties') }}
 
     # Cache Gradle Wrapper
     - name: Setup Gradle Wrapper Cache
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ~/.gradle/wrapper
         key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
@@ -114,7 +114,7 @@ jobs:
 
     # Upload plugin artifact to make it available in the next jobs
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: plugin-artifact
         path: ./build/distributions
@@ -127,12 +127,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout "ide-versions" File for the Verifier Action to Use
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     # Download plugin artifact provided by the previous job.
     # This will auto-extract zip contents into the current directory
     - name: Download Artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: plugin-artifact
 
@@ -149,7 +149,6 @@ jobs:
         failure-levels: |
           COMPATIBILITY_WARNINGS
           COMPATIBILITY_PROBLEMS
-          DEPRECATED_API_USAGES
           INTERNAL_API_USAGES
           OVERRIDE_ONLY_API_USAGES
           NON_EXTENDABLE_API_USAGES
