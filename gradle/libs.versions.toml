@@ -1,12 +1,13 @@
 [versions]
 # libraries
+junit4 = "4.+"
 junit = "5.+"
 kotest = "5.+"
 mockk = "1.13.+"
 
 # plugins
 changelog = "2.+"
-intelliJPlatform = "2.3.+"
+intelliJPlatform = "2.5.+"
 grammarKit = "2022.3.+"
 kotlin = "2.1.+"
 ktlint = "12.+"
@@ -14,7 +15,7 @@ jacocolog = "3.+"
 qodana = "0.1.+"
 
 [libraries]
-junit = { group = "junit", name = "junit", version.ref = "junit" }
+junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 junit-engine = { group = "org.junit.vintage", name = "junit-vintage-engine", version.ref = "junit" }
 kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }

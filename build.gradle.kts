@@ -40,7 +40,7 @@ kotlin {
 }
 
 dependencies {
-    testImplementation(libs.junit)
+    testImplementation(libs.junit4)
     testImplementation(libs.bundles.kotest)
     testImplementation(libs.mockk)
     testRuntimeOnly(libs.junit.engine) {
@@ -55,8 +55,6 @@ dependencies {
         create(
             providers.gradleProperty("platformType"),
             providers.gradleProperty("platformVersion"),
-            // required for EAP versions (intellij-platform-gradle-plugin/issues/1716)
-            useInstaller = false,
         )
 
         // Plugin Dependencies. Uses `platformBundledPlugins` property from the gradle.properties file for bundled IntelliJ Platform plugins.
