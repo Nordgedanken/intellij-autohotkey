@@ -7,7 +7,7 @@ mockk = "1.14.+"
 
 # plugins
 changelog = "2.+"
-intelliJPlatform = "2.10.+"
+intelliJPlatform = "2.14.0"
 grammarKit = "2022.3.+"
 kotlin = "2.2.+"
 ktlint = "12.+"

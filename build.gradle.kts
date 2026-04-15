@@ -4,6 +4,7 @@ import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.grammarkit.tasks.GenerateLexerTask
 import org.jetbrains.grammarkit.tasks.GenerateParserTask
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.intellij.platform.gradle.extensions.excludeCoroutines
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
@@ -42,12 +43,14 @@ kotlin {
 dependencies {
     testImplementation(libs.junit4)
     testImplementation(libs.bundles.kotest) {
-        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-core")
-        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-core-jvm")
+        excludeCoroutines()
+//        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-core")
+//        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-core-jvm")
     }
     testImplementation(libs.mockk) {
-        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-core")
-        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-core-jvm")
+        excludeCoroutines()
+//        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-core")
+//        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-core-jvm")
     }
     testRuntimeOnly(libs.junit.engine) {
         because(
