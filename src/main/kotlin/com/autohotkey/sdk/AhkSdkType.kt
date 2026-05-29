@@ -20,6 +20,7 @@ import com.intellij.openapi.projectRoots.SdkModificator
 import com.intellij.openapi.projectRoots.SdkType
 import com.intellij.openapi.projectRoots.impl.SdkConfigurationUtil
 import com.intellij.openapi.ui.SelectFromListDialog
+import com.intellij.openapi.util.io.toNioPathOrNull
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.util.Consumer
 import org.jdom.Element
@@ -27,18 +28,21 @@ import java.io.File
 import java.nio.file.FileVisitOption
 import java.nio.file.Files
 import java.nio.file.Files.createTempFile
+import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.concurrent.TimeUnit.SECONDS
 import javax.swing.Icon
 import javax.swing.JComponent
 import javax.swing.ListSelectionModel
 import kotlin.io.path.isRegularFile
+import kotlin.io.path.pathString
 
 const val GET_AHK_VERSION_V1 = """FileAppend %A_AhkVersion%, *"""
 const val GET_AHK_VERSION_V2 = """FileAppend A_AhkVersion, "*""""
 const val AHK_DOCUMENTATION_FILENAME = "AutoHotkey.chm"
 const val AHK_DOCUMENTATION_URL_V1 = "https://www.autohotkey.com/docs/v1"
 const val AHK_DOCUMENTATION_URL_V2 = "https://www.autohotkey.com/docs/v2"
+const val AHK_DEFAULT_HOMEPATH = """C:\Program Files\AutoHotkey"""
 
 /**
  * Controls how the AutoHotkey Sdk type will look and work in the IDE. Registered in plugin.xml
@@ -54,7 +58,10 @@ class AhkSdkType : SdkType("AutoHotkeySDK") {
 
     override fun getPresentableName() = "${AhkConstants.LANGUAGE_NAME} SDK"
 
-    override fun suggestHomePath() = """C:\Program Files\AutoHotkey"""
+    @Deprecated("Deprecated in Java", ReplaceWith("suggestHomePath(path: Path)"))
+    override fun suggestHomePath() = AHK_DEFAULT_HOMEPATH
+
+    override fun suggestHomePath(path: Path) = path.pathString
 
     override fun getDownloadSdkUrl(): String = "https://www.autohotkey.com/download/"
 
@@ -68,13 +75,14 @@ class AhkSdkType : SdkType("AutoHotkeySDK") {
      * Returns a custom file descriptor that asks the user to select a folder for the AutoHotkey home path and then
      * select an executable within that directory to be the main executable associated with that sdk.
      */
-    override fun getHomeChooserDescriptor(): FileChooserDescriptor {
-        return object : FileChooserDescriptor(createSingleFolderDescriptor()) {
+    override fun getHomeChooserDescriptor(): FileChooserDescriptor =
+        object : FileChooserDescriptor(createSingleFolderDescriptor()) {
             override fun validateSelectedFiles(files: Array<VirtualFile>) {
                 if (files.isNotEmpty()) {
                     val selectedPath = files[0].path
                     val exeFilesInSelectedPath =
-                        Files.walk(Paths.get(selectedPath), 1, FileVisitOption.FOLLOW_LINKS)
+                        Files
+                            .walk(Paths.get(selectedPath), 1, FileVisitOption.FOLLOW_LINKS)
                             .filter { it.isRegularFile() }
                             .map { it.fileName.toString() }
                             .filter { it.lowercase().endsWith(".exe") }
@@ -109,7 +117,6 @@ class AhkSdkType : SdkType("AutoHotkeySDK") {
             title = ProjectBundle.message("sdk.configure.home.title", presentableName)
             description = AhkBundle.msg("ahksdktype.createsdk.dialogselecthomepath.description")
         }
-    }
 
     /**
      * Defaulting to true - we can ignore this method because we perform our own validation in
@@ -128,16 +135,13 @@ class AhkSdkType : SdkType("AutoHotkeySDK") {
      * [GET_AHK_VERSION_V2] (in case the user is trying to add a v2 Ahk sdk). If both fail, it simply returns "unknown
      * version" as the official version for this sdk.
      */
-    override fun getVersionString(sdk: Sdk): String? {
-        return determineAhkVersionString(File(sdk.homePath, sdk.ahkExeName()).absolutePath)
-    }
+    override fun getVersionString(sdk: Sdk): String? =
+        determineAhkVersionString(File(sdk.homePath, sdk.ahkExeName()).absolutePath)
 
     override fun createAdditionalDataConfigurable(
         sdkModel: SdkModel,
         sdkModificator: SdkModificator,
-    ): AdditionalDataConfigurable? {
-        return null
-    }
+    ): AdditionalDataConfigurable? = null
 
     override fun saveAdditionalData(
         additionalData: SdkAdditionalData,
@@ -169,7 +173,14 @@ class AhkSdkType : SdkType("AutoHotkeySDK") {
     fun showUiToCreateNewAhkSdk(): Sdk? {
         var newlyCreatedSdk: Sdk? = null
         val ahkFileChooser = homeChooserDescriptor
-        val defaultSdkRoot = runInBg { SdkConfigurationUtil.getSuggestedSdkRoot(this) }.get()
+        val defaultSdkRoot =
+            runInBg {
+                SdkConfigurationUtil.getSuggestedSdkRoot(
+                    this,
+                    AHK_DEFAULT_HOMEPATH
+                        .toNioPathOrNull()!!,
+                )
+            }.get()
         FileChooser.chooseFile(ahkFileChooser, null, defaultSdkRoot) { chosenVFile ->
             val chosenExeName = ahkFileChooser.getUserData(keyAhkExeName) as String
             val chosenExeVersion = ahkFileChooser.getUserData(keyAhkExeVersion) as String
@@ -193,9 +204,8 @@ class AhkSdkType : SdkType("AutoHotkeySDK") {
      * Builds the sdk name as "AutoHotkey v<major>.<minor>[.-]<patch>" based on the version string obtained from the
      * executable
      */
-    private fun generateAhkSdkNameBasedOn(ahkExeVersion: String): String {
-        return "${AhkConstants.LANGUAGE_NAME} v${versionPrefixRegex.find(ahkExeVersion)?.value}"
-    }
+    private fun generateAhkSdkNameBasedOn(ahkExeVersion: String): String =
+        "${AhkConstants.LANGUAGE_NAME} v${versionPrefixRegex.find(ahkExeVersion)?.value}"
 
     /**
      * This method tries to get the version of the Ahk executable passed to it. It will create a temporary file with the
@@ -205,19 +215,22 @@ class AhkSdkType : SdkType("AutoHotkeySDK") {
      */
     private fun determineAhkVersionString(fullPathToAhkExec: String): String? {
         val ahkExePath = File(fullPathToAhkExec).absolutePath
-        createTempFile("", "").toFile().apply {
-            writeText(GET_AHK_VERSION_V1)
-            deleteOnExit()
-        }.runCatching {
-            ProcessBuilder(ahkExePath, AhkSwitch.ERROR_STD_OUT.switchName, absolutePath).run {
-                kotlin.runCatching {
-                    return startProcessAndReturnSingleLineOutput()
-                }.onFailure {
-                    (this@runCatching).writeText(GET_AHK_VERSION_V2)
-                    return this@run.startProcessAndReturnSingleLineOutput()
+        createTempFile("", "")
+            .toFile()
+            .apply {
+                writeText(GET_AHK_VERSION_V1)
+                deleteOnExit()
+            }.runCatching {
+                ProcessBuilder(ahkExePath, AhkSwitch.ERROR_STD_OUT.switchName, absolutePath).run {
+                    kotlin
+                        .runCatching {
+                            return startProcessAndReturnSingleLineOutput()
+                        }.onFailure {
+                            (this@runCatching).writeText(GET_AHK_VERSION_V2)
+                            return this@run.startProcessAndReturnSingleLineOutput()
+                        }
                 }
             }
-        }
         return null
     }
 }

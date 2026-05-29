@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 
+## [0.10.5] - 2024-04-10
+(compatibility: 2025.* - infinite)
+### Added
+
+### Changed
+- Dependencies updated to support IntelliJ 2025.*
+
+
 ## [0.10.4] - 2024-04-10
 (compatibility: 2024.1 - 2024.3.*)
 ### Added
