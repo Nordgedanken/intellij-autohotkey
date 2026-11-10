@@ -1,4 +1,3 @@
-import com.github.javaparser.printer.concretesyntaxmodel.CsmElement.token
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
@@ -20,11 +19,9 @@ group = providers.gradleProperty("pluginGroup").get()
 version = providers.gradleProperty("pluginVersion").get()
 
 // Include the generated files in the source set
-sourceSets.main
-    .get()
-    .java
-    .srcDir(tasks.generateLexer)
-    .srcDir(tasks.generateParser)
+sourceSets.main {
+    java.srcDir("src/main/gen")
+}
 
 repositories {
     mavenCentral()
@@ -149,9 +146,7 @@ changelog {
 
 qodana {
     cachePath.set(projectDir.resolve(".qodana").canonicalPath)
-    reportPath.set(projectDir.resolve("build/reports/inspections").canonicalPath)
-    saveReport.set(true)
-    showReport.set(System.getenv("QODANA_SHOW_REPORT")?.toBoolean() ?: false)
+    resultsPath.set(projectDir.resolve("build/reports/inspections").canonicalPath)
 }
 
 tasks {
@@ -174,7 +169,8 @@ tasks {
 
     generateLexer {
         sourceFile.set(file("src/main/kotlin/com/autohotkey/lang/lexer/AutoHotkey.flex"))
-        targetOutputDir.set(file("src/main/gen/com/autohotkey/"))
+        targetRootOutputDir.set(file("src/main/gen"))
+        purgeOldFiles.set(false) //prevent task from accidentally wiping output of parser during parallel runs
     }
 
     generateParser {
@@ -182,6 +178,7 @@ tasks {
         targetRootOutputDir.set(file("src/main/gen"))
         pathToParser.set("com/autohotkey/lang/parser/AhkParser.java")
         pathToPsiRoot.set("com/autohotkey/lang/psi")
+        purgeOldFiles.set(true)
     }
 
     withType<KotlinCompile> {

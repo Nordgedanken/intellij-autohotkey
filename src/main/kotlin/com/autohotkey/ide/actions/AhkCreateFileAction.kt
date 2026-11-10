@@ -16,7 +16,7 @@ class AhkCreateFileAction : CreateFileFromTemplateAction(CAPTION, "", AhkIcons.F
         directory: PsiDirectory,
         builder: CreateFileFromTemplateDialog.Builder,
     ) {
-        builder.setTitle(CAPTION).addKind("Empty File", AhkIcons.FILE, CAPTION)
+        builder.setTitle(CAPTION).addKind("Empty file", AhkIcons.FILE, CAPTION)
     }
 
     override fun getActionName(

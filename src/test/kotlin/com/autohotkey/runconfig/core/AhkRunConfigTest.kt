@@ -33,7 +33,7 @@ class AhkRunConfigTest : AhkBasePlatformTestCase() {
                 ahkRunConfig.checkConfiguration()
             }
         assertEquals(
-            "The script path does not exist on disk!",
+            "The script path does not point to an AutoHotkey (.ahk) file!",
             exception.message,
         )
     }

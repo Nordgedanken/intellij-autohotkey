@@ -60,7 +60,7 @@ class AhkSdkManagementTable(
     override fun createDefaultTableHeader() =
         object : JBTableHeader() {
             override fun getToolTipText(event: MouseEvent): String? =
-                SdkTableColumns.values().first {
+                SdkTableColumns.entries.first {
                     it.index == columnAtPoint(event.point)
                 }.tooltip
         }
@@ -80,9 +80,9 @@ class AhkSdkTableModel(
 
     override fun getRowCount() = sdks.size
 
-    override fun getColumnCount() = SdkTableColumns.values().size
+    override fun getColumnCount() = SdkTableColumns.entries.size
 
-    override fun getColumnName(column: Int): String = SdkTableColumns.values().first { it.index == column }.title
+    override fun getColumnName(column: Int): String = SdkTableColumns.entries.first { it.index == column }.title
 
     override fun isCellEditable(
         rowIndex: Int,

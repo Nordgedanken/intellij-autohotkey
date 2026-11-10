@@ -133,7 +133,7 @@ class AhkCommenter : Commenter, SelfManagingCommenter<AhkCommentHolder> {
             insertBlockComment(selLineStartOffset, selLineEndOffset, document, blockCommentPrefix, blockCommentSuffix)
         } else {
             insertBlockComment(selLineStartOffset, selLineEndOffset, document, blockCommentPrefix, blockCommentSuffix)
-            return TextRange(0, 0)
+            TextRange(0, 0)
         }
     }
 

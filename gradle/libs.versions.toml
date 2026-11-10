@@ -6,11 +6,10 @@ mockk = "1.14.+"
 
 # plugins
 changelog = "2.+"
-intelliJPlatform = "2.14.0"
-grammarKit = "2022.3.+"
-kotlin = "2.2.+"
+intelliJPlatform = "2.20.1"
+kotlin = "2.4.+"
 ktlint = "12.+"
-qodana = "0.1.+"
+qodana = "2026.2.2"
 
 [libraries]
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
@@ -20,7 +19,7 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 [plugins]
 changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
 intelliJPlatform = { id = "org.jetbrains.intellij.platform", version.ref = "intelliJPlatform" }
-grammarKit = { id = "org.jetbrains.grammarkit", version.ref = "grammarKit" }
+grammarKit = { id = "org.jetbrains.intellij.platform.grammarkit", version.ref = "intelliJPlatform" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 qodana = { id = "org.jetbrains.qodana", version.ref = "qodana" }

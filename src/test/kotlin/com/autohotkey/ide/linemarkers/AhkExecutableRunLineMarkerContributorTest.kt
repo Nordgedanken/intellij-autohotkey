@@ -25,22 +25,22 @@ class AhkExecutableRunLineMarkerContributorTest : AhkBasePlatformTestCase() {
 
     fun `test run marker shows for standard hello-world file`() {
         val actual = createFileWithContentAndGetLineMarkers("hello-world.ahk", "MsgBox hi")
-        assertEquals(listOf(Pair(0, "Run 'hello-world'")), actual)
+        assertEquals(listOf(Pair(0, "Run 'hello-world'\nRun with Profiler")), actual)
     }
 
     fun `test run marker shows for file with hotkey`() {
         val actual = createFileWithContentAndGetLineMarkers("hello-world.ahk", "^a::\nMsgbox hi")
-        assertEquals(listOf(Pair(0, "Run 'hello-world'")), actual)
+        assertEquals(listOf(Pair(0, "Run 'hello-world'\nRun with Profiler")), actual)
     }
 
     fun `test run marker shows on 2nd line for file w comments and code`() {
         val actual = createFileWithContentAndGetLineMarkers("hello-world.ahk", "; comment\nMsgBox hi")
-        assertEquals(listOf(Pair(1, "Run 'hello-world'")), actual)
+        assertEquals(listOf(Pair(1, "Run 'hello-world'\nRun with Profiler")), actual)
     }
 
     fun `test run marker shows only once for file w multiple lines of code`() {
         val actual = createFileWithContentAndGetLineMarkers("hello-world.ahk", "MsgBox hi\nMsgBox hi")
-        assertEquals(listOf(Pair(0, "Run 'hello-world'")), actual)
+        assertEquals(listOf(Pair(0, "Run 'hello-world'\nRun with Profiler")), actual)
     }
 
     private fun createFileWithContentAndGetLineMarkers(
