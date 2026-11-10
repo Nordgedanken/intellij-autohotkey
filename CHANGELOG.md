@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 
+
+## [0.10.6] - 2026-11-09
+(compatibility: 2025.*)
+### Changed
+- Tests migrated to JUnit5 off Kotest for IJ Platform Plugin v2
+
+
+## [0.10.5] - 2024-04-10
+(compatibility: 2025.* - infinite)
+
+Note: This is a temporary hotfix release to add support for IJ 2025 while the devs worked on migrating the plugin to IJ Platform Plugin v2.
+It was not merged to main nor tagged directly
+
+### Added
+
+### Changed
+- Dependencies updated to support IntelliJ 2025.*
+
+
 ## [0.10.4] - 2024-04-10
 (compatibility: 2024.1 - 2024.3.*)
 ### Added

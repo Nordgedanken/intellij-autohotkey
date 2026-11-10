@@ -18,8 +18,6 @@ import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.testFramework.TemporaryDirectory
 import com.intellij.testFramework.replaceService
 import com.intellij.toolWindow.ToolWindowHeadlessManagerImpl
-import io.kotest.matchers.booleans.shouldBeFalse
-import io.kotest.matchers.shouldBe
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
@@ -31,17 +29,19 @@ import util.changeHomePathTo
 import java.nio.file.Files
 import java.nio.file.Path
 import javax.swing.event.HyperlinkEvent
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 const val TEST_AHK_SCRIPT_FILENAME = "test.ahk"
 
 class AhkCompileToExeActionTest : AhkBasePlatformTestCase() {
     fun `test that the action runs in the background`() {
-        AhkCompileToExeAction().actionUpdateThread shouldBe ActionUpdateThread.BGT
+        assertEquals(ActionUpdateThread.BGT, AhkCompileToExeAction().actionUpdateThread)
     }
 
     fun `test action does not show if triggered from a non-ahk file`() {
         val resultPresentation = myFixture.testAction(AhkCompileToExeAction())
-        resultPresentation.isEnabledAndVisible.shouldBeFalse()
+        assertFalse(resultPresentation.isEnabledAndVisible)
     }
 
     fun `test error balloon shown if no ahk sdk configured`() {
@@ -49,8 +49,8 @@ class AhkCompileToExeActionTest : AhkBasePlatformTestCase() {
         configureCompileToExeActionToBeCalledFromFakeAhkScript()
         myFixture.testAction(AhkCompileToExeAction())
         balloonToCapture.captured.run {
-            type shouldBe MessageType.ERROR
-            htmlBody shouldBe AhkBundle.msg("compiletoexeaction.error.norunnerconfigured")
+            assertEquals(MessageType.ERROR, type)
+            assertEquals(AhkBundle.msg("compiletoexeaction.error.norunnerconfigured"), htmlBody)
             listener!!.hyperlinkUpdate(HyperlinkEvent(Object(), HyperlinkEvent.EventType.ACTIVATED, null))
         }
     }
@@ -61,8 +61,8 @@ class AhkCompileToExeActionTest : AhkBasePlatformTestCase() {
         configureCompileToExeActionToBeCalledFromFakeAhkScript()
         myFixture.testAction(AhkCompileToExeAction())
         balloonToCapture.captured.run {
-            type shouldBe MessageType.ERROR
-            htmlBody shouldBe AhkBundle.msg("compiletoexeaction.error.noahk2exeexists")
+            assertEquals(MessageType.ERROR, type)
+            assertEquals(AhkBundle.msg("compiletoexeaction.error.noahk2exeexists"), htmlBody)
         }
     }
 
@@ -79,10 +79,13 @@ class AhkCompileToExeActionTest : AhkBasePlatformTestCase() {
 
         myFixture.testAction(AhkCompileToExeAction())
         balloonToCapture.captured.run {
-            type shouldBe MessageType.ERROR
-            htmlBody shouldBe
-                AhkBundle.msg("compiletoexeaction.error.errorrunningahk2exe")
-                    .format(TEST_AHK_SCRIPT_FILENAME)
+            assertEquals(MessageType.ERROR, type)
+            assertEquals(
+                AhkBundle
+                    .msg("compiletoexeaction.error.errorrunningahk2exe")
+                    .format(TEST_AHK_SCRIPT_FILENAME),
+                htmlBody,
+            )
         }
     }
 
@@ -99,10 +102,13 @@ class AhkCompileToExeActionTest : AhkBasePlatformTestCase() {
 
         myFixture.testAction(AhkCompileToExeAction())
         balloonToCapture.captured.run {
-            type shouldBe MessageType.INFO
-            htmlBody shouldBe
-                AhkBundle.msg("compiletoexeaction.success.message")
-                    .format(project.defaultAhkSdk!!.ahkDocUrlBase)
+            assertEquals(MessageType.INFO, type)
+            assertEquals(
+                AhkBundle
+                    .msg("compiletoexeaction.success.message")
+                    .format(project.defaultAhkSdk!!.ahkDocUrlBase),
+                htmlBody,
+            )
         }
     }
 

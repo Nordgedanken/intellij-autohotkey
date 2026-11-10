@@ -4,43 +4,43 @@ import com.autohotkey.AhkBasePlatformTestCase
 import com.intellij.codeInsight.daemon.impl.DaemonCodeAnalyzerImpl
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
-import io.kotest.matchers.collections.shouldBeEmpty
-import io.kotest.matchers.collections.shouldContainExactly
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class AhkExecutableRunLineMarkerContributorTest : AhkBasePlatformTestCase() {
     fun `test run marker doesn't show for empty file`() {
         val actual = createFileWithContentAndGetLineMarkers("hello-world.ahk", "")
-        actual.shouldBeEmpty()
+        assertTrue(actual.isEmpty())
     }
 
     fun `test run marker doesn't show for file with comments`() {
         val actual = createFileWithContentAndGetLineMarkers("hello-world.ahk", "; comment")
-        actual.shouldBeEmpty()
+        assertTrue(actual.isEmpty())
     }
 
     fun `test run marker doesn't show for non-ahk file`() {
         val actual = createFileWithContentAndGetLineMarkers("hello-world.txt", "MsgBox Hi")
-        actual.shouldBeEmpty()
+        assertTrue(actual.isEmpty())
     }
 
     fun `test run marker shows for standard hello-world file`() {
         val actual = createFileWithContentAndGetLineMarkers("hello-world.ahk", "MsgBox hi")
-        actual shouldContainExactly listOf(Pair(0, "Run 'hello-world'"))
+        assertEquals(listOf(Pair(0, "Run 'hello-world'")), actual)
     }
 
     fun `test run marker shows for file with hotkey`() {
         val actual = createFileWithContentAndGetLineMarkers("hello-world.ahk", "^a::\nMsgbox hi")
-        actual shouldContainExactly listOf(Pair(0, "Run 'hello-world'"))
+        assertEquals(listOf(Pair(0, "Run 'hello-world'")), actual)
     }
 
     fun `test run marker shows on 2nd line for file w comments and code`() {
         val actual = createFileWithContentAndGetLineMarkers("hello-world.ahk", "; comment\nMsgBox hi")
-        actual shouldContainExactly listOf(Pair(1, "Run 'hello-world'"))
+        assertEquals(listOf(Pair(1, "Run 'hello-world'")), actual)
     }
 
     fun `test run marker shows only once for file w multiple lines of code`() {
         val actual = createFileWithContentAndGetLineMarkers("hello-world.ahk", "MsgBox hi\nMsgBox hi")
-        actual shouldContainExactly listOf(Pair(0, "Run 'hello-world'"))
+        assertEquals(listOf(Pair(0, "Run 'hello-world'")), actual)
     }
 
     private fun createFileWithContentAndGetLineMarkers(

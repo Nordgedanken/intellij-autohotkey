@@ -29,10 +29,10 @@ class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<
     private val pathToScriptTextField =
         TextFieldWithBrowseButton().apply {
             addBrowseFolderListener(
-                AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.title"),
-                AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.message"),
                 project,
-                FileChooserDescriptorFactory.createSingleFileDescriptor(AhkConstants.FILE_EXTENSION),
+                FileChooserDescriptorFactory.createSingleFileDescriptor(AhkConstants.FILE_EXTENSION)
+                    .withTitle(AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.title"))
+                    .withDescription(AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.message")),
             )
         }
     private val argumentsTextField = ExpandableTextField()

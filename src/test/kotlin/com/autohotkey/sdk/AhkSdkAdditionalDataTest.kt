@@ -1,38 +1,41 @@
 package com.autohotkey.sdk
 
-import io.kotest.core.spec.style.FunSpec
-import io.kotest.matchers.shouldBe
 import org.jdom.Element
+import org.junit.jupiter.api.Test
 import util.TestUtil.parseXmlFileToElement
 import util.toCompactXmlString
+import kotlin.test.assertEquals
 
-class AhkSdkAdditionalDataTest : FunSpec(
-    {
-        test("default constructor") {
-            AhkSdkAdditionalData().exeName shouldBe DEFAULT_AHK_EXE_NAME
-        }
+class AhkSdkAdditionalDataTest {
+    @Test
+    fun `test default constructor`() {
+        assertEquals(DEFAULT_AHK_EXE_NAME, AhkSdkAdditionalData().exeName)
+    }
 
-        context("test read/write operations") {
-            test("test write") {
-                val actualElement = Element("AhkSdkAdditionalData")
-                AhkSdkAdditionalData("test.exe").writeTo(actualElement)
-                val expectedElement = parseXmlFileToElement("ahksdkadditionaldata_testexe")
-                actualElement.toCompactXmlString() shouldBe expectedElement.toCompactXmlString()
-            }
+    @Test
+    fun `test write`() {
+        val actualElement = Element("AhkSdkAdditionalData")
+        AhkSdkAdditionalData("test.exe").writeTo(actualElement)
 
-            test("test read") {
-                val ahkSdkAdditionalDataElem = parseXmlFileToElement("ahksdkadditionaldata_testexe")
-                val actualAhkSdkAdditionalData = AhkSdkAdditionalData.generateFrom(ahkSdkAdditionalDataElem)
-                val expectedAhkSdkAdditionalData = AhkSdkAdditionalData("test.exe")
-                actualAhkSdkAdditionalData shouldBe expectedAhkSdkAdditionalData
-            }
+        assertEquals(
+            parseXmlFileToElement("ahksdkadditionaldata_testexe").toCompactXmlString(),
+            actualElement.toCompactXmlString(),
+        )
+    }
 
-            test("test read with empty xml") {
-                val ahkSdkAdditionalDataElem = parseXmlFileToElement("ahksdkadditionaldata")
-                val actualAhkSdkAdditionalData = AhkSdkAdditionalData.generateFrom(ahkSdkAdditionalDataElem)
-                val expectedAhkSdkAdditionalData = AhkSdkAdditionalData()
-                actualAhkSdkAdditionalData shouldBe expectedAhkSdkAdditionalData
-            }
-        }
-    },
-)
+    @Test
+    fun `test read`() {
+        val actualAhkSdkAdditionalData =
+            AhkSdkAdditionalData.generateFrom(parseXmlFileToElement("ahksdkadditionaldata_testexe"))
+
+        assertEquals(AhkSdkAdditionalData("test.exe"), actualAhkSdkAdditionalData)
+    }
+
+    @Test
+    fun `test read with empty xml`() {
+        val actualAhkSdkAdditionalData =
+            AhkSdkAdditionalData.generateFrom(parseXmlFileToElement("ahksdkadditionaldata"))
+
+        assertEquals(AhkSdkAdditionalData(), actualAhkSdkAdditionalData)
+    }
+}
