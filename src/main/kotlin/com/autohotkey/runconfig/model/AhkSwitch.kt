@@ -1,5 +1,7 @@
 package com.autohotkey.runconfig.model
 
+import kotlin.enums.enumEntries
+
 /**
  * Contains a list of valid command-line flags that you can provide to
  * AutoHotkey.exe while executing a script.
@@ -12,14 +14,14 @@ enum class AhkSwitch(val switchName: String) {
 
     companion object {
         fun isValidSwitch(switchNameToCheck: String): Boolean {
-            return enumValues<AhkSwitch>().any { it.switchName == switchNameToCheck }
+            return enumEntries<AhkSwitch>().any { it.switchName == switchNameToCheck }
         }
 
         /**
          * Throws an exception if the passed-in switch name is not valid
          */
         fun valueOfBySwitchName(switchName: String): AhkSwitch {
-            return values().first { it.switchName == switchName }
+            return entries.first { it.switchName == switchName }
         }
     }
 }

@@ -37,7 +37,7 @@ class AhkSdkToolbarPanel(val project: Project) {
                     val selectedSdk = sdkTableModel.getValueAt(selectedRowIndex, SdkTableColumns.SDK_INFO.index) as Sdk
                     SdkConfigurationUtil.removeSdk(selectedSdk)
                     sdkTableModel.removeSdkAtRow(selectedRowIndex)
-                    if (sdkTableModel.sdks.size > 0) {
+                    if (sdkTableModel.sdks.isNotEmpty()) {
                         sdkTable.setSelectedRow(selectedRowIndex.coerceIn(0, sdkTableModel.sdks.size - 1))
                     }
                 }

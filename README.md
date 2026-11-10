@@ -53,11 +53,11 @@
 <!-- Plugin description -->
 A simple plugin for developing AutoHotkey scripts. The following features are available:
 
-- Syntax highlighting (under construction; v1 only; no error checking available currently)
+- Syntax highlighting (v1 partial support; v2 under construction; no error checking available currently)
 - Run configurations (v1 and v2)
 - Quick documentation
 - Compile to exe (file right-click option)
-- More to come in the future... 
+- More to come... 
 
 Check out the <a href="https://github.com/Nordgedanken/intellij-autohotkey#usage">README</a> on the plugin's GitHub page for more information on using this plugin.
 
@@ -104,11 +104,10 @@ Install the plugin from the [JetBrains Marketplace][jetbrains-marketplace-plugin
 To get a local copy up and running, follow these simple steps:
 
 ### Prerequisites
-* IntelliJ IDEA 2025.* or newer (Community Edition is fine)  
+* IntelliJ IDEA 2026.* or newer (Community Edition is fine)  
   Required plugins (for development only):
   - [Grammar-Kit](https://plugins.jetbrains.com/plugin/6606-grammar-kit)
   - [PsiViewer](https://plugins.jetbrains.com/plugin/227-psiviewer)
-  - [Kotest](https://plugins.jetbrains.com/plugin/14080-kotest)
   - [Ktlint](https://plugins.jetbrains.com/plugin/15057-ktlint-unofficial-)
 * Java 21
 

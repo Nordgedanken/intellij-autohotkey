@@ -4,9 +4,9 @@ import com.intellij.execution.configurations.CommandLineTokenizer
 import com.intellij.openapi.util.JDOMExternalizerUtil
 import org.jdom.Element
 
-val SWITCH = "switch"
-val NAME = "name"
-val ENABLED = "enabled"
+const val SWITCH = "switch"
+const val NAME = "name"
+const val ENABLED = "enabled"
 val DEFAULT_SWITCHES: MutableMap<AhkSwitch, Boolean> = mutableMapOf(AhkSwitch.ERROR_STD_OUT to true)
 
 /**
