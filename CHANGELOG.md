@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 
+## [0.11.0] - 2026-11-11
+(compatibility: 2026.* - infinite)
+
+### Changed
+- Dependencies updated to support Rider 2026.*
+
+### Removed
+- Dependency on Archive Browser removed. (jchmlib used instead for reading AutoHotkey.chm)
+
+
 ## [0.10.7] - 2026-11-10
 (compatibility: 2026.* - infinite)
 

@@ -7,11 +7,11 @@ import com.intellij.ide.BrowserUtil
 import com.intellij.lang.documentation.DocumentationProvider
 import com.intellij.lang.documentation.ExternalDocumentationHandler
 import com.intellij.openapi.editor.Editor
-import com.intellij.openapi.vfs.impl.ArchiveHandler
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.impl.source.tree.LeafPsiElement
+import org.jchmlib.ChmFile
 
 /**
  * Provides commands/directives documentation by extracting them from the
@@ -43,7 +43,7 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
 
         val chm =
             try {
-                ChmArchiveUtil.getChmArchiveHandler(element.project)
+                ChmArchiveUtil.getChmFile(element.project)
             } catch (e: IllegalStateException) {
                 return null
             }
@@ -68,7 +68,7 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
 
         val chm =
             try {
-                ChmArchiveUtil.getChmArchiveHandler(element.project)
+                ChmArchiveUtil.getChmFile(element.project)
             } catch (e: IllegalStateException) {
                 return e.message
             }
@@ -85,7 +85,7 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
     }
 
     private fun extractVariableText(
-        chm: ArchiveHandler,
+        chm: ChmFile,
         variableName: String,
     ): String? =
         runCatching {
@@ -93,7 +93,7 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
                 ChmArchiveUtil.getPathInChm(chm, "Variables")
                     ?: return null
 
-            String(chm.contentsToByteArray(variablesPage))
+            readChmPage(chm, variablesPage)
                 .substringAfter("<td>$variableName</td>")
                 .substringBefore("</tr>")
                 .replace("<td>", "<p>")
@@ -103,10 +103,10 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
         }.onFailure { it.toString() }.getOrNull()
 
     private fun extractHtmlText(
-        chm: ArchiveHandler,
+        chm: ChmFile,
         pathInChm: String,
     ) = runCatching {
-        String(chm.contentsToByteArray(pathInChm))
+        readChmPage(chm, pathInChm)
             // disable anchor links
             .replace("<a href=\"#", "<span href=\"")
     }.onFailure { it.toString() }.getOrThrow()
@@ -134,6 +134,11 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
     override fun canFetchDocumentationLink(link: String?): Boolean =
         link != null && !link.startsWith("#") && !link.startsWith("http")
 
+    private fun readChmPage(chm: ChmFile, path: String): String {
+        val entry = chm.resolveObject("/$path") ?: error("CHM entry not found: $path")
+        return chm.retrieveObjectAsString(entry) ?: error("Unable to read CHM entry: $path")
+    }
+
     override fun fetchExternalDocumentation(
         link: String,
         element: PsiElement?,
@@ -142,7 +147,7 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
 
         val chm =
             try {
-                ChmArchiveUtil.getChmArchiveHandler(element.project)
+                ChmArchiveUtil.getChmFile(element.project)
             } catch (e: IllegalStateException) {
                 return e.message ?: "Error fetching documentation"
             }

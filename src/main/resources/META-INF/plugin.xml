@@ -4,8 +4,8 @@
     <vendor email="info@nordgedanken.de" url="https://github.com/Nordgedanken/">Nordgedanken</vendor>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html on how to target different products -->
+    <!-- Marketplace compatibility includes Rider through the shared platform module dependency. -->
     <depends>com.intellij.modules.platform</depends>
-    <depends>com.github.b3er.idea.plugins.arc.browser</depends>
 
     <resource-bundle>localization.AhkBundle</resource-bundle>
 
