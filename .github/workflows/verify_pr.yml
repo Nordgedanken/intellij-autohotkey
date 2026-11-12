@@ -25,25 +25,15 @@ jobs:
         with:
           excused_label: contributing update optional
           filename_to_check: CONTRIBUTING.md
-  verify_pr_and_commit_messages:
-    name: Verify PR Title and Commit Message Format
+  validate_pr_title:
+    name: Validate PR Title
     runs-on: ubuntu-latest
     steps:
-    - name: Verify Commit Message Format
-      uses: gsactions/commit-message-checker@v1
-      with:
-        pattern: '^#\d{1,3}: \S+ \S+.*$'
-        error: >
-          The PR title and all git commit messages in the PR must follow this format:
-
-          "#<issue number>: <description of what the commit pertains to (2+ words, no newlines)>"
-
-          Example commit message: "#37: Add "print errors to console" option within the run config ui"
-
-          This format enables linking commit changes with the issue they are associated with and helps keep the git
-          history readable when performing searches. Please see CONTRIBUTING.md for more details.
-        checkAllCommitMessages: true
-        accessToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: PR Conventional Commit Validation
+        uses: ytanikin/pr-conventional-commits@1.4.0
+        with:
+          task_types: '["feat","fix","docs","test","ci","refactor","perf","chore","revert"]'
+          add_label: 'false'
   qodana:
     runs-on: ubuntu-latest
     steps:

@@ -19,7 +19,9 @@ import javax.swing.JTable
  * @param project The project that contains the cellEditor about to be opened. Required in order to show error modals in
  * the correct location.
  */
-class AhkSdkCellEditor(private val project: Project) : DefaultCellEditor(JBTextField()) {
+class AhkSdkCellEditor(
+    private val project: Project,
+) : DefaultCellEditor(JBTextField()) {
     init {
         clickCountToStart = 2
     }
@@ -36,7 +38,8 @@ class AhkSdkCellEditor(private val project: Project) : DefaultCellEditor(JBTextF
             NotificationUtil.showErrorDialog(
                 project,
                 AhkBundle.msg("settings.ahksdktable.edit.error.alreadyexists.dialogtitle"),
-                AhkBundle.msg("settings.ahksdktable.edit.error.alreadyexists.dialogmsg")
+                AhkBundle
+                    .msg("settings.ahksdktable.edit.error.alreadyexists.dialogmsg")
                     .format(newSdkName),
             )
             return false

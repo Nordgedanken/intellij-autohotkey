@@ -15,11 +15,12 @@ import com.intellij.openapi.util.NotNullLazyValue
  *
  * (This is registered in plugin.xml)
  */
-class AhkRunConfigType : SimpleConfigurationType(
-    id = ID,
-    name = AhkConstants.LANGUAGE_NAME,
-    icon = NotNullLazyValue.createValue { AhkIcons.EXE },
-) {
+class AhkRunConfigType :
+    SimpleConfigurationType(
+        id = ID,
+        name = AhkConstants.LANGUAGE_NAME,
+        icon = NotNullLazyValue.createValue { AhkIcons.EXE },
+    ) {
     val factory: ConfigurationFactory get() = configurationFactories.single()
 
     companion object {
@@ -28,7 +29,6 @@ class AhkRunConfigType : SimpleConfigurationType(
         fun getInstance() = runConfigurationType<AhkRunConfigType>()
     }
 
-    override fun createTemplateConfiguration(project: Project): RunConfiguration {
-        return AhkRunConfig(project, this, AhkConstants.LANGUAGE_NAME)
-    }
+    override fun createTemplateConfiguration(project: Project): RunConfiguration =
+        AhkRunConfig(project, this, AhkConstants.LANGUAGE_NAME)
 }

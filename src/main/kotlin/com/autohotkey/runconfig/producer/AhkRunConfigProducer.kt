@@ -15,9 +15,7 @@ import com.intellij.psi.PsiElement
  * file tree.
  */
 class AhkRunConfigProducer : LazyRunConfigurationProducer<AhkRunConfig>() {
-    override fun getConfigurationFactory(): ConfigurationFactory {
-        return AhkRunConfigType.getInstance().factory
-    }
+    override fun getConfigurationFactory(): ConfigurationFactory = AhkRunConfigType.getInstance().factory
 
     /**
      * Fills in the provided configuration if the provided context's file is an AhkFile

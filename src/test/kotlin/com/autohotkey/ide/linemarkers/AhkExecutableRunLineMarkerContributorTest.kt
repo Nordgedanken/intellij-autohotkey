@@ -61,12 +61,12 @@ class AhkExecutableRunLineMarkerContributorTest : AhkBasePlatformTestCase() {
         editor: Editor,
         project: Project,
     ): List<Pair<Int, String>> =
-        DaemonCodeAnalyzerImpl.getLineMarkers(editor.document, project)
+        DaemonCodeAnalyzerImpl
+            .getLineMarkers(editor.document, project)
             .map {
                 Pair(
                     editor.document.getLineNumber(it.element?.textRange?.startOffset as Int),
                     it.lineMarkerTooltip ?: "null",
                 )
-            }
-            .sortedWith(compareBy({ it.first }, { it.second }))
+            }.sortedWith(compareBy({ it.first }, { it.second }))
 }

@@ -12,7 +12,9 @@ import com.intellij.testFramework.UsefulTestCase
 import org.jetbrains.annotations.NonNls
 import java.io.IOException
 
-abstract class AhkLexingTestBase : LexerTestCase(), AhkTestCase {
+abstract class AhkLexingTestBase :
+    LexerTestCase(),
+    AhkTestCase {
     override fun getDirPath(): String = throw UnsupportedOperationException()
 
     override fun getTestName(lowercaseFirstLetter: Boolean): String {

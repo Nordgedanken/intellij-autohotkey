@@ -32,11 +32,12 @@ import javax.swing.event.HyperlinkEvent
 /**
  * Defines the behavior when the user right-clicks an ahk file in the Project Tree and selects "Compile to exe"
  */
-class AhkCompileToExeAction : DumbAwareAction(
-    AhkBundle.msg("compiletoexeaction.text"),
-    AhkBundle.msg("compiletoexeaction.description"),
-    AhkIcons.EXE,
-) {
+class AhkCompileToExeAction :
+    DumbAwareAction(
+        AhkBundle.msg("compiletoexeaction.text"),
+        AhkBundle.msg("compiletoexeaction.description"),
+        AhkIcons.EXE,
+    ) {
     override fun update(e: AnActionEvent) {
         e.presentation.isEnabledAndVisible = e.dataContext.getData(CommonDataKeys.VIRTUAL_FILE)?.isAhkFile() == true
     }

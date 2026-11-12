@@ -18,7 +18,9 @@ import com.intellij.util.text.CharArrayUtil
  * - If you create a block comment, then highlight text within the block comment and toggle again, it will create a new
  * block comment within the original.
  */
-class AhkCommenter : Commenter, SelfManagingCommenter<AhkCommentHolder> {
+class AhkCommenter :
+    Commenter,
+    SelfManagingCommenter<AhkCommentHolder> {
     override fun getLineCommentPrefix() = ";"
 
     override fun getBlockCommentPrefix(): String = "/*"
@@ -148,4 +150,6 @@ class AhkCommenter : Commenter, SelfManagingCommenter<AhkCommentHolder> {
  * the newly block-commented section will be highlighted after it's created. If the user had not highlighted anything,
  * then the new block comment will be added but nothing will be highlighted
  */
-data class AhkCommentHolder(val isToggledFromSelection: Boolean) : CommenterDataHolder()
+data class AhkCommentHolder(
+    val isToggledFromSelection: Boolean,
+) : CommenterDataHolder()

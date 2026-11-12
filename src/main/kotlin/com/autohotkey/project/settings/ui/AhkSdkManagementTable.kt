@@ -13,7 +13,11 @@ import java.awt.event.MouseEvent
 import javax.swing.ListSelectionModel
 import javax.swing.table.AbstractTableModel
 
-enum class SdkTableColumns(val index: Int, val title: String, val tooltip: String?) {
+enum class SdkTableColumns(
+    val index: Int,
+    val title: String,
+    val tooltip: String?,
+) {
     DEFAULT(
         0,
         AhkBundle.msg("settings.ahksdktable.general.defaultcolumn.label"),
@@ -60,9 +64,10 @@ class AhkSdkManagementTable(
     override fun createDefaultTableHeader() =
         object : JBTableHeader() {
             override fun getToolTipText(event: MouseEvent): String? =
-                SdkTableColumns.entries.first {
-                    it.index == columnAtPoint(event.point)
-                }.tooltip
+                SdkTableColumns.entries
+                    .first {
+                        it.index == columnAtPoint(event.point)
+                    }.tooltip
         }
 }
 

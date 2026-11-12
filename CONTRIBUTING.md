@@ -111,21 +111,9 @@ Before opening a PR, please run the following PR checks (saves time and headache
 
 All PR checks must pass, and a contributor must approve your PR before it is merged. Please add a description to your PR of what is being changed/fixed. 
 
-**The title of your PR must adhere to the [git commit message format](#git-commit-messages).** Your PR will be squash-merged, so your PR's title will become the message of the squashed commit. 
+**The title of your PR must adhere to the [conventional commit message format](https://www.conventionalcommits.org/en/v1.0.0/).** Your PR will be squash-merged, so your PR's title will become the message of the squashed commit. 
 
 ## Styleguides
-### Git Commit Messages
-All git commit messages in a pull request must follow this format:
-
-`#<issue number>: <description of what the commit pertains to (2+ words, no newlines)>`
-
-This format enables linking commit changes with the issue they are associated with and helps keep the git
-history readable when performing searches.
-
-> As an example, if you are working on issue [#49](https://github.com/Nordgedanken/intellij-autohotkey/issues/49) to enable hyperlinks in console messages, your commit message should be something like 
->
-> `#49: Added console filter to enable file hyperlinks in the console when an error is printed`
-
 ### Code Styleguide
 This plugin is written purely in Kotlin; please do not commit java files or your PR will be rejected. 
 

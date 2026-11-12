@@ -20,7 +20,9 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import com.intellij.openapi.fileTypes.PlainTextFileType.INSTANCE as PlainTextFileType
 
-class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
+class AhkRunConfigProducerTest :
+    AhkBasePlatformTestCase(),
+    AhkTestCase {
     private val ahkRunConfigProducer = AhkRunConfigProducer()
 
     fun `test producer makes no config for non-ahk file`() {
@@ -67,7 +69,8 @@ class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
     fun `test producer doesn't reuse old config when making from a different file`() {
         val ahkRunConfig =
             generateContextAhkRunconfigsFromFile("hello-world.ahk", "Msgbox Hi")
-                .single().configuration as AhkRunConfig
+                .single()
+                .configuration as AhkRunConfig
         val otherContextDiffAhkFile = myFixture.makeConfigContextFrom(AhkFileType, "Msgbox Hi from another file")
         val otherContextNonAhkFile = myFixture.makeConfigContextFrom(PlainTextFileType, "Msgbox Hi from another file")
 
@@ -111,9 +114,8 @@ class AhkRunConfigProducerTest : AhkBasePlatformTestCase(), AhkTestCase {
     /**
      * We want to grab the run config xml that matches the last word in the test's name
      */
-    override fun getTestName(lowercaseFirstLetter: Boolean): String {
-        return super.getTestName(lowercaseFirstLetter).substringAfterLast(' ')
-    }
+    override fun getTestName(lowercaseFirstLetter: Boolean): String =
+        super.getTestName(lowercaseFirstLetter).substringAfterLast(' ')
 
     private fun CodeInsightTestFixture.makeConfigContextFrom(
         fileType: FileType,

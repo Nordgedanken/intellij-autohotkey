@@ -37,16 +37,13 @@ class AhkRunConfig(
 
     override fun suggestedName() = "Run ${runConfigSettings.pathToScript.substringAfterLast('\\')}"
 
-    override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration?> {
-        return AhkRunConfigSettingsEditor(this.project)
-    }
+    override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration?> =
+        AhkRunConfigSettingsEditor(this.project)
 
     override fun getState(
         executor: Executor,
         environment: ExecutionEnvironment,
-    ): RunProfileState {
-        return AhkRunState(this, environment)
-    }
+    ): RunProfileState = AhkRunState(this, environment)
 
     /**
      * Verifies that the run config settings are valid. (Prevents execution if not valid)
