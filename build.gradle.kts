@@ -1,5 +1,6 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.intellij.platform.gradle.extensions.excludeCoroutines
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -25,6 +26,7 @@ sourceSets.main {
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://jitpack.io") }
 
     // IntelliJ Platform Gradle Plugin Repositories Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-repositories-extension.html
     intellijPlatform {
@@ -37,6 +39,8 @@ kotlin {
 }
 
 dependencies {
+    implementation("com.github.chimenchen:jchmlib:v0.5.4")
+
     testImplementation(libs.junit4)
     testImplementation(kotlin("test"))
     testImplementation(libs.mockk) {
@@ -132,6 +136,9 @@ intellijPlatform {
     pluginVerification {
         ides {
             recommended()
+            create(IntelliJPlatformType.Rider, "2026.1") {
+                useInstaller = false
+            }
         }
     }
 }

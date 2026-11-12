@@ -51,7 +51,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 <!-- Plugin description -->
-A simple plugin for developing AutoHotkey scripts. The following features are available:
+A simple plugin for developing AutoHotkey scripts in any JetBrains IDE (IDEA, PyCharm, Rider, etc). The following features are available:
 
 - Syntax highlighting (v1 partial support; v2 under construction; no error checking available currently)
 - Run configurations (v1 and v2)
@@ -62,11 +62,6 @@ A simple plugin for developing AutoHotkey scripts. The following features are av
 Check out the <a href="https://github.com/Nordgedanken/intellij-autohotkey#usage">README</a> on the plugin's GitHub page for more information on using this plugin.
 
 <p><i>Note: This plugin is under development and does not have a stable release yet. Please report any issues to the plugin's <a href="https://github.com/Nordgedanken/intellij-autohotkey/issues">GitHub page</a>.</i></p>
-
-<hr>
-Dependencies:
-
-- Archive Browser plugin (for documentation assistance)
 
 <!-- Plugin description end -->
 
