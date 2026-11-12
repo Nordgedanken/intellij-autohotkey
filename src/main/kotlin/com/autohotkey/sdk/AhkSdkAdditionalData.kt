@@ -12,7 +12,9 @@ const val DEFAULT_AHK_EXE_NAME = "AutoHotkey.exe"
  * Currently, we are storing:
  * - the ahk executable name that the user selects while creating the sdk
  */
-data class AhkSdkAdditionalData(var exeName: String = DEFAULT_AHK_EXE_NAME) : SdkAdditionalData {
+data class AhkSdkAdditionalData(
+    var exeName: String = DEFAULT_AHK_EXE_NAME,
+) : SdkAdditionalData {
     fun writeTo(element: Element) {
         JDOMExternalizerUtil.writeField(element, AhkSdkAdditionalData::exeName.name, exeName)
     }

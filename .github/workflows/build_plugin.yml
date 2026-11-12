@@ -43,8 +43,8 @@ jobs:
       uses: editorconfig-checker/action-editorconfig-checker@main
 
     # Run ktlint
-#    - name: Run KtLinter
-#      run: ./gradlew ktlintCheck
+    - name: Run KtLinter
+      run: ./gradlew ktlintCheck
 
     # Run test Gradle task
     - name: Run Tests

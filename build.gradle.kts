@@ -177,7 +177,7 @@ tasks {
     generateLexer {
         sourceFile.set(file("src/main/kotlin/com/autohotkey/lang/lexer/AutoHotkey.flex"))
         targetRootOutputDir.set(file("src/main/gen"))
-        purgeOldFiles.set(false) //prevent task from accidentally wiping output of parser during parallel runs
+        purgeOldFiles.set(false) // prevent task from accidentally wiping output of parser during parallel runs
     }
 
     generateParser {

@@ -16,4 +16,6 @@ import kotlin.reflect.KClass
 @Inherited
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class ProjectDescriptor(val descriptor: KClass<out LightProjectDescriptor>)
+annotation class ProjectDescriptor(
+    val descriptor: KClass<out LightProjectDescriptor>,
+)

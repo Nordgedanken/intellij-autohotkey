@@ -16,7 +16,9 @@ import util.toXmlString
 import kotlin.test.assertNull
 import kotlin.test.assertSame
 
-class AhkProjectSettingsServiceTest : AhkBasePlatformTestCase(), AhkTestCase {
+class AhkProjectSettingsServiceTest :
+    AhkBasePlatformTestCase(),
+    AhkTestCase {
     fun `test that if no default ahk sdk set, getState matches empty-state`() {
         val state = myFixture.project.service<AhkProjectSettingsService>().state
         assertSameLinesWithFile("$testDataPath/${getTestName(true)}.xml", state.toXmlString())
@@ -56,9 +58,8 @@ class AhkProjectSettingsServiceTest : AhkBasePlatformTestCase(), AhkTestCase {
         assertSame(mockAhkSdk2, myFixture.project.defaultAhkSdk)
     }
 
-    override fun getTestName(lowercaseFirstLetter: Boolean): String {
-        return super.getTestName(lowercaseFirstLetter).substringAfterLast(' ')
-    }
+    override fun getTestName(lowercaseFirstLetter: Boolean): String =
+        super.getTestName(lowercaseFirstLetter).substringAfterLast(' ')
 
     override fun getTestDataPath(): String = "${AhkTestCase.TEST_RESOURCES_PATH}/${TestUtil.packagePath()}"
 }

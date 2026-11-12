@@ -18,7 +18,5 @@ object AhkBundle {
     fun msg(
         @PropertyKey(resourceBundle = BUNDLE_NAME) key: String,
         vararg params: Any?,
-    ): String {
-        return AbstractBundle.message(BUNDLE, key, *params)
-    }
+    ): String = AbstractBundle.message(BUNDLE, key, *params)
 }

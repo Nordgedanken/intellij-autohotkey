@@ -14,7 +14,9 @@ import com.intellij.ui.CollectionComboBoxModel
  * AhkSdkListCellRenderer which can render unknown values in a special format. (Eg. This can happen if you restore a run
  * config from xml but the sdk that that run config was referring to no longer exists in the project)
  */
-class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
+class AhkSdkComboBox(
+    private val currentProject: Project,
+) : ComboBox<Any?>() {
     private var projectSdk: Sdk? = null
 
     init {
@@ -36,8 +38,8 @@ class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
         model = CollectionComboBoxModel(getAhkSdks().toList(), selectedItem)
     }
 
-    fun getSelectedSdkName(): String {
-        return when (val selectedSdk = selectedItem) {
+    fun getSelectedSdkName(): String =
+        when (val selectedSdk = selectedItem) {
             is Sdk -> selectedSdk.name
             is String -> selectedSdk
             null -> ""
@@ -45,7 +47,6 @@ class AhkSdkComboBox(private val currentProject: Project) : ComboBox<Any?>() {
                 "Unexpected sdk present in the combobox options: $selectedSdk, ${selectedSdk::class.qualifiedName}",
             )
         }
-    }
 
     /**
      * Sets the selected sdk of this combobox to the AhkSdk that matches the given name.

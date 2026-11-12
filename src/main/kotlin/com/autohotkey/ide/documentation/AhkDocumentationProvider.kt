@@ -17,7 +17,9 @@ import org.jchmlib.ChmFile
  * Provides commands/directives documentation by extracting them from the
  * AutoHotkey.chm help file present in the AutoHotkey home directory
  */
-class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHandler {
+class AhkDocumentationProvider :
+    DocumentationProvider,
+    ExternalDocumentationHandler {
     override fun getCustomDocumentationElement(
         editor: Editor,
         file: PsiFile,
@@ -134,7 +136,10 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
     override fun canFetchDocumentationLink(link: String?): Boolean =
         link != null && !link.startsWith("#") && !link.startsWith("http")
 
-    private fun readChmPage(chm: ChmFile, path: String): String {
+    private fun readChmPage(
+        chm: ChmFile,
+        path: String,
+    ): String {
         val entry = chm.resolveObject("/$path") ?: error("CHM entry not found: $path")
         return chm.retrieveObjectAsString(entry) ?: error("Unable to read CHM entry: $path")
     }
@@ -153,7 +158,8 @@ class AhkDocumentationProvider : DocumentationProvider, ExternalDocumentationHan
             }
 
         val page =
-            link.substringAfterLast('/')
+            link
+                .substringAfterLast('/')
                 .substringBefore('#')
                 .substringBeforeLast('.')
 

@@ -10,7 +10,9 @@ import com.intellij.psi.PsiDirectory
 /**
  * Defines the settings for creating a new Ahk file when you right-click on a file/folder in the project tree
  */
-class AhkCreateFileAction : CreateFileFromTemplateAction(CAPTION, "", AhkIcons.FILE), DumbAware {
+class AhkCreateFileAction :
+    CreateFileFromTemplateAction(CAPTION, "", AhkIcons.FILE),
+    DumbAware {
     override fun buildDialog(
         project: Project,
         directory: PsiDirectory,

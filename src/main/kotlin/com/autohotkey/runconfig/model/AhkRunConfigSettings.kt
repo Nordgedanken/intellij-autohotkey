@@ -25,9 +25,11 @@ data class AhkRunConfigSettings(
     /**
      * Returns all enabled switches as a list of strings
      */
-    fun getEnabledSwitchesAsList(): List<String> {
-        return switches.entries.filter { it.value }.map { it.key.switchName }.toList()
-    }
+    fun getEnabledSwitchesAsList(): List<String> =
+        switches.entries
+            .filter { it.value }
+            .map { it.key.switchName }
+            .toList()
 
     /**
      * Returns the arguments field as a list of properly-delimited strings,
@@ -52,7 +54,8 @@ data class AhkRunConfigSettings(
 
     private fun readSwitchesFromElement(parentElement: Element): MutableMap<AhkSwitch, Boolean> {
         val switchesElement = parentElement.getChild(AhkRunConfigSettings::switches.name) ?: return DEFAULT_SWITCHES
-        return switchesElement.getChildren(SWITCH)
+        return switchesElement
+            .getChildren(SWITCH)
             .map { Pair(it.getAttributeValue(NAME), it.getAttributeValue(ENABLED)) }
             .filter { (switchName, _) -> AhkSwitch.isValidSwitch(switchName) }
             .associate { Pair(AhkSwitch.valueOfBySwitchName(it.first), it.second?.toBoolean() ?: false) }

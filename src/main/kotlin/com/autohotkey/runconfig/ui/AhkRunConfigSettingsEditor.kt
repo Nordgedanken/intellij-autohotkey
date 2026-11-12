@@ -25,12 +25,15 @@ import javax.swing.JComponent
  * (If you're new to Kotlin, createEditor() will seem weird but it's just using
  * the UI DSL format to construct the UI instead of a .form file)
  */
-class AhkRunConfigSettingsEditor(private val project: Project) : SettingsEditor<AhkRunConfig>() {
+class AhkRunConfigSettingsEditor(
+    private val project: Project,
+) : SettingsEditor<AhkRunConfig>() {
     private val pathToScriptTextField =
         TextFieldWithBrowseButton().apply {
             addBrowseFolderListener(
                 project,
-                FileChooserDescriptorFactory.createSingleFileDescriptor(AhkConstants.FILE_EXTENSION)
+                FileChooserDescriptorFactory
+                    .createSingleFileDescriptor(AhkConstants.FILE_EXTENSION)
                     .withTitle(AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.title"))
                     .withDescription(AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.message")),
             )

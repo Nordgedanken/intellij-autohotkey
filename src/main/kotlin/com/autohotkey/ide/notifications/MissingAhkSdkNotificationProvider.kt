@@ -22,7 +22,9 @@ import javax.swing.JComponent
  *
  * Note: We aren't using ProjectSdkSetupValidator because that doesn't work for non-IntelliJ IDEs
  */
-class MissingAhkSdkNotificationProvider : EditorNotificationProvider, DumbAware {
+class MissingAhkSdkNotificationProvider :
+    EditorNotificationProvider,
+    DumbAware {
     override fun collectNotificationData(
         proj: Project,
         file: VirtualFile,

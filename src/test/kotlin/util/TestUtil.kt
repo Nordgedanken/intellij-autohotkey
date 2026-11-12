@@ -20,18 +20,15 @@ object TestUtil {
      * Note that the filepath is expected to be in the same package as the class
      * calling the method.
      */
-    fun getResourceFile(filename: String): URL {
-        return javaClass.getResource("/${packagePath()}/$filename")!!
-    }
+    fun getResourceFile(filename: String): URL = javaClass.getResource("/${packagePath()}/$filename")!!
 
     /**
      * Returns a string containing the content of the file at the given filename.
      * Note that the filepath is expected to be in the same package as the class
      * calling the method.
      */
-    fun readResourceToString(filename: String): String {
-        return javaClass.getResource("/${packagePath()}/$filename")!!.readText()
-    }
+    fun readResourceToString(filename: String): String =
+        javaClass.getResource("/${packagePath()}/$filename")!!.readText()
 
     /**
      * Calculates the package path based on where the method is called.
@@ -52,9 +49,8 @@ object TestUtil {
      * @param filename The xml file's name without the extension
      */
     @Suppress("NOTHING_TO_INLINE")
-    inline fun parseXmlFileToElement(filename: String): Element {
-        return XML_PARSER.build(StringReader(readResourceToString("$filename.xml"))).rootElement
-    }
+    inline fun parseXmlFileToElement(filename: String): Element =
+        XML_PARSER.build(StringReader(readResourceToString("$filename.xml"))).rootElement
 }
 
 /**

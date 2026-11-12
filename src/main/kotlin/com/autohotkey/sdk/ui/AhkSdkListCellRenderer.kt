@@ -7,7 +7,9 @@ import javax.swing.JList
 /**
  * List cell renderer for ahk sdks that's used for JLists.
  */
-class AhkSdkListCellRenderer(var projectSdk: Sdk?) : ColoredListCellRenderer<Any>() {
+class AhkSdkListCellRenderer(
+    var projectSdk: Sdk?,
+) : ColoredListCellRenderer<Any>() {
     /**
      * Renders the given value as an ahk sdk into this class (which is an instance of SimpleColoredComponent), or
      * some form of error string for the value otherwise.
