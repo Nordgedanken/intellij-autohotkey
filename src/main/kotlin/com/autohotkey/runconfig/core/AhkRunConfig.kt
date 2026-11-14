@@ -56,7 +56,7 @@ class AhkRunConfig(
         File(runConfigSettings.pathToScript).run {
             if (!exists()) {
                 throw RuntimeConfigurationError(AhkBundle.msg("runconfig.configtab.error.scriptpath.notexist"))
-            } else if (extension != AhkConstants.FILE_EXTENSION) {
+            } else if (extension !in AhkConstants.FILE_EXTENSIONS) {
                 throw RuntimeConfigurationError(AhkBundle.msg("runconfig.configtab.error.scriptpath.notahkextension"))
             }
         }

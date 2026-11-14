@@ -11,7 +11,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="AutoHotkey" implementationClass="com.autohotkey.lang.core.AhkFileType"
-                  fieldName="INSTANCE" language="AutoHotkey" extensions="ahk"/>
+                  fieldName="INSTANCE" language="AutoHotkey" extensions="ahk;ah2"/>
 
         <!--run config execution-->
         <sdkType implementation="com.autohotkey.sdk.AhkSdkType"/>
