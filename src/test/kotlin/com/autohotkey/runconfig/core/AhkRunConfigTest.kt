@@ -33,7 +33,7 @@ class AhkRunConfigTest : AhkBasePlatformTestCase() {
                 ahkRunConfig.checkConfiguration()
             }
         assertEquals(
-            "The script path does not point to an AutoHotkey (.ahk) file!",
+            "The script path does not point to an AutoHotkey file!",
             exception.message,
         )
     }
@@ -48,7 +48,7 @@ class AhkRunConfigTest : AhkBasePlatformTestCase() {
                 ahkRunConfig.checkConfiguration()
             }
         assertEquals(
-            "The script path does not point to an AutoHotkey (.ahk) file!",
+            "The script path does not point to an AutoHotkey file!",
             exception.message,
         )
     }
@@ -58,6 +58,14 @@ class AhkRunConfigTest : AhkBasePlatformTestCase() {
         val ahkRunConfig = generateEmptyAhkRunconfig()
         ahkRunConfig.runConfigSettings.runner = WithOneAhkSdk.sdk.name
         ahkRunConfig.runConfigSettings.pathToScript = TestUtil.getResourceFile("empty.ahk").path
+        ahkRunConfig.checkConfiguration()
+    }
+
+    @ProjectDescriptor(WithOneAhkSdk::class)
+    fun `test check configuration accepts ah2 extension`() {
+        val ahkRunConfig = generateEmptyAhkRunconfig()
+        ahkRunConfig.runConfigSettings.runner = WithOneAhkSdk.sdk.name
+        ahkRunConfig.runConfigSettings.pathToScript = TestUtil.getResourceFile("empty.ah2").path
         ahkRunConfig.checkConfiguration()
     }
 

@@ -4,7 +4,7 @@ import com.autohotkey.project.configurable.AhkProjectConfigurable
 import com.autohotkey.runconfig.core.AhkRunConfig
 import com.autohotkey.runconfig.model.AhkSwitch
 import com.autohotkey.util.AhkBundle
-import com.autohotkey.util.AhkConstants
+import com.autohotkey.util.AhkConstants.FILE_EXTENSIONS
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory
 import com.intellij.openapi.options.SettingsEditor
@@ -21,9 +21,6 @@ import javax.swing.JComponent
 
 /**
  * Contains the settings that are shown when editing a run configuration.
- *
- * (If you're new to Kotlin, createEditor() will seem weird but it's just using
- * the UI DSL format to construct the UI instead of a .form file)
  */
 class AhkRunConfigSettingsEditor(
     private val project: Project,
@@ -33,8 +30,11 @@ class AhkRunConfigSettingsEditor(
             addBrowseFolderListener(
                 project,
                 FileChooserDescriptorFactory
-                    .createSingleFileDescriptor(AhkConstants.FILE_EXTENSION)
-                    .withTitle(AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.title"))
+                    .singleFile()
+                    .withExtensionFilter(
+                        AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.extfilterlabel"),
+                        *FILE_EXTENSIONS.toTypedArray(),
+                    ).withTitle(AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.title"))
                     .withDescription(AhkBundle.msg("runconfig.configtab.scriptpath.filechooser.message")),
             )
         }
