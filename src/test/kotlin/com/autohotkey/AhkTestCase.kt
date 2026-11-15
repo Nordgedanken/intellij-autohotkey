@@ -22,9 +22,9 @@ interface AhkTestCase {
     }
 }
 
-fun AhkTestCase.pathToSourceTestFile(): Path =
+fun AhkTestCase.pathToSourceTestFile(fileExtension: String = "ahk"): Path =
     java.nio.file.Paths
-        .get("${AhkTestCase.TEST_RESOURCES_PATH}/${getTestDataPath()}/${getTestName(true)}.ahk")
+        .get("${AhkTestCase.TEST_RESOURCES_PATH}/${getTestDataPath()}/${getTestName(true)}.$fileExtension")
 
 fun AhkTestCase.pathToGoldTestFile(): Path =
     java.nio.file.Paths

@@ -11,7 +11,10 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="AutoHotkey" implementationClass="com.autohotkey.lang.core.AhkFileType"
-                  fieldName="INSTANCE" language="AutoHotkey" extensions="ahk;ah2"/>
+                  fieldName="INSTANCE" language="AutoHotkey" extensions="ahk"/>
+        <!-- temp while v2 lang parsing is under construction -->
+        <fileType name="AutoHotkey v2" implementationClass="com.autohotkey.lang.core.Ahk2FileType"
+                  fieldName="INSTANCE" language="AutoHotkey2" extensions="ah2"/>
 
         <!--run config execution-->
         <sdkType implementation="com.autohotkey.sdk.AhkSdkType"/>
@@ -22,7 +25,13 @@
         <!--language management (eg parsing, highlighting, etc)-->
         <lang.parserDefinition language="AutoHotkey"
                                implementationClass="com.autohotkey.lang.parser.AhkParserDefinition"/>
+        <!-- temp while v2 lang parsing is under construction -->
+        <lang.parserDefinition language="AutoHotkey2"
+                               implementationClass="com.autohotkey.lang.parser.Ahk2ParserDefinition"/>
         <lang.syntaxHighlighterFactory language="AutoHotkey"
+                                       implementationClass="com.autohotkey.ide.highlighter.AhkSyntaxHighlighterFactory"/>
+        <!-- temp while v2 lang parsing is under construction -->
+        <lang.syntaxHighlighterFactory language="AutoHotkey2"
                                        implementationClass="com.autohotkey.ide.highlighter.AhkSyntaxHighlighterFactory"/>
         <annotator language="AutoHotkey" implementationClass="com.autohotkey.ide.highlighter.AhkHighlightAnnotator"/>
         <additionalTextAttributes scheme="Default" file="colorSchemes/AhkDefault.xml"/>

@@ -1,0 +1,20 @@
+{
+  parserClass="com.autohotkey.lang.v2.parser.Ahk2Parser"
+
+  extends='com.intellij.extapi.psi.ASTWrapperPsiElement'
+
+  psiClassPrefix="Ahk2"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.autohotkey.lang.v2.psi"
+  psiImplPackage="com.autohotkey.lang.v2.psi.impl"
+
+  elementTypeHolderClass="com.autohotkey.lang.v2.psi.Ahk2Types"
+  elementTypeClass="com.autohotkey.lang.v2.psi.Ahk2ElementType"
+  tokenTypeClass="com.autohotkey.lang.psi.AhkTokenType"
+
+  tokens = [
+    TEXT
+  ]
+}
+
+Ahk2File ::= TEXT*

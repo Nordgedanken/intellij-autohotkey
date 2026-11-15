@@ -54,6 +54,7 @@
 A simple plugin for developing AutoHotkey scripts in any JetBrains IDE (IDEA, PyCharm, Rider, etc). The following features are available:
 
 - `*.ahk,*.ah2` file recognition
+  - Note: `ah2` files are in preview state only as v2 language highlighting gets built 
 - Syntax highlighting (v1 partial support; v2 under construction; no error checking available currently)
 - Run configurations (v1 and v2)
 - Quick documentation

@@ -188,8 +188,22 @@ tasks {
         purgeOldFiles.set(true)
     }
 
+    register("generateAhk2Lexer", generateLexer.get()::class.java) {
+        sourceFile.set(file("src/main/kotlin/com/autohotkey/lang/v2/lexer/AutoHotkey2.flex"))
+        targetRootOutputDir.set(file("src/main/gen"))
+        purgeOldFiles.set(false)
+    }
+
+    register("generateAhk2Parser", generateParser.get()::class.java) {
+        sourceFile.set(file("src/main/kotlin/com/autohotkey/lang/v2/parser/AutoHotkey2.bnf"))
+        targetRootOutputDir.set(file("src/main/gen"))
+        pathToParser.set("com/autohotkey/lang/v2/parser/Ahk2Parser.java")
+        pathToPsiRoot.set("com/autohotkey/lang/v2/psi")
+        purgeOldFiles.set(false)
+    }
+
     withType<KotlinCompile> {
-        dependsOn(generateLexer, generateParser)
+        dependsOn(generateLexer, generateParser, "generateAhk2Lexer", "generateAhk2Parser")
     }
 
     jacocoTestReport {

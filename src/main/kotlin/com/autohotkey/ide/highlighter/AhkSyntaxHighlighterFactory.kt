@@ -8,5 +8,5 @@ class AhkSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     override fun getSyntaxHighlighter(
         project: Project?,
         virtualFile: VirtualFile?,
-    ) = AhkSyntaxHighlighter()
+    ) = AhkSyntaxHighlighter(virtualFile?.extension)
 }

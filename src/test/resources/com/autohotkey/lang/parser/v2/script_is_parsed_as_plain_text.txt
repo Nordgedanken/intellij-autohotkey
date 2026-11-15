@@ -1,0 +1,2 @@
+AutoHotkey v2 Script File(0,19)
+  PsiElement(TEXT)('MsgBox "Hello, v2!"')(0,19)

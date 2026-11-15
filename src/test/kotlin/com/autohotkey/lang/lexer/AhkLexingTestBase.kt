@@ -15,6 +15,8 @@ import java.io.IOException
 abstract class AhkLexingTestBase :
     LexerTestCase(),
     AhkTestCase {
+    protected open val sourceFileExtension: String = "ahk"
+
     override fun getDirPath(): String = throw UnsupportedOperationException()
 
     override fun getTestName(lowercaseFirstLetter: Boolean): String {
@@ -38,7 +40,7 @@ abstract class AhkLexingTestBase :
     // NOTE(matkad): this is basically a copy-paste of doFileTest.
     // The only difference is that encoding is set to utf-8
     protected fun doTest(lexer: Lexer = createLexer()) {
-        val filePath = pathToSourceTestFile()
+        val filePath = pathToSourceTestFile(sourceFileExtension)
         var text = ""
         try {
             val fileText = FileUtil.loadFile(filePath.toFile(), CharsetToolkit.UTF8)
