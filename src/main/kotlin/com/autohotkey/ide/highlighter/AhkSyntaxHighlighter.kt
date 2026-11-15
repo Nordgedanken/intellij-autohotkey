@@ -1,6 +1,6 @@
 package com.autohotkey.ide.highlighter
 
-import com.autohotkey.lang.lexer.AhkLexerAdapter
+import com.autohotkey.lang.lexer.AhkDialectLexer
 import com.autohotkey.lang.psi.AhkTypes.BLOCK_COMMENT
 import com.autohotkey.lang.psi.AhkTypes.LINE_COMMENT
 import com.intellij.lexer.Lexer
@@ -14,8 +14,10 @@ import com.intellij.psi.tree.IElementType
  * Note: Only immediate tokens read directly from the lexer can be colored with this class. Any composite elements made
  * of multiple tokens must be highlighted with an annotator such as [AhkHighlightAnnotator]
  */
-class AhkSyntaxHighlighter : SyntaxHighlighterBase() {
-    override fun getHighlightingLexer(): Lexer = AhkLexerAdapter()
+class AhkSyntaxHighlighter(
+    private val fileExtension: String? = null,
+) : SyntaxHighlighterBase() {
+    override fun getHighlightingLexer(): Lexer = AhkDialectLexer(fileExtension)
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> =
         pack(map(tokenType)?.textAttributesKey)

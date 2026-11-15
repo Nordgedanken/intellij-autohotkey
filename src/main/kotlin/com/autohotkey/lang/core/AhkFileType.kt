@@ -21,4 +21,4 @@ object AhkFileType : LanguageFileType(AhkLanguage) {
     override fun getDescription() = "${AhkConstants.LANGUAGE_NAME} script file"
 }
 
-fun VirtualFile.isAhkFile(): Boolean = fileType is AhkFileType
+fun VirtualFile.isAhkFile(): Boolean = fileType is AhkFileType || fileType is Ahk2FileType
