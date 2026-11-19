@@ -13,6 +13,8 @@ class Ahk2LexingTest : AhkLexingTestBase() {
 
     fun `test source remains one text token`() = doTest()
 
+    fun `test line comments`() = doTest()
+
     fun `test dialect lexer selects v2 for ah2 extension`() {
         val source = "MsgBox \"Hello, v2!\""
         doTest(source, "TEXT ('$source')", AhkDialectLexer(FILE_EXTENSION_V2))

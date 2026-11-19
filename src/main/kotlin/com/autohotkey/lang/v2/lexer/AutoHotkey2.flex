@@ -16,6 +16,38 @@ import static com.intellij.psi.TokenType.*;
 %eof{  return;
 %eof}
 
+//generic
+WS_HOZ=[ \t]+
+LINE_COMMENT=;[^\r\n]*
+
+%state POSSIBLE_BOL_COMMENT, CODE, POSSIBLE_EOL_COMMENT
+
 %%
 
-[^]+ { return TEXT; }
+<YYINITIAL> {
+    {LINE_COMMENT} { return LINE_COMMENT; }
+    {WS_HOZ} { yybegin(POSSIBLE_BOL_COMMENT); return TEXT; }
+    [^;\r\n \t]+ { yybegin(CODE); return TEXT; }
+    [\r\n]+ { return TEXT; }
+}
+
+<POSSIBLE_BOL_COMMENT> {
+    {LINE_COMMENT} { yybegin(CODE); return LINE_COMMENT; }
+    {WS_HOZ} { return TEXT; }
+    [^;\r\n \t]+ { yybegin(CODE); return TEXT; }
+    [\r\n]+ { yybegin(YYINITIAL); return TEXT; }
+}
+
+<CODE> {
+    {LINE_COMMENT} { return TEXT; }
+    {WS_HOZ} { yybegin(POSSIBLE_EOL_COMMENT); return TEXT; }
+    [^;\r\n \t]+ { return TEXT; }
+    [\r\n]+ { yybegin(YYINITIAL); return TEXT; }
+}
+
+<POSSIBLE_EOL_COMMENT> {
+    {LINE_COMMENT} { yybegin(CODE); return LINE_COMMENT; }
+    {WS_HOZ} { return TEXT; }
+    [^;\r\n \t]+ { yybegin(CODE); return TEXT; }
+    [\r\n]+ { yybegin(YYINITIAL); return TEXT; }
+}
