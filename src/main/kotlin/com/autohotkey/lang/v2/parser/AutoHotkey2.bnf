@@ -17,7 +17,9 @@
     LINE_COMMENT
     HOTSTRING
     HOTKEY
+    DIRECTIVE
   ]
 }
 
-Ahk2File ::= (TEXT | LINE_COMMENT | HOTSTRING | HOTKEY)*
+Ahk2File ::= Item*
+private Item ::= TEXT | LINE_COMMENT | HOTSTRING | HOTKEY | DIRECTIVE

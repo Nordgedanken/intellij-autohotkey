@@ -28,4 +28,12 @@ class AhkSyntaxHighlighterTest {
             AhkSyntaxHighlighter.map(Ahk2Types.HOTKEY),
         )
     }
+
+    @Test
+    fun `v2 directives use the directive color`() {
+        assertEquals(
+            AhkHighlighterColor.DIRECTIVE,
+            AhkSyntaxHighlighter.map(Ahk2Types.DIRECTIVE),
+        )
+    }
 }
