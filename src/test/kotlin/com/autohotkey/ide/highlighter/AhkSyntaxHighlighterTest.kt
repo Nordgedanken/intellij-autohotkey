@@ -12,28 +12,4 @@ class AhkSyntaxHighlighterTest {
             AhkSyntaxHighlighter.map(Ahk2Types.LINE_COMMENT),
         )
     }
-
-    @Test
-    fun `v2 hotstrings use the hotstring color`() {
-        assertEquals(
-            AhkHighlighterColor.HOTSTRING,
-            AhkSyntaxHighlighter.map(Ahk2Types.HOTSTRING),
-        )
-    }
-
-    @Test
-    fun `v2 hotkeys use the hotkey color`() {
-        assertEquals(
-            AhkHighlighterColor.HOTKEY,
-            AhkSyntaxHighlighter.map(Ahk2Types.HOTKEY),
-        )
-    }
-
-    @Test
-    fun `v2 directives use the directive color`() {
-        assertEquals(
-            AhkHighlighterColor.DIRECTIVE,
-            AhkSyntaxHighlighter.map(Ahk2Types.DIRECTIVE),
-        )
-    }
 }

@@ -13,13 +13,47 @@
   tokenTypeClass="com.autohotkey.lang.psi.AhkTokenType"
 
   tokens = [
-    TEXT
+    //Ahk-specific
+    CHAR_SPECIAL="regexp:\p{Punct}"
+    COMMA       = ','
+    HASH        = '#'
+    COLONCOLON  = '::'
+    COLON       = ':'
+    BACKTICK    = '`'
+
+    //generic
+    WS_HOZ="regexp:\p{Blank}+"
+    CRLF="regexp:\v"
+    // A line comment must be at the beginning of a line or preceded by whitespace, which the lexer handles
     LINE_COMMENT
-    HOTSTRING
-    HOTKEY
-    DIRECTIVE
+    IDENTIFIER='regexp:\w+'
   ]
 }
 
+/*
+  Whitespace is not skipped by the parser, so rules must say where it is allowed.
+  Alternatives are tried in order, so more specific statements must come first.
+*/
+
 Ahk2File ::= Item*
-private Item ::= TEXT | LINE_COMMENT | HOTSTRING | HOTKEY | DIRECTIVE
+private Item ::= Statement | LINE_COMMENT | CRLF
+private Statement ::= Hotstring_stmt | Hotkey_stmt | Directive_stmt | Word+
+
+// Following may only start a line, after optional whitespace.
+// Hotkeys must be checked before directives since hotkeys can begin with a # (eg "#a::")
+Hotstring_stmt ::= WS_HOZ? Hotstring Word*
+Hotstring ::= (':' Hotstring_char* ':' | '::') Hotstring_char+ '::'
+private Hotstring_char ::= '#' | ',' | '`' | CHAR_SPECIAL | IDENTIFIER | WS_HOZ
+
+// Any run of chars (optionally separated by whitespace, eg "LControl & RAlt") followed by ::
+// We don't check that it is a valid key. An annotator can do that.
+Hotkey_stmt ::= WS_HOZ? Hotkey Word*
+Hotkey ::= Hotkey_char (WS_HOZ? Hotkey_char)* '::'
+private Hotkey_char ::= '#' | ',' | '`' | CHAR_SPECIAL | IDENTIFIER
+
+// v2 requires whitespace between the name and its params (no "#Name, param"). We don't check that the name is real.
+Directive_stmt ::= WS_HOZ? Directive (WS_HOZ Word*)? End_of_stmt
+Directive ::= '#' IDENTIFIER
+
+private Word ::= ':' | '::' | Hotkey_char | WS_HOZ
+private End_of_stmt ::= &(CRLF | LINE_COMMENT) | <<eof>>

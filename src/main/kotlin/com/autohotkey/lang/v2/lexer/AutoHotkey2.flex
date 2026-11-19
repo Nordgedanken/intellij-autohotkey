@@ -16,53 +16,47 @@ import static com.intellij.psi.TokenType.*;
 %eof{  return;
 %eof}
 
+// The lexer only splits the text into tokens. What they mean (hotkey, directive, etc) is decided by the bnf.
+// The only context the lexer tracks is where comments can start.
+
+//Ahk-specific
+CHAR_SPECIAL=[^\s[:letter:][:digit:]]
+
 //generic
 WS_HOZ=[ \t]+
+CRLF=\R
 LINE_COMMENT=;[^\r\n]*
+IDENTIFIER=\w+
 
-// Hotstring is :options:abbreviation:: (eg ":*:btw::")
-HOTSTRING=:[ \t]*[A-Za-z0-9*?]*[ \t]*:[^:\r\n]+::
-
-// Hotkey must be a run of non-space chars (optionally separated by spaces, eg "LControl & RAlt" or "AppsKey Up") followed by ::
-HOTKEY=[^:;\r\n \t]+([ \t]+[^:;\r\n \t]+)*::
-
-// Just the directive name. Its parameters are lexed as normal text and we don't check that the name is a real directive
-DIRECTIVE=#[A-Za-z0-9_]+
-
-%state CODE, POSSIBLE_EOL_COMMENT
+%state LINE, POSSIBLE_EOL_COMMENT
 
 %%
 
-// Beginning of line: hotkeys, hotstrings, directives and comments are only valid here (after optional whitespace)
+// Beginning of line: a comment is valid here (after optional whitespace)
 <YYINITIAL> {
-    {HOTSTRING} { yybegin(CODE); return HOTSTRING; }
-    // Hotkeys can start with a # like directives do (eg "#a::"), but they always match more chars
-    {HOTKEY} { yybegin(CODE); return HOTKEY; }
-    {LINE_COMMENT} { yybegin(CODE); return LINE_COMMENT; }
-    // v2 requires whitespace (or the end of the line) after the directive name, so "#Name: param" isn't a directive.
-    // Must come before the DIRECTIVE rule
-    {DIRECTIVE} / [:;] { yybegin(CODE); return TEXT; }
-    // Must come before the generic word rule below. If any other char follows the name (eg "#Name, param"), the
-    // word rule matches more chars and wins, so that isn't a directive either
-    {DIRECTIVE} { yybegin(CODE); return DIRECTIVE; }
-    {WS_HOZ} { return TEXT; }
-    [^:;\r\n \t]+ { yybegin(CODE); return TEXT; }
-    :+ { yybegin(CODE); return TEXT; }
-    [\r\n]+ { return TEXT; }
+    {WS_HOZ} { return WS_HOZ; }
+    {LINE_COMMENT} { return LINE_COMMENT; }
+    {CRLF} { return CRLF; }
+    [^] { yypushback(1); yybegin(LINE); }
 }
 
-// After the first token of a line. A comment is not possible until whitespace is seen
-<CODE> {
-    {LINE_COMMENT} { return TEXT; }
-    {WS_HOZ} { yybegin(POSSIBLE_EOL_COMMENT); return TEXT; }
-    [^;\r\n \t]+ { return TEXT; }
-    [\r\n]+ { yybegin(YYINITIAL); return TEXT; }
+// Anywhere else in a line. A ; is not a comment here since it must be preceded by whitespace
+<LINE> {
+    "#" { return HASH; }
+    "," { return COMMA; }
+    "`" { return BACKTICK; }
+    "::" { return COLONCOLON; }
+    ":" { return COLON; }
+    {IDENTIFIER} { return IDENTIFIER; }
+    {CHAR_SPECIAL} { return CHAR_SPECIAL; }
+    {WS_HOZ} { yybegin(POSSIBLE_EOL_COMMENT); return WS_HOZ; }
+    {CRLF} { yybegin(YYINITIAL); return CRLF; }
 }
 
 // After whitespace within a line, where a line comment can start
 <POSSIBLE_EOL_COMMENT> {
-    {LINE_COMMENT} { yybegin(CODE); return LINE_COMMENT; }
-    {WS_HOZ} { return TEXT; }
-    [^;\r\n \t]+ { yybegin(CODE); return TEXT; }
-    [\r\n]+ { yybegin(YYINITIAL); return TEXT; }
+    {LINE_COMMENT} { yybegin(LINE); return LINE_COMMENT; }
+    [^] { yypushback(1); yybegin(LINE); }
 }
+
+[^] { return BAD_CHARACTER; }

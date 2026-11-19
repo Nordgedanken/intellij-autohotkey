@@ -34,6 +34,7 @@
         <lang.syntaxHighlighterFactory language="AutoHotkey2"
                                        implementationClass="com.autohotkey.ide.highlighter.AhkSyntaxHighlighterFactory"/>
         <annotator language="AutoHotkey" implementationClass="com.autohotkey.ide.highlighter.AhkHighlightAnnotator"/>
+        <annotator language="AutoHotkey2" implementationClass="com.autohotkey.ide.highlighter.Ahk2HighlightAnnotator"/>
         <additionalTextAttributes scheme="Default" file="colorSchemes/AhkDefault.xml"/>
         <additionalTextAttributes scheme="Darcula" file="colorSchemes/AhkDefault.xml"/>
 
