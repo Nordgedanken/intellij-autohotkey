@@ -12,4 +12,12 @@ class AhkSyntaxHighlighterTest {
             AhkSyntaxHighlighter.map(Ahk2Types.LINE_COMMENT),
         )
     }
+
+    @Test
+    fun `v2 hotstrings use the hotstring color`() {
+        assertEquals(
+            AhkHighlighterColor.HOTSTRING,
+            AhkSyntaxHighlighter.map(Ahk2Types.HOTSTRING),
+        )
+    }
 }

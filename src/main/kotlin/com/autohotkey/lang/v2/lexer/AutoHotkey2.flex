@@ -19,22 +19,27 @@ import static com.intellij.psi.TokenType.*;
 //generic
 WS_HOZ=[ \t]+
 LINE_COMMENT=;[^\r\n]*
+HOTSTRING=:[ \t]*[A-Za-z0-9*?]*[ \t]*:[^:\r\n]+::
 
 %state POSSIBLE_BOL_COMMENT, CODE, POSSIBLE_EOL_COMMENT
 
 %%
 
 <YYINITIAL> {
+    {HOTSTRING} { return HOTSTRING; }
     {LINE_COMMENT} { return LINE_COMMENT; }
     {WS_HOZ} { yybegin(POSSIBLE_BOL_COMMENT); return TEXT; }
-    [^;\r\n \t]+ { yybegin(CODE); return TEXT; }
+    [^:;\r\n \t]+ { yybegin(CODE); return TEXT; }
+    :+ { yybegin(CODE); return TEXT; }
     [\r\n]+ { return TEXT; }
 }
 
 <POSSIBLE_BOL_COMMENT> {
+    {HOTSTRING} { yybegin(CODE); return HOTSTRING; }
     {LINE_COMMENT} { yybegin(CODE); return LINE_COMMENT; }
     {WS_HOZ} { return TEXT; }
-    [^;\r\n \t]+ { yybegin(CODE); return TEXT; }
+    [^:;\r\n \t]+ { yybegin(CODE); return TEXT; }
+    :+ { yybegin(CODE); return TEXT; }
     [\r\n]+ { yybegin(YYINITIAL); return TEXT; }
 }
 

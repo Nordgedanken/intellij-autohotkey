@@ -15,7 +15,8 @@
   tokens = [
     TEXT
     LINE_COMMENT
+    HOTSTRING
   ]
 }
 
-Ahk2File ::= (TEXT | LINE_COMMENT)*
+Ahk2File ::= (TEXT | LINE_COMMENT | HOTSTRING)*

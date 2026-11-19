@@ -7,6 +7,7 @@ import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.tree.IElementType
+import com.autohotkey.lang.v2.psi.Ahk2Types.HOTSTRING as HOTSTRING_V2
 import com.autohotkey.lang.v2.psi.Ahk2Types.LINE_COMMENT as LINE_COMMENT_V2
 
 /**
@@ -28,6 +29,7 @@ class AhkSyntaxHighlighter(
             when (tokenType) {
                 LINE_COMMENT -> AhkHighlighterColor.LINE_COMMENT
                 LINE_COMMENT_V2 -> AhkHighlighterColor.LINE_COMMENT
+                HOTSTRING_V2 -> AhkHighlighterColor.HOTSTRING
                 BLOCK_COMMENT -> AhkHighlighterColor.BLOCK_COMMENT
                 else -> null
             }
