@@ -20,4 +20,12 @@ class AhkSyntaxHighlighterTest {
             AhkSyntaxHighlighter.map(Ahk2Types.HOTSTRING),
         )
     }
+
+    @Test
+    fun `v2 hotkeys use the hotkey color`() {
+        assertEquals(
+            AhkHighlighterColor.HOTKEY,
+            AhkSyntaxHighlighter.map(Ahk2Types.HOTKEY),
+        )
+    }
 }
