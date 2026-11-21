@@ -46,6 +46,7 @@ IDENTIFIER=\w+
     "," { return COMMA; }
     "`" { return BACKTICK; }
     "::" { return COLONCOLON; }
+    ":=" { return COLONEQUAL; }
     ":" { return COLON; }
     {IDENTIFIER} { return IDENTIFIER; }
     {CHAR_SPECIAL} { return CHAR_SPECIAL; }

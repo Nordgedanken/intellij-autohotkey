@@ -19,6 +19,8 @@ class Ahk2LexingTest : AhkLexingTestBase() {
 
     fun `test directives`() = doTest()
 
+    fun `test assignments`() = doTest()
+
     fun `test dialect lexer selects v2 for ah2 extension`() {
         assertEquals(0, AhkDialectLexer(FILE_EXTENSION_V2).state)
     }

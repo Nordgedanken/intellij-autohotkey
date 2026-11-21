@@ -19,6 +19,7 @@
     HASH        = '#'
     COLONCOLON  = '::'
     COLON       = ':'
+    COLONEQUAL  = ':='
     BACKTICK    = '`'
 
     //generic
@@ -37,7 +38,7 @@
 
 Ahk2File ::= Item*
 private Item ::= Statement | LINE_COMMENT | CRLF
-private Statement ::= Hotstring_stmt | Hotkey_stmt | Directive_stmt | Word+
+private Statement ::= Hotstring_stmt | Hotkey_stmt | Assignment_stmt | Directive_stmt | Word+
 
 // Following may only start a line, after optional whitespace.
 // Hotkeys must be checked before directives since hotkeys can begin with a # (eg "#a::")
@@ -55,5 +56,11 @@ private Hotkey_char ::= '#' | ',' | '`' | CHAR_SPECIAL | IDENTIFIER
 Directive_stmt ::= WS_HOZ? Directive (WS_HOZ Word*)? End_of_stmt
 Directive ::= '#' IDENTIFIER
 
-private Word ::= ':' | '::' | Hotkey_char | WS_HOZ
+// Variable assignment. The expression is just a run of words for now and will be parsed in more detail later.
+// Hotkeys/hotstrings can't contain a single : so there's no ambiguity with them
+Assignment_stmt ::= WS_HOZ? Variable WS_HOZ? ':=' Expression?
+Variable ::= IDENTIFIER
+Expression ::= Word+
+
+private Word ::= ':=' | ':' | '::' | Hotkey_char | WS_HOZ
 private End_of_stmt ::= &(CRLF | LINE_COMMENT) | <<eof>>

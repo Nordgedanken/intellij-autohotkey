@@ -14,6 +14,8 @@ internal class Ahk2ParsingTest : AhkParsingTestBase("v2", "ah2", Ahk2ParserDefin
 
     fun `test directives`() = doTest(true)
 
+    fun `test assignments`() = doTest(true)
+
     fun `test file uses v2 language and file type`() {
         val file: PsiFile = createPsiFile("test.ah2", "MsgBox \"Hello, v2!\"")
 
