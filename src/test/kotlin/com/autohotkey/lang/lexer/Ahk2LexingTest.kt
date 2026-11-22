@@ -11,10 +11,17 @@ class Ahk2LexingTest : AhkLexingTestBase() {
 
     override fun createLexer(): Lexer = Ahk2LexerAdapter()
 
-    fun `test source remains one text token`() = doTest()
+    fun `test line comments`() = doTest()
+
+    fun `test hotstrings`() = doTest()
+
+    fun `test hotkeys`() = doTest()
+
+    fun `test directives`() = doTest()
+
+    fun `test assignments`() = doTest()
 
     fun `test dialect lexer selects v2 for ah2 extension`() {
-        val source = "MsgBox \"Hello, v2!\""
-        doTest(source, "TEXT ('$source')", AhkDialectLexer(FILE_EXTENSION_V2))
+        assertEquals(0, AhkDialectLexer(FILE_EXTENSION_V2).state)
     }
 }

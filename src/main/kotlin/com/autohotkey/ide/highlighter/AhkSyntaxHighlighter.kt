@@ -7,6 +7,7 @@ import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.tree.IElementType
+import com.autohotkey.lang.v2.psi.Ahk2Types.LINE_COMMENT as LINE_COMMENT_V2
 
 /**
  * Defines what color raw tokens read directly from the lexer should be.
@@ -26,6 +27,7 @@ class AhkSyntaxHighlighter(
         fun map(tokenType: IElementType): AhkHighlighterColor? =
             when (tokenType) {
                 LINE_COMMENT -> AhkHighlighterColor.LINE_COMMENT
+                LINE_COMMENT_V2 -> AhkHighlighterColor.LINE_COMMENT
                 BLOCK_COMMENT -> AhkHighlighterColor.BLOCK_COMMENT
                 else -> null
             }

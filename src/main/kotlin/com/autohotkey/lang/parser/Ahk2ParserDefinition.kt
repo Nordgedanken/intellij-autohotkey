@@ -4,7 +4,7 @@ import com.autohotkey.lang.core.Ahk2Language
 import com.autohotkey.lang.psi.Ahk2File
 import com.autohotkey.lang.v2.lexer.Ahk2LexerAdapter
 import com.autohotkey.lang.v2.parser.Ahk2Parser
-import com.intellij.extapi.psi.ASTWrapperPsiElement
+import com.autohotkey.lang.v2.psi.Ahk2Types.Factory
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
 import com.intellij.lang.PsiParser
@@ -36,5 +36,5 @@ class Ahk2ParserDefinition : ParserDefinition {
         right: ASTNode,
     ) = ParserDefinition.SpaceRequirements.MAY
 
-    override fun createElement(node: ASTNode?): PsiElement = ASTWrapperPsiElement(requireNotNull(node))
+    override fun createElement(node: ASTNode?): PsiElement = Factory.createElement(node)
 }
