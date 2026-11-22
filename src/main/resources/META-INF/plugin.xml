@@ -72,6 +72,12 @@
                 description="Create new AutoHotkey file">
             <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewXml"/>
         </action>
+        <action id="AutoHotkey.NewAhk2File"
+                class="com.autohotkey.ide.actions.Ahk2CreateFileAction"
+                text="AutoHotkey v2 File"
+                description="Create new AutoHotkey v2 file">
+            <add-to-group group-id="NewGroup" anchor="after" relative-to-action="AutoHotkey.NewAhkFile"/>
+        </action>
         <action id="com.autohotkey.ide.actions.AhkCompileToExeAction"
                 class="com.autohotkey.ide.actions.AhkCompileToExeAction">
             <add-to-group group-id="RunContextGroupInner" anchor="last"/>
